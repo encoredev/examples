@@ -1,0 +1,4 @@
+encore.dev v0.7.0 h1:zrYU21r6DfB0ftQFgS9yh3o6KrJg7MV4kZGY4fkv+is=
+encore.dev v0.7.0/go.mod h1:eKOQ6G72uYiV0DbDJam6BB07KsIfvpqT3cQfadCShao=
+golang.org/x/sync v0.0.0-20190423024810-112230192c58 h1:8gQV6CLnAEikrhgkHFbMAEhagSSnXWGV915qUMm9mrU=
+golang.org/x/sync v0.0.0-20190423024810-112230192c58/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
