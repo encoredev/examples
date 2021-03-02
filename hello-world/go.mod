@@ -1,3 +1,3 @@
-module github.com/encoredev/examples/hello-world
+module encore.app
 
 go 1.15

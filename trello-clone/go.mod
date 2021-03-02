@@ -1,4 +1,4 @@
-module github.com/encoredev/examples/trello-clone
+module encore.app
 
 go 1.15
 

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"encore.app/card"
 	"encore.dev/storage/sqldb"
-	"github.com/encoredev/examples/trello-clone/card"
 	"golang.org/x/sync/errgroup"
 )
 

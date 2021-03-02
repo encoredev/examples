@@ -1,5 +1,5 @@
-module github.com/encoredev/examples/sql-database
+module encore.app
 
 go 1.15
 
-require encore.dev v0.0.6
+require encore.dev v0.7.0
