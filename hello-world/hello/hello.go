@@ -47,5 +47,5 @@ type Response struct {
 //
 //    Building a Slack bot:  https://encore.dev/docs/tutorials/slack-bot
 //    Building a REST API:   https://encore.dev/docs/tutorials/rest-api
-//    Using SQL databases:   https://encore.dev/docs/develop/sql-database
+//    Using SQL databases:   https://encore.dev/docs/develop/databases
 //    Authenticating users:  https://encore.dev/docs/develop/auth
