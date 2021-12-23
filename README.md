@@ -14,6 +14,6 @@ $ encore app create my-app --example=sql-database
 Successfully created app my-app.
 $ cd my-app
 $ encore run
-Running on http://localhost:4060
+Running on http://localhost:4000
 8:00AM INF registered endpoint endpoint=There service=hello
 ```
