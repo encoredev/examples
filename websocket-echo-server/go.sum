@@ -1,4 +1,6 @@
-encore.dev v0.7.0 h1:zrYU21r6DfB0ftQFgS9yh3o6KrJg7MV4kZGY4fkv+is=
-encore.dev v0.7.0/go.mod h1:eKOQ6G72uYiV0DbDJam6BB07KsIfvpqT3cQfadCShao=
+encore.dev v1.1.0 h1:OXAOw441M7wAllwTH2EadOWLThKzLg48bGSs44Kdd3U=
+encore.dev v1.1.0/go.mod h1:eKOQ6G72uYiV0DbDJam6BB07KsIfvpqT3cQfadCShao=
 github.com/gorilla/websocket v1.4.2 h1:+/TMaTYc4QFitKJxsQ7Yye35DkWvkdLcvGKqM+x0Ufc=
 github.com/gorilla/websocket v1.4.2/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
+github.com/gorilla/websocket v1.5.0 h1:PPwGk2jz7EePpoHN/+ClbZu8SPxiqlu12wZP/3sWmnc=
+github.com/gorilla/websocket v1.5.0/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
