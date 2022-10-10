@@ -1,5 +1,7 @@
 assets := $(wildcard hello/*)
 
+install: $(assets)
+	npm --prefix hello/assets install
 run: $(assets)
 	npm --prefix hello/assets run build -- --watch&
 	encore run
