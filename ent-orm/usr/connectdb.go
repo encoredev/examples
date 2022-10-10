@@ -13,7 +13,7 @@ var usrDB = sqldb.Named("usr")
 
 // Get returns an ent client connected to this service's database.
 func Get() (*ent.Client, error) {
-	// Attempt to setup the database client connection if it hasn't
+	// Attempt to set up the database client connection if it hasn't
 	// already been successfully setup.
 	err := once.Do(func() error {
 		client = setup()

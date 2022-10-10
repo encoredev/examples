@@ -2,7 +2,6 @@ package usr
 
 import (
 	"context"
-	"fmt"
 
 	"encore.dev/beta/errs"
 )
@@ -14,14 +13,10 @@ type CreateUserParams struct {
 	Name string
 }
 
-type Response struct {
-	Message string
-}
-
 // CreateUser is a CRUD endpoint on this service used to create users in the database.
 //
 //encore:api public method=POST path=/users
-func CreateUser(ctx context.Context, params *CreateUserParams) (*Response, error) {
+func CreateUser(ctx context.Context, params *CreateUserParams) (*GetUserResponse, error) {
 	client, err := Get()
 	if err != nil {
 		return nil, &errs.Error{
@@ -42,7 +37,11 @@ func CreateUser(ctx context.Context, params *CreateUserParams) (*Response, error
 		}
 	}
 
-	return &Response{Message: fmt.Sprintf("Fetch this user with %d", created.ID)}, nil
+	return &GetUserResponse{
+		ID:   created.ID,
+		Name: created.Name,
+		Age:  created.Age,
+	}, nil
 }
 
 // GetUserResponse like CreateUserParams needs to be a custom struct, we can't use the ent types as return
@@ -65,8 +64,7 @@ func GetUser(ctx context.Context, id int) (*GetUserResponse, error) {
 		}
 	}
 
-	user, err := client.User.
-		Get(ctx, id)
+	user, err := client.User.Get(ctx, id)
 	if err != nil {
 		return nil, &errs.Error{
 			Code:    errs.NotFound,
