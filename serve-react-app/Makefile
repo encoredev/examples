@@ -1,13 +1,13 @@
 assets := $(wildcard hello/*)
 
 run: $(assets)
-	cd hello/assets && npm run build -- --watch&
+	npm --prefix hello/assets run build -- --watch&
 	encore run
 
 build: $(assets)
 	cd hello/assets && NODE_ENV=production npm run build
-	encore run
+	NODE_ENV=production npm --prefix hello/assets run build
 
 test: $(assets)
-	cd hello/assets && npm run build
+	npm --prefix hello/assets run build
 	encore test ./...
