@@ -9,7 +9,7 @@ import (
 )
 
 type Querier interface {
-	InsertGreeting(ctx context.Context, name string) (int32, error)
+	IncrementMeetingCount(ctx context.Context, name string) (int32, error)
 }
 
 var _ Querier = (*Queries)(nil)

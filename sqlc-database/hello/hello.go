@@ -43,7 +43,7 @@ func (s *Service) There(ctx context.Context, params *ThereParams) (*ThereRespons
 }
 
 func (s *Service) generateGreeting(ctx context.Context, name string) (string, error) {
-	count, err := s.repo.InsertGreeting(ctx, name)
+	count, err := s.repo.IncrementMeetingCount(ctx, name)
 	if err != nil {
 		return "", fmt.Errorf("could not update people table: %v", err)
 	}

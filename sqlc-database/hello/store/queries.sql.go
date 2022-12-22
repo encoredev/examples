@@ -9,18 +9,19 @@ import (
 	"context"
 )
 
-const insertGreeting = `-- name: InsertGreeting :one
+const incrementMeetingCount = `-- name: IncrementMeetingCount :one
 INSERT INTO
     people (name, count)
 VALUES
-    ($1 :: TEXT, 1) ON CONFLICT (name)
-DO
+    ($1 :: TEXT, 1)
+ON CONFLICT (name) DO
 UPDATE SET
-    count = people.count + 1 RETURNING count
+    count = people.count + 1
+RETURNING count
 `
 
-func (q *Queries) InsertGreeting(ctx context.Context, name string) (int32, error) {
-	row := q.db.QueryRowContext(ctx, insertGreeting, name)
+func (q *Queries) IncrementMeetingCount(ctx context.Context, name string) (int32, error) {
+	row := q.db.QueryRowContext(ctx, incrementMeetingCount, name)
 	var count int32
 	err := row.Scan(&count)
 	return count, err

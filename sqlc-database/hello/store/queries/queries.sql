@@ -1,4 +1,4 @@
--- name: InsertGreeting :one
+-- name: IncrementMeetingCount :one
 INSERT INTO
     people (name, count)
 VALUES
