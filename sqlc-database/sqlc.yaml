@@ -1,0 +1,10 @@
+version: 2
+sql:
+  - schema: hello/migrations
+    queries: hello/store/queries
+    engine: postgresql
+    gen:
+      go:
+        package: store
+        out: hello/store
+        emit_interface: true
