@@ -1,0 +1,24 @@
+// This file provides the list of templates presented to the user
+// when running `encore app create`.
+[
+    {
+        "title":    "Uptime Monitor",
+        "desc":     "Microservices, SQL Databases, Pub/Sub, Cron Jobs",
+        "template": "https://github.com/encoredev/example-app-uptime"
+    },
+    {
+        "title":    "GraphQL",
+        "desc":     "GraphQL API, Microservices, SQL Database",
+        "template": "graphql"
+    },
+    {
+        "title":    "URL Shortener",
+        "desc":     "REST API, SQL Database",
+        "template": "url-shortener"
+    },
+    {
+        "title": "Empty app",
+        "desc": "Start from scratch (experienced users only)",
+        "template": ""
+    }
+]
