@@ -1,0 +1,13 @@
+type Query {
+  urls: [URL!]!
+  get(id: ID!): URL!
+}
+
+type Mutation {
+  shorten(url: String!): URL!
+}
+
+type URL {
+  id:  ID!     # shortened id
+  url: String! # full URL
+}
