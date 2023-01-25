@@ -14,7 +14,7 @@ import (
 // This is a simple REST API that responds with a personalized greeting.
 // To call it, run in your terminal:
 //
-//     curl http://localhost:4000/hello/World
+//	curl http://localhost:4000/hello/World
 //
 //encore:api public path=/hello/:name
 func World(ctx context.Context, name string) (*Response, error) {
