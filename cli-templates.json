@@ -2,6 +2,11 @@
 // when running `encore app create`.
 [
     {
+        "title":    "Hello World",
+        "desc":     "A simple REST API",
+        "template": "hello-world"
+    },
+    {
         "title":    "Uptime Monitor",
         "desc":     "Microservices, SQL Databases, Pub/Sub, Cron Jobs",
         "template": "https://github.com/encoredev/example-app-uptime"
