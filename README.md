@@ -10,6 +10,7 @@ Examples to help you build fully-functioning, scalable, backend applications usi
 | --- | --- | --- | --- |
 | [hello-world](hello-world) | Simple REST API | APIs | - |
 | [url-shortener](url-shortener) | Basic url shortener | APIs, SQL Database | [Docker](https://docker.com/) |
+| [uptime](uptime) | Uptime monitoring system | Microservices, SQL Databases, Pub/Sub, Cron Jobs | [Docker](https://docker.com/) |
 | [trello-clone](trello-clone) | Backend for a Trello application | Microservices, APIs, SQL Database | [Docker](https://docker.com/) |
 | [graphql](graphql) | Url shortener that uses GraphQL | APIs, SQL Database, GraphQL | [Docker](https://docker.com/) |
 | [sqlc-database](sqlc-database) | Simple sqlc implementation | APIs, SQL Database | [sqlc](https://docs.sqlc.dev/en/stable/), [Docker](https://docker.com/) |

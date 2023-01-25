@@ -9,7 +9,7 @@
     {
         "title":    "Uptime Monitor",
         "desc":     "Microservices, SQL Databases, Pub/Sub, Cron Jobs",
-        "template": "https://github.com/encoredev/example-app-uptime"
+        "template": "uptime"
     },
     {
         "title":    "GraphQL",
