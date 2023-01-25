@@ -1,8 +1,18 @@
 <p align="center" dir="auto">
 <a href="https://encore.dev"><img src="https://user-images.githubusercontent.com/78424526/214602214-52e0483a-b5fc-4d4c-b03e-0b7b23e012df.svg" width="160px" alt="encore icon"></img></a><br/><br/>
 <b>Encore examples</b><br/>
-Examples of how to build fully-functioning, scalable, backend applications using <a href="https://github.com/encoredev/encore">Encore</a>.
+Examples to help you build fully-functioning, scalable, backend applications using <a href="https://github.com/encoredev/encore">Encore</a>.
 </p>
+
+## Example applications
+
+| Example | Description | Primitives | Requirements |
+| --- | --- | --- | --- |
+| [hello-world](hello-world) | Simple REST API | APIs | - |
+| [url-shortener](url-shortener) | Basic url shortener | APIs, SQL Database | [Docker](https://docker.com/) |
+| [trello-clone](trello-clone) | Backend for a Trello application | Microservices, APIs, SQL Database | [Docker](https://docker.com/) |
+| [graphql](graphql) | Url shortener that uses GraphQL | APIs, SQL Database, GraphQL | [Docker](https://docker.com/) |
+| [sqlc-database](sqlc-database) | Simple sqlc implementation | APIs, SQL Database | [sqlc](https://docs.sqlc.dev/en/stable/), [Docker](https://docker.com/) |
 
 ## Installing Encore
 
