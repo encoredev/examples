@@ -14,7 +14,7 @@ This example is intended to show how you create microservices applications with 
 When you have installed Encore, you can create a new Encore application and clone this example with this command.
 
 ```bash
-`encore app create [app-name] --example=trello-clone`
+encore app create my-app-name --example=trello-clone
 ```
 
 ## Defining services

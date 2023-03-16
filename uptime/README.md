@@ -18,7 +18,7 @@ Check out the [written tutorial](https://encore.dev/docs/tutorials/uptime) to le
 When you have installed Encore, you can create a new Encore application and clone this example with this command.
 
 ```bash
-`encore app create [app-name] --example=uptime`
+encore app create my-app-name --example=uptime
 ```
 
 ## Running
