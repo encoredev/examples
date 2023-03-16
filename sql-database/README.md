@@ -1,25 +1,16 @@
 <img width="200px" src="https://encore.dev/assets/branding/logo/logo.svg" alt="Encore - The Backend Development Engine" />
 
-# Trello Clone
+# SQL Database example
 
-This is a backend for a Trello application, built using Encore.
-It has two services, each with a couple of API endpoints and their own a databases.
-
-This example is intended to show how you create microservices applications with Encore. However, Encore can just as easily be used to build monolithic architectures.
-
-![Encore Flow](./images/encore-flow.png)
+This is a basic Hello World Encore application with a single API endpoint and a SQL database to keep track of how many times you've said hello.
 
 ## Developing locally
 
 When you have installed Encore, you can create a new Encore application and clone this example with this command.
 
 ```bash
-`encore app create [app-name] --example=trello-clone`
+`encore app create [app-name] --example=sql-database`
 ```
-
-## Defining services
-
-With Encore you define a service by [defining one or more APIs](https://encore.dev/docs/primitives/services-and-apis#defining-apis) within a regular Go package. Encore recognizes this as a service, and uses the package name as the service name. When deploying, Encore will automatically [provision the required infrastructure](https://encore.dev/docs/deploy/infra) for each service.
 
 ## Using Databases with Encore
 
@@ -42,16 +33,15 @@ encore run
 
 ## Using the API
 
-To see that your app is running, you can ping the `board.Create` endpoint to create a trello board.
+To see that your app is running, you can ping the API.
 
 ```bash
-curl 'http://localhost:4000/board.Create' -d '{"Name":"my board"}'
+curl http://localhost:4000/hello/There
 ```
 
 ## Open the developer dashboard
 
 While `encore run` is running, open <http://localhost:4000/> to view Encore's local developer dashboard.
-Here you can see the request you just made and a view a trace of the response.
 
 ## Deployment
 
@@ -62,3 +52,9 @@ git push encore
 ```
 
 Then head over to <https://app.encore.dev> to find out your production URL, and off you go into the clouds!
+
+## Testing
+
+```bash
+encore test ./...
+```

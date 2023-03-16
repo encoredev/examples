@@ -13,6 +13,14 @@ When it detects a website going down it posts a Slack message notifying that the
 
 Check out the [written tutorial](https://encore.dev/docs/tutorials/uptime) to learn how to build this application from scratch!
 
+## Developing locally
+
+When you have installed Encore, you can create a new Encore application and clone this example with this command.
+
+```bash
+`encore app create [app-name] --example=uptime`
+```
+
 ## Running
 
 ```bash
@@ -30,7 +38,7 @@ While `encore run` is running, head over to <http://localhost:4000/frontend/> to
 
 ```bash
 # Check if a given site is up (defaults to 'https://' if left out)
-$ curl 'http://localhost:4000/ping/google.com'
+curl 'http://localhost:4000/ping/google.com'
 
 # Add a site to be automatically pinged every 5 minutes
 curl 'http://localhost:4000/site' -d '{"url":"google.com"}'
