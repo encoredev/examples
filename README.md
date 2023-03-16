@@ -13,6 +13,7 @@ Examples to help you build fully-functioning, scalable, backend applications usi
 | [uptime](uptime) | Uptime monitoring system | Microservices, SQL Databases, Pub/Sub, Cron Jobs | [Docker](https://docker.com/) |
 | [trello-clone](trello-clone) | Backend for a Trello application | Microservices, APIs, SQL Database | [Docker](https://docker.com/) |
 | [graphql](graphql) | Url shortener that uses GraphQL | APIs, SQL Database, GraphQL | [Docker](https://docker.com/) |
+| [sql-database](sqlc-database) | Simple API with SQL database | APIs, SQL Database | [Docker](https://docker.com/) |
 | [sqlc-database](sqlc-database) | Simple sqlc implementation | APIs, SQL Database | [sqlc](https://docs.sqlc.dev/en/stable/), [Docker](https://docker.com/) |
 
 ## Installing Encore

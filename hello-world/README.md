@@ -1,30 +1,19 @@
 <img width="200px" src="https://encore.dev/assets/branding/logo/logo.svg" alt="Encore - The Backend Development Engine" />
 
-# sqcl Database example
+# Hello World
 
-This is a basic Hello World Encore application with a single API endpoint, that uses sqlc and a SQL database to keep track of how many times you've said hello.
+This is a basic Hello World Encore application with a single API endpoint
 
 ## Developing locally
 
 When you have installed Encore, you can create a new Encore application and clone this example with this command.
 
 ```bash
-`encore app create [app-name] --example=sqlc-database`
+`encore app create [app-name] --example=hello-world`
 ```
 
-
-## Generating store code
-
-In order to generate code in `store` package you should have installed [sqlc](https://docs.sqlc.dev/en/stable/) and create your SQL queries in `store/queries` directory.
-Then just run this command from root catalog.
-
-```shell
-sqlc generate
-```
 
 ## Running
-
-To run the application, make sure you have Docker installed and running. This is required to locally run Encore applications with SQL databases.
 
 ```bash
 # Run the app
@@ -36,7 +25,7 @@ encore run
 To see that your app is running, you can ping the API.
 
 ```bash
-curl http://localhost:4000/hello/There
+curl http://localhost:4000/hello/World
 ```
 
 ## Open the developer dashboard
