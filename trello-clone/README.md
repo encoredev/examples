@@ -3,7 +3,7 @@
 # Trello Clone
 
 This is a backend for a Trello application, built using Encore.
-It has two services, each with a couple of API endpoints and their own a databases.
+It has two services, each with a couple of API endpoints and their own databases.
 
 This example is intended to show how you create microservices applications with Encore. However, Encore can just as easily be used to build monolithic architectures.
 
