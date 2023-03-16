@@ -6,26 +6,29 @@ Examples to help you build fully-functioning, scalable, backend applications usi
 
 ## Example applications
 
-| Example | Description | Primitives | Requirements |
-| --- | --- | --- | --- |
-| [hello-world](hello-world) | Simple REST API | APIs | - |
-| [url-shortener](url-shortener) | Basic url shortener | APIs, SQL Database | [Docker](https://docker.com/) |
-| [uptime](uptime) | Uptime monitoring system | Microservices, SQL Databases, Pub/Sub, Cron Jobs | [Docker](https://docker.com/) |
-| [trello-clone](trello-clone) | Backend for a Trello application | Microservices, APIs, SQL Database | [Docker](https://docker.com/) |
-| [graphql](graphql) | Url shortener that uses GraphQL | APIs, SQL Database, GraphQL | [Docker](https://docker.com/) |
-| [sql-database](sqlc-database) | Simple API with SQL database | APIs, SQL Database | [Docker](https://docker.com/) |
-| [sqlc-database](sqlc-database) | Simple sqlc implementation | APIs, SQL Database | [sqlc](https://docs.sqlc.dev/en/stable/), [Docker](https://docker.com/) |
+| Example                        | Description                      | Primitives                                       | Requirements                                                            |
+|--------------------------------|----------------------------------|--------------------------------------------------|-------------------------------------------------------------------------|
+| [hello-world](hello-world)     | Simple REST API                  | APIs                                             | -                                                                       |
+| [slack-bot](slack-bot)         | Slack bot                        | APIs                                             | -                                                                       |
+| [url-shortener](url-shortener) | Basic url shortener              | APIs, SQL Database                               | [Docker](https://docker.com/)                                           |
+| [uptime](uptime)               | Uptime monitoring system         | Microservices, SQL Databases, Pub/Sub, Cron Jobs | [Docker](https://docker.com/)                                           |
+| [trello-clone](trello-clone)   | Backend for a Trello application | Microservices, APIs, SQL Database                | [Docker](https://docker.com/)                                           |
+| [graphql](graphql)             | Url shortener that uses GraphQL  | APIs, SQL Database, GraphQL                      | [Docker](https://docker.com/)                                           |
+| [sql-database](sql-database)   | Simple API with SQL database     | APIs, SQL Database                               | [Docker](https://docker.com/)                                           |
+| [sqlc-database](sqlc-database) | Simple sqlc implementation       | APIs, SQL Database                               | [sqlc](https://docs.sqlc.dev/en/stable/), [Docker](https://docker.com/) |
 
 ## Installing Encore
 
-If this is the first time you're using Encore, you first need to install the CLI that runs the local development environment.
-Follow the [installation instructions](https://encore.dev/docs/install) in the documentation, or get started with the [Quick Start Guide](https://encore.dev/docs/quick-start).
+If this is the first time you're using Encore, you first need to install the CLI that runs the local development
+environment.
+Follow the [installation instructions](https://encore.dev/docs/install) in the documentation, or get started with
+the [Quick Start Guide](https://encore.dev/docs/quick-start).
 
 ## Running examples
 
 Each sub-folder in this repo contains an example application that you can use to try out Encore.
 
-To run the example applications, either clone this repository and run `encore run` in one 
+To run the example applications, either clone this repository and run `encore run` in one
 of the subdirectories, or use `encore app create [app-name] --example=[example-name]` to
 create your own app based on the example.
 
@@ -42,4 +45,5 @@ Running on http://localhost:4000
 
 ## Build from scratch with tutorials
 
-If you prefer to build one of the examples from scratch, check out the [tutorials](https://encore.dev/docs/tutorials) available in the Encore documentation.
+If you prefer to build one of the examples from scratch, check out the [tutorials](https://encore.dev/docs/tutorials)
+available in the Encore documentation.
