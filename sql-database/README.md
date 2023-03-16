@@ -9,7 +9,7 @@ This is a basic Hello World Encore application with a single API endpoint and a 
 When you have installed Encore, you can create a new Encore application and clone this example with this command.
 
 ```bash
-`encore app create [app-name] --example=sql-database`
+encore app create my-app-name --example=sql-database
 ```
 
 ## Using Databases with Encore

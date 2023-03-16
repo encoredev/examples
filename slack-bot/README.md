@@ -8,6 +8,14 @@ This is an example Encore application for a Slack bot. It brings the greatness o
 
 Check out the [written tutorial](https://encore.dev/docs/tutorials/slack-bot) to learn how to build this application from scratch!
 
+## Developing locally
+
+When you have installed Encore, you can create a new Encore application and clone this example with this command.
+
+```bash
+encore app create my-app-name --example=slack-bot
+```
+
 ## Running
 
 ```bash

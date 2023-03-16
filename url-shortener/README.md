@@ -9,7 +9,7 @@ This is an example Encore application for a URL Shortener. It has two API endpoi
 When you have installed Encore, you can create a new Encore application and clone this example with this command.
 
 ```bash
-`encore app create [app-name] --example=url-shortener`
+encore app create my-app-name --example=url-shortener
 ```
 
 ## Using Databases with Encore
