@@ -74,7 +74,7 @@ func (s *Service) Delete(ctx context.Context, siteID int) error {
 
 // List lists the monitored websites.
 //
-//encore:api public method=GET path=/site
+//encore:api public method=GET path=/sites
 func (s *Service) List(ctx context.Context) (*ListResponse, error) {
 	var sites []*Site
 	if err := s.db.Find(&sites).Error; err != nil {

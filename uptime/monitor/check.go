@@ -24,7 +24,7 @@ func Check(ctx context.Context, siteID int) error {
 
 // CheckAll checks all sites.
 //
-//encore:api public method=POST path=/check-all
+//encore:api public method=POST path=/checkall
 func CheckAll(ctx context.Context) error {
 	// Get all the tracked sites.
 	resp, err := site.List(ctx)
