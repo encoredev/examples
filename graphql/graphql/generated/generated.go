@@ -44,7 +44,7 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Mutation struct {
-		Shorten func(childComplexity int, url string) int
+		Shorten func(childComplexity int, input string) int
 	}
 
 	Query struct {
@@ -59,7 +59,7 @@ type ComplexityRoot struct {
 }
 
 type MutationResolver interface {
-	Shorten(ctx context.Context, url string) (*url.URL, error)
+	Shorten(ctx context.Context, input string) (*url.URL, error)
 }
 type QueryResolver interface {
 	Urls(ctx context.Context) ([]*url.URL, error)
@@ -91,7 +91,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.Shorten(childComplexity, args["url"].(string)), true
+		return e.complexity.Mutation.Shorten(childComplexity, args["input"].(string)), true
 
 	case "Query.get":
 		if e.complexity.Query.Get == nil {
@@ -193,13 +193,13 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "../schema.graphqls", Input: `type Query {
+	{Name: "../url.graphqls", Input: `type Query {
   urls: [URL!]!
   get(id: ID!): URL!
 }
 
 type Mutation {
-  shorten(url: String!): URL!
+  shorten(input: String!): URL!
 }
 
 type URL {
@@ -217,14 +217,14 @@ func (ec *executionContext) field_Mutation_shorten_args(ctx context.Context, raw
 	var err error
 	args := map[string]interface{}{}
 	var arg0 string
-	if tmp, ok := rawArgs["url"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("url"))
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNString2string(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["url"] = arg0
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -310,7 +310,7 @@ func (ec *executionContext) _Mutation_shorten(ctx context.Context, field graphql
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().Shorten(rctx, fc.Args["url"].(string))
+		return ec.resolvers.Mutation().Shorten(rctx, fc.Args["input"].(string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)

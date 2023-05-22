@@ -12,8 +12,8 @@ import (
 )
 
 // Shorten is the resolver for the shorten field.
-func (r *mutationResolver) Shorten(ctx context.Context, inputURL string) (*url.URL, error) {
-	return url.Shorten(ctx, &url.ShortenParams{URL: inputURL})
+func (r *mutationResolver) Shorten(ctx context.Context, input string) (*url.URL, error) {
+	return url.Shorten(ctx, &url.ShortenParams{URL: input})
 }
 
 // Urls is the resolver for the urls field.

@@ -4,7 +4,7 @@ type Query {
 }
 
 type Mutation {
-  shorten(url: String!): URL!
+  shorten(input: String!): URL!
 }
 
 type URL {

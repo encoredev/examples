@@ -58,7 +58,7 @@ func List(ctx context.Context) (*ListResponse, error) {
 	}
 	defer rows.Close()
 
-	var urls []*URL
+	urls := []*URL{}
 	for rows.Next() {
 		var u URL
 		if err := rows.Scan(&u.ID, &u.URL); err != nil {
