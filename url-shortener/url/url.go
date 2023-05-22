@@ -42,6 +42,37 @@ func Get(ctx context.Context, id string) (*URL, error) {
 	return u, err
 }
 
+type ListResponse struct {
+	URLs []*URL
+}
+
+// List retrieves all URLs.
+//
+//encore:api public method=GET path=/url
+func List(ctx context.Context) (*ListResponse, error) {
+	rows, err := sqldb.Query(ctx, `
+		SELECT id, original_url FROM url
+	`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	urls := []*URL{}
+	for rows.Next() {
+		var u URL
+		if err := rows.Scan(&u.ID, &u.URL); err != nil {
+			return nil, err
+		}
+		urls = append(urls, &u)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return &ListResponse{URLs: urls}, nil
+}
+
 // generateID generates a random short ID.
 func generateID() (string, error) {
 	var data [6]byte // 6 bytes of entropy
