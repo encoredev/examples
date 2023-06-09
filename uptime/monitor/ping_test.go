@@ -13,13 +13,10 @@ func TestPing(t *testing.T) {
 	}{
 		{"encore.dev", true},
 		{"google.com", true},
-		// Test both with and without "https://"
-		{"httpstat.us/200", true},
-		{"https://httpstat.us/200", true},
 
-		// 4xx and 5xx should considered down.
-		{"httpstat.us/400", false},
-		{"https://httpstat.us/500", false},
+		// A 404 should be considered down.
+		{"https://google.com/non-existing-path", false},
+
 		// Invalid URLs should be considered down.
 		{"invalid://scheme", false},
 	}
