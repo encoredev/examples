@@ -31,8 +31,13 @@ encore run
 encore secret set SlackWebhookURL
 ```
 
+## Local Development Dashboard
+
+Once your app is running locally, you can access your local dev dashboard with complete API documentation and distributed tracing.
+Open the dashboard at: <https://localhost:9400>
+
 ## View the frontend
-While `encore run` is running, head over to <http://localhost:4000/frontend/> to view the frontend.
+While `encore run` is running, head over to <http://localhost:4000/frontend/> to view the frontend for your uptime monitor.
 
 ## Using the API
 
@@ -44,10 +49,10 @@ curl 'http://localhost:4000/ping/google.com'
 curl 'http://localhost:4000/site' -d '{"url":"google.com"}'
 
 # Check all tracked sites immediately
-curl -X POST 'http://localhost:4000/checkall'
+curl -X POST 'http://localhost:4000/check-all'
 
 # Get the current status of all tracked sites
-curl 'http://localhost:4000/sites'
+curl 'http://localhost:4000/status'
 ```
 
 ## Deployment
@@ -56,7 +61,7 @@ curl 'http://localhost:4000/sites'
 git push encore
 ```
 
-Then head over to <https://app.encore.dev> to find out your production URL, and off you go into the clouds!
+Then head over to <https://app.encore.dev> to monitor your deployment and find out your production URL. Now off you go into the clouds!
 
 ## Testing
 
