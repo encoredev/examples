@@ -32,7 +32,7 @@ type Response struct {
 // exploring your API, viewing documentation, debugging with
 // distributed tracing, and more. Visit your API URL in the browser:
 //
-//     http://localhost:4000
+//     http://localhost:9400
 //
 
 // ==================================================================
