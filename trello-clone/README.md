@@ -50,7 +50,7 @@ curl 'http://localhost:4000/board.Create' -d '{"Name":"my board"}'
 
 ## Open the developer dashboard
 
-While `encore run` is running, open <http://localhost:4000/> to view Encore's local developer dashboard.
+While `encore run` is running, open <http://localhost:9400/> to view Encore's local developer dashboard.
 Here you can see the request you just made and a view a trace of the response.
 
 ## Deployment
