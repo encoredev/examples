@@ -1,0 +1,7 @@
+.main {
+  padding: 20px 0;
+}
+
+.nav > * {
+  margin-right: 10px;
+}
