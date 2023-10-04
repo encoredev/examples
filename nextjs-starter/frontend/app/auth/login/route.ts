@@ -1,16 +1,18 @@
 import { cookies } from "next/headers";
 import getRequestClient from "@/app/lib/getRequestClient";
-import { redirect } from "next/navigation";
 
-export async function GET() {
+export async function POST(req: Request) {
+  const data = await req.formData();
+  const email = (data.get("email") as string) || "incognito";
+  const password = (data.get("password") as string) || "password";
+
   try {
     const client = getRequestClient();
-    const response = await client.auth.Login({
-      // email: "test@example.com",
-      // password: "123abc",
-    });
+    const response = await client.auth.Login({ email, password });
     cookies().set("auth-token", response.token);
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
 
-  redirect("/");
+  return Response.redirect(new URL(req.url).origin);
 }

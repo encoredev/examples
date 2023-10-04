@@ -7,15 +7,13 @@ import Client, { ClientOptions, Environment, Local } from "@/app/lib/client";
  * and make requests to that, otherwise we use the staging client.
  */
 const getRequestClient = () => {
-  const cookieStore = cookies();
-  const token = cookieStore.get("auth-token")?.value;
-  const options: ClientOptions = {
-    auth: token,
-  };
+  const token = cookies().get("auth-token")?.value;
+  const env =
+    process.env.NODE_ENV === "development" ? Local : Environment("staging");
 
-  return process.env.NODE_ENV === "development"
-    ? new Client(Local, options)
-    : new Client(Environment("staging"), options);
+  return new Client(env, {
+    auth: token,
+  });
 };
 
 export default getRequestClient;

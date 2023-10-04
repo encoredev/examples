@@ -7,23 +7,12 @@ export default async function UserDetails({
   params: { id: string };
 }) {
   const client = getRequestClient();
+  const response = await client.user.GetUser(params.id);
 
-  try {
-    const response = await client.user.GetUser(params.id);
-    return (
-      <section>
-        <h1>Detail for {response.user.name}</h1>
-        <p>ID: {response.user.id}</p>
-      </section>
-    );
-  } catch (err) {
-    const apiError = err as APIError;
-    return apiError.status === 401 ? (
-      <section>
-        <p>You need to login to view this data</p>
-      </section>
-    ) : (
-      <p>Something went wrong!</p>
-    );
-  }
+  return (
+    <section>
+      <h1>Detail for {response.user.name}</h1>
+      <p>ID: {response.user.id}</p>
+    </section>
+  );
 }
