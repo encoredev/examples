@@ -31,7 +31,6 @@ export function PreviewEnv(pr: number | string): BaseURL {
  */
 export default class Client {
   public readonly auth: auth.ServiceClient;
-  public readonly hello: hello.ServiceClient;
   public readonly user: user.ServiceClient;
 
   /**
@@ -61,7 +60,6 @@ export default class Client {
 
     const base = new BaseClient(target, options ?? {});
     this.auth = new auth.ServiceClient(base);
-    this.hello = new hello.ServiceClient(base);
     this.user = new user.ServiceClient(base);
   }
 }
@@ -93,7 +91,10 @@ export interface ClientOptions {
 }
 
 export namespace auth {
-  export interface LoginRequest {}
+  export interface LoginRequest {
+    email: string;
+    password: string;
+  }
 
   export interface LoginResponse {
     token: string;
@@ -108,37 +109,12 @@ export namespace auth {
 
     public async Login(params: LoginRequest): Promise<LoginResponse> {
       // Now make the actual call to the API
-      const resp = await this.baseClient.callAPI("POST", `/auth/login`);
-      return (await resp.json()) as LoginResponse;
-    }
-  }
-}
-
-export namespace hello {
-  export interface Response {
-    Message: string;
-  }
-
-  export class ServiceClient {
-    private baseClient: BaseClient;
-
-    constructor(baseClient: BaseClient) {
-      this.baseClient = baseClient;
-    }
-
-    /**
-     * This is a simple REST API that responds with a personalized greeting.
-     * To call it, run in your terminal:
-     *
-     * 	curl http://localhost:4000/hello/World
-     */
-    public async World(name: string): Promise<Response> {
-      // Now make the actual call to the API
       const resp = await this.baseClient.callAPI(
         "POST",
-        `/hello/${encodeURIComponent(name)}`,
+        `/auth/login`,
+        JSON.stringify(params),
       );
-      return (await resp.json()) as Response;
+      return (await resp.json()) as LoginResponse;
     }
   }
 }

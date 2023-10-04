@@ -49,11 +49,14 @@ Deploy your backend to a staging environment in Encore's free development cloud.
 git push encore
 ```
 
-You can view your backend deploys, metrics and traces <https://app.encore.dev>.
+You can view your backend deploys, metrics and traces <https://app.encore.dev>. You can also connect your project to a
+GitHub repo to get automatic deploys on new commits. 
 
 ### Next.js on Vercel
 
-...
+1. Create a repo and push the project to GitHub
+2. Create a new project on Vercel and point it to your GitHup repo
+3. Select `frontend` as the root directory for the Vercel project
 
 ## Learn More
 
