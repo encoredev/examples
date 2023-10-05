@@ -1,35 +1,32 @@
-<img width="200px" src="https://encore.dev/assets/branding/logo/logo.svg" alt="Encore - The Backend Development Engine" />
+# URL Shortener Starter
 
-# URL Shortener
+This is an Encore starter for a URL Shortener. It has two API endpoints and a PostgreSQL database to store the URL IDs and retrieve the full URL given an ID.
 
-This is an example Encore application for a URL Shortener. It has two API endpoints and a SQL database to store the URL IDs and retrieve the full URL given an ID.
+## Build from scratch with a tutorial
+
+If you prefer to built it yourself, check out the [tutorial](https://encore.dev/docs/tutorials/rest-api) to learn how to build this application from scratch.
 
 ## Developing locally
 
-When you have installed Encore, you can create a new Encore application and clone this example with this command.
+When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone this example with this command.
 
 ```bash
 encore app create my-app-name --example=url-shortener
 ```
 
-## Using Databases with Encore
+## Running locally
 
-Encore treats SQL databases as logical resources and natively supports **PostreSQL** databases.
-To start using a database you only need to [define the schema](https://encore.dev/docs/primitives/databases#defining-a-database-schema) by creating a migration file. Encore takes care of [provisioning the database](https://encore.dev/docs/primitives/databases#provisioning-databases), running new schema migrations during deploys, and connecting to it.
-
-### Defining database schemas
-
-Database schemas are defined by creating *migration files* in a directory named `migrations`
-within an Encore service package. As you can see in this example, the data base schema is defined in the migration file `1_create_table.up.sql`.
-
-## Running
-
-To run the application locally, make sure you have [Docker](https://docker.com) installed and running. This is required to run Encore applications with SQL databases.
+Before running your application, make sure you have Docker installed and running. It's required to locally run Encore applications with databases.
 
 ```bash
-# Run the app
-encore run
+$ encore run
 ```
+
+## Open the developer dashboard
+
+While `encore run` is running, open <http://localhost:9400/> to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
+
+Here you can see API docs, make requests in the API explorer, and view traces of the responses.
 
 ## Using the API
 
@@ -39,20 +36,19 @@ To see that your app is running, you can ping the API to shorten a url.
 curl 'http://localhost:4000/url' -d '{"URL":"https://news.ycombinator.com"}'
 ```
 
-## Open the developer dashboard
-
-While `encore run` is running, open <http://localhost:9400/> to view Encore's local developer dashboard.
-Here you can see the request you just made and a view a trace of the response.
-
 ## Deployment
 
-Deploy your application to a staging environment in Encore's free development cloud.
+Deploy your application to a staging environment in Encore's free development cloud:
 
 ```bash
 git push encore
 ```
 
-Then head over to <https://app.encore.dev> to find out your production URL, and off you go into the clouds!
+Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your deployment and find your production URL.
+
+From there you can also connect your own AWS or GCP account to use for deployment.
+
+Now off you go into the clouds!
 
 ## Testing
 

@@ -1,27 +1,29 @@
-<img width="200px" src="https://encore.dev/assets/branding/logo/logo.svg" alt="Encore - The Backend Development Engine" />
+# Event-Driven Architecture Starter
 
-# Uptime Monitoring System
+This is an event-driven microservices application using Pub/Sub for asynchronous communication between services.
 
-This is an Encore application that continuously monitors the uptime of a list of websites.
+The example in this starter is an Uptime Monitoring System that continuously monitors the uptime of a list of websites. 
 
-When it detects a website going down it posts a Slack message notifying that the website is down, and another message when the website is back up again.
+When it detects a website is down, it posts a Slack message notifying that the website is down, and another message when the website is back up again.
+
+It has a react frontend and you can try a demo version [here](https://uptime.encore.build/).
 
 ![Frontend](./images/frontend.png)
 ![Encore Flow](./images/encore-flow.png)
 
-## Tutorial
+## Build from scratch with a tutorial
 
-Check out the [written tutorial](https://encore.dev/docs/tutorials/uptime) to learn how to build this application from scratch!
+If you prefer, check out the [tutorial](https://encore.dev/docs/tutorials/uptime) to learn how to build this application from scratch.
 
 ## Developing locally
 
-When you have installed Encore, you can create a new Encore application and clone this example with this command.
+When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone this example with this command.
 
 ```bash
 encore app create my-app-name --example=uptime
 ```
 
-## Running
+## Running locally
 
 ```bash
 # Run the app
@@ -33,10 +35,12 @@ encore secret set SlackWebhookURL
 
 ## Local Development Dashboard
 
-Once your app is running locally, you can access your local dev dashboard with complete API documentation and distributed tracing.
-Open the dashboard at: <https://localhost:9400>
+While `encore run` is running, open <http://localhost:9400/> to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
+
+Here you can see API docs, make requests in the API explorer, and view traces of the responses.
 
 ## View the frontend
+
 While `encore run` is running, head over to <http://localhost:4000/frontend/> to view the frontend for your uptime monitor.
 
 ## Using the API
@@ -57,11 +61,19 @@ curl 'http://localhost:4000/status'
 
 ## Deployment
 
+Deploy your application to a staging environment in Encore's free development cloud:
+
 ```bash
 git push encore
 ```
 
-Then head over to <https://app.encore.dev> to monitor your deployment and find out your production URL. Now off you go into the clouds!
+Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your deployment and find your production URL.
+
+From there you can also connect your own AWS or GCP account to use for deployment.
+
+Now off you go into the clouds!
+
+
 
 ## Testing
 
