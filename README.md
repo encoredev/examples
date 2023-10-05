@@ -8,13 +8,13 @@ Examples to help you build fully-functioning, scalable, backend applications usi
 
 | Example                        | Description                      | Primitives                                       | Requirements                                                            |
 |--------------------------------|----------------------------------|--------------------------------------------------|-------------------------------------------------------------------------|
-| [hello-world](hello-world)     | Simple REST API                  | APIs                                             | -                                                                       |
-| [slack-bot](slack-bot)         | Slack bot                        | APIs                                             | -                                                                       |
+| [hello-world](hello-world)     | REST API Starter                  | APIs                                             | -                                                                       |
+| [sql-database](sql-database)   | PostgreSQL database Starter     | APIs, SQL Database                               | [Docker](https://docker.com/)                                           |
+| [slack-bot](slack-bot)         | Slack Bot Starter                        | APIs                                             | Slack Workspace                                                                       |
+| [trello-clone](trello-clone)   | Microservices Starter (Trello Clone) | Microservices, APIs, SQL Database                | [Docker](https://docker.com/)                                           |
+| [uptime](uptime)               | Event-Driven Architecture Starter (Uptime Monitor)         | Microservices, SQL Databases, Pub/Sub, Cron Jobs | [Docker](https://docker.com/)                                           |
+| [graphql](graphql)             | GraphQL Server Starter | APIs, SQL Database, GraphQL                      | [Docker](https://docker.com/)                                           |
 | [url-shortener](url-shortener) | Basic url shortener              | APIs, SQL Database                               | [Docker](https://docker.com/)                                           |
-| [uptime](uptime)               | Uptime monitoring system         | Microservices, SQL Databases, Pub/Sub, Cron Jobs | [Docker](https://docker.com/)                                           |
-| [trello-clone](trello-clone)   | Backend for a Trello application | Microservices, APIs, SQL Database                | [Docker](https://docker.com/)                                           |
-| [graphql](graphql)             | Url shortener that uses GraphQL  | APIs, SQL Database, GraphQL                      | [Docker](https://docker.com/)                                           |
-| [sql-database](sql-database)   | Simple API with SQL database     | APIs, SQL Database                               | [Docker](https://docker.com/)                                           |
 | [sqlc-database](sqlc-database) | Simple sqlc implementation       | APIs, SQL Database                               | [sqlc](https://docs.sqlc.dev/en/stable/), [Docker](https://docker.com/) |
 
 ## Installing Encore

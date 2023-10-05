@@ -45,13 +45,17 @@ While `encore run` is running, open <http://localhost:9400/> to view Encore's lo
 
 ## Deployment
 
-Deploy your application to a staging environment in Encore's free development cloud.
+Deploy your application to a staging environment in Encore's free development cloud:
 
 ```bash
 git push encore
 ```
 
-Then head over to <https://app.encore.dev> to find out your production URL, and off you go into the clouds!
+Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your deployment and find your production URL.
+
+From there you can also connect your own AWS or GCP account to use for deployment.
+
+Now off you go into the clouds!
 
 ## Testing
 
