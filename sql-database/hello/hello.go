@@ -19,7 +19,7 @@ type ThereResponse struct {
 
 // There responds with a personalized greeting.
 //
-// encore:api public
+//encore:api public
 func There(ctx context.Context, params *ThereParams) (*ThereResponse, error) {
 	message, err := generateGreeting(ctx, params.Name)
 	if err != nil {
@@ -30,7 +30,7 @@ func There(ctx context.Context, params *ThereParams) (*ThereResponse, error) {
 
 func generateGreeting(ctx context.Context, name string) (greeting string, err error) {
 	var count int
-	err = sqldb.QueryRow(ctx, `
+	err = db.QueryRow(ctx, `
 		INSERT INTO people (name, count)
 		VALUES ($1, 1)
 		ON CONFLICT (name) DO UPDATE
@@ -45,3 +45,10 @@ func generateGreeting(ctx context.Context, name string) (greeting string, err er
 	}
 	return fmt.Sprintf("Hey again, %s! We've met %d time(s) before.", name, count-1), nil
 }
+
+// Define a database named 'hello', using the database migrations
+// in the "./migrations" folder. Encore automatically provisions,
+// migrates, and connects to the database.
+var db = sqldb.NewDatabase("hello", sqldb.DatabaseConfig{
+	Migrations: "./migrations",
+})
