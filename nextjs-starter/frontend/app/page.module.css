@@ -2,6 +2,11 @@
   padding: 20px 0;
 }
 
+.nav {
+  display: flex;
+  align-items: center;
+}
+
 .nav > * {
   margin-right: 10px;
 }

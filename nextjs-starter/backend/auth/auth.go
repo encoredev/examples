@@ -4,13 +4,14 @@ import (
 	"context"
 	"encore.dev/beta/auth"
 	"encore.dev/beta/errs"
+	"encore.dev/rlog"
 )
 
-var TOKEN = "dummy-token"
+const TOKEN = "dummy-token"
 
 type LoginRequest struct {
-	//Email    string `json:"email"`
-	//Password string `json:"password"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type LoginResponse struct {
@@ -21,6 +22,7 @@ type LoginResponse struct {
 func Login(ctx context.Context, params *LoginRequest) (*LoginResponse, error) {
 	// Validate the email and password, for example by calling Firebase Auth: https://encore.dev/docs/how-to/firebase-auth
 
+	rlog.Info("User login", "email", params.Email)
 	return &LoginResponse{Token: TOKEN}, nil
 }
 
