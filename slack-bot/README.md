@@ -20,7 +20,6 @@ encore app create my-app-name --example=slack-bot
 # To use the Slack integration, set the Slack signing secret (see tutorial above).
 encore secret set SlackSigningSecret
 
-```bash
 $ encore run
 ```
 
