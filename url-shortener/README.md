@@ -19,7 +19,7 @@ encore app create my-app-name --example=url-shortener
 Before running your application, make sure you have Docker installed and running. It's required to locally run Encore applications with databases.
 
 ```bash
-$ encore run
+encore run
 ```
 
 ## Open the developer dashboard

@@ -26,11 +26,12 @@ encore app create my-app-name --example=uptime
 
 ## Running locally
 
+Run your application:
 ```bash
-# Run the app
 encore run
-
-# To use the Slack integration, set the Slack Webhook URL (see tutorial above).
+```
+To use the Slack integration, set the Slack Webhook URL (see tutorial above):
+```bash
 encore secret set SlackWebhookURL
 ```
 
@@ -46,17 +47,23 @@ While `encore run` is running, head over to <http://localhost:4000/frontend/> to
 
 ## Using the API
 
+Check if a given site is up (defaults to 'https://' if left out):
 ```bash
-# Check if a given site is up (defaults to 'https://' if left out)
 curl 'http://localhost:4000/ping/google.com'
+```
 
-# Add a site to be automatically pinged every 5 minutes
+Add a site to be automatically pinged every 5 minutes:
+```bash
 curl 'http://localhost:4000/site' -d '{"url":"google.com"}'
+```
 
-# Check all tracked sites immediately
+Check all tracked sites immediately:
+```bash
 curl -X POST 'http://localhost:4000/check-all'
+```
 
-# Get the current status of all tracked sites
+Get the current status of all tracked sites:
+```bash
 curl 'http://localhost:4000/status'
 ```
 
@@ -73,8 +80,6 @@ Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your 
 From there you can also connect your own AWS or GCP account to use for deployment.
 
 Now off you go into the clouds!
-
-
 
 ## Testing
 

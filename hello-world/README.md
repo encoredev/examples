@@ -12,7 +12,7 @@ encore app create my-app-name --example=hello-world
 
 ## Running locally
 ```bash
-$ encore run
+encore run
 ```
 
 While `encore run` is running, open <http://localhost:9400/> to view Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
@@ -24,10 +24,6 @@ To see that your app is running, you can ping the API.
 ```bash
 curl http://localhost:4000/hello/World
 ```
-
-## Open the developer dashboard
-
-While `encore run` is running, open <http://localhost:9400/> to view Encore's local developer dashboard.
 
 ## Deployment
 
