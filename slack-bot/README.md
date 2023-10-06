@@ -16,17 +16,18 @@ encore app create my-app-name --example=slack-bot
 
 ## Running locally
 
+Run your application:
 ```bash
-# To use the Slack integration, set the Slack signing secret (see tutorial above).
+encore run
+```
+To use the Slack integration, set the Slack signing secret (see tutorial above):
+```bash
 encore secret set SlackSigningSecret
-
-$ encore run
 ```
 
 ## Open the developer dashboard
 
 While `encore run` is running, open <http://localhost:9400/> to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
-Here you can see API docs, make requests in the API explorer, and view traces of the response.
 
 ## Deployment
 

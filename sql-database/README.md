@@ -27,7 +27,6 @@ within an Encore service package. As you can see in this example, the data base 
 To run the application locally, make sure you have [Docker](https://docker.com) installed and running. This is required to run Encore applications with SQL databases.
 
 ```bash
-# Run the app
 encore run
 ```
 

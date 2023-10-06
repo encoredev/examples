@@ -20,8 +20,10 @@ encore app create my-app-name --example=trello-clone
 
 ## Running locally
 
+To run the application, make sure you have Docker installed and running. This is required to locally run Encore applications with SQL databases.
+
 ```bash
-$ encore run
+encore run
 ```
 
 While `encore run` is running, open <http://localhost:9400/> to view Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
@@ -48,7 +50,6 @@ within an Encore service package. As you can see in this example, the data base 
 To run the application locally, make sure you have [Docker](https://docker.com) installed and running. This is required to run Encore applications with SQL databases.
 
 ```bash
-# Run the app
 encore run
 ```
 

@@ -1,4 +1,6 @@
-This is an [Encore](https://encore.dev/) + [Next.js](https://nextjs.org/) project starter
+# Next.js + Encore Web App Starter
+
+This is an [Encore](https://encore.dev/) + [Next.js](https://nextjs.org/) project starter. It's a great way to learn how to combine Encore's backend capabilities with a modern web framework — perfect for building a web app.
 
 ## Developing locally
 
@@ -9,21 +11,23 @@ this example by running this command:
 encore app create my-app --example=nextjs-starter
 ```
 
-### Running
+### Running locally
 
+Run your Encore backend:
 ```bash
-# Run the Encore backend
 encore run
+```
 
-# In a different terminal window, run the Next.js frontend
+In a different terminal window, run the Next.js frontend:
+```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-### Encore developer dashboard
+### Encore's Local Development Dashboard
 
 While `encore run` is running, open <http://localhost:9400/> to view Encore's local developer dashboard.
 Here you can see the request you just made and a view a trace of the response.
@@ -43,14 +47,16 @@ npm run gen:local # Locally running Encore backend
 
 ### Encore
 
-Deploy your backend to a staging environment in Encore's free development cloud.
+Deploy your backend to a staging environment in Encore's free development cloud:
 
 ```bash
 git push encore
 ```
 
-You can view your backend deploys, metrics and traces <https://app.encore.dev>. You can also connect your project to a
-GitHub repo to get automatic deploys on new commits. 
+Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your deployment and find your production URL.
+
+From there you can also see metrics, traces, connect your app to a
+GitHub repo to get automatic deploys on new commits, and connect your own AWS or GCP account to use for deployment.
 
 ### Next.js on Vercel
 
