@@ -8,8 +8,9 @@ When it detects a website is down, it posts a Slack message notifying that the w
 
 It has a react frontend and you can try a demo version [here](https://uptime.encore.build/).
 
-![Frontend](./images/frontend.png)
-![Encore Flow](./images/encore-flow.png)
+![Frontend](https://encore.dev/assets/tutorials/uptime/frontend.png)
+![Architecture](https://encore.dev/assets/tutorials/uptime/encore-flow.png)
+
 
 ## Build from scratch with a tutorial
 
