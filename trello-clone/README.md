@@ -8,7 +8,7 @@ The application has two services, each with a couple of API endpoints and their 
 
 This is what the architecture looks like:
 
-![Encore Flow](./images/encore-flow.png)
+![Architecture Diagram](https://encore.dev/assets/github/trello-clone.png)
 
 ## Developing locally
 
