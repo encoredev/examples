@@ -1,3 +1,11 @@
+:root {
+  --max-width: 1100px;
+  --nav-height: 50px;
+
+  --black: #111111;
+  --white: #EEEEE1;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -11,7 +19,8 @@ body {
 }
 
 body {
-  padding: 10px;
+  color: var(--black);
+  background: var(--white)
 }
 
 ul {

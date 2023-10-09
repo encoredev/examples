@@ -28,11 +28,13 @@ export default function RootLayout({
       <body className={inter.className}>
         <header>
           <nav className={styles.nav}>
-            {navLinks.map(({ href, label }) => (
-              <Link key={href} href={href}>
-                {label}
-              </Link>
-            ))}
+            <div className={styles.navLinks}>
+              {navLinks.map(({ href, label }) => (
+                <Link key={href} href={href}>
+                  {label}
+                </Link>
+              ))}
+            </div>
 
             {isLoggedIn ? (
               <form action="/auth/logout" method="post">
@@ -49,22 +51,6 @@ export default function RootLayout({
         </header>
 
         <main className={styles.main}>{children}</main>
-
-        <footer>
-          <hr />
-          <ul>
-            <li>
-              <a href="https://encore.dev/docs" target="_blank">
-                Encore docs
-              </a>
-            </li>
-            <li>
-              <a href="https://nextjs.org/docs" target="_blank">
-                Next.js docs
-              </a>
-            </li>
-          </ul>
-        </footer>
       </body>
     </html>
   );
