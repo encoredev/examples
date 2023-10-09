@@ -8,11 +8,13 @@ export default async function Users() {
   return (
     <section>
       <h1>Users List</h1>
+      <p>Click a user to view details</p>
+      <br />
       <ul>
         {response.users.map((user) => (
           <li key={user.id}>
             <Link href="/users/[id]" as={`/users/${user.id}`}>
-              {user.id}:{user.name}
+              {user.name} ({user.id})
             </Link>
           </li>
         ))}
