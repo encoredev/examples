@@ -1,10 +1,10 @@
 <p align="center" dir="auto">
 <a href="https://encore.dev"><img src="https://user-images.githubusercontent.com/78424526/214602214-52e0483a-b5fc-4d4c-b03e-0b7b23e012df.svg" width="160px" alt="encore icon"></img></a><br/><br/>
-<b>Encore examples</b><br/>
-Examples to help you build fully-functioning, scalable, backend applications using <a href="https://github.com/encoredev/encore">Encore</a>.
+<b>Encore Templates</b><br/>
+Starters to help you build backend applications with <a href="https://github.com/encoredev/encore">Encore</a>.
 </p>
 
-## Example applications
+## Templates
 
 | Example                        | Description                      | Primitives                                       | Requirements                                                            |
 |--------------------------------|----------------------------------|--------------------------------------------------|-------------------------------------------------------------------------|
@@ -24,7 +24,7 @@ environment.
 Follow the [installation instructions](https://encore.dev/docs/install) in the documentation, or get started with
 the [Quick Start Guide](https://encore.dev/docs/quick-start).
 
-## Running examples
+## Running
 
 Each sub-folder in this repo contains an example application that you can use to try out Encore.
 
