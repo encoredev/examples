@@ -64,6 +64,35 @@ GitHub repo to get automatic deploys on new commits, and connect your own AWS or
 2. Create a new project on Vercel and point it to your GitHup repo
 3. Select `frontend` as the root directory for the Vercel project
 
+## CORS configuration
+
+If you are running into CORS issues when calling your Encore API from your frontend then you may need to specify which
+origins are allowed to access your API (via browsers). You do this by specifying the `global_cors` key in the `encore.app`
+file, which has the following structure:
+
+```jsonc
+global_cors: {
+  // allow_origins_without_credentials specifies the allowed origins for requests
+  // that don't include credentials. If nil it defaults to allowing all domains
+  // (equivalent to ["*"]).
+  "allow_origins_without_credentials": [
+    "<ORIGIN-GOES-HERE>"
+  ],
+        
+  // allow_origins_with_credentials specifies the allowed origins for requests
+  // that include credentials. If a request is made from an Origin in this list
+  // Encore responds with Access-Control-Allow-Origin: <Origin>.
+  //
+  // The URLs in this list may include wildcards (e.g. "https://*.example.com"
+  // or "https://*-myapp.example.com").
+  "allow_origins_with_credentials": [
+    "<DOMAIN-GOES-HERE>"
+  ]
+}
+```
+
+More information on CORS configuration can be found here: https://encore.dev/docs/develop/cors
+
 ## Learn More
 
 - [Encore Documentation](https://encore.dev/docs)
