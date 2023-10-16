@@ -1,5 +1,5 @@
-// Package speech is used for handling communication with generative voice AI from https://elevenlabs.io/
-package speech
+// Package elevenlabs is used for handling communication with generative voice AI from https://elevenlabs.io/
+package elevenlabs
 
 import (
 	"context"

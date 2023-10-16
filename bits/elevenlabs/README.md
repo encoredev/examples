@@ -1,10 +1,10 @@
-# speech
+# elevenlabs
 
-Encore Bit for generating text to speech audio from [ElevenLabs](https://elevenlabs.io/) generative voice AI.
+This is an Encore package for generating text-to-speech audio using [ElevenLabs](https://elevenlabs.io/) generative voice AI.
 
 ## Installation
 
-1. Copy over the `speech` package directory to your Encore application.
+1. Copy over the `elevenlabs` package directory to your Encore application.
 2. Sync your project dependencies by running `go mod tidy`.
 
 ## ElevenLabs API Key
@@ -21,9 +21,9 @@ Successfully updated development secret ElevenLabsAPIKey.
 
 ## Endpoints 
 
-The `speech` package contains the following endpoints:
+The `elevenlabs` package contains the following endpoints:
 
-### speech.ServeAudio
+### elevenlabs.ServeAudio
 
 > ServeAudio generates audio from text and serves it as mpeg to the client.
 
@@ -34,14 +34,14 @@ const client = new Client(Local);
 // or to a specific deployed environment
 const client = new Client(Environment("staging"));
 
-const resp = await client.speech.ServeAudio("POST", JSON.stringify({text}));
+const resp = await client.elevenlabs.ServeAudio("POST", JSON.stringify({text}));
 const url = window.URL.createObjectURL(await resp.blob()); //where value is the blob
 const audio = new Audio();
 audio.src = url;
 await audio.play();
 ```
 
-### speech.StreamAudio
+### elevenlabs.StreamAudio
 
 > StreamAudio generates audio from text and streams it as mpeg to the client.
 
@@ -53,7 +53,7 @@ await audio.play();
 </audio>
 ```
 
-### speech.DownloadAudio
+### elevenlabs.DownloadAudio
 
 > DownloadAudio generates audio from text and saves the audio file as mp3 to disk.
 
