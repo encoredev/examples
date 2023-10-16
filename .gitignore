@@ -1,1 +1,4 @@
 .encore
+
+bits/go.mod
+bits/go.sum
