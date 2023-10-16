@@ -4,6 +4,7 @@ package speech
 import (
 	"context"
 	"encoding/json"
+	"github.com/haguro/elevenlabs-go"
 	"net/http"
 	"os"
 	"time"
