@@ -1,4 +1,4 @@
-# elevenlabs
+# ElevenLabs Generative AI Text-to-Speech
 
 This is an Encore package for generating text-to-speech audio using [ElevenLabs](https://elevenlabs.io/) generative voice AI.
 
