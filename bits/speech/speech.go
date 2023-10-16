@@ -1,10 +1,9 @@
-// Package speech is used for handling communication with generative voice AI form https://elevenlabs.io/
+// Package speech is used for handling communication with generative voice AI from https://elevenlabs.io/
 package speech
 
 import (
 	"context"
 	"encoding/json"
-	"github.com/haguro/elevenlabs-go"
 	"net/http"
 	"os"
 	"time"
