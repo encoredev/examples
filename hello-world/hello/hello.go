@@ -39,8 +39,10 @@ type Response struct {
 
 // Next steps
 //
-// 1. Deploy your application to the cloud with a single command:
+// 1. Deploy your application to the cloud
 //
+//     git add -A .
+//     git commit -m 'Commit message'
 //     git push encore
 //
 // 2. To continue exploring Encore, check out one of these topics:
