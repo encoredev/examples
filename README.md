@@ -58,9 +58,10 @@ Running on http://localhost:4000
 
 The [bits](bits) sub-folder contains reusable code samples that can be copied directly into your own application.
 
-| Name                | Description                                                                              | Primitives    | Requirements           |
-|---------------------|------------------------------------------------------------------------------------------|---------------|------------------------|
-| [elevenlabs](bits/elevenlabs) | Getting text to speech from [ElevenLabs](https://elevenlabs.io/) generative voice AI | APIs, Secrets | [ElevenLabs API key](https://docs.elevenlabs.io/api-reference/quick-start/authentication) | 
+| Name                          | Description                                                                         | Primitives    | Requirements                                                                              |
+|-------------------------------|-------------------------------------------------------------------------------------|---------------|-------------------------------------------------------------------------------------------|
+| [elevenlabs](bits/elevenlabs) | Getting text to speech from [ElevenLabs](https://elevenlabs.io/) generative voice AI | APIs, Secrets | [ElevenLabs API key](https://docs.elevenlabs.io/api-reference/quick-start/authentication) |
+| [pexels](bits/pexels)         | Searching and retrieving photos and videos from [Pexels](https://www.pexels.com/)   | APIs, Secrets | [Pexels API key](https://www.pexels.com/api/)     |
 
 ## Contribute your templates
 
