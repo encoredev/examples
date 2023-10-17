@@ -50,6 +50,8 @@ npm run gen:local # Locally running Encore backend
 Deploy your backend to a staging environment in Encore's free development cloud:
 
 ```bash
+git add -A .
+git commit -m 'Commit message'
 git push encore
 ```
 

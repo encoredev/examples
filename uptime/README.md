@@ -72,6 +72,8 @@ curl 'http://localhost:4000/status'
 Deploy your application to a staging environment in Encore's free development cloud:
 
 ```bash
+git add -A .
+git commit -m 'Commit message'
 git push encore
 ```
 
