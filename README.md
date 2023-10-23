@@ -33,7 +33,7 @@ environment. Use the appropriate command for your system:
 | [graphql](graphql)             | GraphQL Server Starter                             | APIs, SQL Database, GraphQL                      | [Docker](https://docker.com/)                                           |
 | [url-shortener](url-shortener) | Basic url shortener                                | APIs, SQL Database                               | [Docker](https://docker.com/)                                           |
 | [sqlc-database](sqlc-database) | Simple sqlc implementation                         | APIs, SQL Database                               | [sqlc](https://docs.sqlc.dev/en/stable/), [Docker](https://docker.com/) |
-| [next-starter](next-starter)   | Next.js + Encore Web App Starter                   | APIs, Auth, Frontend                             | [Node.js](https://nodejs.org/en)                                        |
+| [next-starter](nextjs-starter)   | Next.js + Encore Web App Starter                   | APIs, Auth, Frontend                             | [Node.js](https://nodejs.org/en)                                        |
 | [react-starter](react-starter) | React + Encore Web App Starter                     | APIs, Auth, Frontend                             | [Node.js](https://nodejs.org/en)                                        |
 
 ### Running Starters
