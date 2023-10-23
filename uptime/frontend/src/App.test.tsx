@@ -6,7 +6,7 @@ import {
 import App from "./App";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { FC, PropsWithChildren } from "react";
-import { monitor, site } from "./client";
+import { APIError, ErrCode, monitor, site } from "./client";
 import { userEvent } from "@testing-library/user-event";
 
 const queryClient = new QueryClient({
@@ -58,6 +58,22 @@ describe("App", () => {
 
     screen.getAllByText("test.dev");
     screen.getByText("Up");
+  });
+
+  it("render api error", async () => {
+    jest.spyOn(site.ServiceClient.prototype, "List").mockReturnValue(
+      Promise.reject(
+        new APIError(500, {
+          code: ErrCode.Unknown,
+          message: "request failed",
+        }),
+      ),
+    );
+
+    render(<App />, { wrapper });
+    await waitForElementToBeRemoved(() => screen.queryByText("Loading..."));
+
+    screen.getAllByText("request failed");
   });
 
   it("add site", async () => {
