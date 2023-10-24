@@ -12,7 +12,7 @@ encore app create my-app-name --example=sql-database
 
 ## Using Databases with Encore
 
-Encore treats SQL databases as logical resources and natively supports **PostreSQL** databases.
+Encore treats SQL databases as logical resources and natively supports **PostgreSQL** databases.
 To start using a database you only need to [define the schema](https://encore.dev/docs/primitives/databases#defining-a-database-schema) by creating a migration file, and then import `encore.dev/storage/sqldb` and call `sqldb.NewDatabase`, assigning the result to a package-level variable.
 
 Encore takes care of [provisioning the database](https://encore.dev/docs/primitives/databases#provisioning-databases), running new schema migrations during deploys, and connecting to it.
