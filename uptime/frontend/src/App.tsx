@@ -22,31 +22,30 @@ function App() {
 }
 
 const SiteList: FC = () => {
-  const { isLoading, error, data } = useQuery(
-    ["sites"],
-    () => client.site.List(),
-    {
-      refetchInterval: 10000, // 10s
-      retry: false,
-    }
-  );
-  const { data: status } = useQuery(["status"], () => client.monitor.Status(), {
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["sites"],
+    queryFn: () => client.site.List(),
+    refetchInterval: 10000, // 10s
+    retry: false,
+  });
+
+  const { data: status } = useQuery({
+    queryKey: ["status"],
+    queryFn: () => client.monitor.Status(),
     refetchInterval: 1000, // every second
     retry: false,
   });
 
   const queryClient = useQueryClient();
 
-  const doDelete = useMutation(
-    (site: site.Site) => {
+  const doDelete = useMutation({
+    mutationFn: (site: site.Site) => {
       return client.site.Delete(site.id);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["sites"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sites"] });
+    },
+  });
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -147,8 +146,8 @@ const AddSiteForm: FC = () => {
 
   const queryClient = useQueryClient();
 
-  const save = useMutation(
-    async (url: string) => {
+  const save = useMutation({
+    mutationFn: async (url: string) => {
       if (!validURL(url)) {
         return;
       }
@@ -156,13 +155,11 @@ const AddSiteForm: FC = () => {
       await client.site.Add({ url });
       setFormOpen(false);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["sites"]);
-        queryClient.invalidateQueries(["status"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sites"] });
+      queryClient.invalidateQueries({ queryKey: ["status"] });
+    },
+  });
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
