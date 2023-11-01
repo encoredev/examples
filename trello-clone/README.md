@@ -20,7 +20,10 @@ encore app create my-app-name --example=trello-clone
 
 ## Running locally
 
-To run the application, make sure you have Docker installed and running. This is required to locally run Encore applications with SQL databases.
+Before running the application, make sure you have synced the project dependencies by running `go mod tidy` and that Docker is 
+installed and running. Docker is required when running Encore applications locally that uses SQL databases.
+
+To start the Encore application, run:
 
 ```bash
 encore run
@@ -43,15 +46,7 @@ To start using a database you only need to [define the schema](https://encore.de
 ### Defining database schemas
 
 Database schemas are defined by creating *migration files* in a directory named `migrations`
-within an Encore service package. As you can see in this example, the data base schema is defined in the migration file `1_create_table.up.sql`.
-
-## Running
-
-To run the application locally, make sure you have [Docker](https://docker.com) installed and running. This is required to run Encore applications with SQL databases.
-
-```bash
-encore run
-```
+within an Encore service package. As you can see in this example, the database schema is defined in the migration file `1_create_table.up.sql`.
 
 ## Using the API
 
