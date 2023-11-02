@@ -220,7 +220,7 @@ class BaseClient {
         this.baseURL = baseURL
         this.headers = {
             "Content-Type": "application/json",
-            "User-Agent":   "app-1234-Generated-TS-Client (Encore/v1.27.6)",
+            "User-Agent":   "{{ENCORE_APP_ID}}-Generated-TS-Client (Encore/v1.27.6)",
         }
         this.requestInit = options.requestInit ?? {};
 
