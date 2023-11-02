@@ -4,12 +4,11 @@ import (
 	"context"
 	"fmt"
 
-	"encore.dev/cron"
-	"encore.dev/pubsub"
-	"encore.dev/storage/sqldb"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
+
+	"encore.dev/pubsub"
+	"encore.dev/storage/sqldb"
 )
 
 // Site describes a monitored site.
@@ -83,48 +82,6 @@ func (s *Service) List(ctx context.Context) (*ListResponse, error) {
 	return &ListResponse{Sites: sites}, nil
 }
 
-// Reset resets the database to a known state to prevent abuse.
-//
-//encore:api private
-func (s *Service) Reset(ctx context.Context) error {
-	urlsToKeep := []string{
-		"news.ycombinator.com",
-		"google.com",
-		"http://neverssl.com",
-		"httpbin.org/status/400",
-	}
-	return s.db.Transaction(func(tx *gorm.DB) error {
-		// Delete sites we don't want to keep
-		if err := tx.Where("url NOT IN ?", urlsToKeep).Delete(&Site{}).Error; err != nil {
-			return err
-		}
-
-		// Recreate sites that were deleted
-		var sites []*Site
-		for _, u := range urlsToKeep {
-			sites = append(sites, &Site{URL: u})
-		}
-		err := tx.Clauses(clause.OnConflict{
-			Columns:   []clause.Column{{Name: "url"}},
-			DoNothing: true,
-		}).Create(&sites).Error
-		if err != nil {
-			return err
-		}
-
-		// Publish Pub/Sub messages for the sites that were added
-		for _, s := range sites {
-			if s.ID > 0 {
-				if _, err := SiteAddedTopic.Publish(ctx, s); err != nil {
-					return err
-				}
-			}
-		}
-
-		return nil
-	})
-}
-
 //encore:service
 type Service struct {
 	db *gorm.DB
@@ -144,11 +101,4 @@ func initService() (*Service, error) {
 
 var SiteAddedTopic = pubsub.NewTopic[*Site]("site-added", pubsub.TopicConfig{
 	DeliveryGuarantee: pubsub.AtLeastOnce,
-})
-
-// Reset all sites every 5 minutes to prevent abuse.
-var _ = cron.NewJob("reset", cron.JobConfig{
-	Title:    "Reset sites",
-	Endpoint: Reset,
-	Every:    5 * cron.Minute,
 })

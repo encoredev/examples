@@ -5,10 +5,11 @@ import (
 	"errors"
 
 	"encore.app/site"
+	"golang.org/x/sync/errgroup"
+
 	"encore.dev/cron"
 	"encore.dev/pubsub"
 	"encore.dev/storage/sqldb"
-	"golang.org/x/sync/errgroup"
 )
 
 // Check checks a single site.
@@ -96,11 +97,11 @@ func getPreviousMeasurement(ctx context.Context, siteID int) (up bool, err error
 	return up, nil
 }
 
-// Check all tracked sites every 5 minutes.
+// Check all tracked sites every hour.
 var _ = cron.NewJob("check-all", cron.JobConfig{
 	Title:    "Check all sites",
 	Endpoint: CheckAll,
-	Every:    5 * cron.Minute,
+	Every:    1 * cron.Hour,
 })
 
 // TransitionEvent describes a transition of a monitored site
