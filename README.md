@@ -34,6 +34,7 @@ environment. Use the appropriate command for your system:
 | [url-shortener](url-shortener) | Basic url shortener                                | APIs, SQL Database                               | [Docker](https://docker.com/)                                           |
 | [sqlc-database](sqlc-database) | Simple sqlc implementation                         | APIs, SQL Database                               | [sqlc](https://docs.sqlc.dev/en/stable/), [Docker](https://docker.com/) |
 | [next-starter](nextjs-starter)   | Next.js + Encore Web App Starter                   | APIs, Auth, Frontend                             | [Node.js](https://nodejs.org/en)                                        |
+| [next-auth0-starter](nextjs-auth0-starter)   | Next.js + Auth0 + Encore Web App Starter                   | APIs, Auth, Frontend                             | [Node.js](https://nodejs.org/en)                                        |
 | [react-starter](react-starter) | React + Encore Web App Starter                     | APIs, Auth, Frontend                             | [Node.js](https://nodejs.org/en)                                        |
 
 ### Running Starters
