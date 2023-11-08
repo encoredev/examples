@@ -14,10 +14,16 @@ You will need an [API key from SendGrid](https://docs.sendgrid.com/ui/account-an
 Once you have the API key, set it as an Encore secret using the name `SendGridAPIKey`:
 
 ```bash
-$ encore secret set --type dev,prod,local,pr SendGridAPIKey
+# It is good practice to separate API keys for development and production environments
+$ encore secret set --dev SendGridAPIKey
+Enter secret value: *****
+Successfully updated development secret SendGridAPIKey.
+# To set the API key for production environment
+$ encore secret set --prod SendGridAPIKey
 Enter secret value: *****
 Successfully updated development secret SendGridAPIKey.
 ```
+> Please note that emails will only be sent in the production environment to avoid spending your email sending limits.
 
 ## Endpoints 
 
