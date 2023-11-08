@@ -2,6 +2,7 @@ package sendgrid
 
 import (
 	"context"
+	"net/http"
 
 	"encore.dev/beta/errs"
 	"encore.dev/pubsub"
@@ -91,7 +92,7 @@ func sendEmail(ctx context.Context, event *EmailPreparedEvent) error {
 		return err
 	}
 
-	if response.StatusCode != 200 {
+	if response.StatusCode != http.StatusOK {
 		return &errs.Error{
 			Code:    errs.Internal,
 			Message: "failed to send email",
