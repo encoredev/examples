@@ -29,20 +29,14 @@ Successfully updated development secret SendGridAPIKey.
 
 The `sendgrid` package contains the following endpoints:
 
-* `sendgrid.Send` - Sends an email using the SendGrid API.
+* `sendgrid.Send` - Send publishes an email to PubSub for further asynchronous sending using the SendGrid API.
 
 #### Using the API
 ```bash
 curl 'http://localhost:4000/sendgrid' \
 -d '{
-    "from": {
-        "name": "Sender",
-        "address": "sender@example.com"
-    },
-    "to": {
-        "name": "Recipient",
-        "address": "recipient@example.com"
-    },
+    "from": "sender@example.com",
+    "to": "recipient@example.com",
     "subject": "Sending with Twilio SendGrid is Fun",
     "text": "and easy to do anywhere, even with Encore",
     "html": "<strong>and easy to do anywhere, even with Encore</strong>"
