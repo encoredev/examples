@@ -17,12 +17,17 @@ var secrets struct {
 	SendGridAPIKey string
 }
 
+type Address struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}
+
 type SendParams struct {
-	From    string `json:"form"` // sender email address
-	To      string `json:"to"`   // recipient email address
-	Subject string `json:"subject"`
-	Text    string `json:"text"`
-	Html    string `json:"html"`
+	From    Address `json:"from"` // sender email address
+	To      Address `json:"to"`   // recipient email address
+	Subject string  `json:"subject"`
+	Text    string  `json:"text"`
+	Html    string  `json:"html"`
 }
 
 type SendResponse struct {
@@ -36,8 +41,8 @@ type SendResponse struct {
 func Send(ctx context.Context, params *SendParams) (*SendResponse, error) {
 	// Preparing the data to create an email event ready to be sent
 	event := &EmailPreparedEvent{
-		From:             mail.Email{Address: params.From},
-		To:               mail.Email{Address: params.To},
+		From:             *mail.NewEmail(params.From.Name, params.From.Email),
+		To:               *mail.NewEmail(params.To.Name, params.To.Email),
 		Subject:          params.Subject,
 		PlainTextContent: params.Text,
 		HTMLContent:      params.Html,

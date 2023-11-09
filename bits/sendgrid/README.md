@@ -35,8 +35,14 @@ The `sendgrid` package contains the following endpoints:
 ```bash
 curl 'http://localhost:4000/sendgrid' \
 -d '{
-    "from": "sender@example.com",
-    "to": "recipient@example.com",
+    "from": {
+        "name": "Sender",
+        "email": "sender@example.com"
+    },
+    "to": {
+        "name": "Recipient",
+        "email": "recipient@example.com"
+    },
     "subject": "Sending with Twilio SendGrid is Fun",
     "text": "and easy to do anywhere, even with Encore",
     "html": "<strong>and easy to do anywhere, even with Encore</strong>"
