@@ -82,8 +82,7 @@ func sendEmail(ctx context.Context, event *EmailPreparedEvent) error {
 	if encore.Meta().Environment.Type != encore.EnvProduction {
 		rlog.Info(
 			"skipping sending email in non-production environment",
-			"env", encore.Meta().Environment.Type,
-			"email", email)
+			"env", encore.Meta().Environment.Type)
 		return nil
 	}
 
