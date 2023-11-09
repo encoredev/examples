@@ -92,7 +92,7 @@ func sendEmail(ctx context.Context, event *EmailPreparedEvent) error {
 	// Sending and error handling
 	response, err := client.SendWithContext(ctx, email)
 	if err != nil {
-		rlog.Error(err.Error())
+		rlog.Error("failed sending email", "err", err)
 		return err
 	}
 
