@@ -1,8 +1,25 @@
-# Microservices Starter
+## TL;DR
+Building microservices applications can be a pain because you normally have to deal with a lot of boilerplate and it can be hard to ensure end-to-end type-safety.
+In this guide we'll build and deploy a fully type-safe microservices application in Go, implementing the backend for a Trello application as an example.
 
-This is a starter for an Encore microservices application, implementing a backend for a Trello clone as an example.
+To build our app, we'll be using [Encore](https://encore.dev), a backend development platform that provides a type-safe [Infrastructure SDK](https://encore.dev/docs/primitives) for declaratively defining infrastructure in Go code. We'll then use Encore to automatically provision and deploy our application.
 
-The application has two services, each with a couple of API endpoints and their own databases.
+**🚀 What's on deck:**
+- Install Encore
+- Create your backend app from a template
+- Run locally
+- Deploy to Encore's free development cloud
+- 
+## 💽 Install Encore
+
+Install the Encore CLI to run your local environment:
+- **macOS:** `brew install encoredev/tap/encore`
+- **Linux:** `curl -L https://encore.dev/install.sh | bash`
+- **Windows:** `iwr https://encore.dev/install.ps1 | iex`
+
+## 🔨 Create your app
+
+We'll be starting from a template that has two services, each with a couple of API endpoints and their own databases.
 
 (This example is intended to show how you create microservices applications with Encore. However, Encore can just as easily be used to build monolithic architectures.)
 
@@ -33,13 +50,13 @@ While `encore run` is running, open <http://localhost:9400/> to view Encore's [l
 
 ## Defining services
 
-With Encore you create a service by [defining one or more APIs](https://encore.dev/docs/primitives/services-and-apis#defining-apis) within a regular Go package. Encore recognizes this as a service, and uses the package name as the service name.
+With Encore you create a service by [defining one or more APIs](https://encore.dev/docs/primitives/services-and-apis#defining-apis) within a regular Go package. Encore recognizes this as a service and uses the package name as the service name.
 
 When deploying, Encore automatically [provisions the required infrastructure](https://encore.dev/docs/deploy/infra) for each service.
 
 ## Using Databases with Encore
 
-Encore treats SQL databases as logical resources and natively supports **PostreSQL** databases.
+Encore treats SQL databases as logical resources and natively supports **PostgreSQL** databases.
 
 To start using a database you only need to [define the schema](https://encore.dev/docs/primitives/databases#defining-a-database-schema) by creating a migration file. Encore takes care of [provisioning the database](https://encore.dev/docs/primitives/databases#provisioning-databases), running new schema migrations during deploys, and connecting to it.
 
@@ -50,7 +67,7 @@ within an Encore service package. As you can see in this example, the database s
 
 ## Using the API
 
-To see that your app is running, you can ping the `board.Create` endpoint to create a trello board.
+To see that your app is running, you can ping the `board.Create` endpoint to create a Trello board.
 
 ```bash
 curl 'http://localhost:4000/board.Create' -d '{"Name":"my board"}'
@@ -58,7 +75,7 @@ curl 'http://localhost:4000/board.Create' -d '{"Name":"my board"}'
 
 ## Open the developer dashboard
 
-While `encore run` is running, open <http://localhost:9400/> to view Encore's [local development dashboard](https://encore.dev/docs/observability/dev-dash). Here you can see the request you just made and a view a trace of the response.
+While `encore run` is running, open <http://localhost:9400/> to view Encore's [local development dashboard](https://encore.dev/docs/observability/dev-dash). Here you can see the request you just made and view a trace of the response.
 
 ## Deployment
 
