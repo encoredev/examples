@@ -35,6 +35,8 @@ To use the Slack integration, set the Slack Webhook URL (see tutorial above):
 encore secret set SlackWebhookURL
 ```
 
+Note that to avoid confusion, Cron Jobs do not execute when running locally.
+
 ## Local Development Dashboard
 
 While `encore run` is running, open <http://localhost:9400/> to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
@@ -52,7 +54,7 @@ Check if a given site is up (defaults to 'https://' if left out):
 curl 'http://localhost:4000/ping/google.com'
 ```
 
-Add a site to be automatically pinged every 5 minutes:
+Add a site to be automatically pinged every 1 hour:
 ```bash
 curl 'http://localhost:4000/site' -d '{"url":"google.com"}'
 ```
