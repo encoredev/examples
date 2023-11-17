@@ -1,0 +1,4 @@
+CREATE TABLE site (
+    id SERIAL PRIMARY KEY,
+    url TEXT NOT NULL UNIQUE
+);
