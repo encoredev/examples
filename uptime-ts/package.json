@@ -1,0 +1,25 @@
+{
+  "name": "uptime",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Encore Uptime Monitoring Tutorial",
+  "license": "MPL-2.0",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "@types/node-fetch": "^2.6.4",
+    "@types/pg": "^8.10.2",
+    "esbuild": "0.19.3",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@encore.dev/node-runtime": "1.29.0-beta.4",
+    "encore.app": "1.29.0-beta.4",
+    "encore.dev": "1.29.0-beta.4",
+    "knex": "^3.0.1",
+    "node-fetch": "^2.7.0",
+    "pg": "^8.11.3"
+  }
+}
