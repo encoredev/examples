@@ -7,7 +7,12 @@
         "template": "hello-world"
     },
     {
-        "title":    "Uptime Monitor",
+        "title":    "Uptime Monitor (TypeScript)",
+        "desc":     "Microservices, SQL Databases, Pub/Sub, Cron Jobs",
+        "template": "uptime-ts"
+    },
+    {
+        "title":    "Uptime Monitor (Go)",
         "desc":     "Microservices, SQL Databases, Pub/Sub, Cron Jobs",
         "template": "uptime"
     },

@@ -10,7 +10,7 @@ export const check = api(
   async (p: { siteID: number }): Promise<void> => {
     const s = await site.get({ id: p.siteID });
     return doCheck(s);
-  },
+  }
 );
 
 export const checkAll = api(
@@ -18,7 +18,7 @@ export const checkAll = api(
   async (): Promise<void> => {
     const sites = await site.list();
     await Promise.all(sites.sites.map(doCheck));
-  },
+  }
 );
 
 async function doCheck(site: Site): Promise<void> {
@@ -27,24 +27,20 @@ async function doCheck(site: Site): Promise<void> {
   if (up !== wasUp) {
     await TransitionTopic.publish({ site, up });
   }
-  await MonitorDB.q`
+  await MonitorDB.exec`
     INSERT INTO checks (site_id, up, checked_at)
     VALUES (${site.id}, ${up}, NOW())
   `;
 }
 
 async function getPreviousMeasurement(siteID: number): Promise<boolean> {
-  const rows = MonitorDB.q`
-    SELECT up
-    FROM checks
+  const row = MonitorDB.queryRow`
+    SELECT up FROM checks
     WHERE site_id = ${siteID}
-    ORDER BY checked_at DESC 
+    ORDER BY checked_at DESC
     LIMIT 1
   `;
-  for await (const row of rows) {
-    return row.up;
-  }
-  return true;
+  return row?.up ?? true;
 }
 
 const MonitorDB = new SQLDatabase("monitor", { migrations: "./migrations" });
