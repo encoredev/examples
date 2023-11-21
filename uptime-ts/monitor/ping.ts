@@ -1,5 +1,4 @@
 import { api } from "encore.dev/api";
-import fetch from "node-fetch";
 
 export interface PingParams {
   url: string;
@@ -23,5 +22,5 @@ export const ping = api<PingParams, PingResponse>(
     } catch (err) {
       return { up: false };
     }
-  },
+  }
 );

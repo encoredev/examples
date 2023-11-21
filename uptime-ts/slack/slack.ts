@@ -1,5 +1,4 @@
 import { api } from "encore.dev/api";
-import fetch from "node-fetch";
 import { Subscription } from "encore.dev/pubsub";
 import { TransitionTopic } from "../monitor/check";
 import { loadSecret } from "encore.dev/config";
