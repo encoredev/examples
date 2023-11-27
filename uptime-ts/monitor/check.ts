@@ -34,7 +34,7 @@ async function doCheck(site: Site): Promise<void> {
 }
 
 async function getPreviousMeasurement(siteID: number): Promise<boolean> {
-  const row = MonitorDB.queryRow`
+  const row = await MonitorDB.queryRow`
     SELECT up FROM checks
     WHERE site_id = ${siteID}
     ORDER BY checked_at DESC
