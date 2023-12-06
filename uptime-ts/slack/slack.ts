@@ -1,7 +1,7 @@
 import { api } from "encore.dev/api";
 import { Subscription } from "encore.dev/pubsub";
 import { TransitionTopic } from "../monitor/check";
-import { loadSecret } from "encore.dev/config";
+import { secret } from "encore.dev/config";
 
 export interface NotifyParams {
   text: string; // the slack message to send
@@ -24,7 +24,7 @@ export const notify = api<NotifyParams>({}, async ({ text }) => {
   }
 });
 
-const webhookURL = loadSecret("SlackWebhookURL");
+const webhookURL = secret("SlackWebhookURL");
 
 const _ = new Subscription(TransitionTopic, "slack-notification", {
   handler: async (event) => {
