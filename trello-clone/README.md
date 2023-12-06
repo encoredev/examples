@@ -1,27 +1,9 @@
-## TL;DR
+# Microservices Backend Starter
+
 Building microservices applications can be a pain because you normally have to deal with a lot of boilerplate and it can be hard to ensure end-to-end type-safety.
-In this guide we'll build and deploy a fully type-safe microservices application in Go, implementing the backend for a Trello application as an example.
+This template lets you deploy a fully type-safe microservices application in Go, implementing the backend for a Trello application as an example.
 
-To build our app, we'll be using [Encore](https://encore.dev), a backend development platform that provides a type-safe [Infrastructure SDK](https://encore.dev/docs/primitives) for declaratively defining infrastructure in Go code. We'll then use Encore to automatically provision and deploy our application.
-
-**🚀 What's on deck:**
-- Install Encore
-- Create your backend app from a template
-- Run locally
-- Deploy to Encore's free development cloud
-- 
-## 💽 Install Encore
-
-Install the Encore CLI to run your local environment:
-- **macOS:** `brew install encoredev/tap/encore`
-- **Linux:** `curl -L https://encore.dev/install.sh | bash`
-- **Windows:** `iwr https://encore.dev/install.ps1 | iex`
-
-## 🔨 Create your app
-
-We'll be starting from a template that has two services, each with a couple of API endpoints and their own databases.
-
-(This example is intended to show how you create microservices applications with Encore. However, Encore can just as easily be used to build monolithic architectures.)
+The backend in this starter has two services, each with a couple of API endpoints and their own databases.
 
 This is what the architecture looks like:
 
@@ -58,12 +40,10 @@ When deploying, Encore automatically [provisions the required infrastructure](ht
 
 Encore treats SQL databases as logical resources and natively supports **PostgreSQL** databases.
 
-To start using a database you only need to [define the schema](https://encore.dev/docs/primitives/databases#defining-a-database-schema) by creating a migration file. Encore takes care of [provisioning the database](https://encore.dev/docs/primitives/databases#provisioning-databases), running new schema migrations during deploys, and connecting to it.
+To create a database, import `encore.dev/storage/sqldb` and call `sqldb.NewDatabase`, assigning the result to a package-level variable.
+Databases must be created from within an [Encore service](/docs/primitives/services-and-apis).
 
-### Defining database schemas
-
-Database schemas are defined by creating *migration files* in a directory named `migrations`
-within an Encore service package. As you can see in this example, the database schema is defined in the migration file `1_create_table.up.sql`.
+You [define the schema](https://encore.dev/docs/primitives/databases#defining-a-database-schema) by creating a migration file. Encore takes care of [provisioning the database](https://encore.dev/docs/primitives/databases#provisioning-databases), running new schema migrations during deploys, and connecting to it.
 
 ## Using the API
 
