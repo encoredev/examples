@@ -24,7 +24,13 @@ const LoginPage: FC = () => {
           </h2>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className="flex w-full justify-center">
+            <span className="mb-5 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
+              Example app - accepts any credentials
+            </span>
+          </div>
+
           <Form className="space-y-6" method="post">
             <div>
               <label
