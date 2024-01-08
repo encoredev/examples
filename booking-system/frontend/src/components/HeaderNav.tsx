@@ -13,7 +13,7 @@ const HeaderNav: FC = () => {
         <div className="flex flex-1">
           <a href="/frontend/" className="-m-1.5 p-1.5">
             <h2 className="text-2xl font-bold leading-7 text-white tracking-tight">
-              Booking Calendar
+              Appointment Booking
             </h2>
           </a>
         </div>
