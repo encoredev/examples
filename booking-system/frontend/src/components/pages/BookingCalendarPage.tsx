@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useBookingReducer } from "../../lib/bookingReducer";
 import WeekViewHeader from "../calendar/WeekViewHeader";
 import WeekViewDaysRow from "../calendar/WeekViewDaysRow";
@@ -9,10 +9,16 @@ import WeekViewAvailability from "../calendar/WeekViewAvailability";
 import BookableEvents from "../calendar/BookableEvents";
 import { BookingCalendarTimeIndicator } from "../calendar/CalendarTimeIndicator";
 import BookingModal from "../BookingModal";
+import scrollToTime from "../../lib/scrollToTime";
 
 export default function BookingCalendarPage() {
   const { state, dispatch } = useBookingReducer();
   const reducerProps = { state, dispatch };
+  const container = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollToTime(container, 7);
+  }, [state.displayedDays]);
 
   return (
     <div className="p-4 h-[calc(100vh-80px)] overflow-hidden">
@@ -24,7 +30,10 @@ export default function BookingCalendarPage() {
       <div className="flex flex-col h-full border border-gray-300">
         <WeekViewHeader {...reducerProps} />
 
-        <div className="isolate flex flex-auto flex-col overflow-auto bg-white">
+        <div
+          ref={container}
+          className="isolate flex flex-auto flex-col overflow-auto bg-white"
+        >
           <div
             style={{ width: "165%" }}
             className="flex flex-none flex-col max-w-none md:max-w-full"

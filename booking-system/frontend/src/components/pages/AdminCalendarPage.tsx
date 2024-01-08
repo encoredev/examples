@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useRef } from "react";
 import MonthViewCalendar from "../calendar/MonthViewCalendar";
 import CalendarHourRows from "../calendar/CalendarHourRows";
 import { AdminCalendarTimeIndicator } from "../calendar/CalendarTimeIndicator";
@@ -6,17 +6,23 @@ import DayViewHeader from "../calendar/DayViewHeader";
 import { useAdminReducer } from "../../lib/adminReducer";
 import DayViewEventGrid from "../calendar/DayViewEventGrid";
 import ScheduledEvents from "../calendar/ScheduledEvents";
+import scrollToTime from "../../lib/scrollToTime";
 
 const AdminCalendarPage: FC = () => {
   const { state, dispatch } = useAdminReducer();
   const reducerProps = { state, dispatch };
+  const container = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollToTime(container, 7);
+  }, [state.displayedDay]);
 
   return (
     <div className="flex flex-col h-screen">
       <DayViewHeader {...reducerProps} />
 
       <div className="isolate flex flex-auto overflow-hidden bg-white">
-        <div className="flex flex-auto flex-col overflow-auto">
+        <div ref={container} className="flex flex-auto flex-col overflow-auto">
           <div className="flex w-full flex-auto">
             <div className="w-14 flex-none bg-white ring-1 ring-gray-100" />
             <div className="grid flex-auto grid-cols-1 grid-rows-1">
