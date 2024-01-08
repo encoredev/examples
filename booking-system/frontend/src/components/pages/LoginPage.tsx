@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Form, LoaderFunctionArgs, redirect } from "react-router-dom";
+import { Form, Link, LoaderFunctionArgs, redirect } from "react-router-dom";
 import Cookies from "js-cookie";
 
 export const action = async ({ request }: LoaderFunctionArgs) => {
@@ -11,7 +11,7 @@ export const action = async ({ request }: LoaderFunctionArgs) => {
   // TODO: Actually authenticate
   Cookies.set("auth-token", "abc123");
 
-  return redirect("/frontend/admin");
+  return redirect("/admin");
 };
 
 const LoginPage: FC = () => {
@@ -54,12 +54,12 @@ const LoginPage: FC = () => {
                   Password
                 </label>
                 <div className="text-sm">
-                  <a
-                    href="#"
+                  <Link
+                    to="#"
                     className="font-semibold text-indigo-600 hover:text-indigo-500"
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="mt-2">

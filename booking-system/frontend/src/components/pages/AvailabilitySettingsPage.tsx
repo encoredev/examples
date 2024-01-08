@@ -5,6 +5,7 @@ import { APIError, booking } from "../../lib/client";
 import {
   Form,
   LoaderFunctionArgs,
+  useActionData,
   useRouteError,
   useSubmit,
 } from "react-router-dom";
@@ -16,13 +17,14 @@ export const action =
     const json = (await request.json()) as booking.Availability[];
     await setAvailability(json);
     await queryClient.invalidateQueries({ queryKey: ["availability"] });
-    return { ok: true };
+    return { ok: true, saved: true };
   };
 
 const AvailabilitySettingsPage: FC = () => {
   const submit = useSubmit();
   const error = useRouteError() as APIError | undefined;
   const { data } = useQuery(availabilityQuery());
+  const actionData = useActionData() as { saved: boolean } | undefined;
   const [availability, setAvailability] = useState<booking.Availability[]>([]);
 
   useEffect(() => {
@@ -120,9 +122,11 @@ const AvailabilitySettingsPage: FC = () => {
           })}
         </ul>
 
-        {error && (
-          <p className="mt-4 text-sm text-red-600" id="email-error">
-            {error.message}
+        {error && <p className="mt-4 text-sm text-red-600">{error.message}</p>}
+
+        {actionData?.saved && (
+          <p className="mt-4 text-sm text-green-600">
+            Settings saved successfully
           </p>
         )}
 
