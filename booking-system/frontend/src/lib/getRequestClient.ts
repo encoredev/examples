@@ -8,11 +8,7 @@ import Client, { Environment, Local } from "./client";
  */
 const getRequestClient = () => {
   const token = Cookies.get("auth-token");
-  const env = window.location.host.includes("localhost")
-    ? Local
-    : Environment("staging");
-
-  return new Client(env, {
+  return new Client(window.location.origin, {
     auth: { Authorization: `Bearer ${token}` },
   });
 };

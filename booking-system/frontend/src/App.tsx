@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  createBrowserRouter,
+  createHashRouter,
   Outlet,
   redirect,
   RouterProvider,
@@ -24,10 +24,10 @@ const queryClient = new QueryClient({
   },
 });
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     id: "root",
-    path: "frontend",
+    path: "",
     children: [
       {
         path: "",
@@ -53,12 +53,18 @@ const router = createBrowserRouter([
         path: "logout",
         loader() {
           Cookies.remove("auth-token");
-          return redirect("/frontend/");
+          return redirect("/");
         },
       },
       {
         path: "admin",
         element: <AdminLayout />,
+        loader() {
+          if (!Cookies.get("auth-token")) {
+            return redirect("/login");
+          }
+          return null;
+        },
         children: [
           {
             index: true,

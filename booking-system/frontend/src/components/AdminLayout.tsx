@@ -1,4 +1,4 @@
-import { FC, Fragment, PropsWithChildren, useState } from "react";
+import { FC, Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -6,22 +6,22 @@ import {
   ClockIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 
 const navigation = [
   {
     name: "Calendar",
-    href: "/frontend/admin",
+    to: "/admin",
     icon: CalendarIcon,
   },
   {
     name: "Availability",
-    href: "/frontend/admin/availability",
+    to: "/admin/availability",
     icon: ClockIcon,
   },
 ];
 
-const actions = [{ name: "Log out", href: "/frontend/logout" }];
+const actions = [{ name: "Log out", to: "/logout" }];
 
 function classNames(...classes: (boolean | string)[]) {
   return classes.filter(Boolean).join(" ");
@@ -29,8 +29,10 @@ function classNames(...classes: (boolean | string)[]) {
 
 const AdminLayout: FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
+
   const isCurrentPage = (href: string) => {
-    return window.location.pathname === href;
+    return location.pathname === href;
   };
 
   return (
@@ -101,10 +103,10 @@ const AdminLayout: FC = () => {
                           <ul role="list" className="-mx-2 space-y-1">
                             {navigation.map((item) => (
                               <li key={item.name}>
-                                <a
-                                  href={item.href}
+                                <Link
+                                  to={item.to}
                                   className={classNames(
-                                    isCurrentPage(item.href)
+                                    isCurrentPage(item.to)
                                       ? "bg-gray-800 text-white"
                                       : "text-gray-400 hover:text-white hover:bg-gray-800",
                                     "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
@@ -115,7 +117,7 @@ const AdminLayout: FC = () => {
                                     aria-hidden="true"
                                   />
                                   {item.name}
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>
@@ -127,8 +129,8 @@ const AdminLayout: FC = () => {
                           <ul role="list" className="-mx-2 mt-2 space-y-1">
                             {actions.map((action) => (
                               <li key={action.name}>
-                                <a
-                                  href={action.href}
+                                <Link
+                                  to={action.to}
                                   className={classNames(
                                     "text-gray-400 hover:text-white hover:bg-gray-800",
                                     "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
@@ -137,7 +139,7 @@ const AdminLayout: FC = () => {
                                   <span className="truncate">
                                     {action.name}
                                   </span>
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>
@@ -165,10 +167,10 @@ const AdminLayout: FC = () => {
                   <ul role="list" className="-mx-2 space-y-1">
                     {navigation.map((item) => (
                       <li key={item.name}>
-                        <a
-                          href={item.href}
+                        <Link
+                          to={item.to}
                           className={classNames(
-                            isCurrentPage(item.href)
+                            isCurrentPage(item.to)
                               ? "bg-gray-800 text-white"
                               : "text-gray-400 hover:text-white hover:bg-gray-800",
                             "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
@@ -179,7 +181,7 @@ const AdminLayout: FC = () => {
                             aria-hidden="true"
                           />
                           {item.name}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -191,15 +193,15 @@ const AdminLayout: FC = () => {
                   <ul role="list" className="-mx-2 mt-2 space-y-1">
                     {actions.map((action) => (
                       <li key={action.name}>
-                        <a
-                          href={action.href}
+                        <Link
+                          to={action.to}
                           className={classNames(
                             "text-gray-400 hover:text-white hover:underline",
                             "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
                           )}
                         >
                           <span className="truncate">{action.name}</span>
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>

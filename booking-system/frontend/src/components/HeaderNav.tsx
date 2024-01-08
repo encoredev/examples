@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Link } from "react-router-dom";
 
 const HeaderNav: FC = () => {
   const isLoginPage = window.location.pathname.includes("login");
@@ -19,12 +20,12 @@ const HeaderNav: FC = () => {
 
         {!isLoginPage && (
           <div className="flex flex-1 justify-end">
-            <a
-              href="/frontend/login"
+            <Link
+              to="login"
               className="text-sm font-semibold leading-6 text-white"
             >
               Admin <span aria-hidden="true">&rarr;</span>
-            </a>
+            </Link>
           </div>
         )}
       </nav>
