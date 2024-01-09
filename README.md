@@ -36,7 +36,7 @@ environment. Use the appropriate command for your system:
 | [next-starter](nextjs-starter)             | Next.js + Encore Web App Starter                                 | APIs, Auth, Frontend                             | [Node.js](https://nodejs.org/en)                                        |
 | [next-auth0-starter](nextjs-auth0-starter) | Next.js + Auth0 + Encore Web App Starter                         | APIs, Auth, Frontend                             | [Node.js](https://nodejs.org/en)                                        |
 | [react-starter](react-starter)             | React + Encore Web App Starter                                   | APIs, Auth, Frontend                             | [Node.js](https://nodejs.org/en)                                        |
-| [booking-system](booking-system)           | Appointment booking system example using data scrubbing and sqlc | APIs, Auth, SQL Database, Frontend               | [Docker](https://docker.com/)                                           |
+| [booking-system](booking-system)           | Appointment Booking System Starter using data scrubbing and sqlc | APIs, Auth, SQL Database, Frontend               | [Docker](https://docker.com/)                                           |
 
 ### Running Starters
 
