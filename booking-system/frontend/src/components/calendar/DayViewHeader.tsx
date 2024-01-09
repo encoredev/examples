@@ -13,7 +13,7 @@ const DayViewHeader: FC<AdminReducerProps> = ({ state, dispatch }) => {
           </time>
         </h1>
         <p className="mt-1 text-sm text-gray-500">
-          {format(state.displayedDay, "cccc")}
+          {format(state.displayedDay, "cccc")} - UTC time
         </p>
       </div>
       <div className="flex items-center">

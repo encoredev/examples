@@ -1,6 +1,7 @@
 import getRequestClient from "./getRequestClient";
 import { booking } from "./client";
 import { format } from "date-fns";
+import { useQueryClient } from "@tanstack/react-query";
 
 const client = getRequestClient();
 
@@ -38,12 +39,7 @@ export const bookableSlotsQuery = (date: Date) => {
     queryKey: ["bookableSlots", dateStr],
     queryFn: async (): Promise<booking.BookableSlot[]> => {
       const resp = await client.booking.GetBookableSlots(dateStr);
-      return (
-        resp.Slots.map(({ start, end }) => ({
-          start: start.split("Z")[0],
-          end: end.split("Z")[0],
-        })) || []
-      );
+      return resp.Slots || [];
     },
   };
 };
@@ -52,5 +48,35 @@ export const scheduledEventsQuery = () => {
   return {
     queryKey: ["scheduledEvents"],
     queryFn: async () => await client.booking.ListBookings(),
+  };
+};
+
+export const confirmBookingMutation = (onSuccess: () => void) => {
+  const queryClient = useQueryClient();
+
+  return {
+    mutationFn: (params: booking.BookParams) => {
+      return client.booking.Book({ ...params, start: params.start });
+    },
+    onSuccess: async () => {
+      onSuccess();
+      await queryClient.invalidateQueries({
+        queryKey: ["bookableSlots"],
+      });
+    },
+  };
+};
+
+export const deleteBookingMutation = (onSuccess: () => void) => {
+  const queryClient = useQueryClient();
+
+  return {
+    mutationFn: (id: number) => {
+      return client.booking.DeleteBooking(id);
+    },
+    onSuccess: async () => {
+      onSuccess();
+      await queryClient.invalidateQueries({ queryKey: ["scheduledEvents"] });
+    },
   };
 };

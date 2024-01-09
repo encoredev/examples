@@ -17,7 +17,7 @@ export default function BookingCalendarPage() {
   const container = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    scrollToTime(container, 7);
+    scrollToTime(container, 7); // Scroll to 07:00
   }, [state.displayedDays]);
 
   return (

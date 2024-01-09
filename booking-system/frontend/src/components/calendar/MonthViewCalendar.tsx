@@ -14,12 +14,17 @@ import {
 } from "date-fns";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { AdminReducerProps } from "../../lib/adminReducer";
+import { useQuery } from "@tanstack/react-query";
+import { scheduledEventsQuery } from "../../lib/api";
 
 function classNames(...classes: (string | boolean)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 const MonthViewCalendar: FC<AdminReducerProps> = ({ state, dispatch }) => {
+  const { data: scheduledEvents } = useQuery(scheduledEventsQuery());
+  const eventArray = scheduledEvents?.bookings.flatMap((b) => b.start) || [];
+
   const today = startOfToday();
   const [currMonth, setCurrMonth] = useState(() => format(today, "MMM-yyyy"));
   let firstDayOfMonth = parse(currMonth, "MMM-yyyy", new Date());
@@ -75,13 +80,15 @@ const MonthViewCalendar: FC<AdminReducerProps> = ({ state, dispatch }) => {
           const isSelected = isSameDay(day, state.displayedDay);
           const isCurrentMonth = isSameMonth(day, firstDayOfMonth);
           const isToday = isTodayFns(day);
+          const hasEvent = eventArray.some((e) => isSameDay(new Date(e), day));
+
           return (
             <button
               key={dayIdx}
               type="button"
               onClick={() => dispatch({ type: "setDay", value: day })}
               className={classNames(
-                "py-1.5 hover:bg-gray-100 focus:z-10",
+                "relative py-1.5 hover:bg-gray-100 focus:z-10",
                 isCurrentMonth ? "bg-white" : "bg-gray-50",
                 isSelected || (isToday && "font-semibold"),
                 isSelected && "text-white",
@@ -104,6 +111,10 @@ const MonthViewCalendar: FC<AdminReducerProps> = ({ state, dispatch }) => {
               >
                 {format(day, "d")}
               </time>
+
+              {hasEvent && (
+                <figure className="absolute bottom-1 right-1 h-[5px] w-[5px] rounded-full bg-gray-500" />
+              )}
             </button>
           );
         })}

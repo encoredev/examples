@@ -1,10 +1,12 @@
 import React from "react";
 import { add, sub } from "date-fns";
 import { booking } from "./client";
+import getCurrentUTCDate from "./getCurrentUTCDate";
 
 export interface AdminState {
   events: booking.Booking[];
   displayedDay: Date;
+  modalEvent?: booking.Booking;
 }
 
 export type AdminAction =
@@ -20,6 +22,13 @@ export type AdminAction =
     }
   | {
       type: "goToToday";
+    }
+  | {
+      type: "showScheduledEventModal";
+      value: booking.Booking;
+    }
+  | {
+      type: "hideScheduledEventModal";
     }
   | {
       type: "setDay";
@@ -53,7 +62,15 @@ export function adminReducer(
     }
 
     case "goToToday": {
-      return { ...state, displayedDay: new Date() };
+      return { ...state, displayedDay: getCurrentUTCDate() };
+    }
+
+    case "showScheduledEventModal": {
+      return { ...state, modalEvent: action.value };
+    }
+
+    case "hideScheduledEventModal": {
+      return { ...state, modalEvent: undefined };
     }
 
     case "setDay": {
@@ -64,7 +81,7 @@ export function adminReducer(
 
 export const useAdminReducer = () => {
   const [state, dispatch] = React.useReducer(adminReducer, {
-    displayedDay: new Date(),
+    displayedDay: getCurrentUTCDate(),
     events: [],
   });
 
