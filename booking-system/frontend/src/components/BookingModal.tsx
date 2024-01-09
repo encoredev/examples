@@ -1,14 +1,11 @@
 import React, { FC, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/solid";
-import { format, intervalToDuration } from "date-fns";
-import { CalendarIcon, ClockIcon } from "@heroicons/react/24/outline";
 import Modal from "./Modal";
 import { booking } from "../lib/client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import getRequestClient from "../lib/getRequestClient";
-
-const client = getRequestClient();
+import { useMutation } from "@tanstack/react-query";
+import EventDetails from "./EventDetails";
+import { confirmBookingMutation } from "../lib/api";
 
 const BookingModal: FC<{
   event?: booking.BookableSlot;
@@ -20,17 +17,9 @@ const BookingModal: FC<{
     setClose();
   };
 
-  const queryClient = useQueryClient();
-
-  const confirmBooking = useMutation({
-    mutationFn: (params: booking.BookParams) => {
-      return client.booking.Book({ ...params, start: params.start + "Z" });
-    },
-    onSuccess: async () => {
-      setIsBooked(true);
-      await queryClient.invalidateQueries({ queryKey: ["bookableSlots"] });
-    },
-  });
+  const confirmBooking = useMutation(
+    confirmBookingMutation(() => setIsBooked(true)),
+  );
 
   return (
     <Modal open={!!event} setOpen={setClose}>
@@ -75,7 +64,7 @@ const BookingForm: FC<{
             </Dialog.Title>
 
             <div className="mt-4 w-full">
-              <DateAndDuration event={event} />
+              <EventDetails event={event} />
 
               <form className="space-y-4 mt-4">
                 <div>
@@ -173,7 +162,7 @@ const BookingConfirmation: FC<{
           </div>
 
           <div className="flex flex-col mt-4 border border-gray-300 rounded p-4 w-full">
-            <DateAndDuration event={event} />
+            <EventDetails event={event} />
           </div>
         </div>
       </div>
@@ -187,33 +176,5 @@ const BookingConfirmation: FC<{
         </button>
       </div>
     </div>
-  );
-};
-
-const DateAndDuration: FC<{ event: booking.BookableSlot }> = ({ event }) => {
-  const start = new Date(event.start);
-  const end = new Date(event.end);
-  const duration = intervalToDuration({ start, end });
-  const durationStr =
-    (duration.hours || 0) + (duration.minutes || 0) / 60 + "h";
-  const dateStr =
-    format(start, "HH:mm") +
-    " - " +
-    format(end, "HH:mm") +
-    ", " +
-    format(start, "EEEE, LLLL dd, yyyy");
-
-  return (
-    <ul className="divide-y divide-gray-200 w-full">
-      <li className="flex items-center space-x-2 pb-2">
-        <CalendarIcon className="h-5 w-5" />{" "}
-        <span className="text-gray-500">{dateStr}</span>
-      </li>
-
-      <li className="flex items-center space-x-2 pt-2">
-        <ClockIcon className="h-5 w-5" />{" "}
-        <span className="text-gray-500">{durationStr}</span>
-      </li>
-    </ul>
   );
 };

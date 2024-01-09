@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { format, parse } from "date-fns";
+import getCurrentUTCDate from "../../lib/getCurrentUTCDate";
 
 // 0, 1, 2, ..., 23
 const hours = [...Array.from(Array(24).keys())];
@@ -13,7 +14,7 @@ export const CalendarHourRows: FC = () => {
     >
       <div className="row-end-1 h-7"></div>
       {hours.map((hour) => {
-        const p = parse(hour.toString(), "H", new Date());
+        const p = parse(hour.toString(), "H", getCurrentUTCDate());
         return (
           <React.Fragment key={hour}>
             <div>

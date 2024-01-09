@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { format, isSameDay } from "date-fns";
 import { BookingReducerProps } from "../../lib/bookingReducer";
+import getCurrentUTCDate from "../../lib/getCurrentUTCDate";
 
 const WeekViewDaysRow: FC<BookingReducerProps> = ({ state }) => {
   return (
@@ -9,7 +10,7 @@ const WeekViewDaysRow: FC<BookingReducerProps> = ({ state }) => {
         <div className="col-end-1 w-14" />
 
         {state.displayedDays.map((day) => {
-          const isToday = isSameDay(new Date(), day);
+          const isToday = isSameDay(getCurrentUTCDate(), day);
 
           return (
             <div

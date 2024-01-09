@@ -9,22 +9,25 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { scheduledEventsQuery } from "../../lib/api";
 import { booking } from "../../lib/client";
+import { AdminReducerProps } from "../../lib/adminReducer";
+import getCurrentUTCDate from "../../lib/getCurrentUTCDate";
+import getUTCDateFromISO from "../../lib/getUTCDateFromISO";
 
-const ScheduledEvents: FC<{ displayedDay: Date }> = ({ displayedDay }) => {
+const ScheduledEvents: FC<AdminReducerProps> = ({ state, dispatch }) => {
   const { data: scheduledEvents } = useQuery(scheduledEventsQuery());
 
   const eventsToday = useMemo(() => {
     return (scheduledEvents?.bookings || []).filter((event) => {
-      const start = new Date(event.start);
-      return isSameDay(start, displayedDay);
+      const start = getUTCDateFromISO(event.start);
+      return isSameDay(start, state.displayedDay);
     });
-  }, [scheduledEvents, displayedDay]);
+  }, [scheduledEvents, state.displayedDay]);
 
   return (
     <>
       {eventsToday.map((event) => {
-        const start = new Date(event.start);
-        const end = new Date(event.end);
+        const start = getUTCDateFromISO(event.start);
+        const end = getUTCDateFromISO(event.end);
         const minutesFromMidnight = getHours(start) * 60 + getMinutes(start);
         const duration = intervalToDuration({ start, end });
         const minutesDuration =
@@ -33,12 +36,12 @@ const ScheduledEvents: FC<{ displayedDay: Date }> = ({ displayedDay }) => {
         return (
           <li
             key={event.Email + event.start}
-            className="relative mt-px flex"
+            className="relative mt-[5px] flex col-start-1"
             style={{
               gridRow: minutesFromMidnight + " / span " + minutesDuration,
             }}
           >
-            <Event event={event} />
+            <Event event={event} state={state} dispatch={dispatch} />
           </li>
         );
       })}
@@ -48,10 +51,14 @@ const ScheduledEvents: FC<{ displayedDay: Date }> = ({ displayedDay }) => {
 
 export default ScheduledEvents;
 
-const Event: FC<{ event: booking.Booking }> = ({ event }) => {
-  const start = new Date(event.start);
-  const isCurrentDay = isSameDay(new Date(), start);
-  const isPastEvent = start < new Date();
+const Event: FC<AdminReducerProps & { event: booking.Booking }> = ({
+  event,
+  dispatch,
+}) => {
+  const start = getUTCDateFromISO(event.start);
+  const end = getUTCDateFromISO(event.end);
+  const isCurrentDay = isSameDay(getCurrentUTCDate(), start);
+  const isPastEvent = start < getCurrentUTCDate();
   const color = useMemo(() => {
     if (isPastEvent) return "gray";
     if (isCurrentDay) return "pink";
@@ -60,15 +67,20 @@ const Event: FC<{ event: booking.Booking }> = ({ event }) => {
 
   return (
     <div
+      onClick={() =>
+        dispatch({ type: "showScheduledEventModal", value: event })
+      }
       className={`
         group absolute inset-1 flex flex-col overflow-y-auto rounded-lg
         bg-${color}-50 p-2 text-xs leading-5
         hover:bg-${color}-100 cursor-pointer
       `}
     >
-      <p className={`order-1 font-semibold text-${color}-700`}>{event.Email}</p>
+      <p className={`font-semibold text-${color}-700`}>{event.Email}</p>
       <p className={`text-${color}-500 group-hover:text-${color}-700`}>
-        <time dateTime={start.toString()}>{format(start, "HH:mm")}</time>
+        <time dateTime={start.toString()}>
+          {format(start, "HH:mm")} - {format(end, "HH:mm")}
+        </time>
       </p>
     </div>
   );

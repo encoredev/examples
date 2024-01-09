@@ -7,6 +7,7 @@ import { useAdminReducer } from "../../lib/adminReducer";
 import DayViewEventGrid from "../calendar/DayViewEventGrid";
 import ScheduledEvents from "../calendar/ScheduledEvents";
 import scrollToTime from "../../lib/scrollToTime";
+import ScheduledEventModal from "../ScheduledEventModal";
 
 const AdminCalendarPage: FC = () => {
   const { state, dispatch } = useAdminReducer();
@@ -14,11 +15,16 @@ const AdminCalendarPage: FC = () => {
   const container = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    scrollToTime(container, 7);
+    scrollToTime(container, 7); // Scroll to 07:00
   }, [state.displayedDay]);
 
   return (
     <div className="flex flex-col h-screen">
+      <ScheduledEventModal
+        event={state.modalEvent}
+        setClose={() => dispatch({ type: "hideScheduledEventModal" })}
+      />
+
       <DayViewHeader {...reducerProps} />
 
       <div className="isolate flex flex-auto overflow-hidden bg-white">
@@ -29,7 +35,7 @@ const AdminCalendarPage: FC = () => {
               <CalendarHourRows />
 
               <DayViewEventGrid>
-                <ScheduledEvents displayedDay={state.displayedDay} />
+                <ScheduledEvents {...reducerProps} />
                 <AdminCalendarTimeIndicator displayedDay={state.displayedDay} />
               </DayViewEventGrid>
             </div>

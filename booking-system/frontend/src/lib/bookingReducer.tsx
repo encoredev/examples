@@ -7,6 +7,7 @@ import {
   subWeeks,
 } from "date-fns";
 import { booking } from "./client";
+import getCurrentUTCDate from "./getCurrentUTCDate";
 
 const getWeekDaysForDate = (date: Date) => {
   return eachDayOfInterval({
@@ -72,7 +73,7 @@ export function bookingReducer(
     }
 
     case "goToToday": {
-      const displayedDays = getWeekDaysForDate(new Date());
+      const displayedDays = getWeekDaysForDate(getCurrentUTCDate());
       return { ...state, displayedDays };
     }
 
