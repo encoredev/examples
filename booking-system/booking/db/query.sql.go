@@ -91,6 +91,18 @@ func (q *Queries) ListBookings(ctx context.Context) ([]Booking, error) {
 	return items, nil
 }
 
+const deleteBooking = `-- name: DeleteBooking :exec
+DELETE FROM booking WHERE id = $1;
+`
+
+func (q *Queries) DeleteBooking(ctx context.Context, id int) error {
+	_, err := q.db.Exec(ctx, deleteBooking, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 const listBookingsBetween = `-- name: ListBookingsBetween :many
 SELECT id, start_time, end_time, email, created_at FROM booking
 WHERE start_time >= $1 AND end_time <= $2
