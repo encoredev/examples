@@ -2,7 +2,7 @@
 
 The example in this starter is an Appointment Booking System with both a user facing part (finding and booking appointments) and a admin part (setting availability and managing scheduled appointments). 
 
-When a new appointment is booked, the backend sends a confirmation email to the user (utilizing the [Sendgrid Encore Bit integration](../bits/sendgrid)).
+When a new appointment is booked, the backend sends a confirmation email to the user (utilizing the [Sendgrid Encore Bit integration](https://github.com/encoredev/examples/tree/main/bits/sendgrid)).
 
 It has a React frontend with both a user facing part and an admin dashboard. Authentication is required for accessing admin dashboard.
 
