@@ -1,5 +1,11 @@
 # Booking System Example
 
+The example in this starter is an Appointment Booking System with both a user facing part (finding and booking appointments) and a admin part (setting availability and managing scheduled appointments). 
+
+When a new appointment is booked, the backend sends a confirmation email to the user (utilizing the [Sendgrid Encore Bit integration](../bits/sendgrid)).
+
+It has a React frontend with both a user facing part and an admin dashboard. Authentication is required for accessing admin dashboard.
+
 ## Developing locally
 
 When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone this example with this command.
