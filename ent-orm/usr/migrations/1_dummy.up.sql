@@ -1,0 +1,1 @@
+--Empty SQL migration to ensure the database is created by Encore
