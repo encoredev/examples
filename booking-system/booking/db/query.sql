@@ -19,3 +19,6 @@ WHERE start_time >= $1 AND end_time <= $2;
 
 -- name: ListBookings :many
 SELECT * FROM booking;
+
+-- name: DeleteBooking :exec
+DELETE FROM booking WHERE id = $1;
