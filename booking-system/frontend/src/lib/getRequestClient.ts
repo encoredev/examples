@@ -11,7 +11,7 @@ const getRequestClient = () => {
 
   const env = ["localhost", "127.0.0.1"].includes(window.location.hostname)
     ? Local
-    : Environment("staging");
+    : window.location.origin;
 
   return new Client(env, {
     auth: { Authorization: `Bearer ${token}` },
