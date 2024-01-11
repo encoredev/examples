@@ -2,6 +2,7 @@ package booking
 
 import (
 	"context"
+	"encore.app/sendgrid"
 	"time"
 
 	"encore.app/booking/db"
@@ -75,6 +76,25 @@ func Book(ctx context.Context, p *BookParams) error {
 	if err := tx.Commit(ctx); err != nil {
 		return eb.Cause(err).Code(errs.Unavailable).Msg("failed to commit transaction").Err()
 	}
+
+	formattedTime := pgtype.Timestamp{Time: p.Start, Valid: true}.Time.Format("2006-01-02 15:04")
+	_, err = sendgrid.Send(ctx, &sendgrid.SendParams{
+		From: sendgrid.Address{
+			Name:  "<your name>",
+			Email: "<your email>",
+		},
+		To: sendgrid.Address{
+			Email: p.Email,
+		},
+		Subject: "Booking Confirmation",
+		Text:    "Thank you for your booking!\nWe look forward to seeing you soon at " + formattedTime,
+		Html:    "",
+	})
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
