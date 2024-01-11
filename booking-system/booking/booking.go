@@ -142,6 +142,6 @@ func ListBookings(ctx context.Context) (*ListBookingsResponse, error) {
 }
 
 //encore:api auth method=DELETE path=/booking/:id
-func DeleteBooking(ctx context.Context, id int) error {
+func DeleteBooking(ctx context.Context, id int64) error {
 	return query.DeleteBooking(ctx, id)
 }
