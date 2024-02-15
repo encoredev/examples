@@ -3,13 +3,14 @@ package pexels
 
 import (
 	"encoding/json"
-	"encore.dev/rlog"
 	"fmt"
 	"net/http"
+
+	"encore.dev/rlog"
 )
 
 // Authorization is required for the Pexels API. All requests you make to the API will need to include your key.
-// Encore docs about secrets: https://encore.dev/docs/primitives/secrets
+// This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/primitives/secrets
 var secrets struct {
 	PexelsApiKey string
 }

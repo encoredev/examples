@@ -2,17 +2,21 @@ package auth
 
 import (
 	"context"
+	"net/url"
+
 	"encore.dev/beta/auth"
 	"encore.dev/beta/errs"
 	"github.com/coreos/go-oidc/v3/oidc"
-	"net/url"
 )
 
+// This is a service struct, learn more: https://encore.dev/docs/primitives/services-and-apis/service-structs
+//
 //encore:service
 type Service struct {
 	auth *Authenticator
 }
 
+// initService is automatically called by Encore when the service starts up.
 func initService() (*Service, error) {
 	authenticator, err := New()
 	if err != nil {
@@ -116,6 +120,9 @@ func (s *Service) Logout(ctx context.Context) (*LogoutResponse, error) {
 	}, nil
 }
 
+// This annotation tells Encore to run the function whenever an incoming API call contains authentication data.
+// Learn more: https://encore.dev/docs/develop/auth#the-auth-handler
+//
 //encore:authhandler
 func (s *Service) AuthHandler(ctx context.Context, token string) (auth.UID, error) {
 	oidcConfig := &oidc.Config{

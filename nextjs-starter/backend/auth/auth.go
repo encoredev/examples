@@ -28,6 +28,9 @@ func Login(ctx context.Context, params *LoginRequest) (*LoginResponse, error) {
 	return &LoginResponse{Token: TOKEN}, nil
 }
 
+// This annotation tells Encore to run the function whenever an incoming API call contains authentication data.
+// Learn more: https://encore.dev/docs/develop/auth#the-auth-handler
+//
 //encore:authhandler
 func AuthHandler(ctx context.Context, token string) (auth.UID, error) {
 	// Validate the token and look up the user id, for example by calling Firebase Auth: https://encore.dev/docs/how-to/firebase-auth

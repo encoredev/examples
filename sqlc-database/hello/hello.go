@@ -9,11 +9,14 @@ import (
 	"encore.dev/storage/sqldb"
 )
 
+// This is a service struct, learn more: https://encore.dev/docs/primitives/services-and-apis/service-structs
+//
 // encore:service
 type Service struct {
 	repo store.Querier
 }
 
+// initService is automatically called by Encore when the service starts up.
 func initService() (*Service, error) {
 	return &Service{
 		repo: store.New(db.Stdlib()),
@@ -56,6 +59,7 @@ func (s *Service) generateGreeting(ctx context.Context, name string) (string, er
 // Define a database named 'hello', using the database migrations
 // in the "./migrations" folder. Encore automatically provisions,
 // migrates, and connects to the database.
+// Learn more: https://encore.dev/docs/primitives/databases
 var db = sqldb.NewDatabase("hello", sqldb.DatabaseConfig{
 	Migrations: "./migrations",
 })

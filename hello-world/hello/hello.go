@@ -12,7 +12,10 @@ import (
 
 // ==================================================================
 
-// This is a simple REST API that responds with a personalized greeting.
+// This is a public REST API that responds with a personalized greeting.
+// Learn more about defining APIs with Encore:
+// https://encore.dev/docs/primitives/services-and-apis
+//
 // To call it, run in your terminal:
 //
 //	curl http://localhost:4000/hello/World
@@ -29,9 +32,9 @@ type Response struct {
 
 // ==================================================================
 
-// Encore comes with a built-in development dashboard for
+// Encore comes with a built-in local development dashboard for
 // exploring your API, viewing documentation, debugging with
-// distributed tracing, and more. Visit your API URL in the browser:
+// distributed tracing, and more:
 //
 //     http://localhost:9400
 //
@@ -48,7 +51,9 @@ type Response struct {
 //
 // 2. To continue exploring Encore, check out one of these topics:
 //
-//    Building a Slack bot:  https://encore.dev/docs/tutorials/slack-bot
-//    Building a REST API:   https://encore.dev/docs/tutorials/rest-api
-//    Using SQL databases:   https://encore.dev/docs/develop/databases
-//    Authenticating users:  https://encore.dev/docs/develop/auth
+// 	  Defining APIs and Services:	 https://encore.dev/docs/primitives/services-and-apis
+//    Using SQL databases:  		 https://encore.dev/docs/develop/databases
+//    Authenticating users: 		 https://encore.dev/docs/develop/auth
+//    Building a Slack bot: 		 https://encore.dev/docs/tutorials/slack-bot
+//    Building a REST API:  		 https://encore.dev/docs/tutorials/rest-api
+//	  Building an Event-Driven app:  https://encore.dev/docs/tutorials/uptime

@@ -50,6 +50,7 @@ func generateGreeting(ctx context.Context, name string) (greeting string, err er
 // Define a database named 'hello', using the database migrations
 // in the "./migrations" folder. Encore automatically provisions,
 // migrates, and connects to the database.
+// Learn more: https://encore.dev/docs/primitives/databases
 var db = sqldb.NewDatabase("hello", sqldb.DatabaseConfig{
 	Migrations: "./migrations",
 })

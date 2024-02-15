@@ -150,6 +150,7 @@ func Update(ctx context.Context, params *UpdateParams) (*Card, error) {
 // Define a database named 'card', using the database migrations
 // in the "./migrations" folder. Encore automatically provisions,
 // migrates, and connects to the database.
+// Learn more: https://encore.dev/docs/primitives/databases
 var db = sqldb.NewDatabase("card", sqldb.DatabaseConfig{
 	Migrations: "./migrations",
 })
