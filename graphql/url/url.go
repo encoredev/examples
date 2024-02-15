@@ -95,6 +95,7 @@ func insert(ctx context.Context, id, url string) error {
 // Define a database named 'url', using the database migrations
 // in the "./migrations" folder. Encore automatically provisions,
 // migrates, and connects to the database.
+// Learn more: https://encore.dev/docs/primitives/databases
 var db = sqldb.NewDatabase("url", sqldb.DatabaseConfig{
 	Migrations: "./migrations",
 })

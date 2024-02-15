@@ -14,7 +14,7 @@ import (
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
-// Encore docs about secrets: https://encore.dev/docs/primitives/secrets
+// This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/primitives/secrets
 var secrets struct {
 	SendGridAPIKey string
 }
@@ -36,8 +36,9 @@ type SendResponse struct {
 	MessageID string `json:"message_id"` // Message ID in PubSub
 }
 
-// Send publishes an email to PubSub for further asynchronous sending using the SendGrid API.
-// https://docs.sendgrid.com/api-reference/mail-send/mail-send
+// Send is a private endpoint that publishes an email to Pub/Sub for asynchronous sending using the SendGrid API.
+// See SendGrid API docs: https://docs.sendgrid.com/api-reference/mail-send/mail-send
+// Learn more about Encore's API access controls: https://encore.dev/docs/primitives/services-and-apis#access-controls
 //
 //encore:api private method=POST path=/sendgrid
 func Send(ctx context.Context, params *SendParams) (*SendResponse, error) {
@@ -67,6 +68,7 @@ type EmailPreparedEvent struct {
 	HTMLContent      string
 }
 
+// This creates a Pub/Sub topic, learn more: https://encore.dev/docs/primitives/pubsub
 var Emails = pubsub.NewTopic[*EmailPreparedEvent]("emails", pubsub.TopicConfig{
 	DeliveryGuarantee: pubsub.AtLeastOnce,
 })
@@ -80,8 +82,8 @@ var _ = pubsub.NewSubscription(
 	},
 )
 
-// To sending email, PubSub is used to control concurrency and avoid DDoS Sendgrid API.
-// https://encore.dev/docs/primitives/pubsub
+// For sending email, Pub/Sub is used to control concurrency and avoid DDoS Sendgrid API.
+// Learn more: https://encore.dev/docs/primitives/pubsub
 func sendEmail(ctx context.Context, event *EmailPreparedEvent) error {
 	// Creating an email
 	email := mail.NewSingleEmail(&event.From, event.Subject, &event.To, event.PlainTextContent, event.HTMLContent)

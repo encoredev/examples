@@ -11,18 +11,25 @@ import (
 
 //go:generate go run github.com/99designs/gqlgen generate
 
+// This is a service struct, learn more: https://encore.dev/docs/primitives/services-and-apis/service-structs
+//
 //encore:service
 type Service struct {
 	srv        *handler.Server
 	playground http.Handler
 }
 
+// initService is automatically called by Encore when the service starts up.
 func initService() (*Service, error) {
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &Resolver{}}))
 	pg := playground.Handler("GraphQL Playground", "/graphql")
 	return &Service{srv, pg}, nil
 }
 
+// Exposes the graphql API using a raw endpoint.
+//
+// Learn more: https://encore.dev/docs/primitives/services-and-apis#raw-endpoints
+//
 //encore:api public raw path=/graphql
 func (s *Service) Query(w http.ResponseWriter, req *http.Request) {
 	s.srv.ServeHTTP(w, req)

@@ -15,7 +15,8 @@ var (
 	handler   = http.StripPrefix("/frontend/", http.FileServer(http.FS(assets)))
 )
 
-// Serve serves the frontend for development.
+// Serve serves the frontend for development using a raw endpoint.
+// Learn more: https://encore.dev/docs/primitives/services-and-apis#raw-endpoints
 // For production use we recommend deploying the frontend
 // using Vercel, Netlify, or similar.
 //

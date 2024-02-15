@@ -155,6 +155,7 @@ func mergeCardsAndColumns(cols []*Column, cards []*card.Card) {
 // Define a database named 'board', using the database migrations
 // in the "./migrations" folder. Encore automatically provisions,
 // migrates, and connects to the database.
+// Learn more: https://encore.dev/docs/primitives/databases
 var db = sqldb.NewDatabase("board", sqldb.DatabaseConfig{
 	Migrations: "./migrations",
 })

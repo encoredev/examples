@@ -12,7 +12,7 @@ import (
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
-// Encore docs about secrets: https://encore.dev/docs/primitives/secrets
+// This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/primitives/secrets
 var secrets struct {
 	SendGridAPIKey string
 }
@@ -65,6 +65,7 @@ type EmailPreparedEvent struct {
 	HTMLContent      string
 }
 
+// This creates a Pub/Sub topic, learn more: https://encore.dev/docs/primitives/pubsub
 var Emails = pubsub.NewTopic[*EmailPreparedEvent]("emails", pubsub.TopicConfig{
 	DeliveryGuarantee: pubsub.AtLeastOnce,
 })
@@ -78,8 +79,7 @@ var _ = pubsub.NewSubscription(
 	},
 )
 
-// To sending email, PubSub is used to control concurrency and avoid DDoS Sendgrid API.
-// https://encore.dev/docs/primitives/pubsub
+// When sending email, Pub/Sub is used to control concurrency, learn more: https://encore.dev/docs/primitives/pubsub
 func sendEmail(ctx context.Context, event *EmailPreparedEvent) error {
 	// Creating an email
 	email := mail.NewSingleEmail(&event.From, event.Subject, &event.To, event.PlainTextContent, event.HTMLContent)

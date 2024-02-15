@@ -4,16 +4,17 @@ package elevenlabs
 import (
 	"context"
 	"encoding/json"
-	"github.com/haguro/elevenlabs-go"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/haguro/elevenlabs-go"
 )
 
 const MODEL_ID = "eleven_multilingual_v2" // AI models described here: https://docs.elevenlabs.io/speech-synthesis/models
 const VOICE_ID = "pNInz6obpgDQGcFmaJgB"   // Get other voice IDs here: https://docs.elevenlabs.io/api-reference/voices
 
-// Encore docs about secrets: https://encore.dev/docs/primitives/secrets
+// This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/primitives/secrets
 var secrets struct {
 	ElevenLabsAPIKey string
 }

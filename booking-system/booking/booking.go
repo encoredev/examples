@@ -17,6 +17,10 @@ import (
 
 const DefaultBookingDuration = 1 * time.Hour
 
+// Defines a database named 'booking', using the database migrations
+// in the "./db/migrations" folder. Encore automatically provisions,
+// migrates, and connects to the database.
+// Learn more: https://encore.dev/docs/primitives/databases
 var (
 	bookingDB = sqldb.NewDatabase("booking", sqldb.DatabaseConfig{
 		Migrations: "./db/migrations",
@@ -124,6 +128,9 @@ type ListBookingsResponse struct {
 	Booking []*Booking `json:"bookings"`
 }
 
+// This defines a public endpoint that requires authentication
+// Learn more: https://encore.dev/docs/primitives/services-and-apis#access-controls
+//
 //encore:api auth method=GET path=/booking
 func ListBookings(ctx context.Context) (*ListBookingsResponse, error) {
 	rows, err := query.ListBookings(ctx)

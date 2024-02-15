@@ -31,6 +31,9 @@ type ListResponse struct {
 	Users []User `json:"users"`
 }
 
+// This defines a public endpoint that requires authentication
+// Learn more: https://encore.dev/docs/primitives/services-and-apis#access-controls
+//
 //encore:api auth method=GET path=/users/:id
 func GetUser(ctx context.Context, id string) (*UserResponse, error) {
 	if v, ok := userMap[id]; ok {
