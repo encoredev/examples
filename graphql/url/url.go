@@ -35,7 +35,7 @@ func Shorten(ctx context.Context, p *ShortenParams) (*URL, error) {
 //encore:api public method=GET path=/url/:id
 func Get(ctx context.Context, id string) (*URL, error) {
 	u := &URL{ID: id}
-	err := sqldb.QueryRow(ctx, `
+	err := db.QueryRow(ctx, `
 		SELECT original_url FROM url
 		WHERE id = $1
 	`, id).Scan(&u.URL)
@@ -50,7 +50,7 @@ type ListResponse struct {
 //
 //encore:api public method=GET path=/url
 func List(ctx context.Context) (*ListResponse, error) {
-	rows, err := sqldb.Query(ctx, `
+	rows, err := db.Query(ctx, `
 		SELECT id, original_url FROM url
 	`)
 	if err != nil {
@@ -84,9 +84,16 @@ func generateID() (string, error) {
 
 // insert inserts a URL into the database.
 func insert(ctx context.Context, id, url string) error {
-	_, err := sqldb.Exec(ctx, `
+	_, err := db.Exec(ctx, `
 		INSERT INTO url (id, original_url)
 		VALUES ($1, $2)
 	`, id, url)
 	return err
 }
+
+// Define a database named 'url', using the database migrations
+// in the "./migrations" folder. Encore automatically provisions,
+// migrates, and connects to the database.
+var db = sqldb.NewDatabase("url", sqldb.DatabaseConfig{
+	Migrations: "./migrations",
+})

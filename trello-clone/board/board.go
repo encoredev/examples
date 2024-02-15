@@ -31,7 +31,7 @@ type CreateParams struct {
 // encore:api public
 func Create(ctx context.Context, params *CreateParams) (*Board, error) {
 	b := &Board{Name: params.Name, Created: time.Now()}
-	err := sqldb.QueryRow(ctx, `
+	err := db.QueryRow(ctx, `
 		INSERT INTO board (name, created)
 		VALUES ($1, $2)
 		RETURNING id
@@ -57,7 +57,7 @@ type ListResponse struct {
 // List lists the accessible boards.
 // encore:api public
 func List(ctx context.Context, params *ListParams) (*ListResponse, error) {
-	rows, err := sqldb.Query(ctx, `
+	rows, err := db.Query(ctx, `
 		SELECT id, name, created
 		FROM board
 		ORDER BY created DESC
@@ -90,7 +90,7 @@ type GetParams struct {
 // encore:api public
 func Get(ctx context.Context, params *GetParams) (*Board, error) {
 	b := &Board{ID: params.ID}
-	err := sqldb.QueryRow(ctx, `
+	err := db.QueryRow(ctx, `
 		SELECT name, created
 		FROM board
 		WHERE id = $1
@@ -151,3 +151,10 @@ func mergeCardsAndColumns(cols []*Column, cards []*card.Card) {
 		}
 	}
 }
+
+// Define a database named 'board', using the database migrations
+// in the "./migrations" folder. Encore automatically provisions,
+// migrates, and connects to the database.
+var db = sqldb.NewDatabase("board", sqldb.DatabaseConfig{
+	Migrations: "./migrations",
+})

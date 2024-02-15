@@ -7,7 +7,6 @@ import (
 	"fmt"
 
 	"encore.app/card"
-	"encore.dev/storage/sqldb"
 )
 
 type Column struct {
@@ -36,7 +35,7 @@ type CreateColumnParams struct {
 // encore:api public
 func CreateColumn(ctx context.Context, params *CreateColumnParams) (*Column, error) {
 	c := &Column{BoardID: params.BoardID, Name: params.Name, Cards: []*card.Card{}}
-	err := sqldb.QueryRow(ctx, `
+	err := db.QueryRow(ctx, `
 		WITH max_order AS (
 			SELECT COALESCE(MAX("order"), 0) AS max_order
 			FROM board_column
@@ -67,7 +66,7 @@ type ListColumnsResponse struct {
 //
 // encore:api
 func ListColumns(ctx context.Context, params *ListColumnsParams) (*ListColumnsResponse, error) {
-	rows, err := sqldb.Query(ctx, `
+	rows, err := db.Query(ctx, `
 		SELECT id, board_id, name, "order"
 		FROM board_column
 		WHERE board_id = ANY($1)
@@ -111,7 +110,7 @@ type AddCardResponse struct {
 func AddCard(ctx context.Context, params *AddCardParams) (*AddCardResponse, error) {
 	// Make sure the column exists before we add the card.
 	var placeholder int // detect missing row
-	err := sqldb.QueryRow(ctx, `
+	err := db.QueryRow(ctx, `
 		SELECT 1 FROM board_column
 		WHERE board_id = $1 AND id = $2
 	`, params.BoardID, params.ColumnID).Scan(&placeholder)

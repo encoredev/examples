@@ -55,7 +55,7 @@ func check(ctx context.Context, site *site.Site) error {
 		return err
 	}
 
-	_, err = sqldb.Exec(ctx, `
+	_, err = db.Exec(ctx, `
 		INSERT INTO checks (site_id, up, checked_at)
 		VALUES ($1, $2, NOW())
 	`, site.ID, result.Up)
@@ -81,7 +81,7 @@ func publishOnTransition(ctx context.Context, site *site.Site, isUp bool) error 
 // getPreviousMeasurement reports whether the given site was
 // up or down in the previous measurement.
 func getPreviousMeasurement(ctx context.Context, siteID int) (up bool, err error) {
-	err = sqldb.QueryRow(ctx, `
+	err = db.QueryRow(ctx, `
 		SELECT up FROM checks
 		WHERE site_id = $1
 		ORDER BY checked_at DESC
@@ -123,4 +123,11 @@ var _ = pubsub.NewSubscription(site.SiteAddedTopic, "check-site", pubsub.Subscri
 	Handler: func(ctx context.Context, s *site.Site) error {
 		return Check(ctx, s.ID)
 	},
+})
+
+// Define a database named 'monitor', using the database migrations
+// in the "./migrations" folder. Encore automatically provisions,
+// migrates, and connects to the database.
+var db = sqldb.NewDatabase("monitor", sqldb.DatabaseConfig{
+	Migrations: "./migrations",
 })
