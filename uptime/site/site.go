@@ -1,3 +1,4 @@
+// Service site keeps track of which sites to monitor.
 package site
 
 import (

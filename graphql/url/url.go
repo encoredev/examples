@@ -1,3 +1,4 @@
+// Service url shortens URLs, generates a random short ID, and stores them in a database.
 package url
 
 import (

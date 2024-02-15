@@ -1,3 +1,4 @@
+// Service hello implements a simple hello world example with a sql database.
 package hello
 
 import (

@@ -1,3 +1,4 @@
+// Service user authenticates users (real auth to be implemented).
 package user
 
 import (

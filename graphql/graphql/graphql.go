@@ -1,3 +1,4 @@
+// Service graphql exposes a GraphQL API.
 package graphql
 
 import (
