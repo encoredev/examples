@@ -1,3 +1,4 @@
+// Service frontend serves the frontend for development purposes.
 package frontend
 
 import (

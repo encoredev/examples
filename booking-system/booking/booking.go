@@ -1,9 +1,11 @@
+// Service booking keeps track of bookable slots in the calendar.
 package booking
 
 import (
 	"context"
-	"encore.app/sendgrid"
 	"time"
+
+	"encore.app/sendgrid"
 
 	"encore.app/booking/db"
 	"github.com/jackc/pgx/v5/pgtype"

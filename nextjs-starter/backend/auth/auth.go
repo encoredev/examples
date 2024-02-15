@@ -1,7 +1,9 @@
+// Service auth authenticates users (real auth integration to be implemented).
 package auth
 
 import (
 	"context"
+
 	"encore.dev/beta/auth"
 	"encore.dev/beta/errs"
 	"encore.dev/rlog"

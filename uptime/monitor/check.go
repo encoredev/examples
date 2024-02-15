@@ -1,3 +1,4 @@
+// Service monitor checks if a website is up or down and publishes UP/DOWN notifications via Pub/Sub.
 package monitor
 
 import (

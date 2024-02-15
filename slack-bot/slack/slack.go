@@ -1,3 +1,4 @@
+// Service slack implements a cowsaw Slack bot.
 package slack
 
 import (
@@ -5,7 +6,6 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
-	"encore.dev/beta/errs"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -13,6 +13,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"encore.dev/beta/errs"
 )
 
 var secrets struct {

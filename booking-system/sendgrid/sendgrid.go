@@ -1,9 +1,11 @@
+// Service sendgrid publishes emails to PubSub for asynchronous sending using the SendGrid API.
 package sendgrid
 
 import (
 	"context"
-	"github.com/sendgrid/sendgrid-go"
 	"net/http"
+
+	"github.com/sendgrid/sendgrid-go"
 
 	"encore.dev"
 	"encore.dev/beta/errs"

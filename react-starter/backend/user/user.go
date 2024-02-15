@@ -1,3 +1,4 @@
+// Service user is an example implementation of an Encore service.
 package user
 
 import (

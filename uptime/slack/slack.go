@@ -1,3 +1,4 @@
+// Service slack posts notifications to a Slack Webhook.
 package slack
 
 import (
