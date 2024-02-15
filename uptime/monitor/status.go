@@ -3,8 +3,6 @@ package monitor
 import (
 	"context"
 	"time"
-
-	"encore.dev/storage/sqldb"
 )
 
 // SiteStatus describes the current status of a site
@@ -25,7 +23,7 @@ type StatusResponse struct {
 //
 //encore:api public method=GET path=/status
 func Status(ctx context.Context) (*StatusResponse, error) {
-	rows, err := sqldb.Query(ctx, `
+	rows, err := db.Query(ctx, `
 		SELECT DISTINCT ON (site_id) site_id, up, checked_at
 		FROM checks
 		ORDER BY site_id, checked_at DESC

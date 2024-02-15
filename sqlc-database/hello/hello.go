@@ -2,13 +2,12 @@ package hello
 
 import (
 	"context"
-	"encore.app/hello/store"
 	"fmt"
+
+	"encore.app/hello/store"
 
 	"encore.dev/storage/sqldb"
 )
-
-var db = sqldb.Named("hello").Stdlib()
 
 // encore:service
 type Service struct {
@@ -17,7 +16,7 @@ type Service struct {
 
 func initService() (*Service, error) {
 	return &Service{
-		repo: store.New(db),
+		repo: store.New(db.Stdlib()),
 	}, nil
 }
 
@@ -53,3 +52,10 @@ func (s *Service) generateGreeting(ctx context.Context, name string) (string, er
 	}
 	return fmt.Sprintf("Hey again, %s! We've met %d time(s) before.", name, count-1), nil
 }
+
+// Define a database named 'hello', using the database migrations
+// in the "./migrations" folder. Encore automatically provisions,
+// migrates, and connects to the database.
+var db = sqldb.NewDatabase("hello", sqldb.DatabaseConfig{
+	Migrations: "./migrations",
+})

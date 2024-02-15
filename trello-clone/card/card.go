@@ -44,7 +44,7 @@ func Create(ctx context.Context, params *CreateParams) (*Card, error) {
 		Description: "", // empty when created
 		Created:     time.Now(),
 	}
-	err := sqldb.QueryRow(ctx, `
+	err := db.QueryRow(ctx, `
 		WITH max_order AS (
 			SELECT COALESCE(MAX("order"), 0) AS max_order
 			FROM card
@@ -72,7 +72,7 @@ type ListResponse struct {
 // List lists the cards for a given board, sorted by column id and order.
 // encore:api
 func List(ctx context.Context, params *ListParams) (*ListResponse, error) {
-	rows, err := sqldb.Query(ctx, `
+	rows, err := db.Query(ctx, `
 		SELECT id, column_id, title, description, "order", created
 		FROM card
 		WHERE board_id = $1
@@ -107,7 +107,7 @@ type GetParams struct {
 // encore:api public
 func Get(ctx context.Context, params *GetParams) (*Card, error) {
 	c := &Card{ID: params.ID}
-	err := sqldb.QueryRow(ctx, `
+	err := db.QueryRow(ctx, `
 		SELECT board_id, column_id, title, description, "order", created
 		FROM card
 		WHERE id = $1
@@ -133,7 +133,7 @@ type UpdateParams struct {
 // encore:api public
 func Update(ctx context.Context, params *UpdateParams) (*Card, error) {
 	var placeholder int // detect missing row
-	err := sqldb.QueryRow(ctx, `
+	err := db.QueryRow(ctx, `
 		UPDATE card SET
 			title = (CASE WHEN $2 = '' THEN title ELSE $2 END),
 			description = (CASE WHEN $3 = '' THEN description ELSE $3 END),
@@ -146,3 +146,10 @@ func Update(ctx context.Context, params *UpdateParams) (*Card, error) {
 	}
 	return Get(ctx, &GetParams{ID: params.ID})
 }
+
+// Define a database named 'card', using the database migrations
+// in the "./migrations" folder. Encore automatically provisions,
+// migrates, and connects to the database.
+var db = sqldb.NewDatabase("card", sqldb.DatabaseConfig{
+	Migrations: "./migrations",
+})

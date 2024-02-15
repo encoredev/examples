@@ -87,11 +87,9 @@ type Service struct {
 	db *gorm.DB
 }
 
-var siteDB = sqldb.Named("site").Stdlib()
-
 func initService() (*Service, error) {
 	db, err := gorm.Open(postgres.New(postgres.Config{
-		Conn: siteDB,
+		Conn: db.Stdlib(),
 	}))
 	if err != nil {
 		return nil, err
@@ -101,4 +99,11 @@ func initService() (*Service, error) {
 
 var SiteAddedTopic = pubsub.NewTopic[*Site]("site-added", pubsub.TopicConfig{
 	DeliveryGuarantee: pubsub.AtLeastOnce,
+})
+
+// Define a database named 'site', using the database migrations
+// in the "./migrations" folder. Encore automatically provisions,
+// migrates, and connects to the database.
+var db = sqldb.NewDatabase("site", sqldb.DatabaseConfig{
+	Migrations: "./migrations",
 })
