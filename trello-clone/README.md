@@ -41,7 +41,7 @@ When deploying, Encore automatically [provisions the required infrastructure](ht
 Encore treats SQL databases as logical resources and natively supports **PostgreSQL** databases.
 
 To create a database, import `encore.dev/storage/sqldb` and call `sqldb.NewDatabase`, assigning the result to a package-level variable.
-Databases must be created from within an [Encore service](/docs/primitives/services-and-apis).
+Databases must be created from within an [Encore service](https://encore.dev/docs/primitives/services-and-apis).
 
 You [define the schema](https://encore.dev/docs/primitives/databases#defining-a-database-schema) by creating a migration file. Encore takes care of [provisioning the database](https://encore.dev/docs/primitives/databases#provisioning-databases), running new schema migrations during deploys, and connecting to it.
 

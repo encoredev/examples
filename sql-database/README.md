@@ -17,7 +17,7 @@ In this starter app there is already a database defined, but let's take this opp
 Encore treats SQL databases as logical resources and natively supports **PostgreSQL** databases.
 
 To create a database, import `encore.dev/storage/sqldb` and call `sqldb.NewDatabase`, assigning the result to a package-level variable.
-Databases must be created from within an [Encore service](/docs/primitives/services-and-apis).
+Databases must be created from within an [Encore service](https://encore.dev/docs/primitives/services-and-apis).
 
 For example:
 
@@ -105,7 +105,7 @@ curl http://localhost:4000/hello/There
 
 ## Open the developer dashboard
 
-While `encore run` is running, open <http://localhost:9400/> to view Encore's [local developer dashboard](/docs/observability/dev-dash).
+While `encore run` is running, open <http://localhost:9400/> to view Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
 
 ## Deployment
 
