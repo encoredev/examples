@@ -23,20 +23,23 @@ environment. Use the appropriate command for your system:
 
 ## Starters
 
-| Name                                       | Description                                                      | Primitives                                       | Requirements                                                            |
-|--------------------------------------------|------------------------------------------------------------------|--------------------------------------------------|-------------------------------------------------------------------------|
-| [hello-world](hello-world)                 | REST API Starter                                                 | APIs                                             | -                                                                       |
-| [sql-database](sql-database)               | PostgreSQL database Starter                                      | APIs, SQL Database                               | [Docker](https://docker.com/)                                           |
-| [slack-bot](slack-bot)                     | Slack Bot Starter                                                | APIs                                             | Slack Workspace                                                         |
-| [trello-clone](trello-clone)               | Microservices Starter (Trello Clone)                             | Microservices, APIs, SQL Database                | [Docker](https://docker.com/)                                           |
+| Name                                       | Description                                                      | Primitives                                      | Requirements                                                            |
+|--------------------------------------------|------------------------------------------------------------------|-------------------------------------------------|-------------------------------------------------------------------------|
+| [hello-world](hello-world)                 | REST API Starter                                                 | APIs                                            | -                                                                       |
+| [sql-database](sql-database)               | PostgreSQL database Starter                                      | APIs, SQL Database                              | [Docker](https://docker.com/)                                           |
+| [slack-bot](slack-bot)                     | Slack Bot Starter                                                | APIs                                            | Slack Workspace                                                         |
+| [trello-clone](trello-clone)               | Microservices Starter (Trello Clone)                             | Microservices, APIs, SQL Database               | [Docker](https://docker.com/)                                           |
 | [uptime](uptime)                           | Event-Driven Architecture Starter (Uptime Monitor)               | Microservices, SQL Databases, Pub/Sub, Cron Jobs | [Docker](https://docker.com/)                                           |
-| [graphql](graphql)                         | GraphQL Server Starter                                           | APIs, SQL Database, GraphQL                      | [Docker](https://docker.com/)                                           |
-| [url-shortener](url-shortener)             | Basic url shortener                                              | APIs, SQL Database                               | [Docker](https://docker.com/)                                           |
-| [sqlc-database](sqlc-database)             | Simple sqlc implementation                                       | APIs, SQL Database                               | [sqlc](https://docs.sqlc.dev/en/stable/), [Docker](https://docker.com/) |
-| [next-starter](nextjs-starter)             | Next.js + Encore Web App Starter                                 | APIs, Auth, Frontend                             | [Node.js](https://nodejs.org/en)                                        |
-| [next-auth0-starter](nextjs-auth0-starter) | Next.js + Auth0 + Encore Web App Starter                         | APIs, Auth, Frontend                             | [Node.js](https://nodejs.org/en)                                        |
-| [react-starter](react-starter)             | React + Encore Web App Starter                                   | APIs, Auth, Frontend                             | [Node.js](https://nodejs.org/en)                                        |
-| [booking-system](booking-system)           | Appointment Booking System Starter using data scrubbing and sqlc | APIs, Auth, SQL Database, Frontend               | [Docker](https://docker.com/)                                           |
+| [graphql](graphql)                         | GraphQL Server Starter                                           | APIs, SQL Database, GraphQL                     | [Docker](https://docker.com/)                                           |
+| [url-shortener](url-shortener)             | Basic url shortener                                              | APIs, SQL Database                              | [Docker](https://docker.com/)                                           |
+| [sqlc-database](sqlc-database)             | Simple sqlc implementation                                       | APIs, SQL Database                              | [sqlc](https://docs.sqlc.dev/en/stable/), [Docker](https://docker.com/) |
+| [next-starter](nextjs-starter)             | Next.js + Encore Web App Starter                                 | APIs, Auth, Frontend                            | [Node.js](https://nodejs.org/en)                                        |
+| [next-auth0-starter](nextjs-auth0-starter) | Next.js + Auth0 + Encore Web App Starter                         | APIs, Auth, Frontend                            | [Node.js](https://nodejs.org/en)                                        |
+| [react-starter](react-starter)             | React + Encore Web App Starter                                   | APIs, Auth, Frontend                            | [Node.js](https://nodejs.org/en)                                        |
+| [booking-system](booking-system)           | Appointment Booking System Starter using data scrubbing and sqlc | APIs, Auth, SQL Database, Frontend              | [Docker](https://docker.com/)                                           |
+| [auth0](auth0)                             | Auth0 Authentication + React + Encore Example                    | APIs, Auth, Frontend               | [Node.js](https://nodejs.org/en)                                           |
+| [auth0-react-sdk](auth0-react-sdk)         | Auth0 React SDK Authentication + Encore Example                  | APIs, Auth, Frontend              | [Node.js](https://nodejs.org/en)                                           |
+| [clerk](clerk)                             | Clerk React SDK Authentication + Encore Example                  | APIs, Auth, Frontend              | [Node.js](https://nodejs.org/en)                                           |
 
 ### Running Starters
 

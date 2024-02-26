@@ -1,4 +1,5 @@
 .encore
+.idea
 
 bits/go.mod
 bits/go.sum
