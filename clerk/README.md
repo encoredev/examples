@@ -13,7 +13,7 @@ encore app create my-app --example=clerk
 
 ## Clerk Credentials
 
-Create a Clerk account if you haven't already. Then, in the Clerk dashboard, create a new applications.
+Create a Clerk account if you haven't already. Then, in the Clerk dashboard, create a new application.
 
 Next, go to the *API Keys* page for your app. Copy the "Publishable Key" and one of the "Secret keys".
 
@@ -27,7 +27,7 @@ From your terminal (inside your Encore app directory), run:
 $ encore secret set --prod ClientSecretKey
 ```
 
-Now you should do the same for the development secret. The most secure way is to create another secret key (Clerk allows you to have multiple).
+Next, do the same for the development secret. The most secure way is to create another secret key (Clerk allows you to have multiple).
 Once you have a client secret for development, set it similarly to before:
 
 ```shell
