@@ -3,7 +3,7 @@
 This is an example of how to do user authentication using [Auth0 React SDK](https://auth0.com/docs/libraries/auth0-react) together with an Encore app.
 
 For this example the login/logout flow is abstracted away by the Auth0 React SDK, then in the Encore auth handler the JWT token is verified and the user is authenticated.
-You an also take a look at [auth0](../auth0) for an example where the login/logout flow is done through Encore and the frontend is React + React Router.
+You an also take a look at [auth0](https://github.com/encoredev/examples/blob/main/auth0) for an example where the login/logout flow is done through Encore and the frontend is React + React Router.
 
 ## Cloning the example
 

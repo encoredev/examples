@@ -4,7 +4,7 @@ This is an example of how to do user authentication using [Auth0](https://auth0.
 Check out the [Use Auth0 with your app](https://encore.dev/docs/how-to/auth0-auth) guide to learn more about this example.
 
 For this example the login/logout flow is done through Encore and the frontend is React + React Router.
-Take a look at [auth0-react-sdk](../auth0-react-sdk) for an example where the login/logout flow is abstracted away by the Auth0 React SDK.
+Take a look at [auth0-react-sdk](https://github.com/encoredev/examples/blob/main/auth0-react-sdk) for an example where the login/logout flow is abstracted away by the Auth0 React SDK.
 
 ## Cloning the example
 
@@ -32,7 +32,7 @@ The same goes for the logout URL (were the user will get redirected after logout
 
 In `backend/auth/auth-config.cue`, replace the values for the `ClientID` and `Domain` that you got from the Auth0 dashboard.
 
-The `ClientSecret` is especially sensitive and should not be hardcoded in your code/config. Instead, you should store that as an [Encore secret](/docs/primitives/secrets).
+The `ClientSecret` is especially sensitive and should not be hardcoded in your code/config. Instead, you should store that as an [Encore secret](https://encore.dev/docs/primitives/secrets).
 
 From your terminal (inside your Encore app directory), run:
 
