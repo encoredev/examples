@@ -72,7 +72,7 @@ If you are running into CORS issues when calling your Encore API from your front
 origins are allowed to access your API (via browsers). You do this by specifying the `global_cors` key in the `encore.app`
 file, which has the following structure:
 
-```json
+```js
 global_cors: {
   // allow_origins_without_credentials specifies the allowed origins for requests
   // that don't include credentials. If nil it defaults to allowing all domains

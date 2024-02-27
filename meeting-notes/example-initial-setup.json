@@ -1,0 +1,9 @@
+// This JSON file configures certain behavior when Encore creates the example.
+{
+    // initial_secrets specifies initial values for the secrets
+    // when creating an example app. It should NOT be used for storing
+    // actual secrets; it's only for examples.
+    "initial_secrets": {
+        "PexelsApiKey": "" // disable Pexels integration to start.
+    }
+}
