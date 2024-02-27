@@ -32,7 +32,10 @@ func Login(ctx context.Context, params *LoginRequest) (*LoginResponse, error) {
 //
 //encore:authhandler
 func AuthHandler(ctx context.Context, token string) (auth.UID, error) {
-	// Validate the token and look up the user id, for example by calling Firebase Auth: https://encore.dev/docs/how-to/firebase-auth
+	// Validate the token and look up the user id, for example by calling Firebase Auth, Auth0 or Clerk:
+	// https://encore.dev/docs/how-to/auth0-auth
+	// https://encore.dev/docs/how-to/clerk-auth
+	// https://encore.dev/docs/how-to/firebase-auth
 
 	if token != TOKEN {
 		return "", &errs.Error{

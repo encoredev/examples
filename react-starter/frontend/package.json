@@ -12,9 +12,7 @@
     "gen:local": "encore gen client {{ENCORE_APP_ID}} --output=./src/lib/client.ts --env=local"
   },
   "dependencies": {
-    "i": "^0.3.7",
     "js-cookie": "^3.0.5",
-    "npm": "^10.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0"

@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
   Link,
+  LoaderFunctionArgs,
   Outlet,
   redirect,
   RouterProvider,
@@ -13,10 +14,9 @@ import LoginPage, {
   loginAction,
   loginLoader,
 } from "./components/LoginPage.tsx";
-import UserDetailsPage, {
-  userDetailsLoader,
-} from "./components/UserDetailsPage.tsx";
-import UserListPage, { userListLoader } from "./components/UserListPage.tsx";
+import AdminDashboard, {
+  adminDashboardLoader,
+} from "./components/AdminDashboard.tsx";
 import IndexPage from "./components/IndexPage.tsx";
 
 import "./App.css";
@@ -46,25 +46,20 @@ const router = createBrowserRouter([
             Component: LoginPage,
           },
           {
-            path: "/logout",
+            path: "logout",
             action() {
               fakeAuthProvider.signout();
               return redirect("/");
             },
           },
           {
-            path: "users",
-            element: <Outlet />,
+            Component: Outlet,
+            loader: protectedRoutesLoader,
             children: [
               {
-                index: true,
-                Component: UserListPage,
-                loader: userListLoader,
-              },
-              {
-                path: ":id",
-                loader: userDetailsLoader,
-                Component: UserDetailsPage,
+                path: "admin-dashboard",
+                loader: adminDashboardLoader,
+                Component: AdminDashboard,
               },
             ],
           },
@@ -80,6 +75,15 @@ export default function App() {
   );
 }
 
+function protectedRoutesLoader({ request }: LoaderFunctionArgs) {
+  if (!fakeAuthProvider.isAuthenticated) {
+    const params = new URLSearchParams();
+    params.set("from", new URL(request.url).pathname);
+    return redirect("/login?" + params.toString());
+  }
+  return null;
+}
+
 function Layout() {
   return (
     <div>
@@ -87,7 +91,7 @@ function Layout() {
         <nav className="nav">
           <div className="navLinks">
             <Link to="/">Home</Link>
-            <Link to="/users">User List</Link>
+            <Link to="/admin-dashboard">Admin Dashboard</Link>
           </div>
 
           <AuthStatus />
