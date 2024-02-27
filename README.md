@@ -40,6 +40,7 @@ environment. Use the appropriate command for your system:
 | [auth0](auth0)                             | Auth0 Authentication + React + Encore Example                    | APIs, Auth, Frontend               | [Node.js](https://nodejs.org/en)                                           |
 | [auth0-react-sdk](auth0-react-sdk)         | Auth0 React SDK Authentication + Encore Example                  | APIs, Auth, Frontend              | [Node.js](https://nodejs.org/en)                                           |
 | [clerk](clerk)                             | Clerk React SDK Authentication + Encore Example                  | APIs, Auth, Frontend              | [Node.js](https://nodejs.org/en)                                           |
+| [firebase-auth](firebase-auth)             | Firebase Authentication + Encore Example                         | APIs, Auth, Frontend              | [Node.js](https://nodejs.org/en)                                           |
 
 ### Running Starters
 
