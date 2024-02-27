@@ -6,6 +6,9 @@
     "target": "ES2022",
     "module": "ES2022",
     "types": ["node"],
+    "paths": {
+      "~encore/*": ["./encore.gen/*"]
+    },
 
     /* Workspace Settings */
     "composite": true,

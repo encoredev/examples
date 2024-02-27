@@ -14,11 +14,12 @@ export const SiteAddedTopic = new Topic<Site>("site.added", {
 
 export interface AddParams {
   url: string;
+  slug?: string;
 }
 
 // Add a new site.
 export const add = api(
-  { method: "POST", path: "/site" },
+  { expose: true, method: "POST", path: "/site" },
   async (params: AddParams): Promise<Site> => {
     const site = (await Sites().insert({ url: params.url }, "*"))[0];
     await SiteAddedTopic.publish(site);
@@ -27,7 +28,7 @@ export const add = api(
 );
 
 export const get = api(
-  { method: "GET", path: "/site/:id" },
+  { expose: true, method: "GET", path: "/site/:id", auth: false },
   async ({ id }: { id: number }): Promise<Site> => {
     const site = await Sites().where("id", id).first();
     return site ?? Promise.reject(new Error("site not found"));
@@ -35,7 +36,7 @@ export const get = api(
 );
 
 export const del = api(
-  { method: "DELETE", path: "/site/:id" },
+  { expose: true, method: "DELETE", path: "/site/:id" },
   async ({ id }: { id: number }): Promise<void> => {
     await Sites().where("id", id).delete();
   }
@@ -46,7 +47,7 @@ export interface ListResponse {
 }
 
 export const list = api(
-  { method: "GET", path: "/site" },
+  { expose: true, method: "GET", path: "/site" },
   async (): Promise<ListResponse> => {
     const sites = await Sites().select();
     return { sites };

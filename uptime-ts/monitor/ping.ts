@@ -9,7 +9,7 @@ export interface PingResponse {
 }
 
 export const ping = api<PingParams, PingResponse>(
-  { path: "/ping/:url", method: "GET" },
+  { expose: true, path: "/ping/:url", method: "GET" },
   async ({ url }) => {
     if (!url.startsWith("http:") && !url.startsWith("https:")) {
       url = "https://" + url;

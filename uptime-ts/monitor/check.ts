@@ -3,25 +3,25 @@ import { Subscription, Topic } from "encore.dev/pubsub";
 import { SQLDatabase } from "encore.dev/storage/sqldb";
 import { Site, SiteAddedTopic } from "../site/site";
 import { ping } from "./ping";
-import { site } from "encore.app/clients";
+import { site } from "~encore/clients";
 
 export const check = api(
-  { method: "POST", path: "/check/:siteID" },
-  async (p: { siteID: number }): Promise<void> => {
+  { expose: true, method: "POST", path: "/check/:siteID" },
+  async (p: { siteID: number }): Promise<{ up: boolean }> => {
     const s = await site.get({ id: p.siteID });
     return doCheck(s);
   }
 );
 
 export const checkAll = api(
-  { method: "POST", path: "/check-all" },
+  { expose: true, method: "POST", path: "/check-all" },
   async (): Promise<void> => {
     const sites = await site.list();
     await Promise.all(sites.sites.map(doCheck));
   }
 );
 
-async function doCheck(site: Site): Promise<void> {
+async function doCheck(site: Site): Promise<{ up: boolean }> {
   const { up } = await ping({ url: site.url });
   const wasUp = await getPreviousMeasurement(site.id);
   if (up !== wasUp) {
@@ -31,13 +31,15 @@ async function doCheck(site: Site): Promise<void> {
     INSERT INTO checks (site_id, up, checked_at)
     VALUES (${site.id}, ${up}, NOW())
   `;
+  return { up };
 }
 
 async function getPreviousMeasurement(siteID: number): Promise<boolean> {
   const row = await MonitorDB.queryRow`
-    SELECT up FROM checks
+    SELECT up
+    FROM checks
     WHERE site_id = ${siteID}
-    ORDER BY checked_at DESC
+    ORDER BY checked_at DESC 
     LIMIT 1
   `;
   return row?.up ?? true;
