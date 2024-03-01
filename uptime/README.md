@@ -39,13 +39,13 @@ Note that to avoid confusion, Cron Jobs do not execute when running locally.
 
 ## Local Development Dashboard
 
-While `encore run` is running, open <http://localhost:9400/> to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
 
 Here you can see API docs, make requests in the API explorer, and view traces of the responses.
 
 ## View the frontend
 
-While `encore run` is running, head over to <http://localhost:4000/frontend/> to view the frontend for your uptime monitor.
+While `encore run` is running, head over to [http://localhost:4000/frontend/](http://localhost:4000/frontend/) to view the frontend for your uptime monitor.
 
 ## Using the API
 

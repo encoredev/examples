@@ -29,7 +29,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to see the r
 
 ### Encore's Local Development Dashboard
 
-While `encore run` is running, open <http://localhost:9400/> to view Encore's local developer dashboard.
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to view Encore's local developer dashboard.
 Here you can see the request you just made and a view a trace of the response.
 
 ### Generating a request client

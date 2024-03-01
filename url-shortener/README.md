@@ -24,7 +24,7 @@ encore run
 
 ## Open the developer dashboard
 
-While `encore run` is running, open <http://localhost:9400/> to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
 
 Here you can see API docs, make requests in the API explorer, and view traces of the responses.
 

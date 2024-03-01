@@ -4,7 +4,7 @@
 
 This is an example application (frontend + backend) for a Markdown Meeting Notes app.
 
-Live demo: <https://encoredev.github.io/meeting-notes/>
+Live demo: [https://encoredev.github.io/meeting-notes/](https://encoredev.github.io/meeting-notes/)
 
 ![Frontend](./images/demo.gif)
 
@@ -37,7 +37,7 @@ npm run dev
 
 ### Encore developer dashboard
 
-While `encore run` is running, open <http://localhost:9400/> to view Encore's local developer dashboard.
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to view Encore's local developer dashboard.
 Here you can see the request you just made and a view a trace of the response.
 
 ## Deployment
@@ -50,7 +50,7 @@ Deploy your backend to a staging environment in Encore's free development cloud.
 git push encore
 ```
 
-You can view your backend deploys, metrics and traces <https://app.encore.dev>.
+You can view your backend deploys, metrics and traces at [https://app.encore.dev](https://app.encore.dev).
 
 ### Frontend
 
@@ -68,4 +68,4 @@ Your site should now be available at `https://<your-github-username>.github.io/<
 
 Pushing new code to GitHub will automatically update your site (see the GitHub actions workflow in the `.github` folder).
 
-Read more about GitHub pages here: <https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site>
+[Read more about GitHub pages here](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site).

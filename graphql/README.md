@@ -18,7 +18,7 @@ Before running your application, make sure you have Docker installed and running
 encore run
 ```
 
-While `encore run` is running, open <http://localhost:9400/> to view Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to view Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
 
 ## View the GraphQL Playground
 Open http://localhost:4000/graphql/playground in your browser.

@@ -28,7 +28,7 @@ To start the Encore application, run:
 encore run
 ```
 
-While `encore run` is running, open <http://localhost:9400/> to view Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to view Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
 
 ## Defining services
 
@@ -55,7 +55,7 @@ curl 'http://localhost:4000/board.Create' -d '{"Name":"my board"}'
 
 ## Open the developer dashboard
 
-While `encore run` is running, open <http://localhost:9400/> to view Encore's [local development dashboard](https://encore.dev/docs/observability/dev-dash). Here you can see the request you just made and view a trace of the response.
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to view Encore's [local development dashboard](https://encore.dev/docs/observability/dev-dash). Here you can see the request you just made and view a trace of the response.
 
 ## Deployment
 
