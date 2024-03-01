@@ -15,12 +15,12 @@ interface ShortenParams {
 
 // Shorten shortens a URL.
 export const shorten = api(
-  { method: "POST", path: "/url" },
+  { expose: true, auth: false, method: "POST", path: "/url" },
   async ({ url }: ShortenParams): Promise<URL> => {
     const id = randomBytes(6).toString("base64url");
     await DB.exec`
-      INSERT INTO url (id, original_url)
-      VALUES (${id}, ${url})
+        INSERT INTO url (id, original_url)
+        VALUES (${id}, ${url})
     `;
     return { id, url };
   },
@@ -28,10 +28,12 @@ export const shorten = api(
 
 // Get retrieves the original URL for the id.
 export const get = api(
-  { method: "GET", path: "/url/:id" },
+  { expose: true, auth: false, method: "GET", path: "/url/:id" },
   async ({ id }: { id: string }): Promise<URL> => {
     const row = await DB.queryRow`
-      SELECT original_url FROM url WHERE id = ${id}
+        SELECT original_url
+        FROM url
+        WHERE id = ${id}
     `;
     if (!row) throw new Error("url not found");
     return { id, url: row.original_url };
@@ -44,10 +46,11 @@ interface ListResponse {
 
 // List retrieves all URLs.
 export const list = api(
-  { method: "GET", path: "/url" },
+  { expose: false, method: "GET", path: "/url" },
   async (): Promise<ListResponse> => {
     const rows = DB.query`
-      SELECT id, original_url FROM url
+        SELECT id, original_url
+        FROM url
     `;
     const urls: URL[] = [];
     for await (const row of rows) {
