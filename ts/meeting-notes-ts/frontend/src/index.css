@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* purgecss start ignore */
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+html, body {
+  @apply h-full;
+}
+
+html {
+  @apply antialiased;
+  font-size: 16px; /* Force the definition of 16px as 1rem */
+}
+
+body {
+  @apply antialiased;
+}
+
+#root {
+  @apply w-full h-full;
+}
+
+.milkdown {
+  @apply rounded bg-[#fcfcfc];
+}
+
+.editor {
+  @apply px-10 py-8 mx-auto min-h-screen;
+}
+
+.ProseMirror:focus {
+    outline: none;
+}
+
+.prose li {
+  @apply mt-0 mb-0;
+}
+
+.prose li p {
+  @apply mt-2 mb-2;
+}
+
+/* purgecss end ignore */

@@ -1,0 +1,43 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "generate-client:staging": "encore gen client {{ENCORE_APP_ID}} --output=./src/client.ts --env=staging",
+    "generate-client:local": "encore gen client {{ENCORE_APP_ID}} --output=./src/client.ts --env=local"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.7.15",
+    "@milkdown/core": "^7.2.3",
+    "@milkdown/ctx": "^7.2.3",
+    "@milkdown/plugin-history": "^7.2.3",
+    "@milkdown/plugin-listener": "^7.2.3",
+    "@milkdown/preset-commonmark": "^7.2.3",
+    "@milkdown/prose": "^7.2.3",
+    "@milkdown/react": "^7.2.3",
+    "@milkdown/transformer": "^7.2.3",
+    "@phosphor-icons/react": "^2.0.9",
+    "lodash.debounce": "^4.0.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.9",
+    "@types/lodash.debounce": "^4.0.7",
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11",
+    "@types/uuid": "^9.0.2",
+    "@vitejs/plugin-react": "^4.0.0",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
+    "prettier": "^2.8.8",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.9"
+  }
+}
