@@ -34,7 +34,7 @@ Create a new API, give it a name and an identifier. When the API is created, cop
 
 ### Config values
 
-In `backend/auth/auth-config.cue`, replace the values for the `ClientID` and `Audience` that you got from the Auth0 dashboard.
+In `backend/auth/auth-config.cue`, replace the values for the `Domain` and `Audience` that you got from the Auth0 dashboard.
 
 In `frontend/.env` file, replace the values for `VITE_AUTH0_DOMAIN` and `VITE_AUTH0_CLIENT_ID` that you got from the Auth0 dashboard.
 
