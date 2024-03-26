@@ -23,6 +23,8 @@ environment. Use the appropriate command for your system:
 
 ## Starters
 
+### Go
+
 | Name                                       | Description                                                      | Primitives                                       |
 |--------------------------------------------|------------------------------------------------------------------|--------------------------------------------------|
 | [hello-world](hello-world)                 | REST API Starter                                                 | APIs                                             |
@@ -43,6 +45,19 @@ environment. Use the appropriate command for your system:
 | [clerk](clerk)                             | Clerk React SDK Authentication + Encore Example                  | APIs, Auth, Frontend                             |
 | [firebase-auth](firebase-auth)             | Firebase Authentication + Encore Example                         | APIs, Auth, Frontend                             |
 
+### TypeScript
+
+| Name                                     | Description                                        | Primitives                                       |
+|------------------------------------------|----------------------------------------------------|--------------------------------------------------|
+| [ts/hello-world](ts/hello-world)         | REST API Starter                                   | APIs                                             |
+| [ts/uptime](ts/uptime-ts)                | Event-Driven Architecture Starter (Uptime Monitor) | Microservices, SQL Databases, Pub/Sub, Cron Jobs |
+| [ts/url-shortener](ts/url-shortener)     | Basic url shortener                                | APIs, SQL Database                               |
+| [ts/next-starter](ts/nextjs-starter)     | Next.js + Encore Web App Starter                   | APIs, Auth, Frontend                             |
+| [ts/react-starter](ts/react-starter)     | React + Encore Web App Starter                     | APIs, Auth, Frontend                             |
+| [ts/meeting-notes](ts/meeting-notes)     | Meeting Notes App deployed to GitHub Pages         | APIs, SQL Database, External Requests            |
+| [ts/auth0-react-sdk](ts/auth0-react-sdk) | Auth0 React SDK Authentication + Encore Example    | APIs, Auth, Frontend                             |
+| [ts/clerk](ts/clerk)                     | Clerk React SDK Authentication + Encore Example    | APIs, Auth, Frontend                             |
+
 ### Running Starters
 
 Each sub-folder in this repo contains a runnable **Starter** application.
@@ -61,7 +76,7 @@ Running on http://localhost:4000
 8:00AM INF registered endpoint endpoint=There service=hello
 ```
 
-## Bits
+## Go Bits
 
 The [bits](bits) sub-folder contains reusable code samples that can be copied directly into your own application.
 

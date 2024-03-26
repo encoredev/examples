@@ -1,0 +1,19 @@
+{
+  "name": "url-shortener",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Encore URL Shortener Tutorial",
+  "license": "MPL-2.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2",
+    "vitest": "^1.2.2"
+  },
+  "dependencies": {
+    "encore.dev": "v1.29.1-beta.4"
+  }
+}
