@@ -1,9 +1,8 @@
-import { Gateway, Header } from "encore.dev/api";
+import { Clerk, verifyToken } from "@clerk/backend";
+import { APIError, Gateway, Header } from "encore.dev/api";
 import { authHandler } from "encore.dev/auth";
 import { secret } from "encore.dev/config";
-import { APIError } from "encore.dev/errs";
 import { AUTHORIZED_PARTIES, DOMAIN } from "./config";
-import { Clerk, verifyToken } from "@clerk/backend";
 
 const clerkSecretKey = secret("ClerkSecretKey");
 
@@ -41,10 +40,9 @@ const myAuthHandler = authHandler(
         emailAddress: user.emailAddresses[0].emailAddress || null,
       };
     } catch (e) {
-      console.error(e);
-      throw APIError.unauthenticated("invalid token");
+      throw APIError.unauthenticated("invalid token", e as Error);
     }
-  },
+  }
 );
 
 export const mygw = new Gateway({ authHandler: myAuthHandler });

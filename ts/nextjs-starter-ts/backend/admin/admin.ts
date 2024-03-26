@@ -1,6 +1,5 @@
 import { api } from "encore.dev/api";
-import log from "encore.dev/log";
-import { getAuthData } from "../encore.gen/auth";
+import { getAuthData } from "~encore/auth";
 
 // Welcome to Encore!
 //
@@ -22,11 +21,13 @@ export const getDashboardData = api(
   },
   async (): Promise<DashboardData> => {
     const userID = getAuthData()!.userID;
-    // Log statements are viewable in the traces
+    // Log statements are viewable in the traces:
+    //
+    // import log from "encore.dev/log";
     // log.info("Data requested by user", { userID });
 
     return { value: "Admin stuff" };
-  },
+  }
 );
 
 interface DashboardData {

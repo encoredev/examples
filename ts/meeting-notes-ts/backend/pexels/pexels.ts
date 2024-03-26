@@ -1,6 +1,5 @@
+import { api, APIError } from "encore.dev/api";
 import { secret } from "encore.dev/config";
-import { api } from "encore.dev/api";
-import { APIError } from "encore.dev/errs";
 
 const pexelsApiKey = secret("PexelsApiKey");
 
@@ -24,7 +23,7 @@ export const searchPhoto = api(
         headers: {
           Authorization: pexelsApiKey(),
         },
-      },
+      }
     );
     if (resp.status >= 400) {
       throw APIError.internal(`Pexels API error: ${resp.status}`);
@@ -40,5 +39,5 @@ export const searchPhoto = api(
         alt: photo.alt,
       })),
     };
-  },
+  }
 );

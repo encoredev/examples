@@ -1,6 +1,5 @@
 import { api } from "encore.dev/api";
-import log from "encore.dev/log";
-import { getAuthData } from "../encore.gen/auth";
+import { getAuthData } from "~encore/auth";
 
 // Welcome to Encore!
 //
@@ -26,7 +25,7 @@ export const getDashboardData = api(
     // log.info("Data requested by user", { userID });
 
     return { value: "Admin stuff" };
-  },
+  }
 );
 
 interface DashboardData {

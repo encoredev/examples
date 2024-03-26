@@ -1,7 +1,8 @@
 import { api } from "encore.dev/api";
+import { secret } from "encore.dev/config";
+import log from "encore.dev/log";
 import { Subscription } from "encore.dev/pubsub";
 import { TransitionTopic } from "../monitor/check";
-import { secret } from "encore.dev/config";
 
 export interface NotifyParams {
   text: string; // the slack message to send
@@ -10,7 +11,7 @@ export interface NotifyParams {
 export const notify = api<NotifyParams>({}, async ({ text }) => {
   const url = webhookURL();
   if (!url) {
-    console.log("no slack webhook url defined, skipping slack notification");
+    log.info("no slack webhook url defined, skipping slack notification");
     return;
   }
 

@@ -1,8 +1,8 @@
-import { api } from "encore.dev/api";
-import { randomBytes } from "node:crypto";
+import { api, APIError } from "encore.dev/api";
 import { SQLDatabase } from "encore.dev/storage/sqldb";
+import { randomBytes } from "node:crypto";
 
-const DB = new SQLDatabase("url", { migrations: "./migrations" });
+const db = new SQLDatabase("url", { migrations: "./migrations" });
 
 interface URL {
   id: string; // short-form URL id
@@ -18,24 +18,24 @@ export const shorten = api(
   { expose: true, auth: false, method: "POST", path: "/url" },
   async ({ url }: ShortenParams): Promise<URL> => {
     const id = randomBytes(6).toString("base64url");
-    await DB.exec`
+    await db.exec`
         INSERT INTO url (id, original_url)
         VALUES (${id}, ${url})
     `;
     return { id, url };
-  },
+  }
 );
 
 // Get retrieves the original URL for the id.
 export const get = api(
   { expose: true, auth: false, method: "GET", path: "/url/:id" },
   async ({ id }: { id: string }): Promise<URL> => {
-    const row = await DB.queryRow`
+    const row = await db.queryRow`
         SELECT original_url FROM url WHERE id = ${id}
     `;
-    if (!row) throw new Error("url not found");
+    if (!row) throw APIError.notFound("url not found");
     return { id, url: row.original_url };
-  },
+  }
 );
 
 interface ListResponse {
@@ -46,7 +46,7 @@ interface ListResponse {
 export const list = api(
   { expose: false, method: "GET", path: "/url" },
   async (): Promise<ListResponse> => {
-    const rows = DB.query`
+    const rows = db.query`
         SELECT id, original_url
         FROM url
     `;
@@ -55,5 +55,5 @@ export const list = api(
       urls.push({ id: row.id, url: row.original_url });
     }
     return { urls };
-  },
+  }
 );
