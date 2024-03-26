@@ -16,7 +16,7 @@ The backend uses an SQL database to store meeting notes and has three API endpoi
 When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone this example by running this command:
 
 ```bash
-encore app create my-app --example=ts/meeting-notes-ts
+encore app create my-app --example=ts/meeting-notes
 ```
 
 ## Pexels API key

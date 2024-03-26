@@ -7,7 +7,7 @@ This is a RESTful API Starter with a single Hello World API endpoint.
 When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone this example with this command.
 
 ```bash
-encore app create my-app-name --example=ts/hello-world-ts
+encore app create my-app-name --example=ts/hello-world
 ```
 
 ## Running locally

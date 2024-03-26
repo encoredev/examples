@@ -1,18 +1,44 @@
-# React + Encore TS Web App Starter
+# Clerk React SDK + Encore App Example
 
-This is an [Encore](https://encore.dev/) + [React](https://react.dev/) project starter. It's a great way to learn how to
-combine Encore's backend capabilities with a modern web framework — perfect for building a web app.
+This is an example of how to do user authentication using [Clerk](https://clerk.com/) together with an Encore app.
+Check out the [Use Clerk with your app](https://encore.dev/docs/how-to/clerk-auth) guide to learn more about this example.
 
-## Developing locally
+## Cloning the example
 
 When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone
 this example by running this command:
 
 ```bash
-encore app create my-app --example=ts/react-starter-ts
+encore app create my-app --example=ts/clerk
 ```
 
-### Running locally
+## Clerk Credentials
+
+Create a Clerk account if you haven't already. Then, in the Clerk dashboard, create a new application.
+
+Next, go to the *API Keys* page for your app. Copy the "Publishable Key" and one of the "Secret keys".
+
+In `frontend/.env` file, replace the values for `VITE_CLERK_PUBLISHABLE_KEY` with the value from your Clerk dashboard.
+
+The `Secret key` is sensitive and should not be hardcoded in your code/config. Instead, you should store that as an [Encore secret](https://encore.dev/docs/primitives/secrets).
+
+From your terminal (inside your Encore app directory), run:
+
+```shell
+$ encore secret set --prod ClientSecretKey
+```
+
+Next, do the same for the development secret. The most secure way is to create another secret key (Clerk allows you to have multiple).
+Once you have a client secret for development, set it similarly to before:
+
+```shell
+$ encore secret set --dev ClientSecretKey
+```
+
+Next, go the *Domains* page for your app in the Clerk dashboard. There you will find the domain for your app.
+Replace the value for the `DOMAIN` variable in `auth/config.ts` with your domain.
+
+## Developing locally
 
 Run your Encore backend:
 
@@ -97,8 +123,3 @@ global_cors: {
 ```
 
 More information on CORS configuration can be found here: https://encore.dev/docs/develop/cors
-
-## Learn More
-
-- [Encore Documentation](https://encore.dev/docs)
-- [React Documentation](https://react.dev/)

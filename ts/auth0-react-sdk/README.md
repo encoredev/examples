@@ -11,7 +11,7 @@ When you have [installed Encore](https://encore.dev/docs/install), you can creat
 this example by running this command:
 
 ```bash
-encore app create my-app --example=ts/auth0-react-sdk-ts
+encore app create my-app --example=ts/auth0-react-sdk
 ```
 
 ## Auth0 Credentials

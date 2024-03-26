@@ -12,7 +12,7 @@ If you prefer to built it yourself, check out the [tutorial](https://encore.dev/
 When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone this example with this command.
 
 ```bash
-encore app create my-app-name --example=ts/url-shortener-ts
+encore app create my-app-name --example=ts/url-shortener
 ```
 
 ## Running locally

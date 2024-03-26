@@ -9,7 +9,7 @@ When you have [installed Encore](https://encore.dev/docs/install), you can creat
 this example by running this command:
 
 ```bash
-encore app create my-app --example=ts/nextjs-starter-ts
+encore app create my-app --example=ts/nextjs-starter
 ```
 
 ### Running locally

@@ -47,16 +47,16 @@ environment. Use the appropriate command for your system:
 
 ### TypeScript
 
-| Name                                    | Description                                                      | Primitives                                       |
-|-----------------------------------------|------------------------------------------------------------------|--------------------------------------------------|
-| [hello-world-ts](ts/hello-world-ts)     | REST API Starter                                                 | APIs                                             |
-| [uptime-ts](ts/uptime-ts)               | Event-Driven Architecture Starter (Uptime Monitor)               | Microservices, SQL Databases, Pub/Sub, Cron Jobs |
-| [url-shortener-ts](ts/url-shortener-ts) | Basic url shortener                                              | APIs, SQL Database                               |
-| [next-starter-ts](ts/nextjs-starter-ts) | Next.js + Encore Web App Starter                                 | APIs, Auth, Frontend                             |
-| [react-starter-ts](ts/react-starter-ts) | React + Encore Web App Starter                                   | APIs, Auth, Frontend                             |
-| [meeting-notes-ts](ts/meeting-notes-ts) | Meeting Notes App deployed to GitHub Pages                       | APIs, SQL Database, External Requests            |
-| [auth0-react-sdk](auth0-react-sdk)      | Auth0 React SDK Authentication + Encore Example                  | APIs, Auth, Frontend                             |
-| [clerk](clerk)                          | Clerk React SDK Authentication + Encore Example                  | APIs, Auth, Frontend                             |
+| Name                                     | Description                                        | Primitives                                       |
+|------------------------------------------|----------------------------------------------------|--------------------------------------------------|
+| [ts/hello-world](ts/hello-world)         | REST API Starter                                   | APIs                                             |
+| [ts/uptime](ts/uptime-ts)                | Event-Driven Architecture Starter (Uptime Monitor) | Microservices, SQL Databases, Pub/Sub, Cron Jobs |
+| [ts/url-shortener](ts/url-shortener)     | Basic url shortener                                | APIs, SQL Database                               |
+| [ts/next-starter](ts/nextjs-starter)     | Next.js + Encore Web App Starter                   | APIs, Auth, Frontend                             |
+| [ts/react-starter](ts/react-starter)     | React + Encore Web App Starter                     | APIs, Auth, Frontend                             |
+| [ts/meeting-notes](ts/meeting-notes)     | Meeting Notes App deployed to GitHub Pages         | APIs, SQL Database, External Requests            |
+| [ts/auth0-react-sdk](ts/auth0-react-sdk) | Auth0 React SDK Authentication + Encore Example    | APIs, Auth, Frontend                             |
+| [ts/clerk](ts/clerk)                     | Clerk React SDK Authentication + Encore Example    | APIs, Auth, Frontend                             |
 
 ### Running Starters
 
