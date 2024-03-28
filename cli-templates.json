@@ -4,31 +4,43 @@
     {
         "title":    "Hello World",
         "desc":     "A simple REST API",
-        "template": "hello-world"
+        "template": "hello-world",
+        "lang": "go"
     },
     {
-        "title":    "Uptime Monitor (TypeScript)",
+        "title":    "Uptime Monitor",
         "desc":     "Microservices, SQL Databases, Pub/Sub, Cron Jobs",
-        "template": "uptime-ts"
+        "template": "ts/uptime",
+        "lang": "ts"
     },
     {
-        "title":    "Uptime Monitor (Go)",
+        "title":    "Uptime Monitor",
         "desc":     "Microservices, SQL Databases, Pub/Sub, Cron Jobs",
-        "template": "uptime"
+        "template": "uptime",
+        "lang": "go"
     },
     {
         "title":    "GraphQL",
         "desc":     "GraphQL API, Microservices, SQL Database",
-        "template": "graphql"
+        "template": "graphql",
+        "lang": "go"
     },
     {
         "title":    "URL Shortener",
         "desc":     "REST API, SQL Database",
-        "template": "url-shortener"
+        "template": "url-shortener",
+        "lang": "go"
     },
     {
         "title": "Empty app",
         "desc": "Start from scratch (experienced users only)",
-        "template": ""
+        "template": "",
+        "lang": "go"
+    },
+    {
+        "title": "Empty app",
+        "desc": "Start from scratch (experienced users only)",
+        "template": "",
+        "lang": "ts"
     }
 ]
