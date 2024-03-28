@@ -8,9 +8,9 @@
         "lang": "go"
     },
     {
-        "title":    "Uptime Monitor",
-        "desc":     "Microservices, SQL Databases, Pub/Sub, Cron Jobs",
-        "template": "ts/uptime",
+        "title":    "Hello World",
+        "desc":     "A simple REST API",
+        "template": "ts/hello-world",
         "lang": "ts"
     },
     {
@@ -18,6 +18,12 @@
         "desc":     "Microservices, SQL Databases, Pub/Sub, Cron Jobs",
         "template": "uptime",
         "lang": "go"
+    },
+    {
+        "title":    "Uptime Monitor",
+        "desc":     "Microservices, SQL Databases, Pub/Sub, Cron Jobs",
+        "template": "ts/uptime",
+        "lang": "ts"
     },
     {
         "title":    "GraphQL",
@@ -30,6 +36,12 @@
         "desc":     "REST API, SQL Database",
         "template": "url-shortener",
         "lang": "go"
+    },
+    {
+        "title":    "URL Shortener",
+        "desc":     "REST API, SQL Database",
+        "template": "ts/url-shortener",
+        "lang": "ts"
     },
     {
         "title": "Empty app",
