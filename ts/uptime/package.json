@@ -17,5 +17,8 @@
     "encore.dev": "v1.29.1-beta.4",
     "knex": "^3.0.1",
     "pg": "^8.11.3"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
   }
 }
