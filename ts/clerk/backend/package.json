@@ -12,5 +12,8 @@
   "dependencies": {
     "@clerk/backend": "^0.38.3",
     "encore.dev": "v1.29.1-beta.4"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
   }
 }
