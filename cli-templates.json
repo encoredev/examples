@@ -40,7 +40,7 @@
     {
         "title": "Empty app",
         "desc": "Start from scratch (experienced users only)",
-        "template": "",
+        "template": "ts/empty",
         "lang": "ts"
     }
 ]
