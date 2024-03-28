@@ -43,7 +43,11 @@ interface Response {
 //     git commit -m 'Commit message'
 //     git push encore
 //
-// 2. To continue exploring Encore, check out one of these topics:
+// 2. To continue exploring Encore, check out these topics in docs:
 //
-//    Building a REST API:   https://encore.dev/docs/ts/tutorials/rest-api
-//    Using SQL databases:   https://encore.dev/docs/ts/develop/databases
+//    Creating services and APIs: https://encore.dev/docs/ts/primitives/services-and-apis
+//    Using SQL databases: https://encore.dev/docs/ts/primitives/databases
+//    Authentication: https://encore.dev/docs/ts/develop/auth
+//    Using Pub/Sub: https://encore.dev/docs/ts/primitives/pubsub
+//    Using Cron Jobs: https://encore.dev/docs/ts/primitives/cron-jobs
+//    Using Secrets: https://encore.dev/docs/ts/primitives/secrets
