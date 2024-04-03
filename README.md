@@ -50,7 +50,7 @@ environment. Use the appropriate command for your system:
 | Name                                     | Description                                        | Primitives                                       |
 |------------------------------------------|----------------------------------------------------|--------------------------------------------------|
 | [ts/hello-world](ts/hello-world)         | REST API Starter                                   | APIs                                             |
-| [ts/uptime](ts/uptime-ts)                | Event-Driven Architecture Starter (Uptime Monitor) | Microservices, SQL Databases, Pub/Sub, Cron Jobs |
+| [ts/uptime](ts/uptime)                   | Event-Driven Architecture Starter (Uptime Monitor) | Microservices, SQL Databases, Pub/Sub, Cron Jobs |
 | [ts/url-shortener](ts/url-shortener)     | Basic url shortener                                | APIs, SQL Database                               |
 | [ts/next-starter](ts/nextjs-starter)     | Next.js + Encore Web App Starter                   | APIs, Auth, Frontend                             |
 | [ts/react-starter](ts/react-starter)     | React + Encore Web App Starter                     | APIs, Auth, Frontend                             |
@@ -65,10 +65,10 @@ Each sub-folder in this repo contains a runnable **Starter** application.
 Use `encore app create [app-name] --example=[folder-name]` to
 create your own app based on the example.
 
-For example, to create an app based on `sql-database`:
+For example, to create an app based on `hello-world`:
 
 ```bash
-$ encore app create my-app --example=sql-database
+$ encore app create my-app --example=hello-world
 Successfully created app my-app.
 $ cd my-app
 $ encore run
