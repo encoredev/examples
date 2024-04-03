@@ -14,7 +14,6 @@ export const SiteAddedTopic = new Topic<Site>("site.added", {
 
 export interface AddParams {
   url: string;
-  slug?: string;
 }
 
 // Add a new site.
