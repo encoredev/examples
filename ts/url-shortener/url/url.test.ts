@@ -1,10 +1,14 @@
 import { describe, expect, test } from "vitest";
-import { dummy, get, shorten } from "./url";
+import { get, shorten } from "./url";
 
-describe("shorten", () => {
-  test("it should ...", async () => {
-    const resp = dummy();
-    const val = await Promise.resolve(123);
-    expect(val).toBe(123);
+describe("Test shorten and retrieve", () => {
+  test("it should work", async () => {
+    const testURL = "https://github.com/encoredev/encore";
+    const resp = await shorten({ url: testURL });
+    expect(resp).toStrictEqual({ id: expect.any(String), url: testURL });
+
+    const { id } = resp;
+    const gotURL = await get({ id });
+    expect(gotURL).toStrictEqual({ id, url: testURL });
   });
 });
