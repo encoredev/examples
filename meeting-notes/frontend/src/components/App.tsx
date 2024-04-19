@@ -32,6 +32,26 @@ function App() {
   const [showCoverSelector, setShowCoverSelector] = useState(false);
   const [showSharingModal, setShowSharingModal] = useState(false);
 
+  useEffect(() => {
+    const fetchNote = async () => {
+      // If we do not have an id then we are creating a new note, nothing needs to be fetched
+      if (!queryParamID) {
+        setIsLoading(false);
+        return;
+      }
+      try {
+        // Fetch the note from the backend
+        const response = await client.note.GetNote(queryParamID);
+        setCoverImage(response.cover_url || "");
+        setContent(response.text || "");
+      } catch (err) {
+        console.error(err);
+      }
+      setIsLoading(false);
+    };
+    fetchNote();
+  }, []);
+
   const saveDocument = async () => {
     try {
       // Send POST request to the backend for saving the note
