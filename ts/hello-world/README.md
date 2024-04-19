@@ -40,3 +40,9 @@ Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your 
 From there you can also connect your own AWS or GCP account to use for deployment.
 
 Now off you go into the clouds!
+
+## Testing
+
+```bash
+encore test
+```
