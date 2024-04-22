@@ -27,7 +27,7 @@ export const getDashboardData = api(
     // log.info("Data requested by user", { userID });
 
     return { value: "Admin stuff" };
-  }
+  },
 );
 
 interface DashboardData {

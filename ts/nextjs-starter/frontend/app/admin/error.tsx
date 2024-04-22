@@ -13,5 +13,9 @@ export default function Error({
     console.error(error);
   }, [error]);
 
+  if (error.message === "invalid auth param") {
+    return <p>You need to login to view this data</p>;
+  }
+
   return <p>Something went wrong!</p>;
 }

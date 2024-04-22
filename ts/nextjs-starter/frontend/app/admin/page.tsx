@@ -1,6 +1,6 @@
-import getRequestClient from "@/app/lib/getRequestClient";
-import { admin, APIError, ErrCode } from "@/app/lib/client";
 import { redirect } from "next/navigation";
+import getRequestClient from "../lib/getRequestClient";
+import { admin, APIError, ErrCode } from "../lib/client";
 
 export default async function Admin() {
   const client = getRequestClient();

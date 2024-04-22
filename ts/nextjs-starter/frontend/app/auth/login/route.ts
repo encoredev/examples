@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import type { NextApiResponse } from "next";
 import { cookies } from "next/headers";
-import getRequestClient from "@/app/lib/getRequestClient";
+import getRequestClient from "../../lib/getRequestClient";
 
 type ResponseData = {
   message: string;
