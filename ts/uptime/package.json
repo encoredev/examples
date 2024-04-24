@@ -11,12 +11,22 @@
   "devDependencies": {
     "@types/node": "^20.5.7",
     "typescript": "^5.2.2",
-    "vitest": "^1.2.2"
+    "vitest": "^1.2.2",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/luxon": "^3.0.1"
   },
   "dependencies": {
-    "encore.dev": "v1.29.1-beta.4",
+    "encore.dev": "^1.36.2",
     "knex": "^3.0.1",
-    "pg": "^8.11.3"
+    "pg": "^8.11.3",
+    "@tanstack/react-query": "^5.31.0",
+    "@headlessui/react": "^1.7.2",
+    "@heroicons/react": "^2.0.11",
+    "luxon": "^3.0.4",
+    "next": "14.2.2",
+    "react": "^18",
+    "react-dom": "^18"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.13.0"

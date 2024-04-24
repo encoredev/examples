@@ -8,6 +8,8 @@ export interface NotifyParams {
   text: string; // the slack message to send
 }
 
+// Sends a Slack message to a pre-configured channel using a
+// Slack Incoming Webhook (see https://api.slack.com/messaging/webhooks).
 export const notify = api<NotifyParams>({}, async ({ text }) => {
   const url = webhookURL();
   if (!url) {
@@ -25,6 +27,8 @@ export const notify = api<NotifyParams>({}, async ({ text }) => {
   }
 });
 
+// SlackWebhookURL defines the Slack webhook URL to send
+// uptime notifications to.
 const webhookURL = secret("SlackWebhookURL");
 
 const _ = new Subscription(TransitionTopic, "slack-notification", {
