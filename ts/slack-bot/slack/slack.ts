@@ -1,8 +1,8 @@
-import {api} from "encore.dev/api";
-import {secret} from "encore.dev/config";
-import {IncomingMessage} from "node:http";
-import {createHmac} from "node:crypto";
-import {IncomingHttpHeaders} from "http"; // This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/ts/primitives/secrets
+import { api } from "encore.dev/api";
+import { secret } from "encore.dev/config";
+import { IncomingMessage } from "node:http";
+import { createHmac, timingSafeEqual } from "node:crypto";
+import { IncomingHttpHeaders } from "http"; // This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/ts/primitives/secrets
 
 // This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/ts/primitives/secrets
 const slackSigningSecret = secret("SlackSigningSecret");
@@ -23,36 +23,77 @@ const cowart = (msg: string) => `
 `;
 
 export const cowsay = api.raw(
-  {expose: true, path: "/cowsay", method: "*"},
+  { expose: true, path: "/cowsay", method: "*" },
   async (req, resp) => {
-
     const body = await getBody(req);
-    const isValid = await verifySignature(body, req.headers);
 
-    if (!isValid) {
+    try {
+      await verifySignature(body, req.headers);
+    } catch (err) {
+      const e = err as Error;
+      console.error(e.message);
       resp.statusCode = 500;
-      resp.end("Invalid signature");
+      resp.end(e.message);
       return;
     }
 
     const text = new URLSearchParams(body).get("text");
     const msg = cowart(text || "Moo!");
     resp.setHeader("Content-Type", "application/json");
-    resp.end(JSON.stringify({response_type: "in_channel", text: msg}));
+    resp.end(JSON.stringify({ response_type: "in_channel", text: msg }));
   },
 );
 
 // Verifies the signature of an incoming request from Slack.
-const verifySignature = async function (body: string, headers: IncomingHttpHeaders) {
-  const signature = headers['x-slack-signature'] as string;
-  const timestamp = headers['x-slack-request-timestamp'] as string;
-  try {
-    const hmac = createHmac('sha256', slackSigningSecret())
-    const [version, hash] = signature.split('=')
-    hmac.update(`${version}:${timestamp}:${body}`)
-    return hmac.digest('hex') === hash;
-  } catch (err) {
-    return false;
+// https://github.com/slackapi/bolt-js/blob/main/src/receivers/verify-request.ts
+const verifySignature = async function (
+  body: string,
+  headers: IncomingHttpHeaders,
+) {
+  const requestTimestampSec = parseInt(
+    headers["x-slack-request-timestamp"] as string,
+  );
+  const signature = headers["x-slack-signature"] as string;
+  if (Number.isNaN(requestTimestampSec)) {
+    throw new Error(
+      `Failed to verify authenticity: header x-slack-request-timestamp did not have the expected type (${requestTimestampSec})`,
+    );
+  }
+
+  // Calculate time-dependent values
+  const nowMs = Date.now();
+  const requestTimestampMaxDeltaMin = 5;
+  const fiveMinutesAgoSec =
+    Math.floor(nowMs / 1000) - 60 * requestTimestampMaxDeltaMin;
+
+  // Enforce verification rules
+
+  // Rule 1: Check staleness
+  if (requestTimestampSec < fiveMinutesAgoSec) {
+    throw new Error(
+      `Failed to verify authenticity: x-slack-request-timestamp must differ from system time by no more than ${requestTimestampMaxDeltaMin} minutes or request is stale`,
+    );
+  }
+
+  // Rule 2: Check signature
+  // Separate parts of signature
+  const [signatureVersion, signatureHash] = signature.split("=");
+  // Only handle known versions
+  if (signatureVersion !== "v0") {
+    throw new Error(`Failed to verify authenticity: unknown signature version`);
+  }
+  // Compute our own signature hash
+  const hmac = createHmac("sha256", slackSigningSecret());
+  hmac.update(`${signatureVersion}:${requestTimestampSec}:${body}`);
+  const ourSignatureHash = hmac.digest("hex");
+  if (
+    !signatureHash ||
+    !timingSafeEqual(
+      Buffer.from(signatureHash, "utf8"),
+      Buffer.from(ourSignatureHash, "utf8"),
+    )
+  ) {
+    throw new Error(`Failed to verify authenticity: signature mismatch`);
   }
 };
 
