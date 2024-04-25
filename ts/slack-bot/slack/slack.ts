@@ -31,7 +31,6 @@ export const cowsay = api.raw(
       await verifySignature(body, req.headers);
     } catch (err) {
       const e = err as Error;
-      console.error(e.message);
       resp.statusCode = 500;
       resp.end(e.message);
       return;
