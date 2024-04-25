@@ -1,0 +1,21 @@
+{
+  "name": "auth0-react-sdk-example",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Auth0 React SDK Example",
+  "license": "MPL-2.0",
+  "type": "module",
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "auth0": "^4.3.1",
+    "encore.dev": "v1.29.1-beta.4",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
+  }
+}
