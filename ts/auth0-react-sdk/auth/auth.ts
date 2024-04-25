@@ -1,8 +1,7 @@
 import { UserInfoClient } from "auth0";
-import { Gateway, Header } from "encore.dev/api";
+import { Gateway, Header, APIError } from "encore.dev/api";
 import { authHandler } from "encore.dev/auth";
 import { secret } from "encore.dev/config";
-import { APIError } from "encore.dev/errs";
 import jwt from "jsonwebtoken";
 import { AUDIENCE, DOMAIN } from "./config";
 
@@ -50,7 +49,7 @@ const myAuthHandler = authHandler(
     } catch (e) {
       throw APIError.unauthenticated("invalid token");
     }
-  }
+  },
 );
 
 export const mygw = new Gateway({ authHandler: myAuthHandler });
