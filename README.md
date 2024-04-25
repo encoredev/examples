@@ -52,6 +52,7 @@ environment. Use the appropriate command for your system:
 | [ts/hello-world](ts/hello-world)         | REST API Starter                                   | APIs                                             |
 | [ts/uptime](ts/uptime)                   | Event-Driven Architecture Starter (Uptime Monitor) | Microservices, SQL Databases, Pub/Sub, Cron Jobs |
 | [ts/url-shortener](ts/url-shortener)     | Basic url shortener                                | APIs, SQL Database                               |
+| [ts/slack-bot](ts/slack-bot)             | Slack Bot Starter                                  | APIs, Raw Endpoint                               |
 | [ts/next-starter](ts/nextjs-starter)     | Next.js + Encore Web App Starter                   | APIs, Auth, Frontend                             |
 | [ts/react-starter](ts/react-starter)     | React + Encore Web App Starter                     | APIs, Auth, Frontend                             |
 | [ts/meeting-notes](ts/meeting-notes)     | Meeting Notes App deployed to GitHub Pages         | APIs, SQL Database, External Requests            |
