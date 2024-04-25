@@ -2,7 +2,7 @@ import { api } from "encore.dev/api";
 import { secret } from "encore.dev/config";
 import { IncomingMessage } from "node:http";
 import { createHmac, timingSafeEqual } from "node:crypto";
-import { IncomingHttpHeaders } from "http"; // This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/ts/primitives/secrets
+import { IncomingHttpHeaders } from "http";
 
 // This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/ts/primitives/secrets
 const slackSigningSecret = secret("SlackSigningSecret");
