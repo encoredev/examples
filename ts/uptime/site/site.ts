@@ -1,6 +1,7 @@
 import { api } from "encore.dev/api";
 import { SQLDatabase } from "encore.dev/storage/sqldb";
 import knex from "knex";
+import { Topic } from "encore.dev/pubsub";
 
 // Site describes a monitored site.
 export interface Site {
@@ -8,9 +9,9 @@ export interface Site {
   url: string;
 }
 
-// export const SiteAddedTopic = new Topic<Site>("site.added", {
-//   deliveryGuarantee: "at-least-once",
-// });
+export const SiteAddedTopic = new Topic<Site>("site.added", {
+  deliveryGuarantee: "at-least-once",
+});
 
 // AddParams are the parameters for adding a site to be monitored.
 export interface AddParams {
@@ -24,7 +25,7 @@ export const add = api(
   { expose: true, method: "POST", path: "/site" },
   async (params: AddParams): Promise<Site> => {
     const site = (await Sites().insert({ url: params.url }, "*"))[0];
-    // await SiteAddedTopic.publish(site);
+    await SiteAddedTopic.publish(site);
     return site;
   },
 );

@@ -1,7 +1,6 @@
 // SiteStatus describes the current status of a site
 // and when it was last checked.
 import { api } from "encore.dev/api";
-import { SQLDatabase } from "encore.dev/storage/sqldb";
 import { MonitorDB } from "./check";
 
 interface SiteStatus {
