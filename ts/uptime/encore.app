@@ -1,4 +1,11 @@
 {
   "id": "",
-  "experiments": ["typescript"]
+  "experiments": [
+    "typescript"
+  ],
+  "build": {
+    "docker": {
+      "bundle_source": true
+    }
+  }
 }

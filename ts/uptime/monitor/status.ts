@@ -1,5 +1,4 @@
-// SiteStatus describes the current status of a site
-// and when it was last checked.
+// SiteStatus describes the current status of a site and when it was last checked.
 import { api } from "encore.dev/api";
 import { MonitorDB } from "./check";
 
