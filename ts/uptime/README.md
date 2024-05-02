@@ -46,7 +46,7 @@ Here you can see API docs, make requests in the API explorer, and view traces of
 
 ## View the frontend
 
-While `encore run` is running, head over to [http://localhost:4000/](http://localhost:4000/frontend/) to view the frontend for your uptime monitor.
+While `encore run` is running, head over to [http://localhost:4000/](http://localhost:4000/) to view the frontend for your uptime monitor.
 
 ## Using the API
 
