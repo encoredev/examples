@@ -1,13 +1,16 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Client, { Local, monitor, site } from "@/app/lib/client";
+import Client, { monitor, site } from "@/app/lib/client";
 import { FC, useEffect, useState } from "react";
 import { DateTime } from "luxon";
 
-const client = new Client(Local);
-
 function App() {
+  const [baseURL, setBaseURL] = useState("");
+  useEffect(() => setBaseURL(window.location.origin), []);
+
+  if (!baseURL) return null;
+
   return (
     <>
       <div className="min-h-full container px-4 mx-auto my-16">
@@ -16,14 +19,14 @@ function App() {
         </h2>
 
         <main className="pt-8 pb-16">
-          <SiteList />
+          <SiteList client={new Client(baseURL)} />
         </main>
       </div>
     </>
   );
 }
 
-const SiteList: FC = () => {
+const SiteList: FC<{ client: Client }> = ({ client }) => {
   const { isLoading, error, data } = useQuery({
     queryKey: ["sites"],
     queryFn: () => client.site.list(),
@@ -69,7 +72,7 @@ const SiteList: FC = () => {
           </p>
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-          <AddSiteForm />
+          <AddSiteForm client={client} />
         </div>
       </div>
 
@@ -142,7 +145,7 @@ const SiteList: FC = () => {
   );
 };
 
-const AddSiteForm: FC = () => {
+const AddSiteForm: FC<{ client: Client }> = ({ client }) => {
   const [formOpen, setFormOpen] = useState(false);
   const [url, setUrl] = useState("");
 
