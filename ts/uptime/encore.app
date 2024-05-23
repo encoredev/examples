@@ -1,8 +1,6 @@
 {
   "id": "",
-  "experiments": [
-    "typescript"
-  ],
+  "lang": "typescript",
   "build": {
     "docker": {
       "bundle_source": true
