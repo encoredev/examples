@@ -53,7 +53,7 @@ environment. Use the appropriate command for your system:
 | [ts/simple-event-driven](ts/simple-event-driven) | Simple Event-Driven Application                    | Microservices, SQL Database, Pub/Sub, Secrets    |
 | [ts/uptime](ts/uptime)                           | Event-Driven Architecture Starter (Uptime Monitor) | Microservices, SQL Databases, Pub/Sub, Cron Jobs |
 | [ts/url-shortener](ts/url-shortener)             | Basic url shortener                                | APIs, SQL Database                               |
-| [https://github.com/encoredev/nextjs-starter/](nextjs-starter)* | Encore + Next.js Web App Starter     | Microservices, APIs, Frontend                    |
+| [https://github.com/encoredev/nextjs-starter/](nextjs-starter) † | Encore + Next.js Web App Starter     | Microservices, APIs, Frontend                    |
 | [ts/slack-bot](ts/slack-bot)                     | Slack Bot Starter                                  | APIs, Raw Endpoint                               |
 | [ts/auth0-react-sdk](ts/auth0-react-sdk)         | Auth0 React SDK Authentication + Encore Example    | APIs, Auth, Frontend                             |
 | [ts/clerk](ts/clerk)                             | Clerk React SDK Authentication + Encore Example    | APIs, Auth, Frontend                             |
