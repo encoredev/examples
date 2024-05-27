@@ -36,9 +36,9 @@ environment. Use the appropriate command for your system:
 | [url-shortener](url-shortener)             | Basic url shortener                                              | APIs, SQL Database                               |
 | [sqlc-database](sqlc-database)             | Simple sqlc implementation                                       | APIs, SQL Database                               |
 | [next-starter](nextjs-starter)             | Next.js + Encore Web App Starter                                 | APIs, Auth, Frontend                             |
-| [next-auth0-starter](nextjs-auth0-starter) | Next.js + Auth0 + Encore Web App Starter                         | APIs, Auth, Frontend                             |
+| [next-auth0-starter](nextjs-auth0-starter) | Next.js + Auth0 + Encore Web App Starter                         | Microservices, APIs, Auth, Frontend              |
 | [react-starter](react-starter)             | React + Encore Web App Starter                                   | APIs, Auth, Frontend                             |
-| [booking-system](booking-system)           | Appointment Booking System Starter using data scrubbing and sqlc | APIs, Auth, SQL Database, Frontend               |
+| [booking-system](booking-system)           | Appointment Booking System Starter using data scrubbing and sqlc | Microservices, APIs, Auth, SQL Database, Frontend |
 | [meeting-notes](meeting-notes)             | Meeting Notes App deployed to GitHub Pages                       | APIs, SQL Database, External Requests            |
 | [auth0](auth0)                             | Auth0 Authentication + React + Encore Example                    | APIs, Auth, Frontend                             |
 | [auth0-react-sdk](auth0-react-sdk)         | Auth0 React SDK Authentication + Encore Example                  | APIs, Auth, Frontend                             |
@@ -53,9 +53,12 @@ environment. Use the appropriate command for your system:
 | [ts/simple-event-driven](ts/simple-event-driven) | Simple Event-Driven Application                    | Microservices, SQL Database, Pub/Sub, Secrets    |
 | [ts/uptime](ts/uptime)                           | Event-Driven Architecture Starter (Uptime Monitor) | Microservices, SQL Databases, Pub/Sub, Cron Jobs |
 | [ts/url-shortener](ts/url-shortener)             | Basic url shortener                                | APIs, SQL Database                               |
+| [https://github.com/encoredev/nextjs-starter/](nextjs-starter)* | Encore + Next.js Web App Starter     | Microservices, APIs, Frontend                    |
 | [ts/slack-bot](ts/slack-bot)                     | Slack Bot Starter                                  | APIs, Raw Endpoint                               |
 | [ts/auth0-react-sdk](ts/auth0-react-sdk)         | Auth0 React SDK Authentication + Encore Example    | APIs, Auth, Frontend                             |
 | [ts/clerk](ts/clerk)                             | Clerk React SDK Authentication + Encore Example    | APIs, Auth, Frontend                             |
+
+* = Cannot be installed using `encore app create --example`, create an empty app and clone the repo instead.
 
 ### Running Starters
 
