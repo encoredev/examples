@@ -58,7 +58,7 @@ environment. Use the appropriate command for your system:
 | [ts/auth0-react-sdk](ts/auth0-react-sdk)         | Auth0 React SDK Authentication + Encore Example    | APIs, Auth, Frontend                             |
 | [ts/clerk](ts/clerk)                             | Clerk React SDK Authentication + Encore Example    | APIs, Auth, Frontend                             |
 
-* = Cannot be installed using `encore app create --example`, create an empty app and clone the repo instead.
+† = Cannot be installed using `encore app create --example`, create an empty app and clone the repo instead.
 
 ### Running Starters
 
