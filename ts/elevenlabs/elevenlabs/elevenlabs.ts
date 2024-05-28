@@ -2,6 +2,7 @@ import { ElevenLabsClient } from "elevenlabs";
 import { api } from "encore.dev/api";
 import { IncomingMessage } from "node:http";
 import { secret } from "encore.dev/config";
+import log from "encore.dev/log";
 import { APICallMeta, currentRequest } from "encore.dev";
 
 const elevenLabsAPIKey = secret("ElevenLabsAPIKey");
@@ -38,7 +39,7 @@ export const generateVoiceAudio = api.raw(
       },
     });
 
-    audioStream.on("error", console.error);
+    audioStream.on("error", (err) => log.error("audio stream failed", { err }));
 
     audioStream.pipe(resp);
 
@@ -95,7 +96,7 @@ export const getHistoryItemAudio = api.raw(
     const { id } = current.pathParams;
     resp.setHeader("Content-Type", "audio/mpeg");
     const audioStream = await elevenlabs.history.getAudio(id);
-    audioStream.on("error", console.error);
+    audioStream.on("error", (err) => log.error("audio stream failed", { err }));
     audioStream.pipe(resp);
     req.on("close", () => {
       audioStream.destroy();
