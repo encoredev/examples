@@ -155,7 +155,12 @@ function App() {
       </div>
 
       <div className="flex space-x-4 absolute bottom-5 right-5">
-        <img src={gitHubSvg} alt="GitHub" className="h-[50px]" />
+        <a
+          href="https://github.com/encoredev/examples/tree/main/ts/elevenlabs"
+          target="_blank"
+        >
+          <img src={gitHubSvg} alt="GitHub" className="h-[50px]" />
+        </a>
         <a href="https://encore.dev" target="_blank">
           <img
             src={poweredbyPng}
