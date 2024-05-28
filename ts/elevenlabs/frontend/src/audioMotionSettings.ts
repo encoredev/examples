@@ -1,0 +1,35 @@
+import { ConstructorOptions } from "audiomotion-analyzer";
+
+const audioMotionSettings: ConstructorOptions = {
+  colorMode: "bar-level",
+  height: 300,
+  mode: 2,
+  channelLayout: "single",
+  gradient: "prism",
+  gradientLeft: "prism",
+  gradientRight: "prism",
+  showPeaks: false,
+  roundBars: true,
+  linearAmplitude: true,
+  reflexRatio: 0.5,
+  reflexAlpha: 1,
+  reflexBright: 1,
+  alphaBars: false,
+  ansiBands: false,
+  barSpace: 0.25,
+  frequencyScale: "log",
+  ledBars: false,
+  linearBoost: 1.6,
+  lumiBars: false,
+  maxFreq: 16000,
+  minFreq: 30,
+  mirror: 0,
+  radial: false,
+  showScaleX: false,
+  smoothing: 0.7,
+  weightingFilter: "D",
+  showBgColor: false,
+  overlay: true,
+};
+
+export default audioMotionSettings;

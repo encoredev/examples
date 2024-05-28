@@ -1,0 +1,25 @@
+{
+  "name": "encore-elevenlabs-starter",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Encore Typescript + ElevenLabs Starter",
+  "license": "MPL-2.0",
+  "type": "module",
+  "dependencies": {
+    "elevenlabs": "^0.6.0",
+    "encore.dev": "^1.37.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2",
+    "@headlessui/react": "^2.0.4",
+    "@phosphor-icons/react": "^2.1.5",
+    "audiomotion-analyzer": "^4.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.2.0"
+  }
+}
