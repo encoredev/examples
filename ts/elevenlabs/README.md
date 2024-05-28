@@ -1,6 +1,6 @@
 # ElevenLabs Generative AI Text-to-Speech
 
-This is an example of using Encore for Typescript together ElevenLabs for generating text-to-speech audio using generative voice AI.
+This is an example of using Encore for TypeScript together ElevenLabs for generating text-to-speech audio using generative voice AI.
 
 Generate and play audio:
 ![Generate and play audio](audio.png)
