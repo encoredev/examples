@@ -57,6 +57,7 @@ environment. Use the appropriate command for your system:
 | [ts/slack-bot](ts/slack-bot)                     | Slack Bot Starter                                  | APIs, Raw Endpoint                               |
 | [ts/auth0-react-sdk](ts/auth0-react-sdk)         | Auth0 React SDK Authentication + Encore Example    | APIs, Auth, Frontend                             |
 | [ts/clerk](ts/clerk)                             | Clerk React SDK Authentication + Encore Example    | APIs, Auth, Frontend                             |
+| [ts/elevenlabs](ts/elevenlabs)                   | ElevenLabs AI Speech SDK + Encore Example          | APIs, Raw Endpoints, Frontend                    |
 
 † = Cannot be installed using `encore app create --example`, create an empty app and clone the repo instead.
 
