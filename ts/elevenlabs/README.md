@@ -9,10 +9,10 @@ It's a great way to experiment with the latest in AI technology and enhance your
 Ready to bring your text to life?
 
 Generate and play audio:
-![Generate and play audio](audio.png)
+![Generate and play audio](./audio.png)
 
 Select from different voices:
-![Select different voices](voices.png)
+![Select different voices](./voices.png)
 
 ## Developing locally
 
