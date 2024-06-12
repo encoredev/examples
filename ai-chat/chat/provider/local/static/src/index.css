@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply !bg-gray-900 !text-white;
+}
+
+.cs-message-input__content-editor, .cs-message-input__content-editor-wrapper {
+  @apply !bg-gray-700 !text-white border border-white border-opacity-40;
+}
+
+.cs-button--send {
+  @apply !bg-blue !text-white !rounded-full;
+  padding: 0 !important;
+  height: 40px !important;
+  width: 40px !important;
+  margin-left: 10px !important;
+}
+
+.cs-button--send svg {
+  margin-left: -2px;
+}
+
+.cs-message-input__content-editor-wrapper {
+  @apply !rounded-md;
+}
+
+.cs-message-input__content-editor[data-placeholder]:empty:before {
+  @apply !text-gray-500;
+}
+
+.cs-message__content {
+  @apply !bg-transparent !rounded-none;
+}
+
+.cs-message-group {
+  @apply !max-w-full;
+}
+
+.cs-message-group__content, .cs-message-group__messages, .cs-message {
+  @apply !w-full;
+}
+
+.cs-typing-indicator__dot {
+  @apply !bg-white;
+}
+
+.cs-typing-indicator__text {
+  @apply !text-white;
+}
+
+.ps__thumb-y,
+.ps__rail-y:hover .ps__thumb-y,
+.ps__rail-y:active .ps__thumb-y {
+  @apply !bg-gray-500;
+}
+
+.ps__rail-y:hover,
+.ps .ps__rail-y:hover,
+.ps__rail-y {
+  @apply !bg-gray-700;
+}
+

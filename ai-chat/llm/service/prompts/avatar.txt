@@ -1,0 +1,3 @@
+Generate a realistic, professional photograph for the following character. Avoid including text in the image:
+
+%s

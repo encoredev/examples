@@ -1,0 +1,5 @@
+I want you to respond with a heated conversation between the characters described above.
+The topic of the conversation should be based on the name of the channel, which is %s.
+The total number of messages should be around 6, but you can add more to wrap things up.
+Sentences should be no longer than 20 words, to the point and adapted to the character's personality.
+The messages should be sent in chronological order.

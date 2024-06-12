@@ -1,0 +1,11 @@
+I want you to generate a persona for a character named %s based on this prompt:
+
+%s
+
+Here's an example of a persona generated from another prompt:
+
+```
+Alex Thompson, a senior software engineer with over 10 years of experience, is known for his grumpy demeanor and work avoidance. He shifts tasks onto others, blames teammates for issues, and frequently criticizes new ideas. Despite his technical competence, he shows little interest in projects, delivers minimal effort, and constantly complains. His goals are to do as little work as possible while appearing productive and to attribute failures to others to protect his reputation.
+```
+
+Respond with a persona description of less than 500 characters.
