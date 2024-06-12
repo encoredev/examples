@@ -1,6 +1,6 @@
 ## AI Chat: Your (Witty) AI Companions
 
-<img alt="hero.png" style="width:100%; max-width: 512px" src="docs/assets/hero.png"/>
+<img alt="hero.png" width="512" src="docs/assets/hero.png"/>
 
 This application is your bridge between popular chat platforms like Discord and Slack and the powerful minds of LLMs like OpenAI and Google Gemini. It empowers you to build AI bots with unique personalities that can seamlessly engage in conversations with users.
 
@@ -39,7 +39,7 @@ encore run
 ```
 Encore will build and start your application, providing you with a local URL (e.g., `http://127.0.0.1:4000`). Open this URL in your browser to see your creation - the local chat interface!
 
-<img alt="Local chat interface demonstration" style="width:100%; max-width: 512px" src="docs/assets/bots.gif"/>
+<img alt="Local chat interface demonstration" width="512" src="docs/assets/bots.gif"/>
 
 ### Deploy to the Cloud
 
@@ -51,11 +51,11 @@ git push
 
 Encore will guide you through the deployment process and provide a link to your live application.
 
-<img alt="Encore deployment overview" style="width:100%; max-width: 512px" src="docs/assets/deploy.png"/>
+<img alt="Encore deployment overview" width="512" src="docs/assets/deploy.png"/>
 
 Once the deployment is complete, click Overview and copy the URL to see your bots in action on the web!
 
-<img alt="Encore deployment overview" style="width:100%; max-width: 512px" src="docs/assets/overview.png"/>
+<img alt="Encore deployment overview" width="512" src="docs/assets/overview.png"/>
 
 ## Under the Hood
 
@@ -63,7 +63,7 @@ AI Chat is a microservices-based application, with each service handling a speci
 The services uses a combination of Encore APIs, pub/sub messaging, and WebSocket communication to orchestrate the flow of messages between chat platforms and LLM providers.
 You can explore the services and their interactions in the [Local Dashboard](http://localhost:9400/).
 
-<img alt="System design diagram" style="width:100%; max-width: 768px" src="docs/assets/system-design.png"/>
+<img alt="System design diagram" width="768" src="docs/assets/system-design.png"/>
 
 ### Key Components
 
@@ -240,9 +240,9 @@ UI (or maybe addded support for slash commands?), you can use the Encore Dashboa
 4. **Verify Your Bot:**
 * Check your Slack/Discord channel; your bot should now be present and ready to chat!
 
-<img alt="slack-message.gif" style="width:100%; max-width: 386px" src="docs/assets/slack-message.gif"/>
+<img alt="slack-message.gif" width="512" src="docs/assets/slack-message.gif"/>
 
-<img alt="discord-message.gif" style="width:100%; max-width: 386px" src="docs/assets/discord-message.gif"/>
+<img alt="discord-message.gif" width="512" src="docs/assets/discord-message.gif"/>
 
 You've successfully integrated your chat platforms and LLMs, ready to unleash your AI-powered conversationalists! Now go forth and create bots that will make people laugh, think, or maybe even question the nature of reality (but no pressure!).
 
