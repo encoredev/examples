@@ -1,5 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import { FC } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { FC, MouseEventHandler } from "react";
+import { Spinner } from "./Spinner";
 import { UserIcon } from "./UserIcon";
 import Client from "../lib/client";
 
@@ -8,11 +9,29 @@ const client = new Client(window.location.origin);
 export const TranscriptDetails: FC<{
   id: string;
 }> = ({ id }) => {
+  const queryClient = useQueryClient();
+
   const { isLoading, error, data } = useQuery({
     queryKey: ["transcript", id],
     queryFn: () => client.backend.GetTranscript(id),
     retry: false,
   });
+
+  const mutation = useMutation({
+    mutationFn: () => {
+      return fetch(`${window.location.origin}/api/transcripts/${id}/sync`, {
+        method: "POST",
+      });
+    },
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: ["transcript", id] });
+      queryClient.refetchQueries({ queryKey: ["transcripts"] });
+    },
+  });
+
+  const handleSync: MouseEventHandler<HTMLButtonElement> = () => {
+    mutation.mutate();
+  };
 
   if (isLoading) {
     return <div className="container mx-auto px-4">Loading...</div>;
@@ -30,7 +49,25 @@ export const TranscriptDetails: FC<{
         <h1 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight mb-4">
           {data?.name}
         </h1>
-        <p className="text-gray-400">Transcript ID: {data?.id}</p>
+        <p className="text-gray-400 mb-4">Transcript ID: {data?.id}</p>
+        {mutation.isPending ? (
+          <div className="center">
+            <Spinner />
+          </div>
+        ) : (
+          <>
+            <button
+              title="Manually retrieve the transcript from AssemblyAI."
+              className="text-sm py-2 px-4 rounded-full border-0 text-sm font-semibold text-blue-800 border-solid border-2 border-blue-800 bg-transparent hover:bg-blue-50 hover:cursor-pointer"
+              onClick={handleSync}
+            >
+              Sync
+            </button>
+            {mutation.isError ? (
+              <div>An error occurred: {mutation.error.message}</div>
+            ) : null}
+          </>
+        )}
       </header>
       {data?.status === "error" && (
         <p className="text-red-500 text-center">Failed to transcribe audio.</p>

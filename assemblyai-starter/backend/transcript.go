@@ -121,25 +121,33 @@ func (req *AssemblyAIWebhookRequest) Validate() error {
 // redeliver the message until the handler responds with a successful status
 // code.
 //
-//encore:api public method=POST path=/api/transcripts/webhook
+//encore:api public method=POST path=/api/webhook
 func Webhook(ctx context.Context, req *AssemblyAIWebhookRequest) error {
 	ctxlog := rlog.With("transcript_id", req.TranscriptID, "status", req.Status)
 
-	transcript, err := getClient().Transcripts.Get(ctx, req.TranscriptID)
-	if err != nil {
+	if err := SyncTranscript(ctx, req.TranscriptID); err != nil {
 		// Log the error details instead of sending them back to AssemblyAI.
-		ctxlog.Error("unable to get transcript", "error", err)
+		ctxlog.Error("unable to sync transcript", "error", err)
 
 		// If we return a non-successful status code, AssemblyAI will attempt to
 		// resend the webhook delivery.
 		return &errs.Error{Code: errs.Unavailable}
 	}
 
+	return nil
+}
+
+//encore:api public method=POST path=/api/transcripts/:id/sync
+func SyncTranscript(ctx context.Context, id string) error {
+	transcript, err := getClient().Transcripts.Get(ctx, id)
+	if err != nil {
+		return errs.WrapCode(err, errs.Unavailable, "unable to get transcript")
+	}
+
 	b, _ := json.Marshal(transcript)
 
-	if err := update(ctx, req.TranscriptID, req.Status, b); err != nil {
-		ctxlog.Error("unable to store transcript", "error", err)
-		return &errs.Error{Code: errs.Unavailable}
+	if err := update(ctx, id, string(transcript.Status), b); err != nil {
+		return errs.WrapCode(err, errs.Unavailable, "unable to store transcript")
 	}
 
 	return err
@@ -250,11 +258,8 @@ func newTranscriptParams() *aai.TranscriptOptionalParams {
 		url := encore.Meta().APIBaseURL.ResolveReference(&url.URL{Path: "/api/transcripts/webhook"})
 
 		params.WebhookURL = aai.String(url.String())
-
-		if secrets.AssemblyAIWebhookSecret != "" {
-			params.WebhookAuthHeaderName = aai.String("X-Webhook-Secret")
-			params.WebhookAuthHeaderValue = aai.String(secrets.AssemblyAIWebhookSecret)
-		}
+		params.WebhookAuthHeaderName = aai.String("X-Webhook-Secret")
+		params.WebhookAuthHeaderValue = aai.String(secrets.AssemblyAIWebhookSecret)
 	}
 
 	return params

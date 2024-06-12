@@ -179,7 +179,7 @@ export namespace backend {
                 "transcript_id": params["transcript_id"],
             }
 
-            await this.baseClient.callAPI("POST", `/api/transcripts/webhook`, JSON.stringify(body), {headers})
+            await this.baseClient.callAPI("POST", `/api/webhook`, JSON.stringify(body), {headers})
         }
     }
 }
