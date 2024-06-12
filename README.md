@@ -25,25 +25,26 @@ environment. Use the appropriate command for your system:
 
 ### Go
 
-| Name                                       | Description                                                      | Primitives                                       |
-|--------------------------------------------|------------------------------------------------------------------|--------------------------------------------------|
-| [hello-world](hello-world)                 | REST API Starter                                                 | APIs                                             |
-| [sql-database](sql-database)               | PostgreSQL database Starter                                      | APIs, SQL Database                               |
-| [slack-bot](slack-bot)                     | Slack Bot Starter                                                | APIs                                             |
-| [trello-clone](trello-clone)               | Microservices Starter (Trello Clone)                             | Microservices, APIs, SQL Database                |
-| [uptime](uptime)                           | Event-Driven Architecture Starter (Uptime Monitor)               | Microservices, SQL Databases, Pub/Sub, Cron Jobs |
-| [graphql](graphql)                         | GraphQL Server Starter                                           | APIs, SQL Database, GraphQL                      |
-| [url-shortener](url-shortener)             | Basic url shortener                                              | APIs, SQL Database                               |
-| [sqlc-database](sqlc-database)             | Simple sqlc implementation                                       | APIs, SQL Database                               |
-| [next-starter](nextjs-starter)             | Next.js + Encore Web App Starter                                 | APIs, Auth, Frontend                             |
-| [next-auth0-starter](nextjs-auth0-starter) | Next.js + Auth0 + Encore Web App Starter                         | Microservices, APIs, Auth, Frontend              |
-| [react-starter](react-starter)             | React + Encore Web App Starter                                   | APIs, Auth, Frontend                             |
-| [booking-system](booking-system)           | Appointment Booking System Starter using data scrubbing and sqlc | Microservices, APIs, Auth, SQL Database, Frontend |
-| [meeting-notes](meeting-notes)             | Meeting Notes App deployed to GitHub Pages                       | APIs, SQL Database, External Requests            |
-| [auth0](auth0)                             | Auth0 Authentication + React + Encore Example                    | APIs, Auth, Frontend                             |
-| [auth0-react-sdk](auth0-react-sdk)         | Auth0 React SDK Authentication + Encore Example                  | APIs, Auth, Frontend                             |
-| [clerk](clerk)                             | Clerk React SDK Authentication + Encore Example                  | APIs, Auth, Frontend                             |
-| [firebase-auth](firebase-auth)             | Firebase Authentication + Encore Example                         | APIs, Auth, Frontend                             |
+| Name                                       | Description                                                                                                                  | Primitives                                                                                  |
+|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| [hello-world](hello-world)                 | REST API Starter                                                                                                             | APIs                                                                                        |
+| [sql-database](sql-database)               | PostgreSQL database Starter                                                                                                  | APIs, SQL Database                                                                          |
+| [ai-chat](ai-chat)                         | A chat application which let's you create and chat with personalized bots. Integrates with OpenAI, Gemini, Slack and Discord | Microservices, APIs, SQL Database, Pub/Sub, Cron Jobs, Frontend, External Requests, Configs |
+| [slack-bot](slack-bot)                     | Slack Bot Starter                                                                                                            | APIs                                                                                        |
+| [trello-clone](trello-clone)               | Microservices Starter (Trello Clone)                                                                                         | Microservices, APIs, SQL Database                                                           |
+| [uptime](uptime)                           | Event-Driven Architecture Starter (Uptime Monitor)                                                                           | Microservices, SQL Databases, Pub/Sub, Cron Jobs                                            |
+| [graphql](graphql)                         | GraphQL Server Starter                                                                                                       | APIs, SQL Database, GraphQL                                                                 |
+| [url-shortener](url-shortener)             | Basic url shortener                                                                                                          | APIs, SQL Database                                                                          |
+| [sqlc-database](sqlc-database)             | Simple sqlc implementation                                                                                                   | APIs, SQL Database                                                                          |
+| [next-starter](nextjs-starter)             | Next.js + Encore Web App Starter                                                                                             | APIs, Auth, Frontend                                                                        |
+| [next-auth0-starter](nextjs-auth0-starter) | Next.js + Auth0 + Encore Web App Starter                                                                                     | Microservices, APIs, Auth, Frontend                                                         |
+| [react-starter](react-starter)             | React + Encore Web App Starter                                                                                               | APIs, Auth, Frontend                                                                        |
+| [booking-system](booking-system)           | Appointment Booking System Starter using data scrubbing and sqlc                                                             | Microservices, APIs, Auth, SQL Database, Frontend                                           |
+| [meeting-notes](meeting-notes)             | Meeting Notes App deployed to GitHub Pages                                                                                   | APIs, SQL Database, External Requests                                                       |
+| [auth0](auth0)                             | Auth0 Authentication + React + Encore Example                                                                                | APIs, Auth, Frontend                                                                        |
+| [auth0-react-sdk](auth0-react-sdk)         | Auth0 React SDK Authentication + Encore Example                                                                              | APIs, Auth, Frontend                                                                        |
+| [clerk](clerk)                             | Clerk React SDK Authentication + Encore Example                                                                              | APIs, Auth, Frontend                                                                        |
+| [firebase-auth](firebase-auth)             | Firebase Authentication + Encore Example                                                                                     | APIs, Auth, Frontend                                                                        |
 
 ### TypeScript
 
