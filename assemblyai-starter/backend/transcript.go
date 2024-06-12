@@ -250,8 +250,11 @@ func newTranscriptParams() *aai.TranscriptOptionalParams {
 		url := encore.Meta().APIBaseURL.ResolveReference(&url.URL{Path: "/api/transcripts/webhook"})
 
 		params.WebhookURL = aai.String(url.String())
-		params.WebhookAuthHeaderName = aai.String("X-Webhook-Secret")
-		params.WebhookAuthHeaderValue = aai.String(secrets.AssemblyAIWebhookSecret)
+
+		if secrets.AssemblyAIWebhookSecret != "" {
+			params.WebhookAuthHeaderName = aai.String("X-Webhook-Secret")
+			params.WebhookAuthHeaderValue = aai.String(secrets.AssemblyAIWebhookSecret)
+		}
 	}
 
 	return params
