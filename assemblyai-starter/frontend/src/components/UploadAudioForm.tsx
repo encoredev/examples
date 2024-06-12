@@ -14,7 +14,10 @@ export const UploadAudioForm: FC<{}> = () => {
     mutationFn: (file: File) => {
       const data = new FormData();
       data.append("file", file);
-      return client.backend.Upload("POST", data);
+      return fetch(`${window.location.origin}/api/upload`, {
+        method: "POST",
+        body: data,
+      });
     },
     onSuccess: () => {
       queryClient.refetchQueries({ queryKey: ["transcripts"] });
