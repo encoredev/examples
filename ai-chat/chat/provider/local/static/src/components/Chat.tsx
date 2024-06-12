@@ -495,7 +495,7 @@ const ChatSidebar: FC<{
 
       <div className="px-4 pb-2">
         <a
-          href="https://github.com/encoredev/ai-chat/tree/main?tab=readme-ov-file#configuring-discord"
+          href="https://github.com/encoredev/examples/tree/main/ai-chat#configuring-discord"
           target="_blank"
         >
           <div className="flex items-center text-white text-sm space-x-2 mb-4 opacity-70 cursor-pointer hover:opacity-100">
@@ -505,7 +505,7 @@ const ChatSidebar: FC<{
         </a>
 
         <a
-          href="https://github.com/encoredev/ai-chat/tree/main?tab=readme-ov-file#configuring-slack"
+          href="https://github.com/encoredev/examples/tree/main/ai-chat#configuring-slack"
           target="_blank"
         >
           <div className="flex items-center text-white text-sm space-x-2 mb-4 opacity-70 cursor-pointer hover:opacity-100">

@@ -22,11 +22,11 @@ This application is your bridge between popular chat platforms like Discord and 
 
 1. **Create Your Encore App:**
 ```bash
-encore app create my-ai-chat --example=https://github.com/encoredev/ai-chat
+encore app create my-ai-chat --example=https://github.com/encoredev/examples/tree/main/ai-chat
 ```
 (Feel free to replace `my-ai-chat` with a name that tickles your fancy)
 
-2. **Set Your OpenAI API Key (Optional):**
+2. **Set Your OpenAI API Key:**
 ```bash
 cd my-ai-chat
 encore secret set OpenAIKey --type dev,local,pr
