@@ -67,3 +67,8 @@ Now off you go into the clouds!
 ```bash
 encore test ./...
 ```
+
+If you don't have audio files readily available, feel free to use one of these audio samples:
+
+- [Common sports injuries](https://storage.googleapis.com/aai-web-samples/5_common_sports_injuries.mp3)
+- [Canadian wildfires](https://github.com/AssemblyAI-Examples/audio-examples/raw/main/20230607_me_canadian_wildfires.mp3)
