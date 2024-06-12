@@ -264,7 +264,7 @@ func (s *Service) SendMessage(ctx context.Context, channelID string, req *provid
 		return errors.New("only bots can send messages")
 	}
 	s.hub.BroadCast(ctx, &chat.ClientMessage{
-		ID:             req.ID,
+		ID:             uuid.Must(uuid.NewV4()).String(),
 		Type:           req.Type,
 		UserId:         "b-" + req.Bot.ID.String(),
 		ConversationId: channelID,
