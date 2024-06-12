@@ -25,11 +25,14 @@ export const Home: FC<{}> = () => {
 
   async function joinChat() {
     setIsSubmitting(true);
+    const channel = channelID.replaceAll(" ", "-").toLowerCase();
     navigate({
       pathname: "/chat",
       search: createSearchParams({
         name: username,
-        channel: channelID || humanId({adjectiveCount:0, capitalize:false, separator:"-"}),
+        channel:
+          channel ||
+          humanId({ adjectiveCount: 0, capitalize: false, separator: "-" }),
       }).toString(),
     });
   }
@@ -102,7 +105,7 @@ export const Home: FC<{}> = () => {
               Found some bots you love? Add them to your Discord or Slack!
             </p>
             <form
-              className="flex flex-col space-y-3 items-center w-full mt-10 columns-1"
+              className="flex flex-col space-y-3 items-start w-full mt-10"
               onSubmit={(event) => {
                 event.preventDefault();
                 joinChat();
@@ -120,7 +123,7 @@ export const Home: FC<{}> = () => {
               <div>
                 <input
                   type="text"
-                  placeholder="Channel (optional)"
+                  placeholder="Topic (optional)"
                   className="max-w-72 text-xl block rounded-md border-gray-500 bg-gray-800 focus:ring-0 focus:border-gray-500"
                   value={channelID}
                   onChange={(e) => setChannelID(e.target.value)}
@@ -132,20 +135,15 @@ export const Home: FC<{}> = () => {
                   size="lg"
                   type="submit"
                   disabled={!username || isSubmitting}
-              >
-                <span className="hidden sm:inline">
-                  Join Chat
-                </span>
-                <span className="inline sm:hidden">
-                  Join Chat
-                </span>
-              </Button>
+                >
+                  <span className="hidden sm:inline">Join Chat</span>
+                  <span className="inline sm:hidden">Join Chat</span>
+                </Button>
               </div>
             </form>
           </div>
 
-          <div
-            className="flex flex-col h-fit rounded-xl bg-white/5 p-6 ring-1 ring-inset ring-white/10 mt-10 min-w-fit w-full md:mt-0 sm:w-fit">
+          <div className="flex flex-col h-fit rounded-xl bg-white/5 p-6 ring-1 ring-inset ring-white/10 mt-10 min-w-fit w-full md:mt-0 sm:w-fit">
             <div>
               <dt className="truncate text-sm font-medium text-white opacity-50">
                 Bots live right now
