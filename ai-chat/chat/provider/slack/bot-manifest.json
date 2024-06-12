@@ -1,0 +1,43 @@
+{
+  "display_information": {
+    "name": "Encore AI Chat",
+    "description": "Encore AI Chat"
+  },
+  "features": {
+    "bot_user": {
+      "display_name": "Encore AI Chat",
+      "always_online": false
+    }
+  },
+  "oauth_config": {
+    "scopes": {
+      "bot": [
+        "channels:history",
+        "channels:join",
+        "channels:read",
+        "chat:write",
+        "chat:write.customize",
+        "groups:history",
+        "groups:read",
+        "im:history",
+        "im:read",
+        "incoming-webhook",
+        "mpim:history",
+        "mpim:read",
+        "users.profile:read",
+        "users:read"
+      ]
+    }
+  },
+  "settings": {
+    "event_subscriptions": {
+      "request_url": "https://<bot-domain>/slack/message",
+      "bot_events": [
+        "message.channels"
+      ]
+    },
+    "org_deploy_enabled": false,
+    "socket_mode_enabled": false,
+    "token_rotation_enabled": false
+  }
+}

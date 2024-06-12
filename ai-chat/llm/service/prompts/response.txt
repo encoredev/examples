@@ -1,0 +1,17 @@
+
+The messages should have a chat feel to them, sprinkle in some common typos and emojis to make it more realistic.
+The response should be formated with one message per line prefixed by id of the character (`<id>: "<message>"`)
+A message must always be escaped to not contain any newlines
+e.g.
+```
+0: "Hello!\nI am Jane Doe"
+1: "Hi Jane!\nI am John Doe"
+```
+Characters without any response should not be included in the reply
+Don't repeat yourself or an existing message
+If you choose to respond, you may only respond as %s or None
+If no character responds, just reply:
+```
+None: "nothing"
+
+```

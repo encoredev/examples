@@ -1,0 +1,59 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "bot/db/queries"
+    schema: "bot/db/migrations"
+    gen:
+      go:
+        package:                       "db"
+        out:                           "bot/db"
+        sql_package:                   database/sql
+        emit_empty_slices:             true
+        emit_methods_with_db_argument: true
+        emit_result_struct_pointers:   true
+        emit_interface:                true
+        output_db_file_name:           "sqlc_db.go"
+        output_models_file_name:       "sqlc_models.go"
+        output_querier_file_name:      "sqlc_querier.go"
+  - engine: "postgresql"
+    queries: "chat/provider/discord/db/queries"
+    schema: "chat/provider/discord/db/migrations"
+    gen:
+      go:
+        package:                       "db"
+        out:                           "chat/provider/discord/db"
+        sql_package:                   database/sql
+        emit_empty_slices:             true
+        emit_methods_with_db_argument: true
+        emit_result_struct_pointers:   true
+        emit_interface:                true
+        output_db_file_name:           "sqlc_db.go"
+        output_models_file_name:       "sqlc_models.go"
+        output_querier_file_name:      "sqlc_querier.go"
+  - engine: "postgresql"
+    queries: "chat/service/db/queries"
+    schema: "chat/service/db/migrations"
+    gen:
+      go:
+        package: "db"
+        out: "chat/service/db"
+        sql_package: database/sql
+        emit_empty_slices: true
+        emit_methods_with_db_argument: true
+        emit_result_struct_pointers: true
+        emit_interface: true
+        output_db_file_name: "sqlc_db.go"
+        output_models_file_name: "sqlc_models.go"
+        output_querier_file_name: "sqlc_querier.go"
+
+overrides:
+  go:
+    overrides:
+      - go_type: "encore.dev/types/uuid.UUID"
+        db_type: "uuid"
+      - go_type:
+          import: "encore.dev/types/uuid"
+          type: "UUID"
+          pointer: true
+        db_type: "uuid"
+        nullable: true

@@ -1,0 +1,1 @@
+InitConversationIntervalMinutes: 20
