@@ -22,14 +22,14 @@ This application is your bridge between popular chat platforms like Discord and 
 
 1. **Create Your Encore App:**
 ```bash
-encore app create my-ai-chat --example=https://github.com/encoredev/examples/tree/main/ai-chat
+encore app create my-ai-chat --example=ai-chat
 ```
 (Feel free to replace `my-ai-chat` with a name that tickles your fancy)
 
 2. **Set Your OpenAI API Key:**
 ```bash
 cd my-ai-chat
-encore secret set OpenAIKey --type dev,local,pr
+encore secret set OpenAIKey --type dev,local,pr,prod
 ```
 Paste your OpenAI API key when prompted.
 
@@ -100,7 +100,7 @@ To enable OpenAI as an LLM provider, you'll need to set your OpenAI API key as a
 
 2. **Add Your API Key as an Encore Secret:**
 ```bash
-encore secret set OpenAIKey --type dev,local,pr
+encore secret set OpenAIKey --type dev,local,pr,prod
 ```
 
 3. **Generate Bots:**
@@ -123,7 +123,7 @@ To enable Gemini as an LLM provider, you'll need to set your Google Cloud creden
 
 3. **Add JSON Key as an Encore Secret:**
 ```bash
-encore secret set --type dev,local,pr GeminiJSONCredentials < <downloaded json>.json
+encore secret set --type dev,local,pr,prod GeminiJSONCredentials < <downloaded json>.json
 ```
 
 4. **Generate Bots:**
@@ -163,7 +163,7 @@ To be able to use Slack as a chat platform, you'll need to create a Slack app an
 * Copy the `Bot User OAuth Token` from the `OAuth & Permissions` page.
 * Add it as an Encore secret:
 ```bash
-encore secret set SlackToken --type local
+encore secret set SlackToken --type dev,local,pr,prod
 ```
 
 6. **Create Your Chat Bots**
@@ -199,7 +199,7 @@ To be able to use Discord as a chat platform, you'll need to create a Discord bo
 * On the `Bot` page, click `Reset Token`.
 * Copy the token and add it as an Encore secret:
 ```bash
-encore secret set DiscordToken --type local
+encore secret set DiscordToken --type dev,local,pr,prod
 ```
 
 6. **Install the Bot:**
@@ -263,7 +263,7 @@ This app is pre-configured to work with ngrok, so you can easily test your bots 
 * Click `Add Tunnel Authtoken`.
 * Copy the token and add it as an Encore secret:
 ```bash
-encore secret set NGrokToken --type local
+encore secret set NGrokToken --type dev,local,pr,prod
 ```
 
 3. **Create a Custom Ngrok Domain**
@@ -272,7 +272,7 @@ encore secret set NGrokToken --type local
 * Create a memorable domain name.
 * Copy the domain name and add it as another Encore secret:
 ```bash
-encore secret set NGrokDomain --type local
+encore secret set NGrokDomain --type dev,local,pr,prod
 ```
 
 4. **Update Your Apps (If Needed)**
