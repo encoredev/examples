@@ -7,8 +7,8 @@ e.g.
 0: "Hello!\nI am Jane Doe"
 1: "Hi Jane!\nI am John Doe"
 ```
+The response must never include the channel name or timestamp.
 Characters without any response should not be included in the reply
-Don't repeat yourself or an existing message
 If you choose to respond, you may only respond as %s or None
 If no character responds, just reply:
 ```

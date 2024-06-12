@@ -109,7 +109,7 @@ export class ExampleChatService implements IChatService {
                 id: conversation.id,
                 lastMessageId: this.storage
                   ?.getState()
-                  .messages[conversation.id].at(-1)?.id,
+                  .messages[conversation.id].at(-1)?.messages.at(-1)?.id,
               };
             }),
           userId: user.id,

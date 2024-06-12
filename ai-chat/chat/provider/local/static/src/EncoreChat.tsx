@@ -32,7 +32,7 @@ export const EncoreChat = () => {
 
   const storage = new BasicStorage({
     groupIdGenerator: () => nanoid(),
-    messageIdGenerator: () => nanoid(),
+    messageIdGenerator: (m) => m.id || nanoid(),
   });
 
   return (
