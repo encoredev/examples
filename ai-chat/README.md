@@ -146,7 +146,7 @@ To be able to use Slack as a chat platform, you'll need to create a Slack app an
 * Visit [https://api.slack.com/apps](https://api.slack.com/apps) and click `Create New App`.
 * Choose `From an app manifest` and click `Next`.
 * Pick the workspace for your bot and click `Next`.
-* Copy the [bot manifest](chat/provider/slack/bot-manifest.json) and paste it into the text box.
+* Copy the [bot manifest](./chat/provider/slack/bot-manifest.json) and paste it into the text box.
 * Replace the `<bot-domain>` placeholder with either `<env-name>-<app-name>-<slug>.encr.app` (e.g. `staging-my-chatbot-tur3.encr.app`) or the ngrok domain you configured for local development
 * Click `Next` and then `Create`.
 
