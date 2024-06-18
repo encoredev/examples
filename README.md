@@ -49,18 +49,19 @@ environment. Use the appropriate command for your system:
 
 ### TypeScript
 
-| Name                                             | Description                                        | Primitives                                       |
-|--------------------------------------------------|----------------------------------------------------|--------------------------------------------------|
-| [ts/hello-world](ts/hello-world)                 | REST API Starter                                   | APIs                                             |
-| [ts/simple-event-driven](ts/simple-event-driven) | Simple Event-Driven Application                    | Microservices, SQL Database, Pub/Sub, Secrets    |
-| [ts/uptime](ts/uptime)                           | Event-Driven Architecture Starter (Uptime Monitor) | Microservices, SQL Databases, Pub/Sub, Cron Jobs |
+| Name                                                             | Description                                        | Primitives                                       |
+|------------------------------------------------------------------|----------------------------------------------------|--------------------------------------------------|
+| [ts/hello-world](ts/hello-world)                                 | REST API Starter                                   | APIs                                             |
+| [ts/simple-event-driven](ts/simple-event-driven)                 | Simple Event-Driven Application                    | Microservices, SQL Database, Pub/Sub, Secrets    |
+| [ts/uptime](ts/uptime)                                           | Event-Driven Architecture Starter (Uptime Monitor) | Microservices, SQL Databases, Pub/Sub, Cron Jobs |
 | [ts/gpt-functions](ts/gpt-functions)                                    | ChatGPT Functions with Encore Example              | APIs                                             |
-| [ts/url-shortener](ts/url-shortener)             | Basic url shortener                                | APIs, SQL Database                               |
-| [https://github.com/encoredev/nextjs-starter/](nextjs-starter) † | Encore + Next.js Web App Starter     | Microservices, APIs, Frontend                    |
-| [ts/slack-bot](ts/slack-bot)                     | Slack Bot Starter                                  | APIs, Raw Endpoint                               |
-| [ts/auth0-react-sdk](ts/auth0-react-sdk)         | Auth0 React SDK Authentication + Encore Example    | APIs, Auth, Frontend                             |
-| [ts/clerk](ts/clerk)                             | Clerk React SDK Authentication + Encore Example    | APIs, Auth, Frontend                             |
-| [ts/elevenlabs](ts/elevenlabs)                   | ElevenLabs AI Speech SDK + Encore Example          | APIs, Raw Endpoints, Frontend                    |
+| [ts/url-shortener](ts/url-shortener)                             | Basic url shortener                                | APIs, SQL Database                               |
+| [ts/nestjs](ts/nestjs)                                           | Encore + NestJS Example                            | APIs, SQL Database, Auth                             |
+| [https://github.com/encoredev/nextjs-starter/](nextjs-starter) † | Encore + Next.js Web App Starter                   | Microservices, APIs, Frontend                    |
+| [ts/slack-bot](ts/slack-bot)                                     | Slack Bot Starter                                  | APIs, Raw Endpoint                               |
+| [ts/auth0-react-sdk](ts/auth0-react-sdk)                         | Auth0 React SDK Authentication + Encore Example    | APIs, Auth, Frontend                             |
+| [ts/clerk](ts/clerk)                                             | Clerk React SDK Authentication + Encore Example    | APIs, Auth, Frontend                             |
+| [ts/elevenlabs](ts/elevenlabs)                                   | ElevenLabs AI Speech SDK + Encore Example          | APIs, Raw Endpoints, Frontend                    |
 
 † = Cannot be installed using `encore app create --example`, create an empty app and clone the repo instead.
 
