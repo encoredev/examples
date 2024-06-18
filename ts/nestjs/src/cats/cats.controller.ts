@@ -4,7 +4,6 @@ import { Cat } from './interfaces/cat.interface';
 import applicationContext from '../applicationContext';
 
 // Use Encore `api` calls to define the API routes instead of using NestJS controllers.
-
 export const findAll = api(
   { expose: true, method: 'GET', path: '/cats' },
   async (): Promise<{ cats: Cat[] }> => {
