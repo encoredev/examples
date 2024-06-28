@@ -1,8 +1,8 @@
-import {Topic} from "encore.dev/pubsub";
-import {TaskType} from "./llm";
-import {Bot} from "../../bot/bot";
-import {Channel, Message, User} from "../../chat/chat/chat";
-import {LLMType} from "./clients";
+import { Topic } from "encore.dev/pubsub";
+import { TaskType } from "./llm";
+import { Bot } from "../../bot/bot";
+import { Channel, Message, User } from "../../chat/service/chat";
+import { LLMType } from "./clients";
 
 export interface BotTyping {
   kind: "typing";

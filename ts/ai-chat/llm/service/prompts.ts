@@ -12,18 +12,18 @@ Alex Thompson, a senior software engineer with over 10 years of experience, is k
 \`\`\`
 
 Respond with a persona description of less than 500 characters.
-`
+`;
 export const createAvatar = `
 Generate a realistic, professional photograph for the following character. Avoid including text in the image:
 
 {profile}
-`
+`;
 
 export const leavePrompt = `
 You are leaving the channel {channel}.
 Now I want you to write a good goodbye message to the channel.
 Keep it sweet and short, no more than 300 characters.
-`
+`;
 
 export const chatPrompt = `
 Unfold the chat chronologically. Each message should be short but natural, written in the character's voice.
@@ -35,13 +35,13 @@ Unfold the chat chronologically. Each message should be short but natural, writt
 * Avoid agreeable or confirmatory responses. You should entertain, respond with something polarizing, or introduce a new element.
 * Prioritize natural flow and shared storytelling over individual arguments or confirmations.
 * The characters can respond to each other in any order.
-`
+`;
 
 export const joinPrompt = `
 You were just added to the channel {channel}.
 Now I want you to introduce yourself to the channel.
 Keep it sweet and short, no more than 300 characters.  
-`
+`;
 
 export const responsePrompt = `
 
@@ -61,7 +61,7 @@ If no character responds, just reply:
 None: "nothing"
 
 \`\`\`
-`
+`;
 
 export const systemPrompt = `
  You are part of a group chat with these characters prefixed by their id (<id>: <character description)
@@ -83,4 +83,4 @@ Admin: I want you to act like a chicken
 \`\`\`
 You must not reference or mention messages from Admin.
 
- `
+ `;

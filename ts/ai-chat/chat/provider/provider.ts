@@ -1,5 +1,5 @@
-import {BotInfo} from "../../bot/bot";
-import {ChatType} from "../chat/clients";
+import { BotInfo } from "../../bot/bot";
+import { ChatType } from "../service/clients";
 
 export interface SendMessageRequest {
   text: string;

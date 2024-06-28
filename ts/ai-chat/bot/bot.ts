@@ -4,9 +4,9 @@ import { SQLDatabase } from "encore.dev/storage/sqldb";
 import { llm } from "~encore/clients";
 
 import knex from "knex";
-import {atob} from "node:buffer";
-import {LLMType} from "../llm/llm/clients";
-import {baseURL} from "./proxy";
+import { atob } from "node:buffer";
+import { LLMType } from "../llm/service/clients";
+import { baseURL } from "./proxy";
 
 export interface Bot {
   id: number;
@@ -32,14 +32,16 @@ export interface CreateParams {
 export const create = api(
   { expose: false, method: "POST", path: "/bots" },
   async (params: CreateParams): Promise<Bot> => {
-    const profile = (await llm.generateBotProfile(params));
-    const bot = await Bots().insert({
-      name: params.name,
-      prompt: params.prompt,
-      profile: profile.profile,
-      provider: params.provider,
-      deleted: false,
-    }).returning("*");
+    const profile = await llm.generateBotProfile(params);
+    const bot = await Bots()
+      .insert({
+        name: params.name,
+        prompt: params.prompt,
+        profile: profile.profile,
+        provider: params.provider,
+        deleted: false,
+      })
+      .returning("*");
     if (profile.avatar) {
       await Avatars().insert({
         bot_id: bot.at(0)?.id,
@@ -63,7 +65,7 @@ export const get = api(
 export const avatarImage = api.raw(
   { expose: false, method: "GET", path: "/bots/:id/avatar", auth: false },
   async (req, resp) => {
-    const {pathParams} = currentRequest() as APICallMeta;
+    const { pathParams } = currentRequest() as APICallMeta;
     const avatar = await Avatars().where("bot_id", pathParams.id).first();
     if (!avatar) {
       resp.statusCode = 404;
@@ -77,10 +79,15 @@ export const avatarImage = api.raw(
 
 // Return an avatar
 export const avatar = api(
-  { expose: false, method: "GET", path: "/bots/:id/avatar/content", auth: false },
-  async ({id}:{id:number}):Promise<Avatar> => {
+  {
+    expose: false,
+    method: "GET",
+    path: "/bots/:id/avatar/content",
+    auth: false,
+  },
+  async ({ id }: { id: number }): Promise<Avatar> => {
     const avatar = await Avatars().where("bot_id", id).first();
-    return avatar ?? await Promise.reject(new Error("avatar not found"));
+    return avatar ?? (await Promise.reject(new Error("avatar not found")));
   },
 );
 
@@ -95,7 +102,7 @@ export const del = api(
 // Lists complete bot information
 export const list = api(
   { expose: false, method: "GET", path: "/bots" },
-  async ({ids}: {ids?: string}): Promise<{bots: Bot[]}> => {
+  async ({ ids }: { ids?: string }): Promise<{ bots: Bot[] }> => {
     if (ids === undefined) {
       const bots = await Bots().select();
       return { bots };
@@ -114,10 +121,21 @@ export interface BotInfo {
 // Lists bot names, ids, and avatars
 export const getInfo = api(
   { expose: false, method: "GET", path: "/bots/:id/info" },
-  async ({id}: {id: number}): Promise<{info?: BotInfo}> => {
-    return await Bots().where("id", id).first().then(async (r) => {
-      return {info: r ? {id: r.id, name: r.name, avatar: baseURL + `/bots/${r.id}/avatar`} : undefined};
-    });
+  async ({ id }: { id: number }): Promise<{ info?: BotInfo }> => {
+    return await Bots()
+      .where("id", id)
+      .first()
+      .then(async (r) => {
+        return {
+          info: r
+            ? {
+                id: r.id,
+                name: r.name,
+                avatar: baseURL + `/bots/${r.id}/avatar`,
+              }
+            : undefined,
+        };
+      });
   },
 );
 
