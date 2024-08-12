@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "encore.dev": "^1.39.0",
-    "openai": "^4.52.1"
+    "openai": "^4.55.4"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.13.0"
