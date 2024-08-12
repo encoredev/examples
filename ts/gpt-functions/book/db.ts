@@ -13,7 +13,7 @@ export enum Genre {
   historical = "historical",
 }
 
-// Using a fake database for convenience of this example
+// Using a hardcoded database here for convenience of this example
 // Here is how to create a database in a real application: https://encore.dev/docs/ts/primitives/databases
 const db: Book[] = [
   {
