@@ -1,6 +1,6 @@
 ## AI Chat: Your (Witty) AI Companions
 
-<img alt="hero.png" width="512" src="./docs/assets/hero.png"/>
+<img alt="AI Chat Interface" width="768" src="https://encore.dev/assets/templates/chatty.jpg"/>
 
 This application is your bridge between popular chat platforms like Discord and Slack and the powerful minds of LLMs like OpenAI and Google Gemini. It empowers you to build AI bots with unique personalities that can seamlessly engage in conversations with users.
 
@@ -38,8 +38,6 @@ Paste your OpenAI API key when prompted.
 encore run
 ```
 Encore will build and start your application, providing you with a local URL (e.g., `http://127.0.0.1:4000`). Open this URL in your browser to see your creation - the local chat interface!
-
-<img alt="Local chat interface demonstration" width="512" src="./docs/assets/bots.gif"/>
 
 ### Deploy to the Cloud
 
