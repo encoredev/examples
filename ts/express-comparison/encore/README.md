@@ -1,8 +1,17 @@
 # Encore.ts example
 
-## Developing locally
+## Installing
 
-When you have [installed Encore](https://encore.dev/docs/install), cd into this directory and run:
+### Prerequisite: Installing Encore
+
+If this is the first time you're using Encore, you first need to install the CLI that runs the local development
+environment. Use the appropriate command for your system:
+
+- **macOS:** `brew install encoredev/tap/encore`
+- **Linux:** `curl -L https://encore.dev/install.sh | bash`
+- **Windows:** `iwr https://encore.dev/install.ps1 | iex`
+
+When you have installed Encore, `cd` into this directory and run:
 
 ```bash
 npm i
