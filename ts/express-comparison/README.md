@@ -9,7 +9,7 @@ built with Encore.ts.
 Let this example serve as a reference guide if you are migrating your Express.js app over to Encore.ts or if you
 are already familiar with Express.js and want to see how Encore.ts compares.
 
-The example apps showcases the following features:
+The example apps showcase the following features:
 - **GET requests** - Handling dynamic path params and receiving query params
 - **POST requests** - Receiving JSON data
 - **Request schema validation** - Using Zod to validate request data
