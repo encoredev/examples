@@ -12,7 +12,7 @@ are already familiar with Express.js and want to see how Encore.ts compares.
 The example apps showcase the following features:
 - **GET requests** - Handling dynamic path params and receiving query params
 - **POST requests** - Receiving JSON data
-- **Request schema validation** - Using Zod to validate request data
+- **Request schema validation** - Validate incoming requests 
 - **Error handling** - Returning errors with status codes
 - **Database connection** - Connecting to and using a PostgreSQL database for querying and inserting
 - **Microservice communication** - Making requests to another service
