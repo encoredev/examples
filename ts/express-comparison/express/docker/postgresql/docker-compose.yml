@@ -1,0 +1,26 @@
+# docker-compose.yml for PostgreSQL
+
+version: '3.8'
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.postgis  # Use custom Dockerfile
+    restart: always
+    environment:
+      POSTGRES_USER: user1
+      POSTGRES_PASSWORD: user1@123
+      POSTGRES_DB: database
+    healthcheck:
+      # This command checks if the database is ready, right on the source db server
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_v:/var/lib/postgresql/data
+volumes:
+  postgres_data_v:
