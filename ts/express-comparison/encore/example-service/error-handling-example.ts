@@ -1,20 +1,23 @@
-import express, { Request, Response } from "express";
-
-const router = express.Router();
+import { api, APIError } from "encore.dev/api"; // Default error handler
 
 // Default error handler
-router.get("/broken", () => {
-  throw new Error("BROKEN"); // This will result in a 500 error
-});
+// https://encore.dev/docs/ts/develop/errors
+export const broken = api(
+  { expose: true, method: "GET", path: "/broken" },
+  async (): Promise<void> => {
+    throw new Error("This is a broken endpoint"); // This will result in a 500 error
+  },
+);
 
 // Returning specific error code
-router.get("/get-user", (req: Request, res: Response) => {
-  const id = req.query.id || "";
-  if (id.length !== 3) {
-    res.status(400).json({ error: "invalid id format" });
-  }
-  // TODO: Fetch something from the DB
-  res.json({ user: "Simon" });
-});
-
-export default router;
+// https://encore.dev/docs/ts/develop/errors
+export const brokenWithErrorCode = api(
+  { expose: true, method: "GET", path: "/broken/:id" },
+  async ({ id }: { id: string }): Promise<{ user: string }> => {
+    if (id.length !== 3) {
+      throw APIError.invalidArgument("invalid id format");
+    }
+    // TODO: Fetch something from the DB
+    return { user: "Simon" };
+  },
+);
