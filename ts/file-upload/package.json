@@ -1,0 +1,20 @@
+{
+  "name": "encore-file-upload",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Handling file uploads with Encore.ts",
+  "license": "MPL-2.0",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2",
+    "@types/busboy": "^1.5.4"
+  },
+  "dependencies": {
+    "encore.dev": "^1.40.1",
+    "busboy": "^1.6.0"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
+  }
+}

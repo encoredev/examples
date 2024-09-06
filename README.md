@@ -64,6 +64,7 @@ environment. Use the appropriate command for your system:
 | [ts/clerk](ts/clerk)                                             | Clerk React SDK Authentication + Encore Example                                                                          | APIs, Auth, Frontend                                                   |
 | [ts/elevenlabs](ts/elevenlabs)                                   | ElevenLabs AI Speech SDK + Encore Example                                                                                | APIs, Raw Endpoints, Frontend                                          |
 | [ts/expressjs-migration](ts/expressjs-migration)                     | Express.js migration guide examples                                                                                      | APIs, Raw Endpoints, Auth, Databases                                   |
+| [ts/file-upload](ts/file-upload)                                 | Upload files from frontend example                                                                                       | Raw Endpoints                                   |
 
 † = Cannot be installed using `encore app create --example`, create an empty app and clone the repo instead.
 
