@@ -1,6 +1,6 @@
-# Serving static files example
+# Handling file uploads example
 
-This example utilizing a Raw endpoint to handle file uploads. This example uses the [busboy](https://www.npmjs.com/package/busboy) library to help with the file handling. 
+This example utilizes a Raw endpoint to handle file uploads. This example uses the [busboy](https://www.npmjs.com/package/busboy) library to help with the file handling. 
 
 **Endpoints:**
 
