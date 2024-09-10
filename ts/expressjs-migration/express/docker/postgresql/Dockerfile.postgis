@@ -1,0 +1,13 @@
+FROM postgres:latest
+
+# Install PostGIS extension
+RUN apt-get update \
+    && apt-get install -y postgis postgresql-12-postgis-3 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# To execute some initial queries, we can write queries in init.sql
+COPY init.sql /docker-entrypoint-initdb.d/
+
+# Enable PostGIS extension
+RUN echo "CREATE EXTENSION IF NOT EXISTS postgis;" >> /docker-entrypoint-initdb.d/init.sqld

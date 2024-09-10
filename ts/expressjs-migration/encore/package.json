@@ -1,0 +1,23 @@
+{
+  "name": "encore-ts-example",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Encore Typescript example app",
+  "license": "MPL-2.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2",
+    "vitest": "^1.5.0"
+  },
+  "dependencies": {
+    "encore.dev": "^1.39.6",
+    "handlebars": "^4.7.8"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
+  }
+}
