@@ -35,25 +35,33 @@ export const save = api.raw(
         .on("close", () => {
           log.info(`File ${entry.filename} uploaded`);
         })
-        .on("limit", () => {
-          res.writeHead(413, { Connection: "close" });
-          res.end("File size exceeds the limit");
+        .on("error", (err) => {
+          bb.emit("error", err);
         });
     });
 
     bb.on("close", async () => {
       try {
         const buf = Buffer.concat(entry.data);
-        await saveToDb(entry.filename, buf);
+        await DB.exec`
+            INSERT INTO files (name, data)
+            VALUES (${entry.filename}, ${buf})
+            ON CONFLICT (name) DO UPDATE
+                SET data = ${buf}
+        `;
         log.info(`File ${entry.filename} saved`);
 
         // Redirect to the root page
         res.writeHead(303, { Connection: "close", Location: "/" });
         res.end();
       } catch (err) {
-        res.writeHead(500, { Connection: "close" });
-        res.end(`Error: ${(err as Error).message}`);
+        bb.emit("error", err);
       }
+    });
+
+    bb.on("error", async (err) => {
+      res.writeHead(500, { Connection: "close" });
+      res.end(`Error: ${(err as Error).message}`);
     });
 
     req.pipe(bb);
@@ -81,9 +89,8 @@ export const saveMultiple = api.raw(
         .on("close", () => {
           entries.push(entry);
         })
-        .on("limit", () => {
-          res.writeHead(413, { Connection: "close" });
-          res.end("File size exceeds the limit");
+        .on("error", (err) => {
+          bb.emit("error", err);
         });
     });
 
@@ -91,7 +98,12 @@ export const saveMultiple = api.raw(
       try {
         for (const entry of entries) {
           const buf = Buffer.concat(entry.data);
-          await saveToDb(entry.filename, buf);
+          await DB.exec`
+              INSERT INTO files (name, data)
+              VALUES (${entry.filename}, ${buf})
+              ON CONFLICT (name) DO UPDATE
+                  SET data = ${buf}
+          `;
           log.info(`File ${entry.filename} saved`);
         }
 
@@ -99,9 +111,13 @@ export const saveMultiple = api.raw(
         res.writeHead(303, { Connection: "close", Location: "/" });
         res.end();
       } catch (err) {
-        res.writeHead(500, { Connection: "close" });
-        res.end(`Error: ${(err as Error).message}`);
+        bb.emit("error", err);
       }
+    });
+
+    bb.on("error", async (err) => {
+      res.writeHead(500, { Connection: "close" });
+      res.end(`Error: ${(err as Error).message}`);
     });
 
     req.pipe(bb);
