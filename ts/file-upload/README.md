@@ -12,7 +12,16 @@ This example utilizes a Raw endpoint to handle file uploads. This example uses t
 
 ## Developing locally
 
-When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone this example with this command.
+### Prerequisite: Installing Encore
+
+If this is the first time you're using Encore, you first need to install the CLI that runs the local development
+environment. Use the appropriate command for your system:
+
+- **macOS:** `brew install encoredev/tap/encore`
+- **Linux:** `curl -L https://encore.dev/install.sh | bash`
+- **Windows:** `iwr https://encore.dev/install.ps1 | iex`
+
+When you have installed Encore, run:
 
 ```bash
 encore app create --example=ts/file-upload

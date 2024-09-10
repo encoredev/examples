@@ -66,6 +66,7 @@ environment. Use the appropriate command for your system:
 | [ts/sequelize](ts/sequelize)                                     | Encore + Sequelize TypeScript Example                                                                                    | APIs, SQL Database                                                     |
 | [ts/expressjs-migration](ts/expressjs-migration)                 | Express.js migration guide examples                                                                                      | APIs, Raw Endpoints, Auth, Databases                                   |
 | [ts/file-upload](ts/file-upload)                                 | Upload files from frontend example                                                                                       | Raw Endpoints                                   |
+| [ts/serve-static-files](ts/serve-static-files)                   | Serving static files example                                                                                             | Raw Endpoints                                   |
 
 † = Cannot be installed using `encore app create --example`, create an empty app and clone the repo instead.
 
