@@ -32,7 +32,7 @@ While `encore run` is running, open <http://localhost:9400/> to view Encore's [l
 
 Go to [http://localhost:4000](http://localhost:4000) in the browser to see the example frontend.
 
-Static files are also served on `/assets`, try opening [http://localhost:4000/public/styles.css](http://localhost:4000/public/styles.css) in the browser to see the CSS file.
+Static files are also served on `/public`, try opening [http://localhost:4000/public/styles.css](http://localhost:4000/public/styles.css) in the browser to see the CSS file.
 
 Go to [http://localhost:4000/does-not-exist](http://localhost:4000/does-not-exist) to see the `not_found.html` 404 page.
 
