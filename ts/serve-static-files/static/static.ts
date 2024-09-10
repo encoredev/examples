@@ -15,7 +15,7 @@ export const rootAssets = api.static({
   expose: true,
   path: "/!path",
   dir: "./assets",
-  //When a file matching the request isn't found, Encore automatically serves a 404 Not Found response.
+  // When a file matching the request isn't found, Encore automatically serves a 404 Not Found response.
   // You can customize the response by setting the notFound option to specify a file that should be served instead:
   notFound: "./assets/not_found.html",
 });
