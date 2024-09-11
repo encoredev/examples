@@ -1,0 +1,56 @@
+
+.IndexPage {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 6rem 0
+}
+
+.IndexPage h1 {
+  font-size: 3rem;
+  font-weight: 300;
+  padding: 20px;
+  margin-bottom: 100px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(25%, auto));
+  max-width: 100%;
+  width: var(--max-width);
+}
+
+.card {
+  padding: 1rem 1.2rem;
+  background: rgba(var(--white), 0);
+  transition: background 200ms, border 200ms;
+  color: inherit;
+  text-decoration: none;
+}
+
+.card span {
+  display: inline-block;
+  transition: transform 200ms;
+}
+
+.card h2 {
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+}
+
+.card p {
+  margin: 0;
+  opacity: 0.6;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.card:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.card:hover span {
+  transform: translateX(4px);
+}

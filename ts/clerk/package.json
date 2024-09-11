@@ -7,11 +7,19 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^20.5.7",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "vite": "^4.4.5"
   },
   "dependencies": {
     "@clerk/backend": "^0.38.3",
-    "encore.dev": "v1.29.1-beta.4"
+    "encore.dev": "^1.41.1",
+    "@clerk/clerk-react": "^4.30.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.16.0"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.13.0"

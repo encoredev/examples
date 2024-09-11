@@ -1,8 +1,9 @@
-import { Clerk, verifyToken } from "@clerk/backend";
-import { APIError, Gateway, Header } from "encore.dev/api";
-import { authHandler } from "encore.dev/auth";
-import { secret } from "encore.dev/config";
-import { AUTHORIZED_PARTIES, DOMAIN } from "./config";
+import {Clerk, verifyToken} from "@clerk/backend";
+import {APIError, Gateway, Header} from "encore.dev/api";
+import {authHandler} from "encore.dev/auth";
+import {secret} from "encore.dev/config";
+import {AUTHORIZED_PARTIES, DOMAIN} from "./config";
+import log from "encore.dev/log";
 
 const clerkSecretKey = secret("ClerkSecretKey");
 
@@ -22,12 +23,14 @@ interface AuthData {
 
 const myAuthHandler = authHandler(
   async (params: AuthParams): Promise<AuthData> => {
-    if (!params.authorization) {
+    const token = params.authorization.replace('Bearer ', '');
+
+    if (!token) {
       throw APIError.unauthenticated("no token provided");
     }
 
     try {
-      const result = await verifyToken(params.authorization, {
+      const result = await verifyToken(token, {
         issuer: DOMAIN,
         authorizedParties: AUTHORIZED_PARTIES,
       });
@@ -40,9 +43,10 @@ const myAuthHandler = authHandler(
         emailAddress: user.emailAddresses[0].emailAddress || null,
       };
     } catch (e) {
+      log.error(e);
       throw APIError.unauthenticated("invalid token", e as Error);
     }
   }
 );
 
-export const mygw = new Gateway({ authHandler: myAuthHandler });
+export const mygw = new Gateway({authHandler: myAuthHandler});

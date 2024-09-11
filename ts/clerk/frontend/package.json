@@ -1,0 +1,13 @@
+{
+  "name": "encore-ts-clerk-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5173 --strictPort",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "gen": "encore gen client {{ENCORE_APP_ID}} --output=./src/lib/client.ts --env=staging",
+    "gen:local": "encore gen client {{ENCORE_APP_ID}} --output=./src/lib/client.ts --env=local"
+  }
+}
