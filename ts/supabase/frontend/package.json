@@ -1,0 +1,13 @@
+{
+  "name": "encore-ts-supabase-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5173 --strictPort",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "gen": "encore gen client supabase-bf2i --output=./src/lib/client.ts --env=staging",
+    "gen:local": "encore gen client supabase-bf2i --output=./src/lib/client.ts --env=local"
+  }
+}
