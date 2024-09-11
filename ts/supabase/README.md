@@ -33,16 +33,15 @@ encore app create my-app --example=ts/supabase
 From your terminal (inside your Encore app directory), run:
 
 ```shell
-$ encore secret set --prod SupabaseAPIKey
+$ encore secret set --prod SUPABASE_URL
 ```
 
 5. Do the same for the development secret:
 
 ```shell
-$ encore secret set --dev SupabaseAPIKey
+$ encore secret set --dev SUPABASE_KEY
 ```
 
-6. In `auth/config.ts`, update the `SUPABASE_URL` variable with your Supabase project URL.
 
 ## Developing locally
 
