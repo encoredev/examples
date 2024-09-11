@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect } from "react";
 import {
-  createHashRouter,
+  createBrowserRouter,
   Link,
   Outlet,
   RouterProvider,
@@ -29,7 +29,7 @@ if (!PUBLISHABLE_KEY) {
 }
 
 // Application routes
-const router = createHashRouter([
+const router = createBrowserRouter([
   {
     id: "root",
     path: "/",
