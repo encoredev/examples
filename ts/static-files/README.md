@@ -1,14 +1,8 @@
-# Handling file uploads example
+# Serving static files with Encore.ts
 
-This example utilizes a Raw endpoint to handle file uploads. This example uses the [busboy](https://www.npmjs.com/package/busboy) library to help with the file handling. 
+This is an example of how to use `api.static` in Encore.ts to serve static files.
 
-**Endpoints:**
-
-* `/upload` (POST) - Single file upload, storing file as bytes in database
-* `/upload-multiple` (POST) - Multiple files upload, storing files as bytes in database
-* `/files/:name` (GET) - Get a files content by it's name
-* `/files` (GET) - Get a list of file names that is stored in the database 
-* `/` (GET) - Example frontend for testing the file upload
+Learn more in our [Static Assets docs](https://encore.dev/docs/ts/primitives/static-assets)
 
 ## Developing locally
 
@@ -24,20 +18,23 @@ environment. Use the appropriate command for your system:
 When you have installed Encore, run:
 
 ```bash
-encore app create --example=ts/file-upload
+encore app create --example=ts/static-files
 ```
 
 ## Running locally
-
-Before running your application, make sure you have Docker installed and running. It's required to locally run Encore applications with databases.
-
 ```bash
 encore run
 ```
 
+While `encore run` is running, open <http://localhost:9400/> to view Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
+
+## Using the endpoints
+
 Go to [http://localhost:4000](http://localhost:4000) in the browser to see the example frontend.
 
-You can also access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash) on <http://localhost:9400/> to view traces, API documentation, and more.
+Static files are also served on `/public`, try opening [http://localhost:4000/public/styles.css](http://localhost:4000/public/styles.css) in the browser to see the CSS file.
+
+Go to [http://localhost:4000/does-not-exist](http://localhost:4000/does-not-exist) to see the `not_found.html` 404 page.
 
 ## Deployment
 
@@ -54,9 +51,3 @@ Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your 
 From there you can also connect your own AWS or GCP account to use for deployment.
 
 Now off you go into the clouds!
-
-## Testing
-
-```bash
-encore test
-```
