@@ -18,7 +18,7 @@ environment. Use the appropriate command for your system:
 When you have installed Encore, run:
 
 ```bash
-encore app create --example=ts/serve-static-files
+encore app create --example=ts/static-files
 ```
 
 ## Running locally
