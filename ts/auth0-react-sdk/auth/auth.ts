@@ -26,20 +26,21 @@ const userInfoClient = new UserInfoClient({
 // Remove if your app does not require authentication.
 const myAuthHandler = authHandler(
   async (params: AuthParams): Promise<AuthData> => {
-    if (!params.authorization) {
+    const token = params.authorization.replace("Bearer ", "");
+    if (!token) {
       throw APIError.unauthenticated("no token provided");
     }
 
     try {
       // Verify the JWT
-      jwt.verify(params.authorization, publicCert(), {
+      jwt.verify(token, publicCert(), {
         algorithms: ["RS256"],
         issuer: "https://" + DOMAIN + "/",
         audience: AUDIENCE,
       });
 
       // Get the user info
-      const userInfo = await userInfoClient.getUserInfo(params.authorization);
+      const userInfo = await userInfoClient.getUserInfo(token);
 
       return {
         userID: userInfo.data.sub,

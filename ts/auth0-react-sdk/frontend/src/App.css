@@ -1,0 +1,44 @@
+.main {
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - var(--nav-height));
+  padding: 20px;
+}
+
+.nav {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--black);
+  color: var(--white);
+  padding: 10px;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+}
+
+.navLinks a {
+  margin-right: 20px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.navLinks a:hover {
+  text-decoration: underline;
+}
+
+.authStatus {
+  display: flex;
+  align-items: center;
+}
+
+.authStatus img {
+  display: inline;
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
