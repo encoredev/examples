@@ -95,12 +95,6 @@ Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your 
 From there you can also see metrics, traces, connect your app to a
 GitHub repo to get automatic deploys on new commits, and connect your own AWS or GCP account to use for deployment.
 
-### React on Vercel
-
-1. Create a repo and push the project to GitHub.
-2. Create a new project on Vercel and point it to your GitHup repo.
-3. Select `frontend` as the root directory for the Vercel project.
-
 ## CORS configuration
 
 If you are running into CORS issues when calling your Encore API from your frontend then you may need to specify which

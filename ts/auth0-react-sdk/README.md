@@ -51,7 +51,7 @@ In `frontend/.env` file, replace the values for `VITE_AUTH0_DOMAIN`, `VITE_AUTH0
 Set the PEM certificate as an Encore secret. From your terminal (inside your Encore app directory), run:
 
 ```bash
-$ encore-beta secret set --dev Auth0PEMCertificate < your-downloaded-cert.pem
+encore secret set --dev Auth0PEMCertificate < your-downloaded-cert.pem
 ```
 
 ## Developing locally
@@ -66,7 +66,6 @@ In a different terminal window, run the React frontend using [Vite](https://vite
 
 ```bash
 cd frontend
-npm install
 npm run dev
 ```
 
@@ -104,12 +103,6 @@ Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your 
 
 From there you can also see metrics, traces, connect your app to a
 GitHub repo to get automatic deploys on new commits, and connect your own AWS or GCP account to use for deployment.
-
-### React on Vercel
-
-1. Create a repo and push the project to GitHub.
-2. Create a new project on Vercel and point it to your GitHup repo.
-3. Select `frontend` as the root directory for the Vercel project.
 
 ## CORS configuration
 
