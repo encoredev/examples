@@ -28,7 +28,7 @@ encore app create my-app --example=ts/supabase
 
 3. In `frontend/.env` file, replace the values for `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` with the values from your Supabase dashboard.
 
-4. The `Project API Key` is sensitive and should not be hardcoded in your code/config. Instead, you should store that as an [Encore secret](https://encore.dev/docs/primitives/secrets).
+4. The `service_role` is sensitive and should not be hardcoded in your code/config. Instead, you should store that as an [Encore secret](https://encore.dev/docs/primitives/secrets).
 
 From your terminal (inside your Encore app directory), run:
 
