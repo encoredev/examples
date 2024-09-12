@@ -35,6 +35,7 @@ From your terminal (inside your Encore app directory), run:
 ```shell
 $ encore secret set --prod SUPABASE_URL
 ```
+NOTE: This will use the same `service_role` for both development and production environments. You might want to create separate Supabase project for your different environments. 
 
 5. Do the same for the development secret:
 
