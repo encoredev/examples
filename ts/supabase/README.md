@@ -37,7 +37,7 @@ $ encore secret set SUPABASE_KEY --type prod,dev,local
 ```
 NOTE: This will use the same `service_role` for both development and production environments. You might want to create separate Supabase project for your different environments. 
 
-5. Do the same for the development secret:
+5. We also need to set the "Project URL" (same as above) as an Encore secret to be able to access it in our backend:
 
 ```shell
 $ encore secret set SUPABASE_URL --type prod,dev,local
