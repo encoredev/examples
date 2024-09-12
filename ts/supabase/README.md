@@ -40,7 +40,7 @@ NOTE: This will use the same `service_role` for both development and production 
 5. Do the same for the development secret:
 
 ```shell
-$ encore secret set --dev SUPABASE_KEY
+$ encore secret set SUPABASE_URL --type prod,dev,local
 ```
 
 
