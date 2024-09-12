@@ -33,7 +33,7 @@ encore app create my-app --example=ts/supabase
 From your terminal (inside your Encore app directory), run:
 
 ```shell
-$ encore secret set --prod SUPABASE_URL
+$ encore secret set SUPABASE_KEY --type prod,dev,local
 ```
 NOTE: This will use the same `service_role` for both development and production environments. You might want to create separate Supabase project for your different environments. 
 
