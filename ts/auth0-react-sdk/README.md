@@ -7,11 +7,19 @@ You an also take a look at [auth0](https://github.com/encoredev/examples/blob/ma
 
 ## Cloning the example
 
-When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone
-this example by running this command:
+### Prerequisite: Installing Encore
+
+If this is the first time you're using Encore, you first need to install the CLI that runs the local development
+environment. Use the appropriate command for your system:
+
+- **macOS:** `brew install encoredev/tap/encore`
+- **Linux:** `curl -L https://encore.dev/install.sh | bash`
+- **Windows:** `iwr https://encore.dev/install.ps1 | iex`
+
+When you have installed Encore, run to clone this example:
 
 ```bash
-encore app create my-app --example=ts/auth0-react-sdk
+encore app create --example=ts/auth0-react-sdk
 ```
 
 ## Auth0 Credentials
@@ -38,7 +46,7 @@ Create a new API, give it a name and an identifier. When the API is created, cop
 
 In `backend/auth/config.ts`, replace the values for the `Domain` and `Audience` that you got from the Auth0 dashboard.
 
-In `frontend/.env` file, replace the values for `VITE_AUTH0_DOMAIN` and `VITE_AUTH0_CLIENT_ID` that you got from the Auth0 dashboard.
+In `frontend/.env` file, replace the values for `VITE_AUTH0_DOMAIN`, `VITE_AUTH0_CLIENT_ID` and `VITE_AUTH0_AUDIENCE` that you got from the Auth0 dashboard.
 
 Set the PEM certificate as an Encore secret. From your terminal (inside your Encore app directory), run:
 
@@ -54,11 +62,31 @@ Run your Encore backend:
 encore run
 ```
 
+In a different terminal window, run the React frontend using [Vite](https://vitejs.dev/):
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+
 ### Encore's Local Development Dashboard
 
-While `encore run` is running, open <http://localhost:9400/> to view Encore's local developer dashboard.
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to view Encore's local developer dashboard.
 Here you can see the request you just made and a view a trace of the response.
 
+### Generating a request client
+
+Keep the contract between the backend and frontend in sync by regenerating the request client whenever you make a change
+to an Encore endpoint.
+
+```bash
+npm run gen # Deployed Encore staging environment
+# or
+npm run gen:local # Locally running Encore backend
+```
 
 ## Deployment
 
@@ -76,6 +104,12 @@ Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your 
 
 From there you can also see metrics, traces, connect your app to a
 GitHub repo to get automatic deploys on new commits, and connect your own AWS or GCP account to use for deployment.
+
+### React on Vercel
+
+1. Create a repo and push the project to GitHub.
+2. Create a new project on Vercel and point it to your GitHup repo.
+3. Select `frontend` as the root directory for the Vercel project.
 
 ## CORS configuration
 

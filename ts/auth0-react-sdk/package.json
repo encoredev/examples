@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "auth0": "^4.3.1",
-    "encore.dev": "v1.29.1-beta.4",
+    "encore.dev": "^1.41.1",
     "jsonwebtoken": "^9.0.2"
   },
   "optionalDependencies": {
