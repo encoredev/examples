@@ -1,0 +1,12 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "gen": "encore gen client {{ENCORE_APP_ID}} --output=./src/lib/client.ts --env=staging",
+    "gen:local": "encore gen client {{ENCORE_APP_ID}} --output=./src/lib/client.ts --env=local"
+  }
+}
