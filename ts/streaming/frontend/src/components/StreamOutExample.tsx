@@ -28,7 +28,7 @@ function StreamOutExample() {
       </p>
 
       <Button disabled={isStreaming} onClick={startStream}>
-        Start upload stream
+        Start log stream
       </Button>
       <div>
         <span className="font-bold">Logs:</span>
