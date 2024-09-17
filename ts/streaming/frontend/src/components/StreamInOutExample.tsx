@@ -63,7 +63,7 @@ function StreamOutExample() {
         This example is making use of <code>api.streamInOut</code> to simulate a
         bidirectional AI Chat stream.
       </p>
-      <div className="flex h-[calc(100vh-150px)] items-center justify-center w-full">
+      <div className="flex h-[calc(100vh-150px)] items-center justify-center w-full text-left">
         <div className="bg-gray-100 h-full flex flex-col w-full max-w-4xl mx-auto">
           <header className="flex items-center justify-between p-4 bg-white border-b">
             <h1 className="text-lg font-bold">Fake AI Chat</h1>
