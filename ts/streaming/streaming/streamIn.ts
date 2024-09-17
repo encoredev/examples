@@ -1,17 +1,17 @@
 import { api } from "encore.dev/api";
 
-// The Handshake object can be used to pass initial data, it's optional.
+// Used to pass initial data.
 interface UploadHandshake {
   user: string;
 }
 
-// The Request object is what the clients sends over the stream.
+// What the clients sends over the stream.
 interface DataChunk {
   data: string;
   done: boolean;
 }
 
-// The Response object gets returned when the stream is done.
+// Returned when the stream is done.
 interface StreamEndResponse {
   success: boolean;
 }
