@@ -1,10 +1,11 @@
 import { api, StreamOut } from "encore.dev/api";
 
-// The Handshake object can be used to pass initial data, it's optional.
+// Used to pass initial data.
 interface LogHandshake {
   rows: number;
 }
 
+// What the server sends over the stream.
 interface LogMessage {
   message: string;
 }
