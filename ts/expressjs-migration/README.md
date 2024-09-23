@@ -5,6 +5,9 @@ developers. Encore.ts is a new web framework that aims to make it easier to buil
 
 A complete guide can be found in the [Migrate from Express.js](https://encore.dev/docs/ts/how-to/express-migration) docs.
 
+[![Express.js vs Encore.ts](youtube.png)](https://www.youtube.com/watch?v=hA9syK_FtZw)
+
+
 ## Full migration
 
 In the `express` folder, you'll find an example Express.js app. In the `encore` folder, you'll find the same app, but built with Encore.ts.
