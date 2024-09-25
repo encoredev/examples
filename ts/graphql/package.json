@@ -1,0 +1,24 @@
+{
+  "name": "encore-graphql",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Encore + GraphQL Starter",
+  "license": "MPL-2.0",
+  "type": "module",
+  "scripts": {
+    "generate": "graphql-codegen --config codegen.yml"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2",
+    "@graphql-codegen/cli": "2.16.5",
+    "@graphql-codegen/typescript": "2.8.8",
+    "@graphql-codegen/typescript-resolvers": "2.7.13"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.11.0",
+    "encore.dev": "^1.35.3",
+    "graphql": "^16.9.0",
+    "graphql-tag": "^2.12.6"
+  }
+}

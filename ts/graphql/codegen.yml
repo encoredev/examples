@@ -1,0 +1,10 @@
+# This configuration file tells GraphQL Code Generator how to generate types based on our schema.
+schema: './schema.graphql'
+generates:
+  # Specify where our generated types should live.
+  ./graphql/__generated__/resolvers-types.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-resolvers'
+    config:
+      useIndexSignature: true
