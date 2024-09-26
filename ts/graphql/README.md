@@ -44,7 +44,7 @@ To easily call the GraphQL API, open <https://studio.apollographql.com/sandbox> 
 ## Using the API
 
 Execute the below queries using the GraphQL Playground (or method of your choice).
-#### Add a books
+#### Add a book
 
 ```graphql
 mutation AddBook {
