@@ -1,6 +1,6 @@
 # Template Engine with Encore.ts
 
-This example utilizes a Raw endpoint to handle serve views through a template engine. This example uses the [EJS](https://ejs.co/) for rendering views but the same concept could be used for a different template engine.
+This example utilizes a Raw endpoint to serve views through a template engine. The example implementation uses [EJS](https://ejs.co/) for rendering views, but the same approach is also applicable for other template engines.
 
 ## Developing locally
 
