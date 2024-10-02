@@ -1,0 +1,19 @@
+{
+  "name": "encore-template-engine",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Encore.ts Template Engine Example",
+  "license": "MPL-2.0",
+  "type": "module",
+  "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "@types/consolidate": "^0.14.4",
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "consolidate": "^1.0.4",
+    "ejs": "^3.1.10",
+    "encore.dev": "^1.41.3"
+  }
+}

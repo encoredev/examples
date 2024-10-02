@@ -71,6 +71,7 @@ environment. Use the appropriate command for your system:
 | [ts/expressjs-migration](ts/expressjs-migration)                 | Express.js migration guide examples                                                                                      | APIs, Raw Endpoints, Auth, Databases                                   |
 | [ts/file-upload](ts/file-upload)                                 | Upload files from frontend example                                                                                       | Raw Endpoints                                                          |
 | [ts/static-files](ts/static-files)                               | Serving static files example                                                                                             | Static Endpoints                                                       |
+| [ts/template-engine](ts/template-engine)                         | Using a templating engine                                                                                                | Raw Endpoints, Static Endpoints                                        |
 
 † = Cannot be installed using `encore app create --example`, create an empty app and clone the repo instead.
 
