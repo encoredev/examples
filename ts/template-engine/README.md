@@ -32,7 +32,7 @@ encore run
 - <http://localhost:4000/about/contact> - Serving a template located in a sub-folder
 - <http://localhost:4000/html> - Serving an inline HTML template
 
-Go to [http://localhost:4000](http://localhost:4000) in the browser to see the example frontend.
+Open [http://localhost:4000](http://localhost:4000) in your browser to see the example frontend.
 
 You can also access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash) on <http://localhost:9400/> to view traces, API documentation, and more.
 
