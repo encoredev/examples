@@ -1,6 +1,6 @@
 <img width="200px" src="https://encore.dev/assets/branding/logo/logo.svg" alt="Encore - The Backend Development Engine" />
 
-# sqcl Database example
+# sqlc Database example
 
 This is a basic Hello World Encore application with a single API endpoint, that uses sqlc and a SQL database to keep track of how many times you've said hello.
 
