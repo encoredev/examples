@@ -7,10 +7,6 @@ interface Suggestion {
 
 const data: Suggestion[] = [
   {
-    voice: "Rachel",
-    text: "Have you ever wondered what lies beyond the stars? What mysteries does the universe hold?",
-  },
-  {
     voice: "Paul",
     text: "The sunset painted the sky in hues of orange and pink, casting a warm glow over the tranquil sea.",
   },

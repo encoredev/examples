@@ -19,7 +19,7 @@ function App() {
   const [showVoicesPanel, setShowVoicesPanel] = useState(false);
   const [showHistoryPanel, setShowHistoryPanel] = useState(false);
 
-  const [voice, setVoice] = useState<string>("Rachel");
+  const [voice, setVoice] = useState<string>("Lily");
   const [stability, setStability] = useState<number>(50);
   const [similarity, setSimilarity] = useState<number>(75);
   const [exaggeration, setExaggeration] = useState<number>(0);

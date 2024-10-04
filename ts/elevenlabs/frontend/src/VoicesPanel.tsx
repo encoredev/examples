@@ -24,6 +24,7 @@ const VoicesPanel: FC<{
         .getVoices()
         .then((response) => {
           setVoices(response.voices);
+          setVoice(response.voices[0]);
         })
         .catch((err) => {
           console.error(err);
