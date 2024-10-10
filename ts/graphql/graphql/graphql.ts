@@ -1,4 +1,5 @@
 import { api } from "encore.dev/api";
+import log from "encore.dev/log";
 import { ApolloServer, HeaderMap } from "@apollo/server";
 import { readFileSync } from "node:fs";
 import resolvers from "./resolvers";
@@ -25,12 +26,20 @@ export const graphqlAPI = api.raw(
       }
     }
 
+    let body: unknown;
+
+    try {
+      body = await json(req);
+    } catch (error) {
+      log.error(error);
+    }
+
     // More on how to use executeHTTPGraphQLRequest: https://www.apollographql.com/docs/apollo-server/integrations/building-integrations/
     const httpGraphQLResponse = await server.executeHTTPGraphQLRequest({
       httpGraphQLRequest: {
         headers,
         method: req.method!.toUpperCase(),
-        body: await json(req),
+        body,
         search: new URLSearchParams(req.url ?? "").toString(),
       },
       context: async () => {
