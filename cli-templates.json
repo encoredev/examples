@@ -8,6 +8,12 @@
         "lang": "go"
     },
     {
+        "title":    "Intro to Encore.ts",
+        "desc":     "An interactive tutorial",
+        "template": "ts/introduction",
+        "lang": "ts"
+    },
+    {
         "title":    "Hello World",
         "desc":     "A simple REST API",
         "template": "ts/hello-world",
