@@ -1,0 +1,7 @@
+[{
+  ItemTitle: "Intro to Encore.ts",
+  Desc:      "An interactive tutorial",
+  Template:  "ts/introduction",
+  Lang:      "ts",
+  Tutorial:  true,
+}]
