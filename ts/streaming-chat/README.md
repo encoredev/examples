@@ -33,6 +33,12 @@ You can also access Encore's [local developer dashboard](https://encore.dev/docs
 
 In you change the frontend then run `npm run build` to build a new frontend in the `dist` folder.
 
+## Testing
+
+```bash
+encore test
+```
+
 ## Deployment
 
 Deploy your application to a staging environment in Encore's free development cloud:
