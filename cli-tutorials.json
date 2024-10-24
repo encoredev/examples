@@ -1,7 +1,7 @@
 [{
-  ItemTitle: "Intro to Encore.ts",
-  Desc:      "An interactive tutorial",
-  Template:  "ts/introduction",
-  Lang:      "ts",
-  Tutorial:  true,
+  "title": "Intro to Encore.ts",
+  "desc": "An interactive tutorial",
+  "template": "ts/introduction",
+  "lang": "ts",
+  "tutorial": true
 }]
