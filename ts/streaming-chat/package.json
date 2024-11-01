@@ -5,6 +5,9 @@
   "description": "Encore.ts WebSocket Chat example",
   "license": "MPL-2.0",
   "type": "module",
+    "scripts": {
+    "test": "vitest"
+  },
   "devDependencies": {
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
@@ -18,7 +21,8 @@
     "react-router-dom": "^6.16.0",
     "tailwindcss": "^3.4.11",
     "uuid": "^10.0.0",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "vitest": "^2.1.4"
   },
   "dependencies": {
     "encore.dev": "^1.41.1",
