@@ -51,10 +51,10 @@ Update user data
 
 ```bash
 # partial update
-curl 'http://localhost:4000/users/:id' -d '{"data":{"name":"Johnny"}}'
+curl -XPATCH 'http://localhost:4000/users/:id' -d '{"data":{"name":"Johnny"}}'
 
 # update complete data
-curl 'http://localhost:4000/users/:id' -d '{"data":{"name":"Mary","surname":"Jane"}}'
+curl -XPATCH 'http://localhost:4000/users/:id' -d '{"data":{"name":"Mary","surname":"Jane"}}'
 ```
 
 Delete an user by id
