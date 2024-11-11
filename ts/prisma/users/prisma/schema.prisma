@@ -1,0 +1,21 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+// TODO: replace the url below with the output from running
+// encore db conn-uri encore_prisma_test --shadow
+
+datasource db {
+  provider = "postgresql"
+  url      = "<paste shadow db connection string here>"
+}
+
+model User {
+  id      Int      @id @default(autoincrement())
+  name    String
+  surname String
+}
