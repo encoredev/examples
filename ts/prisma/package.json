@@ -1,8 +1,8 @@
 {
-  "name": "encore-sequelize-example",
+  "name": "encore-prisma-example",
   "private": true,
   "version": "0.0.1",
-  "description": "Encore + Sequelize Typescript Example",
+  "description": "Encore + Prisma Typescript Example",
   "license": "MPL-2.0",
   "type": "module",
   "devDependencies": {
