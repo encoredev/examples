@@ -1,0 +1,20 @@
+{
+  "name": "encore-knex-example",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Encore + Knex Typescript Example",
+  "license": "MPL-2.0",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "encore.dev": "^1.39.5",
+    "knex": "^3.0.1",
+    "pg": "^8.13.1"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
+  }
+}

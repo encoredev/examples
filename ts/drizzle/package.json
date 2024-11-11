@@ -1,0 +1,21 @@
+{
+  "name": "encore-drizzle-example",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Encore + Drizzle Typescript Example",
+  "license": "MPL-2.0",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2",
+    "drizzle-kit": "^0.27.1"
+  },
+  "dependencies": {
+    "encore.dev": "^1.39.5",
+    "drizzle-orm": "^0.36.0",
+    "pg": "^8.13.1"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
+  }
+}
