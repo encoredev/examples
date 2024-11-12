@@ -5,8 +5,12 @@
   "description": "Encore + Prisma Typescript Example",
   "license": "MPL-2.0",
   "type": "module",
+  "scripts": {
+    "postinstall": "npx prisma generate --schema=users/prisma/schema.prisma"
+  },
   "devDependencies": {
     "@types/node": "^20.5.7",
+    "prisma": "^5.22.0",
     "typescript": "^5.2.2"
   },
   "dependencies": {
