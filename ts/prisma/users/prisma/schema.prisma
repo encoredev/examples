@@ -3,8 +3,8 @@
 
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
-
 
 // TODO: replace the url below with the output from running
 // encore db conn-uri encore_prisma_test --shadow
