@@ -3,26 +3,24 @@
 This is an [Encore](https://encore.dev/) + [Next.js](https://nextjs.org/) project starter. It's a great way to learn how to combine Encore's backend 
 capabilities with a modern web framework — perfect for building a web app.
 
-## Developing locally
+## Prerequisites 
 
-### Prerequisite: Installing Encore
-
-If this is the first time you're using Encore, you first need to install the CLI that runs the local development
-environment. Use the appropriate command for your system:
-
+**Install Encore:**
 - **macOS:** `brew install encoredev/tap/encore`
 - **Linux:** `curl -L https://encore.dev/install.sh | bash`
 - **Windows:** `iwr https://encore.dev/install.ps1 | iex`
+  
+## Create app
 
-When you have installed Encore, run:
+Create a local app from this template:
 
 ```bash
 encore app create --example=ts/nextjs-starter
 ```
 
-## Running locally
+## Run app locally
 
-Start the Encore backend:
+Start Encore by running this command from your application's root folder:
 ```bash
 encore run
 ```
@@ -47,26 +45,37 @@ npm run gen # Will create a new request client app/lib/client.ts
 
 ## Deployment
 
-For this starter, the backend will be deployed to Encore Cloud (or self-hosted) and the frontend to Vercel. The best way to go about doing that is to create a repo on GitHub and push the project there and then deploy the same codebase to both Encore Cloud and to Vercel.
+### Self-hosting
 
-### Encore
+See the [self-hosting instructions](https://encore.dev/docs/self-host/docker-build) for how to use `encore build docker` to create a Docker image and configure it.
 
-You can [self-host](https://encore.dev/docs/self-host/docker-build) the Encore backend or deploy it to Encore Cloud. Follow these steps to deploy your backend to a staging environment in Encore's free development cloud.
+### Encore Cloud Platform
 
-1. Create a GitHub repo, commit and push the app.
-2. Open your app in the Encore [Cloud Dashboard](https://app.encore.dev).
-3. Go to your app settings and link your app to GitHub and select the repo you just created.
-4. Commit and push a change (can be anything) to GitHub to trigger a deploy.
+Deploy your application to a free staging environment in Encore's development cloud using `git push encore`:
 
-You can follow the deploy in the Cloud Dashboard. When the deploy is complete, your app will be available in the cloud.
+```bash
+git add -A .
+git commit -m 'Commit message'
+git push encore
+```
 
-Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your deployment and find your production URL.
-
-From there you can also connect your own AWS or GCP account to use for deployment.
+You can also open your app in the [Cloud Dashboard](https://app.encore.dev) to integrate with GitHub, or connect your AWS/GCP account, enabling Encore to automatically handle cloud deployments for you.
 
 ### Next.js on Vercel
 
 The only thing you need to do is to create a new project on Vercel and point it to your newly created GitHup repo.
+
+## Link to GitHub
+
+Follow these steps to link your app to GitHub:
+
+1. Create a GitHub repo, commit and push the app.
+2. Open your app in the [Cloud Dashboard](https://app.encore.dev).
+3. Go to **Settings ➔ GitHub** and click on **Link app to GitHub** to link your app to GitHub and select the repo you just created.
+4. To configure Encore to automatically trigger deploys when you push to a specific branch name, go to the **Overview** page for your intended environment. Click on **Settings** and then in the section **Branch Push** configure the **Branch name** and hit **Save**.
+5. Commit and push a change to GitHub to trigger a deploy.
+
+[Learn more in the docs](https://encore.dev/docs/how-to/github)
 
 ## CORS configuration
 

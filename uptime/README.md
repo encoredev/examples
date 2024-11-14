@@ -11,37 +11,49 @@ It has a react frontend and you can try a demo version [here](https://uptime.enc
 ![Frontend](https://encore.dev/assets/tutorials/uptime/frontend.png)
 ![Architecture](https://encore.dev/assets/tutorials/uptime/encore-flow.png)
 
-
 ## Build from scratch with a tutorial
 
 If you prefer, check out the [tutorial](https://encore.dev/docs/tutorials/uptime) to learn how to build this application from scratch.
 
-## Developing locally
+## Prerequisites 
 
-When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone this example with this command.
+**Install Encore:**
+- **macOS:** `brew install encoredev/tap/encore`
+- **Linux:** `curl -L https://encore.dev/install.sh | bash`
+- **Windows:** `iwr https://encore.dev/install.ps1 | iex`
+  
+**Docker:**
+1. Install [Docker](https://docker.com)
+2. Start Docker
+
+## Create app
+
+Create a local app from this template:
 
 ```bash
 encore app create my-app-name --example=uptime
 ```
 
-## Running locally
+## Run app locally
 
-Run your application:
+Before running your application, make sure you have Docker installed and running. Then run this command from your application's root folder:
+
 ```bash
 encore run
 ```
 To use the Slack integration, set the Slack Webhook URL (see tutorial above):
+
 ```bash
-encore secret set SlackWebhookURL
+encore secret set --type local,dev,pr,prod SlackWebhookURL
 ```
 
-Note that to avoid confusion, Cron Jobs do not execute when running locally.
+**Note:** Cron Jobs do not execute when running locally.
 
 ## Local Development Dashboard
 
 While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
 
-Here you can see API docs, make requests in the API explorer, and view traces of the responses.
+Here you can see traces for all requests, see the application architecture diagram, and see API documentation in the Service Catalog.
 
 ## View the frontend
 
@@ -71,7 +83,13 @@ curl 'http://localhost:4000/status'
 
 ## Deployment
 
-Deploy your application to a staging environment in Encore's free development cloud:
+### Self-hosting
+
+See the [self-hosting instructions](https://encore.dev/docs/self-host/docker-build) for how to use `encore build docker` to create a Docker image and configure it.
+
+### Encore Cloud Platform
+
+Deploy your application to a free staging environment in Encore's development cloud using `git push encore`:
 
 ```bash
 git add -A .
@@ -79,11 +97,19 @@ git commit -m 'Commit message'
 git push encore
 ```
 
-Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your deployment and find your production URL.
+You can also open your app in the [Cloud Dashboard](https://app.encore.dev) to integrate with GitHub, or connect your AWS/GCP account, enabling Encore to automatically handle cloud deployments for you.
 
-From there you can also connect your own AWS or GCP account to use for deployment.
+## Link to GitHub
 
-Now off you go into the clouds!
+Follow these steps to link your app to GitHub:
+
+1. Create a GitHub repo, commit and push the app.
+2. Open your app in the [Cloud Dashboard](https://app.encore.dev).
+3. Go to **Settings ➔ GitHub** and click on **Link app to GitHub** to link your app to GitHub and select the repo you just created.
+4. To configure Encore to automatically trigger deploys when you push to a specific branch name, go to the **Overview** page for your intended environment. Click on **Settings** and then in the section **Branch Push** configure the **Branch name** and hit **Save**.
+5. Commit and push a change to GitHub to trigger a deploy.
+
+[Learn more in the docs](https://encore.dev/docs/how-to/github)
 
 ## Testing
 
