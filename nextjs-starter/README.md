@@ -2,10 +2,20 @@
 
 This is an [Encore](https://encore.dev/) + [Next.js](https://nextjs.org/) project starter. It's a great way to learn how to combine Encore's backend capabilities with a modern web framework — perfect for building a web app.
 
-## Developing locally
+## Prerequisites 
 
-When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone
-this example by running this command:
+- **Install Encore:**
+  - **macOS:** `brew install encoredev/tap/encore`
+  - **Linux:** `curl -L https://encore.dev/install.sh | bash`
+  - **Windows:** `iwr https://encore.dev/install.ps1 | iex`
+  
+- **Docker:**
+  - 1. Install [Docker](https://docker.com)
+  - 2. Start Docker
+
+## Create app
+
+Create a local app from this template:
 
 ```bash
 encore app create my-app --example=nextjs-starter
@@ -45,9 +55,13 @@ npm run gen:local # Locally running Encore backend
 
 ## Deployment
 
-### Encore
+### Encore: Self-hosting
 
-Deploy your backend to a staging environment in Encore's free development cloud:
+See the [self-hosting instructions](https://encore.dev/docs/self-host/docker-build) for how to use `encore build docker` to create a Docker image and configure it.
+
+### Encore: Cloud Platform
+
+Deploy your application to a free staging environment in Encore's development cloud using `git push encore`:
 
 ```bash
 git add -A .
@@ -55,10 +69,7 @@ git commit -m 'Commit message'
 git push encore
 ```
 
-Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your deployment and find your production URL.
-
-From there you can also see metrics, traces, connect your app to a
-GitHub repo to get automatic deploys on new commits, and connect your own AWS or GCP account to use for deployment.
+You can also open your app in the [Cloud Dashboard](https://app.encore.dev) to integrate with GitHub, or connect your AWS/GCP account, enabling Encore to automatically handle cloud deployments for you.
 
 ### Next.js on Vercel
 

@@ -8,11 +8,11 @@ Templates to help you build backend applications with <a href="https://github.co
 
 This repo contains two types of templates:
 
-- **Starters:** Runnable Encore applications for others to use as is, or take inspiration from.
-- **Bits:** Re-usable code samples to solve common development patterns or integrate Encore applications with
+- **Starters:** Runnable Encore applications to use as they are or to take inspiration from.
+- **Bits:** Small re-usable parts solving common development patterns or integrating Encore applications with
   third-party APIs and services.
 
-### Prerequisite: Installing Encore
+## Prerequisite: Install Encore
 
 If this is the first time you're using Encore, you first need to install the CLI that runs the local development
 environment. Use the appropriate command for your system:
@@ -21,36 +21,20 @@ environment. Use the appropriate command for your system:
 - **Linux:** `curl -L https://encore.dev/install.sh | bash`
 - **Windows:** `iwr https://encore.dev/install.ps1 | iex`
 
-## Starters
+## Starters 
 
-### Go
+Create a local app from a template by running:
 
-| Name                                       | Description                                                                                                                         | Primitives                                                                                  |
-|--------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
-| [hello-world](hello-world)                 | REST API Starter                                                                                                                    | APIs                                                                                        |
-| [sql-database](sql-database)               | PostgreSQL database Starter                                                                                                         | APIs, SQL Database                                                                          |
-| [ai-chat](ai-chat)                         | LLM chat room application which let's you create and chat with personalized bots. Integrates with OpenAI, Gemini, Slack and Discord | Microservices, APIs, SQL Database, Pub/Sub, Cron Jobs, Frontend, External Requests, Configs |
-| [assembly-ai](assemblyai-starter)          | AssemblyAI Starter - Conversational Intelligence app that lets you upload and transcribe voice data.                                | APIs, SQL Database, Frontend, External Requests, Configs                                    |
-| [slack-bot](slack-bot)                     | Slack Bot Starter                                                                                                                   | APIs, Webhooks                                                                              |
-| [trello-clone](trello-clone)               | Microservices Starter (Trello Clone)                                                                                                | Microservices, APIs, SQL Database                                                           |
-| [uptime](uptime)                           | Event-Driven Architecture Starter (Uptime Monitor)                                                                                  | Microservices, SQL Databases, Pub/Sub, Cron Jobs                                            |
-| [graphql](graphql)                         | GraphQL Server Starter                                                                                                              | APIs, SQL Database, GraphQL                                                                 |
-| [url-shortener](url-shortener)             | Basic url shortener                                                                                                                 | APIs, SQL Database                                                                          |
-| [sqlc-database](sqlc-database)             | Simple sqlc implementation                                                                                                          | APIs, SQL Database                                                                          |
-| [next-starter](nextjs-starter)             | Next.js + Encore Web App Starter                                                                                                    | APIs, Auth, Frontend                                                                        |
-| [next-auth0-starter](nextjs-auth0-starter) | Next.js + Auth0 + Encore Web App Starter                                                                                            | Microservices, APIs, Auth, Frontend                                                         |
-| [react-starter](react-starter)             | React + Encore Web App Starter                                                                                                      | APIs, Auth, Frontend                                                                        |
-| [booking-system](booking-system)           | Appointment Booking System Starter using data scrubbing and sqlc                                                                    | Microservices, APIs, Auth, SQL Database, Frontend                                           |
-| [meeting-notes](meeting-notes)             | Meeting Notes App deployed to GitHub Pages                                                                                          | APIs, SQL Database, External Requests                                                       |
-| [auth0](auth0)                             | Auth0 Authentication + React + Encore Example                                                                                       | APIs, Auth, Frontend                                                                        |
-| [auth0-react-sdk](auth0-react-sdk)         | Auth0 React SDK Authentication + Encore Example                                                                                     | APIs, Auth, Frontend                                                                        |
-| [clerk](clerk)                             | Clerk React SDK Authentication + Encore Example                                                                                     | APIs, Auth, Frontend                                                                        |
-| [firebase-auth](firebase-auth)             | Firebase Authentication + Encore Example                                                                                            | APIs, Auth, Frontend                                                                        |
+```bash
+encore app create [app-name] --example=[folder-name]
+```
 
-### TypeScript
+E.g. `encore app create my-app --example=ts/hello-world`
+
+### TypeScript starters
 
 | Name                                                             | Description                                                                                                              | Primitives                                                             |
-|------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- |
 | [ts/hello-world](ts/hello-world)                                 | REST API Starter                                                                                                         | APIs                                                                   |
 | [ts/ai-chat](ts/ai-chat)                                         | LLM chat application which let's you create and chat with personalized bots. Integrates with OpenAI, Anthropic and Slack | Microservices, APIs, SQL Database, Pub/Sub, External Requests, Configs |
 | [ts/streaming](ts/streaming)                                     | Examples of the different WebSocket Streaming APIs                                                                       | Streaming API, Static Endpoint, Frontend                               |
@@ -76,32 +60,40 @@ environment. Use the appropriate command for your system:
 | [ts/static-files](ts/static-files)                               | Serving static files example                                                                                             | Static Endpoints                                                       |
 | [ts/template-engine](ts/template-engine)                         | Using a templating engine                                                                                                | Raw Endpoints, Static Endpoints                                        |
 
+### Go starters
+
+| Name                                       | Description                                                                                                                         | Primitives                                                                                  |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| [hello-world](hello-world)                 | REST API Starter                                                                                                                    | APIs                                                                                        |
+| [sql-database](sql-database)               | PostgreSQL database Starter                                                                                                         | APIs, SQL Database                                                                          |
+| [ai-chat](ai-chat)                         | LLM chat room application which let's you create and chat with personalized bots. Integrates with OpenAI, Gemini, Slack and Discord | Microservices, APIs, SQL Database, Pub/Sub, Cron Jobs, Frontend, External Requests, Configs |
+| [assembly-ai](assemblyai-starter)          | AssemblyAI Starter - Conversational Intelligence app that lets you upload and transcribe voice data.                                | APIs, SQL Database, Frontend, External Requests, Configs                                    |
+| [slack-bot](slack-bot)                     | Slack Bot Starter                                                                                                                   | APIs, Webhooks                                                                              |
+| [trello-clone](trello-clone)               | Microservices Starter (Trello Clone)                                                                                                | Microservices, APIs, SQL Database                                                           |
+| [uptime](uptime)                           | Event-Driven Architecture Starter (Uptime Monitor)                                                                                  | Microservices, SQL Databases, Pub/Sub, Cron Jobs                                            |
+| [graphql](graphql)                         | GraphQL Server Starter                                                                                                              | APIs, SQL Database, GraphQL                                                                 |
+| [url-shortener](url-shortener)             | Basic url shortener                                                                                                                 | APIs, SQL Database                                                                          |
+| [sqlc-database](sqlc-database)             | Simple sqlc implementation                                                                                                          | APIs, SQL Database                                                                          |
+| [next-starter](nextjs-starter)             | Next.js + Encore Web App Starter                                                                                                    | APIs, Auth, Frontend                                                                        |
+| [next-auth0-starter](nextjs-auth0-starter) | Next.js + Auth0 + Encore Web App Starter                                                                                            | Microservices, APIs, Auth, Frontend                                                         |
+| [react-starter](react-starter)             | React + Encore Web App Starter                                                                                                      | APIs, Auth, Frontend                                                                        |
+| [booking-system](booking-system)           | Appointment Booking System Starter using data scrubbing and sqlc                                                                    | Microservices, APIs, Auth, SQL Database, Frontend                                           |
+| [meeting-notes](meeting-notes)             | Meeting Notes App deployed to GitHub Pages                                                                                          | APIs, SQL Database, External Requests                                                       |
+| [auth0](auth0)                             | Auth0 Authentication + React + Encore Example                                                                                       | APIs, Auth, Frontend                                                                        |
+| [auth0-react-sdk](auth0-react-sdk)         | Auth0 React SDK Authentication + Encore Example                                                                                     | APIs, Auth, Frontend                                                                        |
+| [clerk](clerk)                             | Clerk React SDK Authentication + Encore Example                                                                                     | APIs, Auth, Frontend                                                                        |
+| [firebase-auth](firebase-auth)             | Firebase Authentication + Encore Example                                                                                            | APIs, Auth, Frontend                                                                        |
+
 † = Cannot be installed using `encore app create --example`, create an empty app and clone the repo instead.
 
-### Running Starters
+## Bits
 
-Each sub-folder in this repo contains a runnable **Starter** application.
-
-Use `encore app create [app-name] --example=[folder-name]` to
-create your own app based on the example.
-
-For example, to create an app based on `hello-world`:
-
-```bash
-$ encore app create my-app --example=hello-world
-Successfully created app my-app.
-$ cd my-app
-$ encore run
-Running on http://localhost:4000
-8:00AM INF registered endpoint endpoint=There service=hello
-```
-
-## Go Bits
+### Go Bits
 
 The [bits](bits) sub-folder contains reusable code samples that can be copied directly into your own application.
 
 | Name                          | Description                                                                          | Primitives             | Requirements                                                                              |
-|-------------------------------|--------------------------------------------------------------------------------------|------------------------|-------------------------------------------------------------------------------------------|
+| ----------------------------- | ------------------------------------------------------------------------------------ | ---------------------- | ----------------------------------------------------------------------------------------- |
 | [elevenlabs](bits/elevenlabs) | Getting text to speech from [ElevenLabs](https://elevenlabs.io/) generative voice AI | APIs, Secrets          | [ElevenLabs API key](https://docs.elevenlabs.io/api-reference/quick-start/authentication) |
 | [pexels](bits/pexels)         | Searching and retrieving photos and videos from [Pexels](https://www.pexels.com/)    | APIs, Secrets          | [Pexels API key](https://www.pexels.com/api/)                                             |
 | [sendgrid](bits/sendgrid)     | Asynchronous sending emails via [SendGrid](https://sendgrid.com/)                    | APIs, Secrets, Pub/Sub | [SendGrid API key](https://docs.sendgrid.com/ui/account-and-settings/api-keys)            |
