@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --nav-height: 50px;
+
+  --black: #111111;
+  --white: #EEEEE1;
+}
+
+html,
+body {
+  @apply w-screen overflow-x-hidden;
+}
+
+nav {
+  height: var(--nav-height);
+}
+
+main {
+  min-height: calc(100vh - var(--nav-height));
+}
+
+button {
+  @apply bg-white text-black px-4 py-1 rounded-sm;
+}
+
+input {
+  @apply text-black px-2 py-1 rounded-sm;
+}
