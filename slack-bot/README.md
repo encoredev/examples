@@ -79,6 +79,13 @@ encore run
 
 **Note:** This app doesn't do much when running locally, you need to deploy it (see below) for Slack to be able to communicate with the program and for the bot to work.
 
+
+## Local Development Dashboard
+
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
+
+Here you can see traces for all requests that you made while using the frontend, see your architecture diagram, and view API documentation in the Service Catalog.
+
 ## Deployment
 
 ### Self-hosting

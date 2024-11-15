@@ -34,6 +34,26 @@ Before running your application, make sure you have Docker installed and running
 encore run
 ```
 
+## Using the API
+
+### url.shorten — Shortens a URL and adds it to the database
+
+```bash
+curl 'http://127.0.0.1:4000/url' -d '{"url":"https://google.com"}'
+```
+
+### url.get — Gets a URL from the database using a short ID
+
+```bash
+curl 'http://127.0.0.1:4000/url/:id'
+```
+
+### url.list — Lists all shortened URLs
+
+```bash
+curl 'http://127.0.0.1:4000/url'
+```
+
 ## Open the developer dashboard
 
 While `encore run` is running, open <http://localhost:9400/> to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
@@ -49,6 +69,16 @@ curl 'http://localhost:4000/url' -d '{"url":"https://news.ycombinator.com"}'
 ```
 
 When you ping the API, you will see traces and logs appearing in the local development dashboard: <http://localhost:9400/>
+
+## Connecting to databases
+
+You can connect to your databases via psql shell:
+
+```bash
+encore db shell <database-name> --env=local --superuser
+```
+
+Learn more in the [CLI docs](https://encore.dev/docs/develop/cli-reference#database-management).
 
 ## Deployment
 

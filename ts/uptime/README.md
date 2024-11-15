@@ -82,6 +82,16 @@ While `encore run` is running, open [http://localhost:9400/](http://localhost:94
 
 Here you can see traces for all requests that you made while using the frontend, see your architecture diagram, and view API documentation in the Service Catalog.
 
+## Connecting to databases
+
+You can connect to your databases via psql shell:
+
+```bash
+encore db shell <database-name> --env=local --superuser
+```
+
+Learn more in the [CLI docs](https://encore.dev/docs/develop/cli-reference#database-management).
+
 ## Deployment
 
 ### Self-hosting
