@@ -1,5 +1,5 @@
 {
-	"id": "react-experiment-q92i", 
+	"id": "",
 	"lang": "typescript",
 	"build": {
 		"docker": {

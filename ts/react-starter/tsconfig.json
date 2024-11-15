@@ -3,7 +3,9 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "target": "ES2022",
     "lib": [
-      "ES2023"
+      "ES2023",
+      "DOM",
+      "DOM.Iterable"
     ],
     "module": "ESNext",
     "skipLibCheck": true,
@@ -23,16 +25,11 @@
       "~encore/*": [
         "./encore.gen/*"
       ]
-    }
+    },
+    "useDefineForClassFields": true,
+    "jsx": "react-jsx"
   },
-  "include": [
-    "vite.config.ts",
-    "api"
-  ],
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    }
+  "exclude": [
+    "node_modules"
   ]
 }
