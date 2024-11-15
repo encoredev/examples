@@ -24,9 +24,6 @@ Run this command from your application's root folder:
 ```bash
 encore run
 ```
-
-While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to view Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
-
 ## Using the API
 
 To see that your app is running, you can ping the API.
@@ -35,7 +32,11 @@ To see that your app is running, you can ping the API.
 curl http://localhost:4000/hello/World
 ```
 
-When you ping the API, you will see traces and logs appearing in the local development dashboard: <http://localhost:9400/>
+## Local Development Dashboard
+
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
+
+Here you can see traces for all requests that you made while using the frontend, see your architecture diagram, and view API documentation in the Service Catalog.
 
 ## Deployment
 

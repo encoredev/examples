@@ -49,12 +49,6 @@ encore secret set --type local,dev,pr,prod SlackWebhookURL
 
 **Note:** Cron Jobs do not execute when running locally.
 
-## Local Development Dashboard
-
-While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
-
-Here you can see traces for all requests, see the application architecture diagram, and see API documentation in the Service Catalog.
-
 ## View the frontend
 
 While `encore run` is running, head over to [http://localhost:4000/frontend/](http://localhost:4000/frontend/) to view the frontend for your uptime monitor.
@@ -80,6 +74,22 @@ Get the current status of all tracked sites:
 ```bash
 curl 'http://localhost:4000/status'
 ```
+
+## Local Development Dashboard
+
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
+
+Here you can see traces for all requests you've made, see the application architecture diagram, and see API documentation in the Service Catalog.
+
+## Connecting to databases
+
+You can connect to your databases via psql shell:
+
+```bash
+encore db shell <database-name> --env=local --superuser
+```
+
+Learn more in the [CLI docs](https://encore.dev/docs/develop/cli-reference#database-management).
 
 ## Deployment
 
