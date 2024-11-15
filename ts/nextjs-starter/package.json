@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen": "encore gen client next-experiment-y23i --output=./app/lib/client.ts --env=local"
+    "gen": "encore gen client --output=./app/lib/client.ts --env=local"
   },
   "dependencies": {
     "react": "^18",

@@ -1,5 +1,5 @@
 {
-	"id": "next-experiment-y23i", 
+	"id": "",
 	"lang": "typescript",
 	"build": {
 		"docker": {
