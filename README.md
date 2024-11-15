@@ -21,7 +21,7 @@ environment. Use the appropriate command for your system:
 - **Linux:** `curl -L https://encore.dev/install.sh | bash`
 - **Windows:** `iwr https://encore.dev/install.ps1 | iex`
 
-## Starters 
+## Starters
 
 Create a local app from a template by running:
 
@@ -34,10 +34,13 @@ E.g. `encore app create my-app --example=ts/hello-world`
 ### TypeScript starters
 
 | Name                                                             | Description                                                                                                              | Primitives                                                             |
-| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- |
+|------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
 | [ts/hello-world](ts/hello-world)                                 | REST API Starter                                                                                                         | APIs                                                                   |
 | [ts/ai-chat](ts/ai-chat)                                         | LLM chat application which let's you create and chat with personalized bots. Integrates with OpenAI, Anthropic and Slack | Microservices, APIs, SQL Database, Pub/Sub, External Requests, Configs |
 | [ts/streaming](ts/streaming)                                     | Examples of the different WebSocket Streaming APIs                                                                       | Streaming API, Static Endpoint, Frontend                               |
+| [ts/react-starter](ts/react-starter)                             | Encore + React Web App Starter                                                                                           | APIs, Frontend                                          |
+| [ts/nextjs-starter](ts/nextjs-starter)                           | Encore + Next.js Web App Starter                                                                                         | Microservices, APIs, Frontend                                          |
+| [https://github.com/encoredev/nextjs-starter/](nextjs-starter) † | Encore + Next.js Web App Starter (separate dependencies)                                                                 | Microservices, APIs, Frontend                                          |
 | [ts/graphql](ts/graphql)                                         | Apollo GraphQL Server Starter                                                                                            | APIs, GraphQL                                                          |
 | [ts/streaming-chat](ts/streaming-chat)                           | Simple Chat app using the Streaming API to create a WebSocket stream                                                     | Streaming API, Static Endpoint, Frontend                               |
 | [ts/simple-event-driven](ts/simple-event-driven)                 | Simple Event-Driven Application                                                                                          | Microservices, SQL Database, Pub/Sub, Secrets                          |
@@ -45,7 +48,6 @@ E.g. `encore app create my-app --example=ts/hello-world`
 | [ts/gpt-functions](ts/gpt-functions)                             | ChatGPT Functions with Encore Example                                                                                    | APIs                                                                   |
 | [ts/url-shortener](ts/url-shortener)                             | Basic url shortener                                                                                                      | APIs, SQL Database                                                     |
 | [ts/nestjs](ts/nestjs)                                           | Encore + NestJS Example                                                                                                  | APIs, SQL Database, Auth                                               |
-| [https://github.com/encoredev/nextjs-starter/](nextjs-starter) † | Encore + Next.js Web App Starter                                                                                         | Microservices, APIs, Frontend                                          |
 | [ts/slack-bot](ts/slack-bot)                                     | Slack Bot Starter                                                                                                        | APIs, Raw Endpoint                                                     |
 | [ts/auth0-react-sdk](ts/auth0-react-sdk)                         | Auth0 React SDK Authentication + Encore Example                                                                          | APIs, Auth, Frontend                                                   |
 | [ts/clerk](ts/clerk)                                             | Clerk React SDK Authentication + Encore Example                                                                          | APIs, Auth, Frontend                                                   |
@@ -63,7 +65,7 @@ E.g. `encore app create my-app --example=ts/hello-world`
 ### Go starters
 
 | Name                                       | Description                                                                                                                         | Primitives                                                                                  |
-| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+|--------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
 | [hello-world](hello-world)                 | REST API Starter                                                                                                                    | APIs                                                                                        |
 | [sql-database](sql-database)               | PostgreSQL database Starter                                                                                                         | APIs, SQL Database                                                                          |
 | [ai-chat](ai-chat)                         | LLM chat room application which let's you create and chat with personalized bots. Integrates with OpenAI, Gemini, Slack and Discord | Microservices, APIs, SQL Database, Pub/Sub, Cron Jobs, Frontend, External Requests, Configs |
@@ -93,7 +95,7 @@ E.g. `encore app create my-app --example=ts/hello-world`
 The [bits](bits) sub-folder contains reusable code samples that can be copied directly into your own application.
 
 | Name                          | Description                                                                          | Primitives             | Requirements                                                                              |
-| ----------------------------- | ------------------------------------------------------------------------------------ | ---------------------- | ----------------------------------------------------------------------------------------- |
+|-------------------------------|--------------------------------------------------------------------------------------|------------------------|-------------------------------------------------------------------------------------------|
 | [elevenlabs](bits/elevenlabs) | Getting text to speech from [ElevenLabs](https://elevenlabs.io/) generative voice AI | APIs, Secrets          | [ElevenLabs API key](https://docs.elevenlabs.io/api-reference/quick-start/authentication) |
 | [pexels](bits/pexels)         | Searching and retrieving photos and videos from [Pexels](https://www.pexels.com/)    | APIs, Secrets          | [Pexels API key](https://www.pexels.com/api/)                                             |
 | [sendgrid](bits/sendgrid)     | Asynchronous sending emails via [SendGrid](https://sendgrid.com/)                    | APIs, Secrets, Pub/Sub | [SendGrid API key](https://docs.sendgrid.com/ui/account-and-settings/api-keys)            |
