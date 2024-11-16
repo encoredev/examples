@@ -15,18 +15,22 @@ While `encore run` is running, open <http://localhost:9400/> to view Encore's [l
 
 ## Using the API
 
-To see that your app is running, you can ping the API to shorten a url.
-
-Deploy your application to a staging environment in Encore's free development cloud:
+POST shorten any url
 
 ```bash
-curl 'http://localhost:4000/url' -d '{"URL":"https://news.ycombinator.com"}'
+curl 'http://localhost:4000/url' -d '{"url":"https://google.com"}'
 ```
 
-Get all apis in the database
+GET all urls in the database
 
 ```bash
 curl 'http://localhost:4000/urls'
+```
+
+GET url by shortened id
+
+```bash
+curl 'http://localhost:4000/url/:id'
 ```
 
 ## Testing
