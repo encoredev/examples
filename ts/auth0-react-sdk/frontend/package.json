@@ -7,7 +7,20 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "gen": "encore gen client {{ENCORE_APP_ID}} --output=./src/lib/client.ts --env=staging",
-    "gen:local": "encore gen client {{ENCORE_APP_ID}} --output=./src/lib/client.ts --env=local"
+    "gen": "encore gen client --output=./src/lib/client.ts --env=local"
+  },
+    "devDependencies": {
+    "@types/node": "^20.5.7",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "vite": "^5.4.11"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0",
+    "@auth0/auth0-react": "^2.2.4",
+    "typescript": "^5.6.3"
   }
 }
