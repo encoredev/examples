@@ -73,16 +73,20 @@ Keep the contract between the backend and frontend in sync by regenerating the r
 to an Encore endpoint.
 
 ```bash
-npm run gen # Deployed Encore staging environment
-# or
-npm run gen:local # Locally running Encore backend
+npm run gen # Locally running Encore backend
 ```
 
 ## Deployment
 
-### Encore
+### Encore Backend
 
-Deploy your backend to a staging environment in Encore's free development cloud:
+#### Self-hosting
+
+See the [self-hosting instructions](https://encore.dev/docs/self-host/docker-build) for how to use `encore build docker` to create a Docker image and configure it.
+
+#### Encore Cloud Platform
+
+Deploy your application to a free staging environment in Encore's development cloud using `git push encore`:
 
 ```bash
 git add -A .
@@ -90,10 +94,34 @@ git commit -m 'Commit message'
 git push encore
 ```
 
-Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your deployment and find your production URL.
+You can also open your app in the [Cloud Dashboard](https://app.encore.dev) to integrate with GitHub, or connect your AWS/GCP account, enabling Encore to automatically handle cloud deployments for you.
 
-From there you can also see metrics, traces, connect your app to a
-GitHub repo to get automatic deploys on new commits, and connect your own AWS or GCP account to use for deployment.
+#### Link to GitHub
+
+Follow these steps to link your app to GitHub:
+
+1. Create a GitHub repo, commit and push the app.
+2. Open your app in the [Cloud Dashboard](https://app.encore.dev).
+3. Go to **Settings ➔ GitHub** and click on **Link app to GitHub** to link your app to GitHub and select the repo you just created.
+4. To configure Encore to automatically trigger deploys when you push to a specific branch name, go to the **Overview** page for your intended environment. Click on **Settings** and then in the section **Branch Push** configure the **Branch name** and hit **Save**.
+5. Commit and push a change to GitHub to trigger a deploy.
+
+[Learn more in the docs](https://encore.dev/docs/how-to/github)
+
+### React frontend
+
+#### Vercel
+
+The frontend can be deployed to Vercel. Follow these steps:
+
+1. Create a repo and push the project to GitHub.
+2. Create a new project on Vercel and point it to your GitHup repo.
+3. Select `frontend` as the root directory for the Vercel project.
+
+Once you have your frontend deployed:
+* Update the *Allowed Callback URLs*, *Allowed Logout URLs* & *Allowed Web Origins* settings in your application on Auth0 with the deployed Vercel URL. 
+* Set the `allow_origins_with_credentials` in the `encore.app` (see below) file to the deployed Vercel URL.
+
 
 ## CORS configuration
 

@@ -72,9 +72,7 @@ Keep the contract between the backend and frontend in sync by regenerating the r
 to an Encore endpoint.
 
 ```bash
-npm run gen # Deployed Encore staging environment
-# or
-npm run gen:local # Locally running Encore backend
+npm run gen # Locally running Encore backend
 ```
 
 ## Deployment
