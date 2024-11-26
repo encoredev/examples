@@ -4,7 +4,7 @@ This is an Encore starter application for a Slack bot. It brings the greatness o
 
 ## Build from scratch with a tutorial
 
-If you prefer to built it yourself, check out the [written tutorial](https://encore.dev/docs/tutorials/slack-bot) to learn how to build this application from scratch.
+If you prefer to built it yourself, check out the [written tutorial](https://encore.dev/docs/go/tutorials/slack-bot) to learn how to build this application from scratch.
 
 ## Prerequisites 
 
@@ -82,7 +82,7 @@ encore run
 
 ## Local Development Dashboard
 
-While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to access Encore's [local developer dashboard](https://encore.dev/docs/go/observability/dev-dash).
 
 Here you can see traces for all requests that you made while using the frontend, see your architecture diagram, and view API documentation in the Service Catalog.
 
@@ -90,7 +90,7 @@ Here you can see traces for all requests that you made while using the frontend,
 
 ### Self-hosting
 
-See the [self-hosting instructions](https://encore.dev/docs/self-host/docker-build) for how to use `encore build docker` to create a Docker image and configure it.
+See the [self-hosting instructions](https://encore.dev/docs/go/self-host/docker-build) for how to use `encore build docker` to create a Docker image and configure it.
 
 ### Encore Cloud Platform
 
@@ -114,4 +114,4 @@ Follow these steps to link your app to GitHub:
 4. To configure Encore to automatically trigger deploys when you push to a specific branch name, go to the **Overview** page for your intended environment. Click on **Settings** and then in the section **Branch Push** configure the **Branch name** and hit **Save**.
 5. Commit and push a change to GitHub to trigger a deploy.
 
-[Learn more in the docs](https://encore.dev/docs/how-to/github)
+[Learn more in the docs](https://encore.dev/docs/platform/integrations/github)

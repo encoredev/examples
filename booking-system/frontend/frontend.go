@@ -16,7 +16,7 @@ var (
 )
 
 // Serve serves the frontend for development using a raw endpoint.
-// Learn more: https://encore.dev/docs/primitives/services-and-apis#raw-endpoints
+// Learn more: https://encore.dev/docs/go/primitives/raw-endpoints
 // For production use we recommend deploying the frontend
 // using Vercel, Netlify, or similar.
 //

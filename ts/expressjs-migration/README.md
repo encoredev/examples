@@ -3,7 +3,7 @@
 Express.js is a popular web framework for Node.js. It's been around for a long time and has a large community of
 developers. Encore.ts is a new web framework that aims to make it easier to build robust and type-safe backends with TypeScript.
 
-A complete guide can be found in the [Migrate from Express.js](https://encore.dev/docs/ts/how-to/express-migration) docs.
+A complete guide can be found in the [Migrate from Express.js](https://encore.dev/docs/ts/migration/express-migration) docs.
 
 [![Express.js vs Encore.ts](youtube.png)](https://www.youtube.com/watch?v=hA9syK_FtZw)
 

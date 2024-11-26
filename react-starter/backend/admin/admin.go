@@ -9,7 +9,7 @@ type DashboardData struct {
 }
 
 // Endpoints annotated with `auth` are public and requires authentication
-// Learn more: encore.dev/docs/primitives/services-and-apis#access-controls
+// Learn more: encore.dev/docs/go/primitives/defining-apis#access-controls
 //
 //encore:api auth method=GET path=/admin
 func GetAdminDashboardData(ctx context.Context) (*DashboardData, error) {

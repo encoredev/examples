@@ -59,5 +59,5 @@ await audio.play();
 
 ## Learn More
 
-- [Encore Documentation](https://encore.dev/docs)
+- [Encore Documentation](https://encore.dev/docs/go)
 - [ElevenLabs Documentation](https://docs.elevenlabs.io/welcome/introduction)

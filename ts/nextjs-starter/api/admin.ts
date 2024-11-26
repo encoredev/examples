@@ -53,5 +53,11 @@ interface DashboardData {
 //
 // 2. To continue exploring Encore with TypeScript, check out one of these topics:
 //
-//    Building a REST API:   https://encore.dev/docs/tutorials/rest-api
-//    Services and APIs:   https://encore.dev/docs/ts/primitives/services-and-apis
+//    Building a REST API:   https://encore.dev/docs/ts/tutorials/rest-api
+//    Creating Services:      https://encore.dev/docs/ts/primitives/services
+//    Creating APIs:         https://encore.dev/docs/ts/primitives/defining-apis
+//    Using SQL Databases:        https://encore.dev/docs/ts/primitives/databases
+//    Using Pub/Sub:         https://encore.dev/docs/ts/primitives/pubsub
+//    Authenticating users:  https://encore.dev/docs/ts/develop/auth
+//    Using Cron Jobs: https://encore.dev/docs/ts/primitives/cron-jobs
+//    Using Secrets: https://encore.dev/docs/ts/primitives/secrets

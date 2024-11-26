@@ -1,7 +1,7 @@
 import { api, Query } from "encore.dev/api";
 
 // Dynamic path parameter :name
-// https://encore.dev/docs/ts/develop/api-schemas#path-parameters
+// https://encore.dev/docs/ts/primitives/defining-apis#path-parameters
 export const dynamicPathParamExample = api(
   { expose: true, method: "GET", path: "/hello/:name" },
   async ({ name }: { name: string }): Promise<{ message: string }> => {
@@ -12,7 +12,7 @@ export const dynamicPathParamExample = api(
 
 interface RequestParams {
   // Encore will now automatically parse the query string parameter
-  // https://encore.dev/docs/ts/develop/api-schemas#query-parameters
+  // https://encore.dev/docs/ts/primitives/defining-apis#query-parameters
   name?: Query<string>;
 }
 

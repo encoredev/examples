@@ -26,12 +26,12 @@ const (
 	BotMessageEventType = "bot_message"
 )
 
-// This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/primitives/secrets
+// This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/go/primitives/secrets
 var secrets struct {
 	SlackToken string
 }
 
-// This declares a Encore Service, learn more: https://encore.dev/docs/primitives/services-and-apis/service-structs
+// This declares a Encore Service, learn more: https://encore.dev/docs/go/primitives/service-structs
 //
 //encore:service
 type Service struct {

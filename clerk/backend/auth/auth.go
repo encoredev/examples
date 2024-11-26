@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+
 	"encore.dev/beta/auth"
 	"encore.dev/beta/errs"
 	"github.com/clerkinc/clerk-sdk-go/clerk"
@@ -40,7 +41,7 @@ type UserData struct {
 
 // The `encore:authhandler` annotation tells Encore to run this function for all
 // incoming API call that requires authentication.
-// Learn more: encore.dev/docs/develop/auth#the-auth-handler
+// Learn more: encore.dev/docs/go/develop/auth#the-auth-handler
 //
 //encore:authhandler
 func (s *Service) AuthHandler(ctx context.Context, token string) (auth.UID, *UserData, error) {

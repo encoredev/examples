@@ -10,7 +10,7 @@ import (
 )
 
 // Service struct definition.
-// Learn more: encore.dev/docs/primitives/services-and-apis/service-structs
+// Learn more: encore.dev/docs/go/primitives/service-structs
 //
 //encore:service
 type Service struct {
@@ -131,7 +131,7 @@ type ProfileData struct {
 
 // The `encore:authhandler` annotation tells Encore to run this function for all
 // incoming API call that requires authentication.
-// Learn more: encore.dev/docs/develop/auth#the-auth-handler
+// Learn more: encore.dev/docs/go/develop/auth#the-auth-handler
 //
 //encore:authhandler
 func (s *Service) AuthHandler(
@@ -169,7 +169,7 @@ func (s *Service) AuthHandler(
 }
 
 // Endpoints annotated with `auth` are public and requires authentication
-// Learn more: encore.dev/docs/primitives/services-and-apis#access-controls
+// Learn more: encore.dev/docs/go/primitives/defining-apis#access-controls
 //
 //encore:api auth method=GET path=/profile
 func GetProfile(ctx context.Context) (*ProfileData, error) {

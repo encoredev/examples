@@ -15,7 +15,7 @@ import (
 	"encore.dev/rlog"
 )
 
-// This is a service struct, learn more: https://encore.dev/docs/primitives/services-and-apis/service-structs
+// This is a service struct, learn more: https://encore.dev/docs/go/primitives/service-structs
 //
 //encore:service
 type Service struct {
@@ -38,7 +38,7 @@ type NotifyParams struct {
 }
 
 // Notify is a private endpoint that sends a Slack message to a pre-configured channel.
-// Learn more about Encore's API access controls: https://encore.dev/docs/primitives/services-and-apis#access-controls
+// Learn more about Encore's API access controls: https://encore.dev/docs/go/primitives/defining-apis#access-controls
 //
 //encore:api private
 func (s *Service) Notify(ctx context.Context, p *NotifyParams) error {
@@ -70,12 +70,12 @@ func (s *Service) Notify(ctx context.Context, p *NotifyParams) error {
 	return nil
 }
 
-// This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/primitives/secrets
+// This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/go/primitives/secrets
 var secrets struct {
 	SlackWebhookURL string
 }
 
-// This uses a Pub/Sub subscription, learn more: https://encore.dev/docs/primitives/pubsub
+// This uses a Pub/Sub subscription, learn more: https://encore.dev/docs/go/primitives/pubsub
 var _ = pubsub.NewSubscription(monitor.TransitionTopic, "slack-notification", pubsub.SubscriptionConfig[*monitor.TransitionEvent]{
 	Handler: func(ctx context.Context, event *monitor.TransitionEvent) error {
 		msg := fmt.Sprintf("*%s is down!*", event.Site.URL)

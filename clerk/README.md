@@ -1,11 +1,11 @@
 # Clerk React SDK + Encore App Example
 
 This is an example of how to do user authentication using [Clerk](https://clerk.com/) together with an Encore app.
-Check out the [Use Clerk with your app](https://encore.dev/docs/how-to/clerk-auth) guide to learn more about this example.
+Check out the [Use Clerk with your app](https://encore.dev/docs/go/how-to/clerk-auth) guide to learn more about this example.
 
 ## Cloning the example
 
-When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone
+When you have [installed Encore](https://encore.dev/docs/go/install), you can create a new Encore application and clone
 this example by running this command:
 
 ```bash
@@ -20,7 +20,7 @@ Next, go to the *API Keys* page for your app. Copy the "Publishable Key" and one
 
 In `frontend/.env` file, replace the values for `VITE_CLERK_PUBLISHABLE_KEY` with the value from your Clerk dashboard.
 
-The `Secret key` is sensitive and should not be hardcoded in your code/config. Instead, you should store that as an [Encore secret](https://encore.dev/docs/primitives/secrets).
+The `Secret key` is sensitive and should not be hardcoded in your code/config. Instead, you should store that as an [Encore secret](https://encore.dev/docs/go/primitives/secrets).
 
 From your terminal (inside your Encore app directory), run:
 
@@ -119,4 +119,4 @@ global_cors: {
 }
 ```
 
-More information on CORS configuration can be found here: https://encore.dev/docs/develop/cors
+More information on CORS configuration can be found here: https://encore.dev/docs/go/develop/cors

@@ -51,6 +51,6 @@ curl 'http://localhost:4000/sendgrid' \
 
 ## Learn More
 
-- [Encore Documentation](https://encore.dev/docs)
-- [Pub/Sub Documentation](https://encore.dev/docs/primitives/pubsub)
+- [Encore Documentation](https://encore.dev/docs/go)
+- [Pub/Sub Documentation](https://encore.dev/docs/go/primitives/pubsub)
 - [SendGrid Documentation](https://docs.sendgrid.com/)

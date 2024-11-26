@@ -29,7 +29,7 @@ encore run
 
 While `encore run` is running, open <http://localhost:4000/> to view the chat frontend. Open <http://localhost:4000/> in multiple tabs to see the chat in action. 
 
-You can also access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash) on <http://localhost:9400/> to view traces, API documentation, and more.
+You can also access Encore's [local developer dashboard](https://encore.dev/docs/ts/observability/dev-dash) on <http://localhost:9400/> to view traces, API documentation, and more.
 
 In you change the frontend then run `npm run build` to build a new frontend in the `dist` folder.
 

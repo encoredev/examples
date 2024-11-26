@@ -37,7 +37,7 @@ The `pexels` package contains the following endpoints:
 
 
 ## Frontend example usage
-After generating a [request client](https://encore.dev/docs/develop/client-generation) for your frontend you can call
+After generating a [request client](https://encore.dev/docs/go/cli/client-generation) for your frontend you can call
 the endpoints like this:
 
 ```ts
@@ -62,5 +62,5 @@ console.log(resp.photos);
 
 ## Learn More
 
-- [Encore Documentation](https://encore.dev/docs)
+- [Encore Documentation](https://encore.dev/docs/go)
 - [Pexels Documentation](https://www.pexels.com/api/documentation/)

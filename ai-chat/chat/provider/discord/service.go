@@ -27,17 +27,17 @@ import (
 	"encore.dev/storage/sqldb"
 )
 
-// This uses Encore's declarative database , learn more: https://encore.dev/docs/primitives/databases
+// This uses Encore's declarative database , learn more: https://encore.dev/docs/go/primitives/databases
 var discorddb = sqldb.NewDatabase("discord", sqldb.DatabaseConfig{
 	Migrations: "./db/migrations",
 })
 
-// This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/primitives/secrets
+// This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/go/primitives/secrets
 var secrets struct {
 	DiscordToken string
 }
 
-// This declares a Encore Service, learn more: https://encore.dev/docs/primitives/services-and-apis/service-structs
+// This declares a Encore Service, learn more: https://encore.dev/docs/go/primitives/service-structs
 //
 //encore:service
 type Service struct {

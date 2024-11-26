@@ -11,7 +11,7 @@ import (
 
 //go:generate go run github.com/99designs/gqlgen generate
 
-// This is a service struct, learn more: https://encore.dev/docs/primitives/services-and-apis/service-structs
+// This is a service struct, learn more: https://encore.dev/docs/go/primitives/service-structs
 //
 //encore:service
 type Service struct {
@@ -28,7 +28,7 @@ func initService() (*Service, error) {
 
 // Exposes the graphql API using a raw endpoint.
 //
-// Learn more: https://encore.dev/docs/primitives/services-and-apis#raw-endpoints
+// Learn more: https://encore.dev/docs/go/primitives/raw-endpoints
 //
 //encore:api public raw path=/graphql
 func (s *Service) Query(w http.ResponseWriter, req *http.Request) {

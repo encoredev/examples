@@ -49,7 +49,7 @@ func (c channelTasks) get(channelID uuid.UUID, provider string) (string, bool) {
 	return taskID, ok
 }
 
-// This declares a Encore Service, learn more: https://encore.dev/docs/primitives/services-and-apis/service-structs
+// This declares a Encore Service, learn more: https://encore.dev/docs/go/primitives/service-structs
 //
 //encore:service
 type Service struct {

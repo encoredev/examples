@@ -34,7 +34,7 @@ encore run
 
 Open [http://localhost:4000](http://localhost:4000) in your browser to see the example frontend.
 
-You can also access Encore's [local development dashboard](https://encore.dev/docs/observability/dev-dash) on <http://localhost:9400/> to view traces, API documentation, and more.
+You can also access Encore's [local development dashboard](https://encore.dev/docs/ts/observability/dev-dash) on <http://localhost:9400/> to view traces, API documentation, and more.
 
 ## Deployment
 

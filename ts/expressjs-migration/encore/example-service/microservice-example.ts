@@ -2,7 +2,7 @@ import { api } from "encore.dev/api";
 import { anotherService } from "~encore/clients";
 
 // Service to service communication example
-// https://encore.dev/docs/ts/develop/app-structure#multi-service-application-distributed-system
+// https://encore.dev/docs/ts/primitives/app-structure#multi-service-application-distributed-system
 export const microserviceCommunication = api(
   { expose: true, method: "GET", path: "/call" },
   async (): Promise<{ message: string }> => {

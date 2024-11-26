@@ -29,7 +29,7 @@ Before running your application, make sure you have Docker installed and running
 encore run
 ```
 
-While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to view Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to view Encore's [local developer dashboard](https://encore.dev/docs/go/observability/dev-dash).
 
 ## View the GraphQL Playground
 Open http://localhost:4000/graphql/playground in your browser.
@@ -75,7 +75,7 @@ query {
 
 ### Self-hosting
 
-See the [self-hosting instructions](https://encore.dev/docs/self-host/docker-build) for how to use `encore build docker` to create a Docker image and configure it.
+See the [self-hosting instructions](https://encore.dev/docs/go/self-host/docker-build) for how to use `encore build docker` to create a Docker image and configure it.
 
 ### Encore Cloud Platform
 
@@ -99,7 +99,7 @@ Follow these steps to link your app to GitHub:
 4. To configure Encore to automatically trigger deploys when you push to a specific branch name, go to the **Overview** page for your intended environment. Click on **Settings** and then in the section **Branch Push** configure the **Branch name** and hit **Save**.
 5. Commit and push a change to GitHub to trigger a deploy.
 
-[Learn more in the docs](https://encore.dev/docs/how-to/github)
+[Learn more in the docs](https://encore.dev/docs/platform/integrations/github)
 
 ## Testing
 

@@ -15,7 +15,7 @@ const html = `
 `;
 
 // Making use of raw endpoints to serve dynamic templates.
-// https://encore.dev/docs/ts/primitives/services-and-apis#raw-endpoints
+// https://encore.dev/docs/ts/primitives/defining-apis#raw-endpoints
 export const serveHTML = api.raw(
   { expose: true, path: "/html", method: "GET" },
   async (req, resp) => {

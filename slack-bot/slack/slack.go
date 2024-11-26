@@ -17,7 +17,7 @@ import (
 	"encore.dev/beta/errs"
 )
 
-// This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/primitives/secrets
+// This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/go/primitives/secrets
 var secrets struct {
 	SlackSigningSecret string
 }

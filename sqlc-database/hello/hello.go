@@ -9,7 +9,7 @@ import (
 	"encore.dev/storage/sqldb"
 )
 
-// This is a service struct, learn more: https://encore.dev/docs/primitives/services-and-apis/service-structs
+// This is a service struct, learn more: https://encore.dev/docs/go/primitives/service-structs
 //
 // encore:service
 type Service struct {
@@ -59,7 +59,7 @@ func (s *Service) generateGreeting(ctx context.Context, name string) (string, er
 // Define a database named 'hello', using the database migrations
 // in the "./migrations" folder. Encore automatically provisions,
 // migrates, and connects to the database.
-// Learn more: https://encore.dev/docs/primitives/databases
+// Learn more: https://encore.dev/docs/go/primitives/databases
 var db = sqldb.NewDatabase("hello", sqldb.DatabaseConfig{
 	Migrations: "./migrations",
 })
