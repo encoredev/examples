@@ -26,15 +26,15 @@ type Config struct {
 	TopK        config.Int32
 }
 
-// This uses Encore Configuration, learn more: https://encore.dev/docs/develop/config
+// This uses Encore Configuration, learn more: https://encore.dev/docs/go/develop/config
 var cfg = config.Load[*Config]()
 
-// This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/primitives/secrets
+// This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/go/primitives/secrets
 var secrets struct {
 	GeminiJSONCredentials string
 }
 
-// This declares a Encore Service, learn more: https://encore.dev/docs/primitives/services-and-apis/service-structs
+// This declares a Encore Service, learn more: https://encore.dev/docs/go/primitives/service-structs
 //
 //encore:service
 type Service struct {

@@ -4,7 +4,7 @@ This is a basic Hello World Encore application with a single API endpoint and a 
 
 ## Developing locally
 
-When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone this example with this command.
+When you have [installed Encore](https://encore.dev/docs/go/install), you can create a new Encore application and clone this example with this command.
 
 ```bash
 encore app create my-app-name --example=sql-database
@@ -17,7 +17,7 @@ In this starter app there is already a database defined, but let's take this opp
 Encore treats SQL databases as logical resources and natively supports **PostgreSQL** databases.
 
 To create a database, import `encore.dev/storage/sqldb` and call `sqldb.NewDatabase`, assigning the result to a package-level variable.
-Databases must be created from within an [Encore service](https://encore.dev/docs/primitives/services-and-apis).
+Databases must be created from within an [Encore service](https://encore.dev/docs/go/primitives/services).
 
 For example:
 
@@ -105,7 +105,7 @@ curl http://localhost:4000/hello/There
 
 ## Local Development Dashboard
 
-While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to access Encore's [local developer dashboard](https://encore.dev/docs/go/observability/dev-dash).
 
 Here you can see traces for all requests that you made while using the frontend, see your architecture diagram, and view API documentation in the Service Catalog.
 
@@ -117,13 +117,13 @@ You can connect to your databases via psql shell:
 encore db shell <database-name> --env=local --superuser
 ```
 
-Learn more in the [CLI docs](https://encore.dev/docs/develop/cli-reference#database-management).
+Learn more in the [CLI docs](https://encore.dev/docs/go/cli/cli-reference#database-management).
 
 ## Deployment
 
 ### Self-hosting
 
-See the [self-hosting instructions](https://encore.dev/docs/self-host/docker-build) for how to use `encore build docker` to create a Docker image and configure it.
+See the [self-hosting instructions](https://encore.dev/docs/go/self-host/docker-build) for how to use `encore build docker` to create a Docker image and configure it.
 
 ### Encore Cloud Platform
 
@@ -147,7 +147,7 @@ Follow these steps to link your app to GitHub:
 4. To configure Encore to automatically trigger deploys when you push to a specific branch name, go to the **Overview** page for your intended environment. Click on **Settings** and then in the section **Branch Push** configure the **Branch name** and hit **Save**.
 5. Commit and push a change to GitHub to trigger a deploy.
 
-[Learn more in the docs](https://encore.dev/docs/how-to/github)
+[Learn more in the docs](https://encore.dev/docs/platform/integrations/github)
 
 ## Testing
 

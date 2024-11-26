@@ -4,7 +4,7 @@ This is an Encore starter for a Conversational Intelligence app that uses [Assem
 
 ## Developing locally
 
-When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone this example with this command.
+When you have [installed Encore](https://encore.dev/docs/go/install), you can create a new Encore application and clone this example with this command.
 
 ```bash
 encore app create my-app-name --example=assemblyai-starter
@@ -42,7 +42,7 @@ While `encore run` is running, open <http://localhost:4000/frontend> to view the
 
 ## Open the developer dashboard
 
-While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to access Encore's [local developer dashboard](https://encore.dev/docs/go/observability/dev-dash).
 
 Here you can see API docs, make requests in the API explorer, and view traces of the responses.
 

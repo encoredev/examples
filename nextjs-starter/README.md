@@ -1,6 +1,6 @@
 # Next.js + Encore Web App Starter
 
-This is an [Encore](https://encore.dev/) + [Next.js](https://nextjs.org/) project starter. It's a great way to learn how to combine Encore's backend capabilities with a modern web framework — perfect for building a web app.
+This is an [Encore.go](https://encore.dev/) + [Next.js](https://nextjs.org/) project starter. It's a great way to learn how to combine Encore's backend capabilities with a modern web framework — perfect for building a web app.
 
 ## Prerequisites 
 
@@ -57,7 +57,7 @@ npm run gen:local # Locally running Encore backend
 
 ### Encore: Self-hosting
 
-See the [self-hosting instructions](https://encore.dev/docs/self-host/docker-build) for how to use `encore build docker` to create a Docker image and configure it.
+See the [self-hosting instructions](https://encore.dev/docs/go/self-host/docker-build) for how to use `encore build docker` to create a Docker image and configure it.
 
 ### Encore: Cloud Platform
 
@@ -104,9 +104,9 @@ global_cors: {
 }
 ```
 
-More information on CORS configuration can be found here: https://encore.dev/docs/develop/cors
+More information on CORS configuration can be found here: https://encore.dev/docs/go/develop/cors
 
 ## Learn More
 
-- [Encore Documentation](https://encore.dev/docs)
+- [Encore Documentation](https://encore.dev/docs/go)
 - [Next.js Documentation](https://nextjs.org/docs)

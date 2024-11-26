@@ -3,13 +3,14 @@ package auth
 import (
 	"context"
 	"encoding/json"
+	"net/http"
+	"net/url"
+
 	"encore.dev/beta/auth"
 	"encore.dev/beta/errs"
 	"encore.dev/config"
 	"github.com/auth0/go-jwt-middleware/v2/jwks"
 	"github.com/auth0/go-jwt-middleware/v2/validator"
-	"net/http"
-	"net/url"
 )
 
 type Auth0Config struct {
@@ -20,7 +21,7 @@ type Auth0Config struct {
 var cfg = config.Load[*Auth0Config]()
 
 // Service struct definition.
-// Learn more: encore.dev/docs/primitives/services-and-apis/service-structs
+// Learn more: encore.dev/docs/go/primitives/service-structs
 //
 //encore:service
 type Service struct {
@@ -57,7 +58,7 @@ type UserData struct {
 
 // The `encore:authhandler` annotation tells Encore to run this function for all
 // incoming API call that requires authentication.
-// Learn more: encore.dev/docs/develop/auth#the-auth-handler
+// Learn more: encore.dev/docs/go/develop/auth#the-auth-handler
 //
 //encore:authhandler
 func (s *Service) AuthHandler(ctx context.Context, token string) (auth.UID, *UserData, error) {

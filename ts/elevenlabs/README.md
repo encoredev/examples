@@ -16,7 +16,7 @@ Select from different voices:
 
 ## Developing locally
 
-When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone this example with this command.
+When you have [installed Encore](https://encore.dev/docs/ts/install), you can create a new Encore application and clone this example with this command.
 
 ```bash
 encore app create my-app-name --example=ts/elevenlabs
@@ -41,7 +41,7 @@ encore run
 
 While `encore run` is running, open <http://localhost:4000/> to view the ElevenLabs playground frontend.
 
-You can also access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash) on <http://localhost:9400/> to view traces, API documentation, and more.
+You can also access Encore's [local developer dashboard](https://encore.dev/docs/ts/observability/dev-dash) on <http://localhost:9400/> to view traces, API documentation, and more.
 
 ## Deployment
 

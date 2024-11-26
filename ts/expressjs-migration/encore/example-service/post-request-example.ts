@@ -6,7 +6,7 @@ interface OrderRequest {
 }
 
 // POST request example
-// https://encore.dev/docs/ts/develop/api-schemas
+// https://encore.dev/docs/ts/primitives/defining-apis
 export const order = api(
   { expose: true, method: "POST", path: "/order" },
   async ({ price, orderId }: OrderRequest): Promise<{ message: string }> => {

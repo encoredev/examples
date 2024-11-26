@@ -83,7 +83,7 @@ func (s *Service) List(ctx context.Context) (*ListResponse, error) {
 	return &ListResponse{Sites: sites}, nil
 }
 
-// This is a service struct, learn more: https://encore.dev/docs/primitives/services-and-apis/service-structs
+// This is a service struct, learn more: https://encore.dev/docs/go/primitives/service-structs
 //
 //encore:service
 type Service struct {
@@ -101,7 +101,7 @@ func initService() (*Service, error) {
 	return &Service{db: db}, nil
 }
 
-// This creates a Pub/Sub topic, learn more: https://encore.dev/docs/primitives/pubsub
+// This creates a Pub/Sub topic, learn more: https://encore.dev/docs/go/primitives/pubsub
 var SiteAddedTopic = pubsub.NewTopic[*Site]("site-added", pubsub.TopicConfig{
 	DeliveryGuarantee: pubsub.AtLeastOnce,
 })
@@ -109,7 +109,7 @@ var SiteAddedTopic = pubsub.NewTopic[*Site]("site-added", pubsub.TopicConfig{
 // Define a database named 'site', using the database migrations
 // in the "./migrations" folder. Encore automatically provisions,
 // migrates, and connects to the database.
-// Learn more: https://encore.dev/docs/primitives/databases
+// Learn more: https://encore.dev/docs/go/primitives/databases
 var db = sqldb.NewDatabase("site", sqldb.DatabaseConfig{
 	Migrations: "./migrations",
 })

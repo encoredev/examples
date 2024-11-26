@@ -27,7 +27,7 @@ encore run
 
 While `encore run` is running, open <http://localhost:4000/> to view the frontend which has different pages for showcasing the different streaming endpoints.
 
-You can also access Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash) on <http://localhost:9400/> to view traces, API documentation, and more.
+You can also access Encore's [local developer dashboard](https://encore.dev/docs/ts/observability/dev-dash) on <http://localhost:9400/> to view traces, API documentation, and more.
 
 In you change the frontend then run `npm run build` to build a new frontend in the `dist` folder.
 

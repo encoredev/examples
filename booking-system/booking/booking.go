@@ -129,7 +129,7 @@ type ListBookingsResponse struct {
 }
 
 // This defines a public endpoint that requires authentication
-// Learn more: https://encore.dev/docs/primitives/services-and-apis#access-controls
+// Learn more: https://encore.dev/docs/go/primitives/defining-apis#access-controls
 //
 //encore:api auth method=GET path=/booking
 func ListBookings(ctx context.Context) (*ListBookingsResponse, error) {

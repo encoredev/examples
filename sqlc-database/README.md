@@ -40,7 +40,7 @@ curl http://localhost:4000/hello/There
 
 ## Open the developer dashboard
 
-While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to view Encore's [local developer dashboard](https://encore.dev/docs/observability/dev-dash).
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to view Encore's [local developer dashboard](https://encore.dev/docs/go/observability/dev-dash).
 
 ## Deployment
 

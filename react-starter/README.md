@@ -1,11 +1,11 @@
 # React + Encore Web App Starter
 
-This is an [Encore](https://encore.dev/) + [React](https://react.dev/) project starter. It's a great way to learn how to
+This is an [Encore.go](https://encore.dev/) + [React](https://react.dev/) project starter. It's a great way to learn how to
 combine Encore's backend capabilities with a modern web framework — perfect for building a web app.
 
 ## Developing locally
 
-When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone
+When you have [installed Encore](https://encore.dev/docs/go/install), you can create a new Encore application and clone
 this example by running this command:
 
 ```bash
@@ -96,9 +96,9 @@ global_cors: {
 }
 ```
 
-More information on CORS configuration can be found here: https://encore.dev/docs/develop/cors
+More information on CORS configuration can be found here: https://encore.dev/docs/go/develop/cors
 
 ## Learn More
 
-- [Encore Documentation](https://encore.dev/docs)
+- [Encore Documentation](https://encore.dev/docs/g)
 - [React Documentation](https://react.dev/)

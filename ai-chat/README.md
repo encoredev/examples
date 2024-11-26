@@ -15,7 +15,7 @@ This application is your bridge between popular chat platforms like Discord and 
 
 ### Prerequisites
 
-* **Encore:** You'll need Encore to get started. Follow the installation instructions at [https://encore.dev/docs/install](https://encore.dev/docs/install).
+* **Encore:** You'll need Encore to get started. Follow the installation instructions at [https://encore.dev/docs/install](https://encore.dev/docs/go/install).
 * **OpenAI API Key:** To use OpenAI's models, grab an API key from [https://platform.openai.com/api-keys](https://platform.openai.com/api-keys).
 
 ### Run Locally

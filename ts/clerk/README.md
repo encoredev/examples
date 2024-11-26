@@ -1,7 +1,7 @@
 # Clerk React SDK + Encore App Example
 
 This is an example of how to do user authentication using [Clerk](https://clerk.com/) together with an Encore app.
-Check out the [Use Clerk with your app](https://encore.dev/docs/how-to/clerk-auth) guide to learn more about this example.
+Check out the [Use Clerk with your app](https://encore.dev/docs/ts/how-to/clerk-auth) guide to learn more about this example.
 
 ## Cloning the example
 
@@ -28,7 +28,7 @@ encore app create my-app --example=ts/clerk
 
 3. In `frontend/.env` file, replace the values for `VITE_CLERK_PUBLISHABLE_KEY` with the value from your Clerk dashboard.
 
-4. The `Secret key` is sensitive and should not be hardcoded in your code/config. Instead, you should store that as an [Encore secret](https://encore.dev/docs/primitives/secrets).
+4. The `Secret key` is sensitive and should not be hardcoded in your code/config. Instead, you should store that as an [Encore secret](https://encore.dev/docs/ts/primitives/secrets).
 
 From your terminal (inside your Encore app directory), run:
 
@@ -82,7 +82,7 @@ npm run gen # Locally running Encore backend
 
 #### Self-hosting
 
-See the [self-hosting instructions](https://encore.dev/docs/self-host/docker-build) for how to use `encore build docker` to create a Docker image and configure it.
+See the [self-hosting instructions](https://encore.dev/docs/ts/self-host/build) for how to use `encore build docker` to create a Docker image and configure it.
 
 #### Encore Cloud Platform
 
@@ -106,7 +106,7 @@ Follow these steps to link your app to GitHub:
 4. To configure Encore to automatically trigger deploys when you push to a specific branch name, go to the **Overview** page for your intended environment. Click on **Settings** and then in the section **Branch Push** configure the **Branch name** and hit **Save**.
 5. Commit and push a change to GitHub to trigger a deploy.
 
-[Learn more in the docs](https://encore.dev/docs/how-to/github)
+[Learn more in the docs](https://encore.dev/docs/platform/integrations/github)
 
 ### React frontend
 
@@ -150,4 +150,4 @@ global_cors: {
 }
 ```
 
-More information on CORS configuration can be found here: https://encore.dev/docs/develop/cors
+More information on CORS configuration can be found here: https://encore.dev/docs/ts/develop/cors

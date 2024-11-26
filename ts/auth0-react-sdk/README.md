@@ -91,7 +91,7 @@ npm run gen # Locally running Encore backend
 
 #### Self-hosting
 
-See the [self-hosting instructions](https://encore.dev/docs/self-host/docker-build) for how to use `encore build docker` to create a Docker image and configure it.
+See the [self-hosting instructions](https://encore.dev/docs/ts/self-host/build) for how to use `encore build docker` to create a Docker image and configure it.
 
 #### Encore Cloud Platform
 
@@ -115,7 +115,7 @@ Follow these steps to link your app to GitHub:
 4. To configure Encore to automatically trigger deploys when you push to a specific branch name, go to the **Overview** page for your intended environment. Click on **Settings** and then in the section **Branch Push** configure the **Branch name** and hit **Save**.
 5. Commit and push a change to GitHub to trigger a deploy.
 
-[Learn more in the docs](https://encore.dev/docs/how-to/github)
+[Learn more in the docs](https://encore.dev/docs/platform/integrations/github)
 
 ### React frontend
 
@@ -158,4 +158,4 @@ global_cors: {
 }
 ```
 
-More information on CORS configuration can be found here: https://encore.dev/docs/develop/cors
+More information on CORS configuration can be found here: https://encore.dev/docs/ts/develop/cors

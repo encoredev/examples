@@ -15,7 +15,7 @@ The backend uses an SQL database to store meeting notes and has three API endpoi
 
 ## Developing locally
 
-When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone this example by running this command:
+When you have [installed Encore](https://encore.dev/docs/go/install), you can create a new Encore application and clone this example by running this command:
 
 ```bash
 encore app create my-app --example=meeting-notes

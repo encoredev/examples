@@ -12,7 +12,7 @@ import (
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
-// This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/primitives/secrets
+// This uses Encore's built-in secrets manager, learn more: https://encore.dev/docs/go/primitives/secrets
 var secrets struct {
 	SendGridAPIKey string
 }
@@ -65,7 +65,7 @@ type EmailPreparedEvent struct {
 	HTMLContent      string
 }
 
-// This creates a Pub/Sub topic, learn more: https://encore.dev/docs/primitives/pubsub
+// This creates a Pub/Sub topic, learn more: https://encore.dev/docs/go/primitives/pubsub
 var Emails = pubsub.NewTopic[*EmailPreparedEvent]("emails", pubsub.TopicConfig{
 	DeliveryGuarantee: pubsub.AtLeastOnce,
 })

@@ -45,9 +45,11 @@ interface Response {
 //
 // 2. To continue exploring Encore, check out these topics in docs:
 //
-//    Creating services and APIs: https://encore.dev/docs/ts/primitives/services-and-apis
-//    Using SQL databases: https://encore.dev/docs/ts/primitives/databases
-//    Authentication: https://encore.dev/docs/ts/develop/auth
-//    Using Pub/Sub: https://encore.dev/docs/ts/primitives/pubsub
+//    Building a REST API:   https://encore.dev/docs/ts/tutorials/rest-api
+//    Creating Services:      https://encore.dev/docs/ts/primitives/services
+//    Creating APIs:         https://encore.dev/docs/ts/primitives/defining-apis
+//    Using SQL Databases:        https://encore.dev/docs/ts/primitives/databases
+//    Using Pub/Sub:         https://encore.dev/docs/ts/primitives/pubsub
+//    Authenticating users:  https://encore.dev/docs/ts/develop/auth
 //    Using Cron Jobs: https://encore.dev/docs/ts/primitives/cron-jobs
 //    Using Secrets: https://encore.dev/docs/ts/primitives/secrets

@@ -17,7 +17,7 @@ type AuthParams struct {
 }
 
 // This annotation tells Encore to run the function whenever an incoming API call contains authentication data.
-// Learn more: https://encore.dev/docs/develop/auth#the-auth-handler
+// Learn more: https://encore.dev/docs/go/develop/auth#the-auth-handler
 //
 //encore:authhandler
 func AuthHandler(ctx context.Context, p *AuthParams) (auth.UID, *Data, error) {

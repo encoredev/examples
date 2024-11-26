@@ -1,11 +1,11 @@
 # Firebase Auth + Encore App Example
 
 This is an example of how to do user authentication using [Firebase Auth](https://firebase.google.com/docs/auth) together with an Encore app.
-Check out the [Use Firebase with your app](https://encore.dev/docs/how-to/firebase-auth) guide to learn more about this example.
+Check out the [Use Firebase with your app](https://encore.dev/docs/go/how-to/firebase-auth) guide to learn more about this example.
 
 ## Cloning the example
 
-When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone
+When you have [installed Encore](https://encore.dev/docs/go/install), you can create a new Encore application and clone
 this example by running this command:
 
 ```bash
@@ -143,4 +143,4 @@ global_cors: {
 }
 ```
 
-More information on CORS configuration can be found here: https://encore.dev/docs/develop/cors
+More information on CORS configuration can be found here: https://encore.dev/docs/go/develop/cors
