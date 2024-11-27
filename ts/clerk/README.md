@@ -119,7 +119,7 @@ The frontend can be deployed to Vercel. Follow these steps:
 3. Select `frontend` as the root directory for the Vercel project.
 
 Once you have your frontend deployed:
-* Update the *Allowed Callback URLs*, *Allowed Logout URLs* & *Allowed Web Origins* settings in your application on Auth0 with the deployed Vercel URL. 
+* Update the `AUTHORIZED_PARTIES` array in `auth/config.ts` to include the deployed Vercel URL. 
 * Set the `allow_origins_with_credentials` in the `encore.app` (see below) file to the deployed Vercel URL.
 
 

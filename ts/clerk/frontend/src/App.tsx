@@ -83,10 +83,8 @@ export default function App() {
 }
 
 function Layout({ children }: PropsWithChildren) {
-  const navigate = useNavigate();
-
   return (
-    <ClerkProvider navigate={navigate} publishableKey={PUBLISHABLE_KEY}>
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
       <div>
         <header>
           <nav className="nav">
