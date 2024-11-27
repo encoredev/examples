@@ -7,7 +7,7 @@ This is a RESTful API Starter with [Prisma](https://prisma.io) as ORM to handle 
 When you have [installed Encore](https://encore.dev/docs/ts/install), you can create a new Encore application and clone this example with this command.
 
 ```bash
-encore app create my-app-name --example=ts/prisma
+encore app create --example=ts/prisma
 ```
 
 ## Running locally
