@@ -14,7 +14,7 @@
     "vite": "^4.4.5"
   },
   "dependencies": {
-    "@clerk/backend": "^0.38.3",
+    "@clerk/backend": "^1.18.0",
     "encore.dev": "^1.44.5",
     "@clerk/clerk-react": "^5.17.1",
     "react": "^18.2.0",
