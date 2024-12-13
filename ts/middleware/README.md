@@ -1,8 +1,12 @@
-# Middleware Demo
+# Middleware in Encore.ts
 
-This is the code example used in the middleware demo [stream](https://www.youtube.com/watch?v=qInxenZVDJs). It demonstrates how to implement a simple authorization middleware that only allows users to update themselves while still being able to view other users in the system.
+This examples contains two middleware examples: rate limiting and authorization. The rate limiting middleware limits the number of requests a user can make to auth endpoints and the authorization middleware only allows users to update themselves while still being able to view other users in the system. 
 
-All endpoints require authentication, pass the string `userid:1` in the authorization header to login as user with id 1. Replace 1 with any number.
+Video tutorial of implementing the authorization middleware: https://www.youtube.com/watch?v=qInxenZVDJs
+
+All endpoints require authentication, pass the string `userid:1` in the authorization header to login as user with id 1. Replace 1 with any number. Try making two request within 5 seconds to see the rate limiting middleware in action.
+
+Both middleware are defined in the `encore.service.ts` file.
 
 **Endpoints:**
 
@@ -11,7 +15,6 @@ All endpoints require authentication, pass the string `userid:1` in the authoriz
 - `/users/:id` (GET) - Get user by id
 - `/users/:id` (PUT) - Update user by id
 - `/users/:id` (DELETE) - delete user by id
-
 
 ## Developing locally
 
@@ -27,7 +30,7 @@ environment. Use the appropriate command for your system:
 When you have installed Encore, run:
 
 ```bash
-encore app create --example=ts/middleware-demo
+encore app create --example=ts/middleware
 ```
 
 ## Running locally
@@ -44,6 +47,12 @@ You can also access Encore's [local developer dashboard](https://encore.dev/docs
 
 ## Deployment
 
+### Self-hosting
+
+See the [self-hosting instructions](https://encore.dev/docs/ts/self-host/build) for how to use `encore build docker` to create a Docker image and configure it.
+
+### Encore Cloud Platform
+
 Deploy your application to a staging environment in Encore's free development cloud:
 
 ```bash
@@ -57,10 +66,3 @@ Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your 
 From there you can also connect your own AWS or GCP account to use for deployment.
 
 Now off you go into the clouds!
-
-## Testing
-
-```bash
-encore test
-```
-
