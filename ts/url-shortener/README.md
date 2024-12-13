@@ -56,7 +56,7 @@ curl 'http://127.0.0.1:4000/url'
 
 ## Open the developer dashboard
 
-While `encore run` is running, open <http://localhost:9400/> to access Encore's [local developer dashboard](https://encore.dev/docs/ts/observability/dev-dash).
+While `encore run` is running, open [http://localhost:9400](http://localhost:9400) to access Encore's [local developer dashboard](https://encore.dev/docs/ts/observability/dev-dash).
 
 Here you can see API docs, make requests in the API explorer, and view traces of the responses.
 
@@ -68,7 +68,7 @@ To see that your app is running, you can ping the API to shorten a url.
 curl 'http://localhost:4000/url' -d '{"url":"https://news.ycombinator.com"}'
 ```
 
-When you ping the API, you will see traces and logs appearing in the local development dashboard: <http://localhost:9400/>
+When you ping the API, you will see traces and logs appearing in the local development dashboard: [http://localhost:9400](http://localhost:9400)
 
 ## Connecting to databases
 
