@@ -39,7 +39,7 @@ Successfully updated development secret ElevenLabsAPIKey.
 encore run
 ```
 
-While `encore run` is running, open <http://localhost:4000/> to view the ElevenLabs playground frontend.
+While `encore run` is running, open [http://localhost:4000](http://localhost:4000) to view the ElevenLabs playground frontend.
 
 You can also access Encore's [local developer dashboard](https://encore.dev/docs/ts/observability/dev-dash) on <http://localhost:9400/> to view traces, API documentation, and more.
 
