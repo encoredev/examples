@@ -11,7 +11,7 @@
     "@types/busboy": "^1.5.4"
   },
   "dependencies": {
-    "encore.dev": "^1.40.1",
+    "encore.dev": "^1.45.1",
     "busboy": "^1.6.0"
   },
   "optionalDependencies": {
