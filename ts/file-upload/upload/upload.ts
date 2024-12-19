@@ -2,7 +2,16 @@ import { api } from "encore.dev/api";
 import log from "encore.dev/log";
 import busboy from "busboy";
 import { SQLDatabase } from "encore.dev/storage/sqldb";
-import { APICallMeta, appMeta, currentRequest } from "encore.dev";
+import { APICallMeta, appMeta, currentRequest } from "encore.dev"; // Define a bucket named 'profile-files' for storing files.
+import { Bucket } from "encore.dev/storage/objects";
+
+// Define a bucket named 'profile-files' for storing files.
+// Making it possible to get public URLs to files in the bucket
+// by setting 'public' to true
+export const filesBucket = new Bucket("profile-files", {
+  versioned: false,
+  public: true,
+});
 
 // Define a database named 'files', using the database migrations
 // in the "./migrations" folder. Encore automatically provisions,
@@ -11,7 +20,7 @@ export const DB = new SQLDatabase("files", {
   migrations: "./migrations",
 });
 
-type FileEntry = { data: any[]; filename: string };
+type FileEntry = { data: any[]; filename: string; mimeType: string };
 
 /**
  * Raw endpoint for storing a single file to the database.
@@ -24,9 +33,10 @@ export const save = api.raw(
       headers: req.headers,
       limits: { files: 1 },
     });
-    const entry: FileEntry = { filename: "", data: [] };
+    const entry: FileEntry = { filename: "", data: [], mimeType: "" };
 
     bb.on("file", (_, file, info) => {
+      entry.mimeType = info.mimeType;
       entry.filename = info.filename;
       file
         .on("data", (data) => {
@@ -43,11 +53,19 @@ export const save = api.raw(
     bb.on("close", async () => {
       try {
         const buf = Buffer.concat(entry.data);
+
+        // Save file to bucket
+        await filesBucket.upload(entry.filename, buf, {
+          contentType: entry.mimeType,
+        });
+
+        // Save file to DB
         await DB.exec`
-            INSERT INTO files (name, data)
-            VALUES (${entry.filename}, ${buf})
+            INSERT INTO files (name, data, mime_type)
+            VALUES (${entry.filename}, ${buf}, ${entry.mimeType})
             ON CONFLICT (name) DO UPDATE
-                SET data = ${buf}
+                SET data      = ${buf},
+                    mime_type = ${entry.mimeType}
         `;
         log.info(`File ${entry.filename} saved`);
 
@@ -80,7 +98,7 @@ export const saveMultiple = api.raw(
     const entries: FileEntry[] = [];
 
     bb.on("file", (_, file, info) => {
-      const entry: FileEntry = { filename: info.filename, data: [] };
+      const entry: FileEntry = { filename: "", data: [], mimeType: "" };
 
       file
         .on("data", (data) => {
@@ -98,11 +116,19 @@ export const saveMultiple = api.raw(
       try {
         for (const entry of entries) {
           const buf = Buffer.concat(entry.data);
+
+          // Save file to Bucket
+          await filesBucket.upload(entry.filename, buf, {
+            contentType: entry.mimeType,
+          });
+
+          // Save file to DB
           await DB.exec`
-              INSERT INTO files (name, data)
-              VALUES (${entry.filename}, ${buf})
+              INSERT INTO files (name, data, mime_type)
+              VALUES (${entry.filename}, ${buf}, ${entry.mimeType})
               ON CONFLICT (name) DO UPDATE
-                  SET data = ${buf}
+                  SET data      = ${buf},
+                      mime_type = ${entry.mimeType}
           `;
           log.info(`File ${entry.filename} saved`);
         }
@@ -125,16 +151,6 @@ export const saveMultiple = api.raw(
   },
 );
 
-// Helper function for saving a file to the database
-const saveToDb = async (name: string, data: Buffer) => {
-  return await DB.exec`
-      INSERT INTO files (name, data)
-      VALUES (${name}, ${data})
-      ON CONFLICT (name) DO UPDATE
-          SET data = ${data}
-  `;
-};
-
 // Raw endpoint for serving a file from the database
 export const get = api.raw(
   { expose: true, method: "GET", path: "/files/:name" },
@@ -151,6 +167,7 @@ export const get = api.raw(
         return;
       }
 
+      resp.writeHead(200, { "Content-Type": row.mime_type });
       const chunk = Buffer.from(row.data);
       resp.writeHead(200, { Connection: "close" });
       resp.end(chunk);
@@ -166,8 +183,8 @@ interface ListResponse {
 }
 
 // API endpoint for listing all files in the database
-export const list = api(
-  { expose: true, method: "GET", path: "/files" },
+export const listDBFiles = api(
+  { expose: true, method: "GET", path: "/db-files" },
   async (): Promise<ListResponse> => {
     const rows = await DB.query`
         SELECT name
@@ -184,6 +201,23 @@ export const list = api(
         url: `${apiBaseUrl}/files/${row.name}`,
       });
     }
+    return resp;
+  },
+);
+
+// API endpoint for listing all files in the bucket
+export const listBucketFiles = api(
+  { expose: true, method: "GET", path: "/bucket-files" },
+  async (): Promise<ListResponse> => {
+    const resp: ListResponse = { files: [] };
+
+    for await (const entry of filesBucket.list({})) {
+      resp.files.push({
+        url: filesBucket.publicUrl(entry.name),
+        name: entry.name,
+      });
+    }
+
     return resp;
   },
 );
@@ -209,12 +243,17 @@ export const frontend = api.raw(
             <input type="submit">
           </form>
           <br/>
-          <h2>Files:</h2>
+          <h2>Files in DB:</h2>
+          <div id="bd-files"></div>
+          
+          <h2>Files in Bucket:</h2>
+          <div id="bucket-files"></div>
 
          <script>
-           async function getData() {
+           async function getData(elementId, url) {
+            const el = document.getElementById(elementId);
             try {
-              const response = await fetch("/files");
+              const response = await fetch(url);
               const json = await response.json();
               const list = document.createElement("ul");
               json.files.forEach((file) => {
@@ -225,12 +264,13 @@ export const frontend = api.raw(
                 item.appendChild(link);
                 list.appendChild(item);
               });
-              document.body.appendChild(list);
+              el.appendChild(list);
             } catch (error) {
               console.error(error.message);
             }
           }
-          getData();
+          getData("bd-files", "/db-files");
+          getData("bucket-files", "/bucket-files");
         </script>
         </body>
       </html>
