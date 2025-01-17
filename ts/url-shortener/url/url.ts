@@ -2,6 +2,7 @@ import { api, APIError } from "encore.dev/api";
 import { SQLDatabase } from "encore.dev/storage/sqldb";
 import { randomBytes } from "node:crypto";
 
+// 'url' database is used to store the URLs that are being shortened.
 const db = new SQLDatabase("url", { migrations: "./migrations" });
 
 interface URL {

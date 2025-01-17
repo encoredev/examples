@@ -9,6 +9,7 @@ export interface Site {
   url: string;
 }
 
+// 'site-added' is a Pub/Sub topic for events when a new site is added to be monitored.
 export const SiteAddedTopic = new Topic<Site>("site.added", {
   deliveryGuarantee: "at-least-once",
 });
@@ -60,9 +61,7 @@ export const list = api(
   },
 );
 
-// Define a database named 'site', using the database migrations
-// in the "./migrations" folder. Encore automatically provisions,
-// migrates, and connects to the database.
+// Define a 'site' database for storing which sites are being monitored
 const SiteDB = new SQLDatabase("site", {
   migrations: "./migrations",
 });

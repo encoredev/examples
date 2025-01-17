@@ -1,5 +1,4 @@
 import { Service } from "encore.dev/service";
 
-// Encore will consider this directory and all its subdirectories as part of the "frontend" service.
-// https://encore.dev/docs/ts/primitives/services
+// The frontend service is the root of the frontend application.
 export default new Service("frontend");

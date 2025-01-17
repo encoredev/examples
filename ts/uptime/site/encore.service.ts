@@ -1,5 +1,4 @@
 import { Service } from "encore.dev/service";
 
-// Encore will consider this directory and all its subdirectories as part of the "site" service.
-// https://encore.dev/docs/ts/primitives/services
+// The site service is used to store the sites that are being monitored.
 export default new Service("site");

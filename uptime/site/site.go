@@ -101,15 +101,17 @@ func initService() (*Service, error) {
 	return &Service{db: db}, nil
 }
 
-// This creates a Pub/Sub topic, learn more: https://encore.dev/docs/go/primitives/pubsub
+// 'site-added' is a pubsub topic for events when a new site is added to be monitored.
 var SiteAddedTopic = pubsub.NewTopic[*Site]("site-added", pubsub.TopicConfig{
 	DeliveryGuarantee: pubsub.AtLeastOnce,
 })
 
-// Define a database named 'site', using the database migrations
+// Below we define a database named 'site', using the database migrations
 // in the "./migrations" folder. Encore automatically provisions,
 // migrates, and connects to the database.
 // Learn more: https://encore.dev/docs/go/primitives/databases
+
+// 'site' database is used to store the sites that are being monitored.
 var db = sqldb.NewDatabase("site", sqldb.DatabaseConfig{
 	Migrations: "./migrations",
 })
