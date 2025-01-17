@@ -1,5 +1,4 @@
 import { Service } from "encore.dev/service";
 
-// Encore will consider this directory and all its subdirectories as part of the "monitor" service.
-// https://encore.dev/docs/ts/primitives/services
+// The monitor service ping sites and stores the results in the database.
 export default new Service("monitor");

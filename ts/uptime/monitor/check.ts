@@ -4,7 +4,7 @@ import { SQLDatabase } from "encore.dev/storage/sqldb";
 import { Site, SiteAddedTopic } from "../site/site";
 import { ping } from "./ping";
 import { site } from "~encore/clients";
-import { CronJob } from "encore.dev/cron"; // Check checks a single site.
+import { CronJob } from "encore.dev/cron";
 
 // Check checks a single site.
 export const check = api(
@@ -26,6 +26,7 @@ export const checkAll = api(
 
 // Defines a Cron Job to check all tracked sites every hour.
 // Learn more: https://encore.dev/docs/ts/primitives/cron-jobs
+
 // Send a welcome email to everyone who signed up in the last two hours.
 const cronJob = new CronJob("check-all", {
   title: "Check all sites",
@@ -66,6 +67,8 @@ async function getPreviousMeasurement(siteID: number): Promise<boolean> {
 // Define a database named 'monitor', using the database migrations
 // in the "./migrations" folder. Encore automatically provisions,
 // migrates, and connects to the database.
+
+// The 'monitor' database is used to store the uptime checks
 export const MonitorDB = new SQLDatabase("monitor", {
   migrations: "./migrations",
 });
@@ -81,7 +84,7 @@ export interface TransitionEvent {
   up: boolean; // Up specifies whether the site is now up or down (the new value).
 }
 
-// TransitionTopic is a pubsub topic with transition events for when a monitored site
+// 'uptime-transition' is a pubsub topic with transition events for when a monitored site
 // transitions from up->down or from down->up.
 export const TransitionTopic = new Topic<TransitionEvent>("uptime-transition", {
   deliveryGuarantee: "at-least-once",

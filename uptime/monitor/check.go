@@ -100,6 +100,8 @@ func getPreviousMeasurement(ctx context.Context, siteID int) (up bool, err error
 
 // Defines a Cron Job to check all tracked sites every hour.
 // Learn more: https://encore.dev/docs/go/primitives/cron-jobs
+
+// 'check-all' is used to check all tracked sites every hour.
 var _ = cron.NewJob("check-all", cron.JobConfig{
 	Title:    "Check all sites",
 	Endpoint: CheckAll,
@@ -115,9 +117,7 @@ type TransitionEvent struct {
 	Up bool `json:"up"`
 }
 
-// TransitionTopic is a pubsub topic with transition events for when a monitored site
-// transitions from up->down or from down->up.
-// Learn more: https://encore.dev/docs/go/primitives/pubsub
+// 'uptime-transition' is a pubsub topic for events when a monitored site transitions from up->down or from down->up.
 var TransitionTopic = pubsub.NewTopic[*TransitionEvent]("uptime-transition", pubsub.TopicConfig{
 	DeliveryGuarantee: pubsub.AtLeastOnce,
 })
@@ -128,10 +128,12 @@ var _ = pubsub.NewSubscription(site.SiteAddedTopic, "check-site", pubsub.Subscri
 	},
 })
 
-// Define a database named 'monitor', using the database migrations
+// Below we define a database named 'monitor', using the database migrations
 // in the "./migrations" folder. Encore automatically provisions,
 // migrates, and connects to the database.
 // Learn more: https://encore.dev/docs/go/primitives/databases
+
+// 'monitor' database is used to store the uptime checks
 var db = sqldb.NewDatabase("monitor", sqldb.DatabaseConfig{
 	Migrations: "./migrations",
 })

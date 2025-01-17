@@ -61,10 +61,12 @@ func Get(ctx context.Context, id string) (*URL, error) {
 	return u, err
 }
 
-// Define a database named 'url', using the database
+// Below we define a database named 'url', using the database
 // migrations  in the "./migrations" folder.
 // Encore provisions, migrates, and connects to the database.
 // Learn more: https://encore.dev/docs/go/primitives/databases
+
+// 'url' database is used to store the URLs that are being shortened.
 var db = sqldb.NewDatabase("url", sqldb.DatabaseConfig{
 	Migrations: "./migrations",
 })
