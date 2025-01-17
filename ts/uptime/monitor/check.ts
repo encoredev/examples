@@ -27,7 +27,7 @@ export const checkAll = api(
 // Defines a Cron Job to check all tracked sites every hour.
 // Learn more: https://encore.dev/docs/ts/primitives/cron-jobs
 
-// 'check-all' is a cron job that checks all tracked sites every hour.
+// 'check-all' is used to check all tracked sites every hour.
 const cronJob = new CronJob("check-all", {
   title: "Check all sites",
   every: "1h",
