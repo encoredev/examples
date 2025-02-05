@@ -34,6 +34,7 @@ const myAuthHandler = authHandler(async (params: AuthParams): Promise<
   try {
     const result = await verifyToken(token, {
       authorizedParties: AUTHORIZED_PARTIES,
+      secretKey: clerkSecretKey(),
     });
 
     const user = await clerkClient.users.getUser(result.sub);
