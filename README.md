@@ -66,7 +66,7 @@ E.g. `encore app create my-app --example=ts/hello-world`
 ### Go starters
 
 | Name                                       | Description                                                                                                                         | Primitives                                                                                  |
-|--------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
 | [hello-world](hello-world)                 | REST API Starter                                                                                                                    | APIs                                                                                        |
 | [sql-database](sql-database)               | PostgreSQL database Starter                                                                                                         | APIs, SQL Database                                                                          |
 | [ai-chat](ai-chat)                         | LLM chat room application which let's you create and chat with personalized bots. Integrates with OpenAI, Gemini, Slack and Discord | Microservices, APIs, SQL Database, Pub/Sub, Cron Jobs, Frontend, External Requests, Configs |
@@ -86,6 +86,7 @@ E.g. `encore app create my-app --example=ts/hello-world`
 | [auth0-react-sdk](auth0-react-sdk)         | Auth0 React SDK Authentication + Encore Example                                                                                     | APIs, Auth, Frontend                                                                        |
 | [clerk](clerk)                             | Clerk React SDK Authentication + Encore Example                                                                                     | APIs, Auth, Frontend                                                                        |
 | [firebase-auth](firebase-auth)             | Firebase Authentication + Encore Example                                                                                            | APIs, Auth, Frontend                                                                        |
+| [logto-react-sdk](logto-react-sdk)         | Logto React SDK Authentication + Encore Example                                                                                     | APIs, Auth, Frontend                                                                        |
 
 † = Cannot be installed using `encore app create --example`, create an empty app and clone the repo instead.
 
