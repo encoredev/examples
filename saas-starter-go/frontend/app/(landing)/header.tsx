@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
-import { SignInButton } from "@clerk/nextjs";
-import { ArrowRight, DollarSign, Rat } from "lucide-react";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { ArrowRight, Rat } from "lucide-react";
 import Link from "next/link";
 
 
@@ -16,7 +16,6 @@ export function Header() {
 
         <NavigationMenu>
           <NavigationMenuList>
-
             <NavigationMenuItem>
               <NavigationMenuTrigger>Features</NavigationMenuTrigger>
               <NavigationMenuContent>
@@ -69,9 +68,14 @@ export function Header() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <SignInButton >
-          <Button>Sign in <ArrowRight /></Button>
-        </SignInButton>
+        <SignedOut>
+          <SignInButton >
+            <Button>Sign in <ArrowRight /></Button>
+          </SignInButton>
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
       </div>
     </header>
   )
