@@ -69,7 +69,7 @@ export function Header() {
         </NavigationMenu>
 
         <SignedOut>
-          <SignInButton >
+          <SignInButton fallbackRedirectUrl='/dashboard'>
             <Button>Sign in <ArrowRight /></Button>
           </SignInButton>
         </SignedOut>
