@@ -10,6 +10,6 @@ const clientSideEnvSchema = z.object({
 * Type-safe environment variables available client-side
 */
 export const clientSideEnv = clientSideEnvSchema.parse({
-  NEXT_PUBLIC_VERCEL_ENV: process.env.VERCEL_ENV,
-  NEXT_PUBLIC_VERCEL_GIT_PULL_REQUEST_ID: process.env.VERCEL_GIT_PULL_REQUEST_ID
+  NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV,
+  NEXT_PUBLIC_VERCEL_GIT_PULL_REQUEST_ID: process.env.NEXT_PUBLIC_VERCEL_GIT_PULL_REQUEST_ID
 });
