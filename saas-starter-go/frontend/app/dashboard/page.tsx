@@ -1,5 +1,6 @@
 import { ServerSideData } from "./server-side-data";
 import { ClientSideData } from "./client-side-data";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 
 export default function DashboardPage() {
   return (

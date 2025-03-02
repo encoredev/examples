@@ -1,5 +1,19 @@
 import { auth } from '@clerk/nextjs/server';
-import Client, { Local } from './encore-client'
+import Client, { Environment, Local, PreviewEnv } from './encore-client'
+import { serverSideEnv } from '@/lib/env/server-side';
+
+
+// Get the correct encore environment
+let environment = Local
+if (serverSideEnv.VERCEL_ENV === 'production') {
+  environment = Environment("staging")
+} else if (serverSideEnv.VERCEL_ENV === 'preview') {
+  if (!serverSideEnv.VERCEL_GIT_PULL_REQUEST_ID) {
+    throw new Error(" is not set")
+  }
+  environment = PreviewEnv(serverSideEnv.VERCEL_GIT_PULL_REQUEST_ID)
+}
+
 
 
 /**
@@ -10,7 +24,7 @@ import Client, { Local } from './encore-client'
 export async function getApiClient() {
   const { getToken } = await auth();
 
-  return new Client(Local, {
+  return new Client(environment, {
     auth: async () => {
       const token = await getToken();
       return token ?? '';
