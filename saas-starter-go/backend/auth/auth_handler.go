@@ -16,13 +16,13 @@ var secrets struct {
 }
 
 type UserData struct {
-	ID                    string                `json:"id"`
-	Username              *string               `json:"username"`
-	FirstName             *string               `json:"first_name"`
-	LastName              *string               `json:"last_name"`
-	ImageURL              *string               `json:"image_url"`
-	PrimaryEmailAddressID *string               `json:"primary_email_address_id"`
-	EmailAddresses        []*clerk.EmailAddress `json:"email_addresses"`
+	ID                    string  `json:"id"`
+	Username              *string `json:"username"`
+	FirstName             *string `json:"first_name"`
+	LastName              *string `json:"last_name"`
+	ImageURL              *string `json:"image_url"`
+	PrimaryEmailAddressID *string `json:"primary_email_address_id"`
+	// EmailAddresses        []*clerk.EmailAddress `json:"email_addresses"`
 }
 
 // The `encore:authhandler` annotation tells Encore to run this function for all
@@ -60,7 +60,7 @@ func AuthHandler(ctx context.Context, token string) (auth.UID, *UserData, error)
 		LastName:              usr.LastName,
 		ImageURL:              usr.ImageURL,
 		PrimaryEmailAddressID: usr.PrimaryEmailAddressID,
-		EmailAddresses:        usr.EmailAddresses,
+		// EmailAddresses:        usr.EmailAddresses,
 	}
 
 	return auth.UID(usr.ID), userData, nil
