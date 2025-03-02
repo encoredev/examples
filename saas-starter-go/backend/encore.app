@@ -1,7 +1,7 @@
 {
 	"id": "saas-starter-go-rfu2",
 
-global_cors: {
+  "global_cors": {
   // allow_origins_without_credentials specifies the allowed origins for requests
   // that don't include credentials. If nil it defaults to allowing all domains
   // (equivalent to ["*"]).

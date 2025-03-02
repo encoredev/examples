@@ -27,7 +27,7 @@ origins are allowed to access your API (via browsers). You do this by specifying
 file, which has the following structure:
 
 ```json5
-global_cors: {
+"global_cors": {
   // allow_origins_without_credentials specifies the allowed origins for requests
   // that don't include credentials. If nil it defaults to allowing all domains
   // (equivalent to ["*"]).
