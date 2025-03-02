@@ -16,13 +16,12 @@ var secrets struct {
 }
 
 type UserData struct {
-	ID                    string  `json:"id"`
-	Username              *string `json:"username"`
-	FirstName             *string `json:"first_name"`
-	LastName              *string `json:"last_name"`
-	ImageURL              *string `json:"image_url"`
-	PrimaryEmailAddressID *string `json:"primary_email_address_id"`
-	// EmailAddresses        []*clerk.EmailAddress `json:"email_addresses"`
+	ID           string  `json:"id"`
+	Username     *string `json:"username"`
+	FirstName    *string `json:"first_name"`
+	LastName     *string `json:"last_name"`
+	ImageURL     *string `json:"image_url"`
+	EmailAddress *string `json:"email_address"`
 }
 
 // The `encore:authhandler` annotation tells Encore to run this function for all
@@ -53,14 +52,23 @@ func AuthHandler(ctx context.Context, token string) (auth.UID, *UserData, error)
 		}
 	}
 
+	var emailAddress *string
+	if usr.PrimaryEmailAddressID != nil {
+		for _, email := range usr.EmailAddresses {
+			if email.ID == *usr.PrimaryEmailAddressID {
+				emailAddress = &email.EmailAddress
+				break
+			}
+		}
+	}
+
 	userData := &UserData{
-		ID:                    usr.ID,
-		Username:              usr.Username,
-		FirstName:             usr.FirstName,
-		LastName:              usr.LastName,
-		ImageURL:              usr.ImageURL,
-		PrimaryEmailAddressID: usr.PrimaryEmailAddressID,
-		// EmailAddresses:        usr.EmailAddresses,
+		ID:           usr.ID,
+		Username:     usr.Username,
+		FirstName:    usr.FirstName,
+		LastName:     usr.LastName,
+		ImageURL:     usr.ImageURL,
+		EmailAddress: emailAddress,
 	}
 
 	return auth.UID(usr.ID), userData, nil
