@@ -10,6 +10,9 @@ import {
 import { useApiClient } from "@/lib/api/client-side";
 import { useQuery } from "@tanstack/react-query";
 
+/**
+* This component shows how you can fetch data from the encore backend using client components.
+*/
 export function ClientSideData() {
   const apiClient = useApiClient();
 

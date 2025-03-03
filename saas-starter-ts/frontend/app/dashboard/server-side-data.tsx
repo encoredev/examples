@@ -7,6 +7,9 @@ import {
 } from "@/components/ui/card";
 import { getApiClient } from "@/lib/api/server-side";
 
+/**
+* This component shows how you can fetch data from the encore backend using server components.
+*/
 export async function ServerSideData() {
   const apiClient = await getApiClient();
   const data = await apiClient.admin.getDashboardData();
