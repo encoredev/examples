@@ -31,6 +31,7 @@ export function PreviewEnv(pr: number | string): BaseURL {
  */
 export default class Client {
     public readonly admin: admin.ServiceClient
+    public readonly subscription: subscription.ServiceClient
 
 
     /**
@@ -42,6 +43,7 @@ export default class Client {
     constructor(target: BaseURL, options?: ClientOptions) {
         const base = new BaseClient(target, options ?? {})
         this.admin = new admin.ServiceClient(base)
+        this.subscription = new subscription.ServiceClient(base)
     }
 }
 
@@ -95,6 +97,64 @@ export namespace admin {
 export namespace auth {
     export interface AuthParams {
         authorization: string
+    }
+}
+
+export namespace subscription {
+    export interface CreateCheckoutSessionParams {
+        priceId: string
+    }
+
+    export interface CreateCheckoutSessionResponse {
+        /**
+         * The URL to redirect to
+         */
+        url: string
+    }
+
+    export interface CreatePortalSessionResponse {
+        url: string
+    }
+
+    export interface GetSubscriptionsResponse {
+        id: string
+        priceId: string
+    }
+
+    export class ServiceClient {
+        private baseClient: BaseClient
+
+        constructor(baseClient: BaseClient) {
+            this.baseClient = baseClient
+        }
+
+        /**
+         * Generate a checkout session
+         */
+        public async createCheckoutSession(params: CreateCheckoutSessionParams): Promise<CreateCheckoutSessionResponse> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI("POST", `/stripe/checkout-session`, JSON.stringify(params))
+            return await resp.json() as CreateCheckoutSessionResponse
+        }
+
+        /**
+         * Generate a portal session
+         */
+        public async createPortalSession(): Promise<CreatePortalSessionResponse> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI("POST", `/stripe/portal-session`)
+            return await resp.json() as CreatePortalSessionResponse
+        }
+
+        public async getSubscription(): Promise<GetSubscriptionsResponse> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI("GET", `/stripe/subscriptions`)
+            return await resp.json() as GetSubscriptionsResponse
+        }
+
+        public async stripeWebhookHandler(method: "POST", body?: BodyInit, options?: CallParameters): Promise<globalThis.Response> {
+            return this.baseClient.callAPI(method, `/stripe/webhook`, body, options)
+        }
     }
 }
 

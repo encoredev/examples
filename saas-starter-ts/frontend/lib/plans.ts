@@ -1,4 +1,3 @@
-import { SP, ST } from "next/dist/shared/lib/utils";
 
 export const plans = [
   {
@@ -9,7 +8,8 @@ export const plans = [
       "Feature 2",
       "Feature 3",
     ],
-    stripeLink: "https://buy.stripe.com/test_aEU9Ed1h8aeKacg4gg"
+    stripeProductId: "prod_RsP4IJeES8hBDu",
+    stripePriceId: "price_1QyeDTGPZxkKVmuncIjFBYj7",
   },
   {
     name: "Medium",
@@ -20,7 +20,8 @@ export const plans = [
       "Feature 3",
       "Feature 4",
     ],
-    stripeLink: "https://buy.stripe.com/test_dR69Ed4tkev05W07st"
+    stripeProductId: "prod_RsP2eL9TWCTqFR",
+    stripePriceId: "price_1QyeEuGPZxkKVmunwbaiAkaO"
   },
   {
     name: "Large",
@@ -32,6 +33,7 @@ export const plans = [
       "Feature 4",
       "Feature 5",
     ],
-    stripeLink: "https://buy.stripe.com/test_fZecQpf7Y5Yu98c146"
+    stripeProductId: "prod_RsP19mrNfkIeXG",
+    stripePriceId: "price_1QyeFvGPZxkKVmunS8HJc1OS"
   },
 ] as const;
