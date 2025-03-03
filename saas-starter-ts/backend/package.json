@@ -16,7 +16,8 @@
 	},
 	"dependencies": {
 		"@clerk/backend": "~1.24.3",
-		"encore.dev": "^1.46.5"
+		"encore.dev": "^1.46.5",
+		"stripe": "~17.7.0"
 	},
 	"optionalDependencies": {
 		"@rollup/rollup-linux-x64-gnu": "^4.13.0"

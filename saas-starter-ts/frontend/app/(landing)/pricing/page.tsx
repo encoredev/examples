@@ -1,11 +1,14 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { plans } from "@/lib/plans";
+import { auth } from "@clerk/nextjs/server";
 import { ArrowRight, Check } from "lucide-react";
 import Link from "next/link";
 
 
 
 export default function PricingPage() {
+
+
   return (
     <main className="container">
       <div className="flex flex-col items-center py-12">

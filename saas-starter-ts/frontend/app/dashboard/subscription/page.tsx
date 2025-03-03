@@ -2,10 +2,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { plans } from "@/lib/plans";
-import { ChevronDown } from "lucide-react";
+import { auth } from "@clerk/nextjs/server";
+import { ChevronDown, Usb } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function SubscriptionPage() {
+export default async function SubscriptionPage() {
+
+  const { userId } = await auth()
+  if (!userId) {
+    redirect('/sign-in')
+  }
+
+
   return (
     <main className="container">
       <h1>Subscription</h1>
@@ -28,7 +37,7 @@ export default function SubscriptionPage() {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {plans.map((plan) => (
-                <Link href={plan.stripeLink} key={plan.name}>
+                <Link href={`${plan.stripeLink}?${new URLSearchParams({ client_reference_id: userId })}`} key={plan.name}>
                   <DropdownMenuItem className="items-center justify-between gap-4">
                     <span>{plan.name}</span> <span className="text-muted-foreground">€{plan.price}/mo</span>
                   </DropdownMenuItem>
