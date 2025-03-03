@@ -39,6 +39,7 @@ function getBody(req: IncomingMessage): Promise<string> {
 	});
 }
 
+// Handle stripe webhook events
 export const stripeWebhookHandler = api.raw(
 	{
 		method: "POST",
@@ -157,7 +158,7 @@ interface CreatePortalSessionResponse {
 	url: string;
 }
 
-// Generate a portal session
+// Generate a portal session to manage subscriptions
 export const createPortalSession = api(
 	{
 		method: "POST",
@@ -192,6 +193,7 @@ interface GetSubscriptionsResponse {
 	priceId: string;
 }
 
+// Get the current subscription if any
 export const getSubscription = api(
 	{
 		method: "GET",
