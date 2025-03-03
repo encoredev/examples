@@ -1,5 +1,14 @@
-import { Header, Gateway } from "encore.dev/api";
+import { Header, Gateway, APIError } from "encore.dev/api";
 import { authHandler } from "encore.dev/auth";
+import { createClerkClient, User, verifyToken } from '@clerk/backend'
+import { secret } from "encore.dev/config";
+
+
+// This secret is defined in Encore.
+// See https://encore.dev/docs/ts/primitives/secrets for more information.
+const clerkSecretKey = secret('ClerkSecretKey')
+
+
 
 // AuthParams specifies the incoming request information
 // the auth handler is interested in. In this case it only
@@ -11,14 +20,28 @@ interface AuthParams {
 // The AuthData specifies the information about the authenticated user
 // that the auth handler makes available.
 interface AuthData {
+  // This user id is the clerk user id.
+  // More information about the user can be used with the clerk client.
   userID: string;
 }
 
 // The auth handler itself.
 export const auth = authHandler<AuthParams, AuthData>(
   async (params) => {
-    // TODO: Look up information about the user based on the authorization header.
-    return { userID: "my-user-id" };
+    try {
+      const token = params.authorization.replace('Bearer ', '')
+
+      // See https://clerk.com/docs/references/backend/verify-token for more information about the `verifyToken` function.
+      const verifiedToken = await verifyToken(token, {
+        secretKey: clerkSecretKey()
+      })
+
+      return {
+        userID: verifiedToken.sub,
+      }
+    } catch (error) {
+      throw APIError.unauthenticated('could not verify token')
+    }
   }
 )
 

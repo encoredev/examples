@@ -16,7 +16,7 @@ export const Local: BaseURL = "http://localhost:4000"
  * Environment returns a BaseURL for calling the cloud environment with the given name.
  */
 export function Environment(name: string): BaseURL {
-    return `https://${name}-saas-starter-go-rfu2.encr.app`
+    return `https://${name}-saas-starter-ts-yz6i.encr.app`
 }
 
 /**
@@ -27,16 +27,11 @@ export function PreviewEnv(pr: number | string): BaseURL {
 }
 
 /**
- * Client is an API client for the saas-starter-go-rfu2 Encore application.
+ * Client is an API client for the saas-starter-ts-yz6i Encore application.
  */
 export default class Client {
     public readonly admin: admin.ServiceClient
 
-
-    /**
-     * @deprecated This constructor is deprecated, and you should move to using BaseURL with an Options object
-     */
-    constructor(target: string, token?: string)
 
     /**
      * Creates a Client for calling the public and authenticated APIs of your Encore application.
@@ -44,18 +39,7 @@ export default class Client {
      * @param target  The target which the client should be configured to use. See Local and Environment for options.
      * @param options Options for the client
      */
-    constructor(target: BaseURL, options?: ClientOptions)
-    constructor(target: string | BaseURL = "prod", options?: string | ClientOptions) {
-
-        // Convert the old constructor parameters to a BaseURL object and a ClientOptions object
-        if (!target.startsWith("http://") && !target.startsWith("https://")) {
-            target = Environment(target)
-        }
-
-        if (typeof options === "string") {
-            options = { auth: options }
-        }
-
+    constructor(target: BaseURL, options?: ClientOptions) {
         const base = new BaseClient(target, options ?? {})
         this.admin = new admin.ServiceClient(base)
     }
@@ -76,19 +60,18 @@ export interface ClientOptions {
     requestInit?: Omit<RequestInit, "headers"> & { headers?: Record<string, string> }
 
     /**
-     * Allows you to set the auth token to be used for each request
-     * either by passing in a static token string or by passing in a function
-     * which returns the auth token.
-     *
-     * These tokens will be sent as bearer tokens in the Authorization header.
+     * Allows you to set the authentication data to be used for each
+     * request either by passing in a static object or by passing in
+     * a function which returns a new object for each request.
      */
-    auth?: string | AuthDataGenerator
+    auth?: auth.AuthParams | AuthDataGenerator
 }
 
 export namespace admin {
     export interface DashboardData {
-        foo: number
-        bar: string
+        totalUsers: number
+        totalOrders: number
+        totalRevenue: number
     }
 
     export class ServiceClient {
@@ -98,11 +81,20 @@ export namespace admin {
             this.baseClient = baseClient
         }
 
-        public async GetDashboardData(): Promise<DashboardData> {
+        /**
+         * A simple authenticated API endpoint that returns some fake data
+         */
+        public async getDashboardData(): Promise<DashboardData> {
             // Now make the actual call to the API
-            const resp = await this.baseClient.callTypedAPI("POST", `/admin.GetDashboardData`)
+            const resp = await this.baseClient.callTypedAPI("GET", `/admin.getDashboardData`)
             return await resp.json() as DashboardData
         }
+    }
+}
+
+export namespace auth {
+    export interface AuthParams {
+        authorization: string
     }
 }
 
@@ -312,8 +304,8 @@ type CallParameters = Omit<RequestInit, "method" | "body" | "headers"> & {
 
 // AuthDataGenerator is a function that returns a new instance of the authentication data required by this API
 export type AuthDataGenerator = () =>
-  | string
-  | Promise<string | undefined>
+  | auth.AuthParams
+  | Promise<auth.AuthParams | undefined>
   | undefined;
 
 // A fetcher is the prototype for the inbuilt Fetch function
@@ -335,7 +327,7 @@ class BaseClient {
         // Add User-Agent header if the script is running in the server
         // because browsers do not allow setting User-Agent headers to requests
         if (typeof window === "undefined") {
-            this.headers["User-Agent"] = "saas-starter-go-rfu2-Generated-TS-Client (Encore/v1.46.5)";
+            this.headers["User-Agent"] = "saas-starter-ts-yz6i-Generated-TS-Client (Encore/v1.46.5)";
         }
 
         this.requestInit = options.requestInit ?? {};
@@ -359,7 +351,7 @@ class BaseClient {
     }
 
     async getAuthData(): Promise<CallParameters | undefined> {
-        let authData: string | undefined;
+        let authData: auth.AuthParams | undefined;
 
         // If authorization data generator is present, call it and add the returned data to the request
         if (this.authGenerator) {
@@ -374,8 +366,9 @@ class BaseClient {
         if (authData) {
             const data: CallParameters = {};
 
-            data.headers = {};
-            data.headers["Authorization"] = "Bearer " + authData;
+            data.headers = makeRecord<string, string>({
+                authorization: authData.authorization,
+            });
 
             return data;
         }

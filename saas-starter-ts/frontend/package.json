@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen": "encore gen client saas-starter-go-rfu2 --output=lib/api/encore-client.ts --env=staging",
-    "gen:local": "encore gen client saas-starter-go-rfu2 --output=lib/api/encore-client.ts --env=local"
+    "gen": "encore gen client saas-starter-ts-yz6i --output=lib/api/encore-client.ts --env=staging",
+    "gen:local": "encore gen client saas-starter-ts-yz6i --output=lib/api/encore-client.ts --env=local"
   },
   "dependencies": {
     "@clerk/nextjs": "~6.12.1",

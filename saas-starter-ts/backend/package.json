@@ -1,8 +1,8 @@
 {
-  "name": "encore-ts-starter",
+  "name": "encore.ts-saas-starter",
   "private": true,
   "version": "0.0.1",
-  "description": "Encore Typescript Starter",
+  "description": "Encore.ts SaaS Starter",
   "license": "MPL-2.0",
   "type": "module",
   "scripts": {
@@ -14,9 +14,16 @@
     "vitest": "^1.5.0"
   },
   "dependencies": {
+    "@clerk/backend": "~1.24.3",
     "encore.dev": "^1.46.5"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.13.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@clerk/shared",
+      "esbuild"
+    ]
   }
 }
