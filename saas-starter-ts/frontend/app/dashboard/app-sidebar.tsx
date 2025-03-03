@@ -17,7 +17,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...rest}>
       <SidebarHeader>
-        <OrganizationSwitcher hidePersonal />
+        <OrganizationSwitcher hidePersonal afterSelectOrganizationUrl="/dashboard" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
