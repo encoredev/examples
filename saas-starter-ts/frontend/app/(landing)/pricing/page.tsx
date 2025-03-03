@@ -54,7 +54,7 @@ export default function PricingPage() {
               <CardDescription><span className="text-4xl font-semibold">€{plan.price}</span> / month</CardDescription>
             </CardHeader>
             <CardContent className="grow">
-              <p className="mb-4 font-semibold">Includes</p>
+              <p className="mb-4 font-medium">Includes</p>
               <ul className="text-muted-foreground">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-center"><Check className="size-4 mr-2" />{feature}</li>
