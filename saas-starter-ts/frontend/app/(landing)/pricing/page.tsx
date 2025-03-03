@@ -33,7 +33,7 @@ const plans = [
       "Feature 5",
     ],
   },
-]
+] as const;
 
 
 export default function PricingPage() {
