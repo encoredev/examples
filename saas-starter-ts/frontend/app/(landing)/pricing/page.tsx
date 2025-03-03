@@ -1,39 +1,8 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { plans } from "@/lib/plans";
 import { ArrowRight, Check } from "lucide-react";
 import Link from "next/link";
 
-const plans = [
-  {
-    name: "Small",
-    price: 8,
-    features: [
-      "Feature 1",
-      "Feature 2",
-      "Feature 3",
-    ],
-  },
-  {
-    name: "Medium",
-    price: 20,
-    features: [
-      "Feature 1",
-      "Feature 2",
-      "Feature 3",
-      "Feature 4",
-    ],
-  },
-  {
-    name: "Large",
-    price: 70,
-    features: [
-      "Feature 1",
-      "Feature 2",
-      "Feature 3",
-      "Feature 4",
-      "Feature 5",
-    ],
-  },
-] as const;
 
 
 export default function PricingPage() {
@@ -48,7 +17,7 @@ export default function PricingPage() {
 
         {plans.map((plan) => (
           <Card key={plan.name} className="relative group">
-            <Link href="/dashboard/subscriptions" className="absolute inset-0" />
+            <Link href="/dashboard/subscription" className="absolute inset-0" />
             <CardHeader className="min-w-60">
               <CardTitle>{plan.name}</CardTitle>
               <CardDescription><span className="text-4xl font-semibold">€{plan.price}</span> / month</CardDescription>
