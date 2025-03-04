@@ -54,6 +54,7 @@ Follow these steps to set up and run your SaaS application.
       stripe listen --forward-to <BACKEND_URL>/api/auth/stripe/webhook
       ```
     - Save the webhook signing secret (this will be your `StripeWebhookKey`)
+    - Have this open for Development
 
 ### Backend Setup
 
