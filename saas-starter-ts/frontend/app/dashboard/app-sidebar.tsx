@@ -22,6 +22,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
 					afterSelectOrganizationUrl="/dashboard"
 				/>
 			</SidebarHeader>
+
 			<SidebarContent>
 				<SidebarGroup>
 					<SidebarMenu>

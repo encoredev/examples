@@ -25,6 +25,7 @@ export default function PricingPage() {
 				{plans.map((plan) => (
 					<Card key={plan.name} className="relative group">
 						<Link href="/dashboard/subscription" className="absolute inset-0" />
+
 						<CardHeader className="min-w-60">
 							<CardTitle>{plan.name}</CardTitle>
 							<CardDescription>
@@ -32,6 +33,7 @@ export default function PricingPage() {
 								month
 							</CardDescription>
 						</CardHeader>
+
 						<CardContent className="grow">
 							<p className="mb-4 font-medium">Includes</p>
 							<ul className="text-muted-foreground">
@@ -43,6 +45,7 @@ export default function PricingPage() {
 								))}
 							</ul>
 						</CardContent>
+
 						<CardFooter className="flex justify-center gap-2 group-hover:underline">
 							Get started <ArrowRight className="size-4" />
 						</CardFooter>

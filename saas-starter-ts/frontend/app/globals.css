@@ -1,3 +1,8 @@
+/*
+This project uses TailwindCSS v4 and shadcn with react 19.
+See https://ui.shadcn.com/docs/tailwind-v4 for more information.
+*/
+
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
@@ -124,6 +129,7 @@
 		from {
 			height: 0;
 		}
+
 		to {
 			height: var(--radix-accordion-content-height);
 		}
@@ -133,6 +139,7 @@
 		from {
 			height: var(--radix-accordion-content-height);
 		}
+
 		to {
 			height: 0;
 		}
@@ -148,6 +155,7 @@
 	* {
 		@apply border-border outline-ring/50;
 	}
+
 	body {
 		@apply bg-background text-foreground;
 	}

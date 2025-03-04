@@ -1,6 +1,6 @@
 import type { IncomingMessage } from "node:http";
 import { createClerkClient } from "@clerk/backend";
-import { APIError, Header, api } from "encore.dev/api";
+import { APIError, api } from "encore.dev/api";
 import { secret } from "encore.dev/config";
 import log from "encore.dev/log";
 import Stripe from "stripe";
@@ -10,22 +10,20 @@ import { db } from "./db";
 // These endpoints follow the Stripe Billing Quickstart guide.
 // Please refer to https://docs.stripe.com/billing/quickstart for more information.
 
+// Setup a Stripe client
 const stripeSecretKey = secret("StripeSecretKey");
-//const stripeWebhookSigningSecret = secret('StripeWebhookSigningSecret')
-const stripeWebhookSigningSecret = () =>
-	"whsec_052d37aa1d2c923118e2ae534ad2c03de84edfc4663b76103e459224cba94664";
+const stripeWebhookSigningSecret = secret("StripeWebhookSigningSecret");
 
 const stripe = new Stripe(stripeSecretKey());
 
-// This secret is defined in Encore.
-// See https://encore.dev/docs/ts/primitives/secrets for more information.
+// Setup a Clerk client
 const clerkSecretKey = secret("ClerkSecretKey");
 
 const clerk = createClerkClient({
 	secretKey: clerkSecretKey(),
 });
 
-// Extract the body from an incoming request.
+// Helper function to extract the body from an incoming request.
 function getBody(req: IncomingMessage): Promise<string> {
 	return new Promise((resolve) => {
 		const bodyParts: Uint8Array[] = [];
@@ -122,6 +120,8 @@ export const createCheckoutSession = api(
 			throw APIError.unauthenticated("user not authenticated");
 		}
 
+		// Try to get the organization's stripe customer ID
+		// This is stored as organization metadata, please see https://clerk.com/docs/organizations/metadata for more information.
 		const org = await clerk.organizations.getOrganization({
 			organizationId: authData.orgID,
 		});
@@ -174,6 +174,8 @@ export const createPortalSession = api(
 			throw APIError.unauthenticated("user not authenticated");
 		}
 
+		// Try to get the organization's stripe customer ID
+		// This is stored as organization metadata, please see https://clerk.com/docs/organizations/metadata for more information.
 		const org = await clerk.organizations.getOrganization({
 			organizationId: authData.orgID,
 		});
@@ -211,6 +213,8 @@ export const getSubscription = api(
 			throw APIError.unauthenticated("user not authenticated");
 		}
 
+		// Try to get the organization's stripe customer ID
+		// This is stored as organization metadata, please see https://clerk.com/docs/organizations/metadata for more information.
 		const org = await clerk.organizations.getOrganization({
 			organizationId: authData.orgID,
 		});

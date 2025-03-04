@@ -1,4 +1,4 @@
-import { User, createClerkClient, verifyToken } from "@clerk/backend";
+import { verifyToken } from "@clerk/backend";
 import { APIError, Gateway, type Header } from "encore.dev/api";
 import { authHandler } from "encore.dev/auth";
 import { secret } from "encore.dev/config";

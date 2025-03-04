@@ -6,19 +6,9 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import {
-	DropdownMenu,
-	DropdownMenuCheckboxItem,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
-	APIError,
 	ErrCode,
 	isAPIError,
 	type subscription,
@@ -26,8 +16,6 @@ import {
 import { getApiClient } from "@/lib/api/server-side";
 import { plans } from "@/lib/plans";
 import { auth } from "@clerk/nextjs/server";
-import { ChevronDown, Usb } from "lucide-react";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 interface SubscriptionPageProps {
@@ -41,7 +29,7 @@ interface SubscriptionPageProps {
 export default async function SubscriptionPage(
 	props: Readonly<SubscriptionPageProps>,
 ) {
-	const { success, session_id, canceled } = await props.searchParams;
+	const { success, canceled } = await props.searchParams;
 
 	const { userId } = await auth();
 	if (!userId) {
@@ -50,6 +38,7 @@ export default async function SubscriptionPage(
 
 	const apiClient = await getApiClient();
 
+	// Get the current subscription there is one
 	let currentSubscription: subscription.GetSubscriptionsResponse | undefined;
 	try {
 		currentSubscription = await apiClient.subscription.getSubscription();
@@ -59,6 +48,7 @@ export default async function SubscriptionPage(
 		}
 	}
 
+	// Sever action to setup a subscription
 	const createCheckoutSession = async (formData: FormData) => {
 		"use server";
 		const stripePriceId = formData.get("stripePriceId") as string;
@@ -70,6 +60,7 @@ export default async function SubscriptionPage(
 		redirect(session.url);
 	};
 
+	// Server action to setup a subscription
 	const createPortalSession = async () => {
 		"use server";
 		const serverApiClient = await getApiClient();
@@ -77,6 +68,7 @@ export default async function SubscriptionPage(
 		redirect(session.url);
 	};
 
+	// Get the current plan
 	const currentPlan = plans.find(
 		(plan) => plan.stripePriceId === currentSubscription?.priceId,
 	);
