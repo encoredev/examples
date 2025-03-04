@@ -125,11 +125,31 @@ export const createCheckoutSession = api(
     const org = await clerk.organizations.getOrganization({
       organizationId: authData.orgID,
     });
-    const stripeCustomerId = org.privateMetadata.stripeCustomerId;
+    let stripeCustomerId = org.privateMetadata.stripeCustomerId;
+
+    // If the organization doesn't have a Stripe customer ID, create one
+    if (!stripeCustomerId) {
+      const user = await clerk.users.getUser(authData.userID);
+
+      const customer = await stripe.customers.create({
+        name: org.name,
+        email: user.primaryEmailAddress?.emailAddress,
+        metadata: {
+          orgId: authData.orgID,
+        }
+      });
+      await clerk.organizations.updateOrganizationMetadata(authData.orgID, {
+        privateMetadata: {
+          stripeCustomerId: customer.id,
+        },
+      });
+      stripeCustomerId = customer.id;
+    }
 
     const session = await stripe.checkout.sessions.create({
       billing_address_collection: "auto",
       customer: stripeCustomerId,
+      client_reference_id: authData.orgID,
       line_items: [
         {
           price: params.priceId,
@@ -143,14 +163,7 @@ export const createCheckoutSession = api(
       cancel_url: "https://encorets-saas-starter.vercel.app/dashboard/subscription?canceled=true",
     });
 
-    // If the user doesn't have a Stripe customer ID yet, set it
-    if (!stripeCustomerId) {
-      await clerk.organizations.updateOrganizationMetadata(authData.orgID, {
-        privateMetadata: {
-          stripeCustomerId: session.customer as string,
-        },
-      });
-    }
+
 
     return { url: session.url ?? "" };
   },
