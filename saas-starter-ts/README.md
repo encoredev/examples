@@ -90,7 +90,7 @@ Run your Encore backend:
 encore run
 ```
 
-In a different terminal window, run the React frontend using [Vite](https://vitejs.dev/):
+In a different terminal window, run the React frontend using [Next.js](https://nextjs.org/):
 
 ```bash
 cd frontend
