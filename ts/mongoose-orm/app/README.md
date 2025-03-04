@@ -48,7 +48,7 @@ The file should export a service definition by calling `new Service`, imported f
 ```ts
 import { Service } from "encore.dev/service";
 
-export default new Service("my-service");
+export default new Service("hello");
 ```
 
 Encore will now consider this directory and all its subdirectories as part of the service.
@@ -69,39 +69,32 @@ The only thing you need to do is import the service you want to call from `~enco
 In the example below, we import the service `hello` and call the `ping` endpoint using a function call to `hello.ping`:
 
 ```ts
-import { hello } from "~encore/clients"; // import 'hello' service
+import { api } from "encore.dev/api"; // import 'api' Service
 
-export const myOtherAPI = api({}, async (): Promise<void> => {
-  const resp = await hello.ping({ name: "World" });
-  console.log(resp.message); // "Hello World!"
-});
+export const post = api.raw(
+  {expose:true, method:"POST", path:"/"},
+  async (req, resp) => {
+    const body:
+   string
+    = await getBody(req);
+    try {
+
+    const response = await helloProvider.createNewEntity(JSON.parse(body))
+      resp.setHeader("Content-Type", "application/json");
+      resp.end(JSON.stringify(response ));
+    } catch (err) {
+      console.log(err)
+      const e = err as Error;
+      resp.statusCode = 500;
+      resp.end(e.message);
+      return;
+    }
+
+  },
+)
 ```
 
 Learn more in the docs: https://encore.dev/docs/ts/primitives/api-calls
-
-### Add a database
-
-To create a database, import `encore.dev/storage/sqldb` and call `new SQLDatabase`, assigning the result to a top-level variable. For example:
-
-```ts
-import { SQLDatabase } from "encore.dev/storage/sqldb";
-
-// Create the todo database and assign it to the "db" variable
-const db = new SQLDatabase("todo", {
-  migrations: "./migrations",
-});
-```
-
-Then create a directory `migrations` inside the service directory and add a migration file `0001_create_table.up.sql` to define the database schema. For example:
-
-```sql
-CREATE TABLE todo_item (
-  id BIGSERIAL PRIMARY KEY,
-  title TEXT NOT NULL,
-  done BOOLEAN NOT NULL DEFAULT false
-  -- etc...
-);
-```
 
 Once you've added a migration, restart your app with `encore run` to start up the database and apply the migration. Keep in mind that you need to have [Docker](https://docker.com) installed and running to start the database.
 
