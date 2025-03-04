@@ -138,7 +138,7 @@ export namespace subscription {
         }
 
         /**
-         * Generate a portal session
+         * Generate a portal session to manage subscriptions
          */
         public async createPortalSession(): Promise<CreatePortalSessionResponse> {
             // Now make the actual call to the API
@@ -146,12 +146,18 @@ export namespace subscription {
             return await resp.json() as CreatePortalSessionResponse
         }
 
+        /**
+         * Get the current subscription if any
+         */
         public async getSubscription(): Promise<GetSubscriptionsResponse> {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI("GET", `/stripe/subscriptions`)
             return await resp.json() as GetSubscriptionsResponse
         }
 
+        /**
+         * Handle stripe webhook events
+         */
         public async stripeWebhookHandler(method: "POST", body?: BodyInit, options?: CallParameters): Promise<globalThis.Response> {
             return this.baseClient.callAPI(method, `/stripe/webhook`, body, options)
         }

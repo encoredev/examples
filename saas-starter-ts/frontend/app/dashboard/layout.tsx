@@ -12,7 +12,7 @@ export default function DashboardLayout({
 }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<SidebarProvider>
-			<AppSidebar collapsible="icon" />
+			<AppSidebar collapsible="offcanvas" />
 
 			<div className="w-full flex flex-col">
 				<header className="flex items-center px-2 py-2 gap-2">
