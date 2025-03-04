@@ -13,7 +13,8 @@
 ## Tech stack
 
 - Frontend Framework: [Next.js](https://nextjs.org/)
-- Backend Framenwork [encore.go](https://encore.dev/go?utm_source=google&utm_medium=cpc&utm_campaign=21986726527&utm_term=encore%20go&gad_source=1&gclid=Cj0KCQiAoJC-BhCSARIsAPhdfSiHgVYvaxgmhP7cB6mdt7RaAkeRno5xU0F9stTWj9_tJBEy4lYauqIaAt0hEALw_wcB) with postgres database
+- Backend Framework [Encore.go](https://encore.dev/go)
+
 - ORM: [gorm go](https://gorm.io/)
 - Payments: [Stripe](https://stripe.com/)
 - UI Library: [shadcn/ui](https://ui.shadcn.com/)
