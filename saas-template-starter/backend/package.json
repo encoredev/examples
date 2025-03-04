@@ -1,0 +1,27 @@
+{
+  "name": "encore-ts-starter",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Encore Typescript Starter",
+  "license": "MPL-2.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "generate-client:local": "encore gen client saas-stater-template-afp2 --output=../frontend/src/lib/client.ts --env=local"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "drizzle-kit": "^0.30.4",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@clerk/backend": "^1.24.3",
+    "drizzle-orm": "^0.39.3",
+    "drizzle-seed": "^0.3.1",
+    "encore.dev": "^1.46.5",
+    "pg": "^8.13.3",
+    "stripe": "^17.7.0",
+    "svix": "^1.59.2",
+    "vitest": "^3.0.6"
+  }
+}

@@ -1,0 +1,30 @@
+# EditorConfig is awesome: https://editorconfig.org
+
+# Top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+# Matches multiple files with brace expansion notation
+[*.{js,jsx,ts,tsx,json}]
+charset = utf-8
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Matches the exact files either package.json or .travis.yml
+[{package.json,.travis.yml}]
+indent_style = space
+indent_size = 4
+
+# Ignore minified JavaScript files
+[**.min.js]
+indent_style = ignore
+
+# Denote filenames that should be used as they are without any conversion
+[*.{md,html,css,scss}]
+indent_style = unset
