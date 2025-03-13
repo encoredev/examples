@@ -143,9 +143,16 @@ From there you can also see metrics, traces, connect your app to a GitHub repo t
 2. Create a new project on Vercel and point it to your GitHub repo.
 3. Select `frontend` as the root directory for the Vercel project.
 
-## CORS configuration
+## Frontend & CORS configuration
 
-If you are running into CORS issues when calling your Encore API from your frontend then you may need to specify which origins are allowed to access your API (via browsers). You do this by specifying the `global_cors` key in the `encore.app` file, which has the following structure:
+The backend needs to know where the frontend is hosted, in order to serve the correct redirect URLs
+back from Stripe. It is also necessary for CORS to work correctly.
+
+To handle this, you need to update two configuration files.
+
+First, update the `FRONTEND_URL` constant in `backend/config.ts` to point to where your frontend is hosted.
+
+Secondly, if you are running into CORS issues when calling your Encore API from your frontend then you may need to specify which origins are allowed to access your API (via browsers). You do this by specifying the `global_cors` key in the `encore.app` file, which has the following structure:
 
 ```json5
 "global_cors": {
@@ -168,4 +175,6 @@ If you are running into CORS issues when calling your Encore API from your front
 }
 ```
 
-More information on CORS configuration can be found here: <https://encore.dev/docs/go/develop/cors>
+Both of these default to "https://encorets-saas-starter.vercel.app" which is the hosted demo application.
+
+More information on CORS configuration can be found here: <https://encore.dev/docs/ts/develop/cors>
