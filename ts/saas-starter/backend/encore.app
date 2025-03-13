@@ -1,5 +1,7 @@
 {
-  "id": "saas-starter-ts-yz6i",
+	// This is just an example so it's not linked to the Encore platform.
+  "id": "",
+  
   "lang": "typescript",
   "global_cors": {
     // allow_origins_without_credentials specifies the allowed origins for requests
