@@ -1,8 +1,56 @@
 # Encore.ts SaaS Starter
 
-This is a SaaS starter that builds upon Encore.ts and [Next.js](https://nextjs.org/).
+This is a starter template for building a SaaS application using [Encore.ts](https://encore.dev) and [Next.js](https://nextjs.org/).
 
-Apart from these frameworks, it also uses [Clerk](https://clerk.com/) for authentication, [Stripe](https://stripe.com/) for payments together with [Tailwind](https://tailwindcss.com/) and [shadcn/ui](https://ui.shadcn.com/) for styling and components.
+It uses [Clerk](https://clerk.com/) for authentication, has a [Stripe](https://stripe.com/) integration for payments, and uses [Tailwind](https://tailwindcss.com/) and [shadcn/ui](https://ui.shadcn.com/) for styling and components.
+
+**Demo:** [https://encorets-saas-starter.vercel.app](https://encorets-saas-starter.vercel.app)
+
+![SaaS Starter](https://github.com/user-attachments/assets/4fe8d1db-1938-4ea4-9fa6-e89ac66066cd)
+
+### Features
+- Marketing landing page (/)
+- Pricing page (/pricing) which connects to Stripe Checkout
+- Dashboard pages with (/dashboard)
+- Subscription management (/dashboard/subscription)
+
+### Tech stack
+- **Backend framework:** [Encore.ts](https://encore.dev)
+- **Frontend framework:** [Next.js](https://nextjs.org/)
+- **Authentication:** [Clerk](https://clerk.com/)
+- **Payments:** [Stripe](https://stripe.com/)
+- **UI Libraty:** [Tailwind](https://tailwindcss.com/) & [shadcn/ui](https://ui.shadcn.com/)
+
+## Getting started 
+
+### Install Encore
+- **macOS:** `brew install encoredev/tap/encore`
+- **Linux:** `curl -L https://encore.dev/install.sh | bash`
+- **Windows:** `iwr https://encore.dev/install.ps1 | iex`
+
+### Create app
+
+Create a local app from this template:
+
+```bash
+encore app create my-app-name --example=ts/saas-starter
+```
+
+## Run locally
+
+Run your Encore backend by running this command in your app's root folder:
+
+```bash
+encore run
+```
+
+In a different terminal window, run the React frontend using [Next.js](https://nextjs.org/):
+
+```bash
+cd frontend
+pnpm install
+pnpm run dev
+```
 
 ## Setting up Clerk
 
@@ -81,22 +129,6 @@ To test Stripe payments, use the following test card details:
 Card Number: 4242 4242 4242 4242
 Expiration: Any future date
 CVC: Any 3-digit number
-
-## Developing locally
-
-Run your Encore backend:
-
-```bash
-encore run
-```
-
-In a different terminal window, run the React frontend using [Next.js](https://nextjs.org/):
-
-```bash
-cd frontend
-pnpm install
-pnpm run dev
-```
 
 ### Vercel Environment Variables
 
