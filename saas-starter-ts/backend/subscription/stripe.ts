@@ -1,10 +1,11 @@
-import type { IncomingMessage } from "node:http";
 import { createClerkClient } from "@clerk/backend";
 import { APIError, api } from "encore.dev/api";
 import { secret } from "encore.dev/config";
 import log from "encore.dev/log";
+import type { IncomingMessage } from "node:http";
 import Stripe from "stripe";
 import { getAuthData } from "~encore/auth";
+import { FRONTEND_URL } from "../config";
 import { db } from "./db";
 
 // These endpoints follow the Stripe Billing Quickstart guide.
@@ -52,7 +53,7 @@ export const stripeWebhookHandler = api.raw(
       const event = stripe.webhooks.constructEvent(
         body,
         stripeSignature,
-        stripeWebhookSigningSecret(),
+        stripeWebhookSigningSecret()
       );
 
       log.debug("received stripe webhook", { event });
@@ -92,7 +93,7 @@ export const stripeWebhookHandler = api.raw(
       res.writeHead(500);
       res.end();
     }
-  },
+  }
 );
 
 interface CreateCheckoutSessionParams {
@@ -113,7 +114,7 @@ export const createCheckoutSession = api(
     auth: true,
   },
   async (
-    params: CreateCheckoutSessionParams,
+    params: CreateCheckoutSessionParams
   ): Promise<CreateCheckoutSessionResponse> => {
     const authData = getAuthData();
     if (!authData) {
@@ -136,7 +137,7 @@ export const createCheckoutSession = api(
         email: user.primaryEmailAddress?.emailAddress,
         metadata: {
           orgId: authData.orgID,
-        }
+        },
       });
       await clerk.organizations.updateOrganizationMetadata(authData.orgID, {
         privateMetadata: {
@@ -158,15 +159,12 @@ export const createCheckoutSession = api(
         },
       ],
       mode: "subscription",
-      success_url:
-        "https://encorets-saas-starter.vercel.app/dashboard/subscription?success=true&session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "https://encorets-saas-starter.vercel.app/dashboard/subscription?canceled=true",
+      success_url: `${FRONTEND_URL}/dashboard/subscription?success=true&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${FRONTEND_URL}/dashboard/subscription?canceled=true`,
     });
 
-
-
     return { url: session.url ?? "" };
-  },
+  }
 );
 
 interface CreatePortalSessionResponse {
@@ -200,11 +198,11 @@ export const createPortalSession = api(
 
     const session = await stripe.billingPortal.sessions.create({
       customer: stripeCustomerId,
-      return_url: "https://encorets-saas-starter.vercel.app/dashboard/subscription",
+      return_url: `${FRONTEND_URL}/dashboard/subscription`,
     });
 
     return { url: session.url ?? "" };
-  },
+  }
 );
 
 interface GetSubscriptionsResponse {
@@ -235,7 +233,7 @@ export const getSubscription = api(
 
     if (!stripeCustomerId) {
       throw APIError.notFound(
-        "organization does not have a Stripe customer ID",
+        "organization does not have a Stripe customer ID"
       );
     }
 
@@ -254,5 +252,5 @@ export const getSubscription = api(
       id: subscription.id,
       priceId: subscription.items.data[0].price.id as string,
     };
-  },
+  }
 );
