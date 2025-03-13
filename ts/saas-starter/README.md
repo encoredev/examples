@@ -38,9 +38,10 @@ encore app create my-app-name --example=ts/saas-starter
 
 ## Run locally
 
-Run your Encore backend by running this command in your app's root folder:
+Run your Encore backend:
 
 ```bash
+cd backend
 encore run
 ```
 
