@@ -36,21 +36,11 @@ Create a local app from this template:
 encore app create my-app-name --example=ts/saas-starter
 ```
 
-## Run locally
-
-Run your Encore backend:
+Then install the frontend dependencies:
 
 ```bash
-cd backend
-encore run
-```
-
-In a different terminal window, run the React frontend using [Next.js](https://nextjs.org/):
-
-```bash
-cd frontend
+cd my-app-name/frontend
 pnpm install
-pnpm run dev
 ```
 
 ## Setting up Clerk
@@ -101,7 +91,7 @@ You will also need to add your backend as a webhook endpoint in Stripe and set t
 
 Currently, the pricing plans are stored in [frontend/lib/plans.ts](./frontend/lib/plans.ts), but you can also read them from Stripe or store them in a database if you prefer.
 
-### Environment Variables
+### Secrets
 
 On the Stripe dashboard, go to the *Developers* page and create a new API key. Copy the "Secret Key".
 
@@ -142,6 +132,24 @@ VERCEL_ENV="development"
 NEXT_PUBLIC_VERCEL_ENV="development"
 VERCEL_GIT_PULL_REQUEST_ID=""
 NEXT_PUBLIC_VERCEL_GIT_PULL_REQUEST_ID=""
+```
+
+## Run locally
+
+Run your Encore backend:
+
+```bash
+cd backend
+encore run
+```
+
+**Note**: This will fail unless you set up the Stripe and Clerk secrets according to the instructions above.
+
+In a different terminal window, run the React frontend using [Next.js](https://nextjs.org/):
+
+```bash
+cd frontend
+pnpm run dev
 ```
 
 ### Generating a request client
