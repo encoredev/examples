@@ -19,7 +19,7 @@ It uses [Clerk](https://clerk.com/) for authentication, has a [Stripe](https://s
 - **Frontend framework:** [Next.js](https://nextjs.org/)
 - **Authentication:** [Clerk](https://clerk.com/)
 - **Payments:** [Stripe](https://stripe.com/)
-- **UI Libraty:** [Tailwind](https://tailwindcss.com/) & [shadcn/ui](https://ui.shadcn.com/)
+- **UI Library:** [Tailwind](https://tailwindcss.com/) & [shadcn/ui](https://ui.shadcn.com/)
 
 ## Getting started 
 
