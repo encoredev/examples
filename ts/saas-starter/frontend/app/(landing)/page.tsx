@@ -31,7 +31,7 @@ export default function Home() {
 							</div>
 							<div className="my-6 lg:my-10">
 								<Button asChild size="lg">
-									<Link href="/pricing">Pricing</Link>
+								<a href="https://github.com/encoredev/examples/tree/main/ts/saas-starter">Open on GitHub</a>
 								</Button>
 							</div>
 						</div>
