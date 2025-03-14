@@ -195,7 +195,7 @@ First, update the `FRONTEND_URL` constant in `backend/config.ts` to point to whe
 
 Secondly, if you are running into CORS issues when calling your Encore API from your frontend then you may need to specify which origins are allowed to access your API (via browsers). You do this by specifying the `global_cors` key in the `encore.app` file, which has the following structure:
 
-```json5
+```json
 "global_cors": {
   // allow_origins_without_credentials specifies the allowed origins for requests
   // that don't include credentials. If nil it defaults to allowing all domains
