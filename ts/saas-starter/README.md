@@ -56,14 +56,14 @@ Don't forget to run `vercel env pull` afterward.
 
 Otherwise, go to the *API Keys* page for your app. Copy the "Publishable Key" and one of the "Secret keys". To your frontend project, add them to the `.env.local` as
 
-```env
+```
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY={PUBLISHABLE_KEY}
 CLERK_SECRET_KEY={SECRET_KEY}
 ```
 
 You also need to add the following environment variables to your frontend project:
 
-```env
+```
 NEXT_PUBLIC_CLERK_SIGN_IN_URL="/sign-in"
 ```
 
@@ -127,7 +127,7 @@ Vercel-specific environment variables are not set on local by default, so you ne
 
 Please add the following environment variables **for development**:
 
-```env
+```
 VERCEL_ENV="development"
 NEXT_PUBLIC_VERCEL_ENV="development"
 VERCEL_GIT_PULL_REQUEST_ID=""
