@@ -7,5 +7,6 @@
     "ClerkSecretKey": "",
     "StripeSecretKey": "",
     "StripeWebhookSigningSecret": ""
-  }
+  },
+  "encore_app_path": "backend"
 }
