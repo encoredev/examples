@@ -30,7 +30,7 @@ Install Encore:
 - **Linux:** `curl -L https://encore.dev/install.sh | bash`
 - **Windows:** `iwr https://encore.dev/install.ps1 | iex`
 
-**Note**: This starter requires Encore v1.46.9+, if you have an older version installed you can update using `encore verison update`.
+**Note**: This starter requires Encore v1.46.9+, if you have an older version installed you can update using `encore version update`.
 
 ### Create app
 
