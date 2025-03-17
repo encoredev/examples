@@ -23,10 +23,14 @@ It uses [Clerk](https://clerk.com/) for authentication, has a [Stripe](https://s
 
 ## Getting started 
 
-### Install Encore
+### Install or Update Encore
+Install Encore:
+
 - **macOS:** `brew install encoredev/tap/encore`
 - **Linux:** `curl -L https://encore.dev/install.sh | bash`
 - **Windows:** `iwr https://encore.dev/install.ps1 | iex`
+
+**Note**: This starter requires Encore v1.46.9+, if you have an older version installed you can update using `encore verison update`.
 
 ### Create app
 
