@@ -74,7 +74,7 @@ NEXT_PUBLIC_CLERK_SIGN_IN_URL="/sign-in"
 
 To add them to Encore, go to the *API Keys* page for your app. Copy the "Publishable Key" and one of the "Secret keys".
 
-From your terminal (inside your `/backend` directory), run:
+From your terminal (inside your `backend/` directory), run:
 
 ```shell
 $ encore secret set --prod ClerkSecretKey
