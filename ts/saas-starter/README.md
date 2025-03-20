@@ -74,7 +74,7 @@ NEXT_PUBLIC_CLERK_SIGN_IN_URL="/sign-in"
 
 To add them to Encore, go to the *API Keys* page for your app. Copy the "Publishable Key" and one of the "Secret keys".
 
-From your terminal (inside your Encore app directory), run:
+From your terminal (inside your `/backend` directory), run:
 
 ```shell
 $ encore secret set --prod ClerkSecretKey
@@ -99,7 +99,7 @@ Currently, the pricing plans are stored in [frontend/lib/plans.ts](./frontend/li
 
 On the Stripe dashboard, go to the *Developers* page and create a new API key. Copy the "Secret Key".
 
-From your terminal (inside your Encore app directory), run:
+From your terminal (inside your `/backend` directory), run:
 
 ```shell
 $ encore secret set --dev StripeSecretKey
@@ -197,7 +197,7 @@ To handle this, you need to update two configuration files.
 
 First, update the `FRONTEND_URL` constant in `backend/config.ts` to point to where your frontend is hosted.
 
-Secondly, if you are running into CORS issues when calling your Encore API from your frontend then you may need to specify which origins are allowed to access your API (via browsers). You do this by specifying the `global_cors` key in the `encore.app` file, which has the following structure:
+Secondly, if you are running into CORS issues when calling your Encore API from your frontend then you may need to specify which origins are allowed to access your API (via browsers). You do this by specifying the `global_cors` key in the `backend/encore.app` file, which has the following structure:
 
 ```json
 "global_cors": {
