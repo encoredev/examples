@@ -99,7 +99,7 @@ Currently, the pricing plans are stored in [frontend/lib/plans.ts](./frontend/li
 
 On the Stripe dashboard, go to the *Developers* page and create a new API key. Copy the "Secret Key".
 
-From your terminal (inside your `/backend` directory), run:
+From your terminal (inside your `backend/` directory), run:
 
 ```shell
 $ encore secret set --dev StripeSecretKey
