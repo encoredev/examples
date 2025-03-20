@@ -47,6 +47,12 @@ cd my-app-name/frontend
 pnpm install
 ```
 
+If you want to host the frontend on Vercel and don't already have it installed, then you also need to install the Vercel CLI:
+
+```bash
+pnpm i -g vercel
+```
+
 ## Setting up Clerk
 
 Create a Clerk account if you haven't already. Then, in the Clerk dashboard, create a new application.
@@ -55,8 +61,7 @@ Ensure the application is configured to support organizations, which can be enab
 
 ### Secrets
 
-If you host your app on Vercel (see deployment instructions further down), you can connect your Clerk application with your Vercel project under **Integrations** in the project settings on Vercel.
-Don't forget to run `vercel env pull` afterward.
+If you host your app on Vercel (see deployment instructions further down), you can connect your Clerk application with your Vercel project under **Integrations** in the project settings on Vercel. **Note**: Don't forget to run `vercel env pull` afterward.
 
 Otherwise, go to the *API Keys* page for your app. Copy the "Publishable Key" and one of the "Secret keys". To your frontend project, add them to the `.env.local` as
 
