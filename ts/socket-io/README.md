@@ -1,7 +1,8 @@
 # Encore.ts + Socket.IO Real-time Chat
 
-This is a starter template for building a chat application using [Encore.ts](https://encore.dev) and [Socket.io](https://socket.io/).
-It implements a Socket.io server and client, using a raw endpoint in Encore.ts.
+This is a starter template for building a chat application using [Encore.ts](https://encore.dev) and [Socket.io](https://socket.io/). It implements a Socket.io server and client, served using a raw endpoint in Encore.ts.
+
+**Note**: Encore.ts offers streaming APIs as part of the built-in framework functionality. We recommend using this for real-time streaming if possible as this enables taking advantage of Encore features like tracing. Learn more in the [streaming API docs](https://encore.dev/docs/ts/primitives/streaming-apis).
 
 ## Chat Implementation
 
