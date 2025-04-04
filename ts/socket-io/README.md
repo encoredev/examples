@@ -73,16 +73,10 @@ http://localhost:4000/chat
 
 ## Deployment
 
-### Encore
+### Encore Cloud
 
-Deploy your backend to a staging environment in Encore's free development cloud:
+Socket.io is currently not supported by Encore Cloud as it requires an unsupported port setup.
 
-```bash
-git add -A .
-git commit -m 'Commit message'
-git push encore
-```
+### Self-hosting
 
-Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your deployment and find your production URL.
-
-From there you can also see metrics, traces, connect your app to a GitHub repo to get automatic deploys on new commits, and connect your own AWS or GCP account to use for deployment.
+See the [self-hosting instructions](https://encore.dev/docs/self-host/docker-build) for how to use `encore build docker` to create a Docker image and configure it.
