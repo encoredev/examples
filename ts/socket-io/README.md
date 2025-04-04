@@ -2,7 +2,7 @@
 
 This is a starter template for building a chat application using [Encore.ts](https://encore.dev) and [Socket.io](https://socket.io/). It implements a Socket.io server and client, served using a raw endpoint in Encore.ts.
 
-**Note**: Encore.ts offers streaming APIs as part of the built-in framework functionality. We recommend using this for real-time streaming if possible as this enables using other Encore features like tracing. Learn more in the [streaming API docs](https://encore.dev/docs/ts/primitives/streaming-apis).
+**Note**: Socket.io is currently not supported by Encore Cloud as it requires an unsupported port setup. Therefore we recommend instead using the built-in streaming APIs offered by Encore.ts. This also enables using other Encore features like tracing. Learn more in the [streaming API docs](https://encore.dev/docs/ts/primitives/streaming-apis).
 
 ## Chat Implementation
 
