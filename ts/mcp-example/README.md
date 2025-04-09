@@ -9,9 +9,15 @@ This is a simple Model Context Protocol (MCP) demo focused on weather functional
 - Type-safe API with Zod schema validation
 - Comprehensive test suite using Vitest
 
-## Developing locally
+## Install Encore
+- **macOS:** `brew install encoredev/tap/encore`
+- **Linux:** `curl -L https://encore.dev/install.sh | bash`
+- **Windows:** `iwr https://encore.dev/install.ps1 | iex`
 
-When you have [installed Encore](https://encore.dev/docs/ts/install), you can run this application locally.
+## Create app
+Create a local app from this template:
+```bash
+encore app create --example=ts/mcp-example
 
 ## Running locally
 ```bash
