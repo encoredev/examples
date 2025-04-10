@@ -1,0 +1,25 @@
+{
+  "name": "encore-mcp-example",
+  "private": true,
+  "version": "0.0.1",
+  "author": "github:leofmarciano",
+  "description": "Encore MCP Example",
+  "license": "MPL-2.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "start": "encore run"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.2.2",
+    "vitest": "^3.0.9"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.7.0",
+    "encore.dev": "^1.46.8",
+    "zod": "^3.22.4"
+  }
+}
