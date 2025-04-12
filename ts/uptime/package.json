@@ -6,6 +6,7 @@
   "license": "MPL-2.0",
   "type": "module",
   "scripts": {
+    "build": "next build ./frontend",
     "test": "vitest",
     "gen": "encore gen client --output=./frontend/app/lib/client.ts --env=local"
   },
