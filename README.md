@@ -120,7 +120,7 @@ Follow these steps to submit a **Starter**:
 3. Include a `README.md` with instructions for how to use the template. We recommend
    following [this format](https://github.com/encoredev/examples/blob/8c7e33243f6bfb1b2654839e996e9a924dcd309e/uptime/README.md).
 
-Once your Pull Request has been approved, it may be featured on the [Templates page](/templates) on the Encore website.
+Once your Pull Request has been approved, it may be featured on the [Templates page](https://encore.dev/templates) on the Encore website.
 
 ### Submitting Bits
 
@@ -131,7 +131,7 @@ Follow these steps to submit your **Bits**:
    as your template will soon be installable via the CLI.
 3. Include a `README.md` with instructions for how to use the template.
 
-Once your Pull Request has been approved, it may be featured on the [Templates page](/templates) on the Encore website.
+Once your Pull Request has been approved, it may be featured on the [Templates page](https://encore.dev/templates) on the Encore website.
 
 ### Dynamic Encore AppID
 
