@@ -19,12 +19,7 @@ encore secret set --type dev SENTRY_DSN="https://abc123.ingest.sentry.io/987654"
 
 ## Running locally
 
-First, link your app:
-```bash
-encore app link
-```
-
-Then run your application:
+Run your application:
 ```bash
 encore run
 ```
