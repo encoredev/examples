@@ -16,10 +16,17 @@ To integrate Sentry with your Encore application, you need to set up the Sentry 
 encore secret set --type dev SENTRY_DSN="https://abc123.ingest.sentry.io/987654"
 ```
 
-
 ## Running locally
+Before running your application locally, ensure you’re authenticated with the Encore CLI:
+```bash
+# Check your current authentication status
+encore auth whoami
 
-Run your application:
+# If you are not logged in, authenticate:
+encore auth login
+```
+
+Now, start your application:
 ```bash
 encore run
 ```
