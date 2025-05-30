@@ -11,6 +11,6 @@
   },
   "dependencies": {
     "@sentry/node": "^9.23.0",
-    "encore.dev": "^1.46.22"
+    "encore.dev": "^1.48.2"
   }
 }
