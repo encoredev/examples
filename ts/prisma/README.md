@@ -20,15 +20,21 @@ While `encore run` is running, open <http://localhost:9400/> to view Encore's [l
 
 ## Configure Prisma
 
-Get the connection string to the shadow database by running:
+To configure Prisma, you need to update the `.env` file with database connection strings.
 
-```
-encore db conn-uri encore_prisma_test --shadow
+1. Get the connection string for the main database by running:
+   ```
+   encore db conn-uri encore_prisma_test
+   ```
 
-```
+2. Get the connection string for the shadow database by running:
+   ```
+   encore db conn-uri encore_prisma_test --shadow
+   ```
 
-Then edit `users/prisma/schema.prisma` replace `<paste shadow db connection string here>` with the output of the above command.
-
+3. Open the `.env` file and update it with the connection strings from the commands above:
+   - Set `DB_URL` to the output from step 1
+   - Set `SHADOW_DB_URL` to the output from step 2
 
 ## Using the API
 

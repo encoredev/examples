@@ -2,16 +2,16 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-3.0.x"]
+  provider        = "prisma-client"
+  output          = "./generated"
+  previewFeatures = ["queryCompiler", "driverAdapters"]
 }
-
-// TODO: replace the url below with the output from running
-// encore db conn-uri encore_prisma_test --shadow
 
 datasource db {
   provider = "postgresql"
-  url      = "<paste shadow db connection string here>"
+  // connect prisma cli to the encore shadow database
+  // so that it doesnt interfere with encores migrations.
+  url      = env("SHADOW_DB_URL")
 }
 
 model User {
