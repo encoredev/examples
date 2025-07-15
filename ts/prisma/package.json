@@ -6,16 +6,18 @@
   "license": "MPL-2.0",
   "type": "module",
   "scripts": {
-    "postinstall": "npx prisma generate --schema=users/prisma/schema.prisma"
+    "postinstall": "npx prisma generate"
   },
   "devDependencies": {
     "@types/node": "^20.5.7",
-    "prisma": "^5.22.0",
+    "prisma": "^6.11.1",
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@prisma/client": "^5.22.0",
-    "encore.dev": "^1.39.5"
+    "@prisma/adapter-pg": "^6.11.1",
+    "@prisma/client": "^6.11.1",
+    "dotenv": "^17.2.0",
+    "encore.dev": "^1.48.9"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.13.0"

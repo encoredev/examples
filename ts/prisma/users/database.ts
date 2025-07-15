@@ -1,5 +1,6 @@
 import { SQLDatabase } from "encore.dev/storage/sqldb";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "./prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
 
 // Define a database named 'encore_prisma_test', using the database migrations
 // in the "./prisma/migrations" folder (where prisma will generate their migrations).
@@ -12,11 +13,7 @@ const DB = new SQLDatabase("encore_prisma_test", {
 });
 
 const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: DB.connectionString,
-    },
-  },
+  adapter: new PrismaPg({ connectionString: DB.connectionString }),
 });
 
 export { prisma };
