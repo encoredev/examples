@@ -4,7 +4,7 @@ go 1.21.6
 
 require (
 	encore.dev v1.30.0
-	github.com/clerkinc/clerk-sdk-go v1.49.0
+	github.com/clerk/clerk-sdk-go v1.49.0
 )
 
 require (
