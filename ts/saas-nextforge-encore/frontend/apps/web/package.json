@@ -1,0 +1,49 @@
+{
+  "name": "web",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001 --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "analyze": "ANALYZE=true pnpm build",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@arcjet/next": "1.0.0-beta.2",
+    "@radix-ui/react-icons": "^1.3.2",
+    "@repo/cms": "workspace:*",
+    "@repo/design-system": "workspace:*",
+    "@repo/email": "workspace:*",
+    "@repo/feature-flags": "workspace:*",
+    "@repo/internationalization": "workspace:*",
+    "@repo/next-config": "workspace:*",
+    "@repo/observability": "workspace:*",
+    "@repo/rate-limit": "workspace:*",
+    "@repo/security": "workspace:*",
+    "@repo/seo": "workspace:*",
+    "@sentry/nextjs": "^9.4.0",
+    "@t3-oss/env-nextjs": "^0.12.0",
+    "date-fns": "^4.1.0",
+    "fumadocs-core": "^15.0.15",
+    "import-in-the-middle": "^1.13.1",
+    "lucide-react": "^0.477.0",
+    "mdx-bundler": "^10.1.0",
+    "next": "15.1.7",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-wrap-balancer": "^1.1.1",
+    "require-in-the-middle": "^7.5.2",
+    "sharp": "^0.33.5",
+    "shiki": "^3.1.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "22.13.9",
+    "@types/react": "19.0.10",
+    "@types/react-dom": "19.0.4",
+    "tailwindcss": "^4.0.12",
+    "typescript": "^5.8.2"
+  }
+}
