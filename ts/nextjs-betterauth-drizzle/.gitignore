@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.encore/
+*.log
+.DS_Store
+.env.local
+.env*.local
+encore.gen/
+~encore/
+
+# Frontend
+frontend/.next/
+frontend/out/
+frontend/build/
+
+encore.gen.go
+encore.gen.cue
+/.encore
+/encore.gen
