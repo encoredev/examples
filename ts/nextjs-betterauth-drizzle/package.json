@@ -1,0 +1,27 @@
+{
+  "name": "encore-nextjs-auth",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "encore run",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "encore build",
+    "db:generate": "drizzle-kit generate",
+    "db:studio": "drizzle-kit studio",
+    "db:push": "drizzle-kit push",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "encore.dev": "^1.50.5",
+    "drizzle-orm": "^0.38.3",
+    "better-auth": "^1.1.2",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.10",
+    "@types/pg": "^8.11.10",
+    "drizzle-kit": "^0.31.3",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
