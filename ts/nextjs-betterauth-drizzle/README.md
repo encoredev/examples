@@ -19,16 +19,20 @@ It uses [BetterAuth](https://better-auth.com/) for authentication and [Drizzle O
 - **Database:** [Drizzle ORM](https://orm.drizzle.team/) + PostgreSQL
 - **UI:** [Tailwind CSS](https://tailwindcss.com/) & [shadcn/ui](https://ui.shadcn.com/)
 
-## Getting started
+## Developing locally
 
-### Install Encore
-If you haven't already, install Encore:
+### Prerequisites
+- [Encore CLI](https://encore.dev/docs/install) installed
+- Node.js 20 or later
+- Docker (for local PostgreSQL)
 
-- **macOS:** `brew install encoredev/tap/encore`
-- **Linux:** `curl -L https://encore.dev/install.sh | bash`
-- **Windows:** `iwr https://encore.dev/install.ps1 | iex`
+When you have [installed Encore](https://encore.dev/docs/install), you can create a new Encore application and clone this example with this command:
 
-### Install dependencies
+```bash
+encore app create my-app-name --example=ts/nextjs-betterauth-drizzle
+```
+
+## Running locally
 
 Install backend dependencies:
 
@@ -44,49 +48,54 @@ npm install
 cd ..
 ```
 
-### Run locally
-
-Start the Encore backend:
+Run your Encore backend:
 
 ```bash
 encore run
 ```
 
-In a separate terminal, start the Next.js frontend:
+In a separate terminal, run the Next.js frontend:
 
 ```bash
 npm run dev:frontend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to see your app.
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-### Database
+## Local Development Dashboard
 
-The database is automatically provisioned by Encore when you run `encore run`. Migrations in `auth/migrations/` are automatically applied.
+While `encore run` is running, open [http://localhost:9400](http://localhost:9400) to access Encore's local developer dashboard.
 
-#### Database Shell
+Here you can see:
+- API docs and make requests in the API explorer
+- View traces of responses
+- Database explorer with Drizzle Studio integration (click **DB Explorer**)
 
-To access the database via psql:
+## Database
+
+The database is automatically provisioned by Encore. Migrations in `auth/migrations/` are automatically applied.
+
+### Database Shell
+
+Access the database via psql:
 
 ```bash
 encore db shell auth
 ```
 
-#### Drizzle Studio
+### Drizzle Studio
 
-Drizzle Studio is integrated directly into the Encore local development dashboard at [http://localhost:9400](http://localhost:9400). 
+Open Drizzle Studio from the Encore dashboard at [http://localhost:9400](http://localhost:9400) by clicking **DB Explorer**.
 
-Click on **DB Explorer** in the dashboard to browse tables, run queries, and edit data.
-
-You can also run Drizzle Studio standalone:
+Or run it standalone:
 
 ```bash
 DATABASE_URL=$(encore db conn-uri auth) npm run db:studio
 ```
 
-#### Reset Database
+### Reset Database
 
-To reset the database and re-run all migrations:
+To reset the database:
 
 ```bash
 encore db reset
@@ -102,7 +111,30 @@ The starter includes validation for:
 - **Name length**: Minimum 2 characters
 - **Password confirmation**: Must match on sign up
 
-## Production deployment
+## Deployment
+
+Deploy your application to a staging environment in Encore's free development cloud:
+
+```bash
+git push encore
+```
+
+Then head over to the [Cloud Dashboard](https://app.encore.dev) to monitor your deployment and find your production URL.
+
+From there you can also connect your own AWS or GCP account to use for deployment.
+
+### Frontend Deployment
+
+Deploy the frontend to [Vercel](https://vercel.com):
+
+```bash
+cd frontend
+vercel
+```
+
+Update `frontend/src/lib/auth-client.ts` with your production backend URL if needed, and update CORS origins in `encore.app`.
+
+## Production Configuration
 
 Before deploying to production:
 
@@ -117,54 +149,9 @@ Before deploying to production:
    ```typescript
    emailAndPassword: {
      enabled: true,
-     requireEmailVerification: true, // Change to true
+     requireEmailVerification: true,
    }
    ```
-
-### Deploy backend to Encore
-
-```bash
-git add -A
-git commit -m 'Initial commit'
-git push encore
-```
-
-Your backend will be deployed to Encore's free development cloud. You can monitor it at [app.encore.dev](https://app.encore.dev).
-
-### Deploy frontend to Vercel
-
-```bash
-cd frontend
-vercel
-```
-
-Update `frontend/src/lib/auth-client.ts` with your production backend URL if needed.
-
-## Project structure
-
-```
-.
-├── auth/                          # Encore.ts backend service
-│   ├── auth.ts                   # Authentication endpoints
-│   ├── better-auth.ts            # Better Auth configuration
-│   ├── db.ts                     # Database connection
-│   ├── schema.ts                 # Drizzle database schema
-│   ├── migrations/               # Database migrations
-│   └── encore.service.ts         # Service definition
-├── frontend/                      # Next.js frontend
-│   ├── src/
-│   │   ├── app/                  # App Router pages
-│   │   │   ├── page.tsx         # Landing page
-│   │   │   ├── sign-in/         # Sign in page
-│   │   │   ├── sign-up/         # Sign up page
-│   │   │   └── dashboard/       # Protected dashboard
-│   │   ├── components/ui/       # shadcn/ui components
-│   │   └── lib/
-│   │       └── auth-client.ts   # Better Auth client setup
-│   └── package.json
-├── encore.app                     # Encore app configuration
-└── package.json                  # Backend dependencies
-```
 
 ## Adding OAuth providers
 
@@ -176,14 +163,10 @@ socialProviders: {
     clientId: process.env.GITHUB_CLIENT_ID!,
     clientSecret: process.env.GITHUB_CLIENT_SECRET!,
   },
-  google: {
-    clientId: process.env.GOOGLE_CLIENT_ID!,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-  },
 }
 ```
 
-Then add OAuth buttons to your sign-in page using Better Auth's social sign-in methods.
+Then add OAuth buttons to your sign-in page.
 
 ## Extending the database
 
@@ -196,6 +179,8 @@ To add new tables or fields:
 Example - adding a posts table:
 
 ```typescript
+import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
+
 export const posts = pgTable("posts", {
   id: text("id").primaryKey(),
   title: text("title").notNull(),
@@ -205,30 +190,9 @@ export const posts = pgTable("posts", {
 });
 ```
 
-### Using Drizzle Kit
-
-The starter includes drizzle-kit for database management:
-
-```bash
-# Generate migrations after schema changes
-npm run db:generate
-
-# Open Drizzle Studio (visual database browser)
-DATABASE_URL=$(encore db conn-uri auth) npm run db:studio
-
-# Push schema changes directly without migrations (dev only)
-DATABASE_URL=$(encore db conn-uri auth) npm run db:push
-```
-
-**Note:** The Encore backend must be running for drizzle-kit commands that connect to the database.
-
 ## Learn more
 
 - [Encore Documentation](https://encore.dev/docs)
-- [Better Auth Documentation](https://better-auth.com)
+- [BetterAuth Documentation](https://better-auth.com)
 - [Drizzle ORM Documentation](https://orm.drizzle.team)
 - [Next.js Documentation](https://nextjs.org/docs)
-
-## License
-
-MIT
