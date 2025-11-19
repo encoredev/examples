@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clerk Auth Demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@5/dist/clerk.browser.js" data-clerk-publishable-key="pk_test_cmVndWxhci1zdGFsbGlvbi05OC5jbGVyay5hY2NvdW50cy5kZXYk"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #eeeee1;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .auth-container {
+            background: transparent;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .clerk-mount {
+            margin: 20px 0;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .user-greeting {
+            text-align: center;
+            margin-bottom: 0;
+            width: 100%;
+        }
+
+        .user-greeting h2 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        .user-greeting-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: #666;
+            font-size: 16px;
+        }
+
+        .user-greeting-row p {
+            margin: 0;
+        }
+
+        .user-button-wrapper {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .profile-section {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+            display: none;
+        }
+
+        .profile-section.visible {
+            display: block;
+        }
+
+        .profile-field {
+            margin-bottom: 20px;
+        }
+
+        .profile-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .profile-field .value {
+            padding: 12px;
+            background: #f8f8f8;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .preferences-section {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .preferences-section.visible {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+            font-size: 14px;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        button {
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #333;
+        }
+
+        button:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Clerk Authentication Demo</h1>
+        <p class="subtitle">Test Clerk + Encore.ts authentication integration</p>
+
+        <div id="loading" class="loading">Loading Clerk...</div>
+        
+        <div id="auth-container" class="auth-container hidden">
+            <div id="clerk-sign-in" class="clerk-mount"></div>
+            <div id="user-greeting" class="user-greeting" style="display: none;">
+                <h2 id="greeting-title"></h2>
+                <div class="user-greeting-row">
+                    <p>Click here to manage your account or log out →</p>
+                    <div id="clerk-user-button" class="user-button-wrapper"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="profile-section" class="profile-section">
+            <h2>User Profile</h2>
+            <div class="profile-field">
+                <label>User ID</label>
+                <div class="value" id="profile-user-id">-</div>
+            </div>
+            <div class="profile-field">
+                <label>Email</label>
+                <div class="value" id="profile-email">-</div>
+            </div>
+            <div class="profile-field">
+                <label>Name</label>
+                <div class="value" id="profile-name">-</div>
+            </div>
+            <div class="profile-field">
+                <label>Theme</label>
+                <div class="value" id="profile-theme">-</div>
+            </div>
+            <div class="profile-field">
+                <label>Notifications</label>
+                <div class="value" id="profile-notifications">-</div>
+            </div>
+            <div class="profile-field">
+                <label>Bio</label>
+                <div class="value" id="profile-bio">-</div>
+            </div>
+        </div>
+
+        <div id="preferences-section" class="preferences-section">
+            <h2>Update Preferences</h2>
+            <form id="preferences-form">
+                <div class="form-group">
+                    <label for="theme">Theme</label>
+                    <select id="theme" name="theme">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="notifications" name="notifications">
+                        <label for="notifications">Enable notifications</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="bio">Bio</label>
+                    <textarea id="bio" name="bio" placeholder="Tell us about yourself..."></textarea>
+                </div>
+                <button type="submit">Save Preferences</button>
+                <div id="save-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // IMPORTANT: Replace with your own Clerk publishable key from https://dashboard.clerk.com
+        // Find it under: API Keys > Publishable Key
+        // This key is safe to use in frontend code
+        const CLERK_PUBLISHABLE_KEY = 'pk_test_cmVndWxhci1zdGFsbGlvbi05OC5jbGVyay5hY2NvdW50cy5kZXYk';
+        
+        // Get API URL based on environment
+        const API_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:4000'
+            : window.location.origin;
+
+        let clerk;
+
+        async function initClerk() {
+            try {
+                if (!window.Clerk) {
+                    throw new Error('Clerk SDK not loaded. Please check your internet connection.');
+                }
+                
+                clerk = window.Clerk;
+                await clerk.load();
+
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('auth-container').classList.remove('hidden');
+
+                if (clerk.user) {
+                    await handleSignedIn();
+                } else {
+                    clerk.mountSignIn(document.getElementById('clerk-sign-in'));
+                }
+
+                clerk.addListener(({ user }) => {
+                    if (user) {
+                        handleSignedIn();
+                    } else {
+                        handleSignedOut();
+                    }
+                });
+            } catch (error) {
+                console.error('Error initializing Clerk:', error);
+                document.getElementById('loading').innerHTML = 
+                    `<div class="message error">Error: ${error.message}<br><br>Make sure to set your Clerk publishable key in the HTML file.</div>`;
+            }
+        }
+
+        async function handleSignedIn() {
+            // Clear sign in form
+            const signInEl = document.getElementById('clerk-sign-in');
+            signInEl.innerHTML = '';
+            
+            // Show greeting
+            const user = clerk.user;
+            const firstName = user.firstName || user.emailAddresses[0]?.emailAddress?.split('@')[0] || 'there';
+            document.getElementById('greeting-title').textContent = `Hello, ${firstName}! 👋`;
+            document.getElementById('user-greeting').style.display = 'block';
+            
+            // Mount user button
+            clerk.mountUserButton(document.getElementById('clerk-user-button'));
+
+            // Fetch and display profile
+            await fetchProfile();
+            
+            document.getElementById('profile-section').classList.add('visible');
+            document.getElementById('preferences-section').classList.add('visible');
+        }
+
+        function handleSignedOut() {
+            // Hide greeting
+            document.getElementById('user-greeting').style.display = 'none';
+            
+            // Clear user button
+            document.getElementById('clerk-user-button').innerHTML = '';
+            
+            // Hide profile sections
+            document.getElementById('profile-section').classList.remove('visible');
+            document.getElementById('preferences-section').classList.remove('visible');
+            
+            // Show sign in form again
+            clerk.mountSignIn(document.getElementById('clerk-sign-in'));
+        }
+
+        async function fetchProfile() {
+            try {
+                // Get the JWT token
+                const token = await clerk.session.getToken();
+                const response = await fetch(`${API_URL}/user/profile`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Profile fetch failed:', errorText);
+                    throw new Error('Failed to fetch profile');
+                }
+
+                const profile = await response.json();
+                
+                document.getElementById('profile-user-id').textContent = profile.userId;
+                document.getElementById('profile-email').textContent = profile.email;
+                document.getElementById('profile-name').textContent = 
+                    `${profile.firstName || ''} ${profile.lastName || ''}`.trim() || '-';
+                document.getElementById('profile-theme').textContent = profile.theme || 'light';
+                document.getElementById('profile-notifications').textContent = 
+                    profile.notifications ? 'Enabled' : 'Disabled';
+                document.getElementById('profile-bio').textContent = profile.bio || '-';
+
+                // Set form values
+                document.getElementById('theme').value = profile.theme || 'light';
+                document.getElementById('notifications').checked = profile.notifications ?? true;
+                document.getElementById('bio').value = profile.bio || '';
+            } catch (error) {
+                console.error('Error fetching profile:', error);
+                // Show a user-friendly error message
+                document.getElementById('profile-user-id').textContent = 'Error loading profile';
+            }
+        }
+
+        document.getElementById('preferences-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            const messageEl = document.getElementById('save-message');
+            
+            submitButton.disabled = true;
+            messageEl.innerHTML = '';
+
+            try {
+                // Get the JWT token
+                const token = await clerk.session.getToken();
+                const formData = {
+                    theme: document.getElementById('theme').value,
+                    notifications: document.getElementById('notifications').checked,
+                    bio: document.getElementById('bio').value,
+                };
+
+                const response = await fetch(`${API_URL}/user/preferences`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update preferences');
+                }
+
+                messageEl.innerHTML = '<div class="message success">Preferences saved successfully!</div>';
+                
+                // Refresh profile
+                await fetchProfile();
+            } catch (error) {
+                console.error('Error updating preferences:', error);
+                messageEl.innerHTML = `<div class="message error">Error: ${error.message}</div>`;
+            } finally {
+                submitButton.disabled = false;
+            }
+        });
+
+        // Initialize Clerk when everything is loaded
+        window.addEventListener('load', () => {
+            // Give the Clerk SDK a moment to fully initialize
+            setTimeout(initClerk, 100);
+        });
+    </script>
+</body>
+</html>
+
