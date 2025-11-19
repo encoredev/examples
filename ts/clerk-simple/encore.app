@@ -1,4 +1,4 @@
 {
-	"id":   "clerk-test-chgi",
+	"id":   "",
 	"lang": "typescript"
 }
