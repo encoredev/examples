@@ -1,10 +1,16 @@
+import { appMeta } from "encore.dev";
 import { api } from "encore.dev/api";
 import next from "next";
 
+const meta = appMeta();
+
+const dev = meta.environment.cloud === "local";
+
 const app = next({
-  dev: true,
+  dev,
   dir: "./frontend",
 });
+
 const handle = app.getRequestHandler();
 const prepared = app.prepare();
 
@@ -13,5 +19,5 @@ export const nextjs = api.raw(
   async (req, resp) => {
     await prepared; // Wait for Next.js to start up.
     return handle(req, resp);
-  },
+  }
 );
