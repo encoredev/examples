@@ -47,11 +47,16 @@ If you prefer, check out the [full tutorial](https://encore.dev/blog/polar-tutor
 npm install
 ```
 
-2. Set the BetterAuth secret:
+2. Set required secrets:
 ```bash
+# BetterAuth secret
 encore secret set --dev BetterAuthSecret
+# When prompted, enter a random string (e.g., output of: openssl rand -base64 32)
+
+# Polar API token (get from https://sandbox.polar.sh/settings)
+encore secret set --dev PolarAccessToken
+# Paste your Polar sandbox access token
 ```
-When prompted, enter a random string (e.g., output of: `openssl rand -base64 32`)
 
 3. Start the backend (make sure Docker is running):
 ```bash
