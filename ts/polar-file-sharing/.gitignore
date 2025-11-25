@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.encore/
+*.log
+.DS_Store
+
+encore.gen.go
+encore.gen.cue
+/.encore
+/encore.gen

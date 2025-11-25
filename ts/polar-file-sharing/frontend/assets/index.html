@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Share Files - Simple & Secure</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: #fff;
+      color: #1a1a1a;
+      line-height: 1.6;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    /* Header */
+    header {
+      padding: 24px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .logo {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+    .header-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    #userSection {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 16px;
+      background: #f7f7f7;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+    .tier-badge {
+      padding: 4px 10px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .tier-free { background: #e3f2fd; color: #1976d2; }
+    .tier-premium { background: #fff3e0; color: #f57c00; }
+    
+    /* Hero Section */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: calc(100vh - 73px);
+      padding: 0 40px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 72px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      line-height: 1;
+    }
+    .subtitle {
+      font-size: 20px;
+      color: #666;
+      margin-bottom: 56px;
+      font-weight: 400;
+      max-width: 600px;
+    }
+    
+    /* Upload Area */
+    .upload-container {
+      width: 100%;
+      max-width: 640px;
+    }
+    .upload-box {
+      border: 2px dashed #e0e0e0;
+      border-radius: 16px;
+      padding: 80px 40px;
+      text-align: center;
+      transition: all 0.3s;
+      cursor: pointer;
+      background: #fafafa;
+    }
+    .upload-box:hover {
+      border-color: #1a1a1a;
+      background: #f5f5f5;
+    }
+    .upload-box.dragging {
+      border-color: #1a1a1a;
+      background: #f0f0f0;
+    }
+    .upload-text {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+    .upload-hint {
+      font-size: 14px;
+      color: #999;
+    }
+    input[type="file"] {
+      display: none;
+    }
+    
+    /* Buttons */
+    button, .btn {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: #1a1a1a;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #000;
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: white;
+      color: #1a1a1a;
+      border: 1px solid #1a1a1a;
+    }
+    .btn-secondary:hover {
+      background: #f5f5f5;
+    }
+    .btn-text {
+      background: none;
+      color: #666;
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+    .btn-text:hover {
+      color: #1a1a1a;
+    }
+    
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 400px;
+      width: 90%;
+    }
+    .modal-content h2 {
+      font-size: 24px;
+      margin-bottom: 24px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .form-group input:focus {
+      outline: none;
+      border-color: #1a1a1a;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .modal-actions button {
+      flex: 1;
+    }
+    
+    /* Progress */
+    .progress {
+      margin: 24px 0;
+      text-align: center;
+    }
+    .progress-text {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 12px;
+    }
+    .progress-bar {
+      height: 4px;
+      background: #f0f0f0;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: #1a1a1a;
+      transition: width 0.3s;
+    }
+    
+    /* Result */
+    .result {
+      margin-top: 32px;
+      padding: 24px;
+      background: #f5f5f5;
+      border-radius: 12px;
+      border: 1px solid #e0e0e0;
+    }
+    .result h3 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #1a1a1a;
+    }
+    .result-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: white;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      word-break: break-all;
+    }
+    .result-link input {
+      flex: 1;
+      border: none;
+      background: none;
+      font-size: 14px;
+      color: #666;
+    }
+    .result-info {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.8;
+    }
+    
+    .hidden { display: none !important; }
+    
+    .upgrade-prompt {
+      margin-top: 24px;
+      padding: 20px;
+      background: #fff9e6;
+      border-radius: 12px;
+      border: 1px solid #ffd666;
+      text-align: center;
+    }
+    .upgrade-prompt h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    .upgrade-prompt p {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">FileShare</div>
+    <div class="header-actions">
+      <div id="userSection" class="hidden">
+        <div class="user-info">
+          <span id="userEmail"></span>
+          <span id="userTier" class="tier-badge"></span>
+        </div>
+        <button class="btn-text" onclick="signOut()">Sign out</button>
+      </div>
+      <div id="guestSection">
+        <button class="btn-text" onclick="showAuthModal('signin')">Sign in</button>
+        <button class="btn-secondary" onclick="showAuthModal('signup')">Get started</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1>Share files simply</h1>
+    <p class="subtitle">Upload and share files up to 100MB for free, or upgrade to premium for files up to 5GB</p>
+    
+    <div class="upload-container">
+      <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileInput').click()">
+        <div class="upload-text">Click to upload or drag and drop</div>
+        <div class="upload-hint">Free: Up to 100MB • Premium: Up to 5GB</div>
+      </div>
+      <input type="file" id="fileInput" onchange="handleFileSelect(event)">
+      
+      <div id="uploadProgress" class="progress hidden">
+        <div class="progress-text">Uploading your file...</div>
+        <div class="progress-bar">
+          <div class="progress-bar-fill" style="width: 0%"></div>
+        </div>
+      </div>
+      
+      <div id="uploadResult" class="result hidden"></div>
+      
+      <div id="upgradePrompt" class="upgrade-prompt hidden">
+        <h3>Need to upload larger files?</h3>
+        <p>Upgrade to Premium for files up to 5GB and 30-day retention</p>
+        <button class="btn-primary" onclick="upgradeToPremium()">Upgrade to Premium - $10/month</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <h2 id="modalTitle">Sign in</h2>
+      <form id="authForm">
+        <div class="form-group" id="nameGroup" style="display: none;">
+          <label>Name</label>
+          <input type="text" id="name" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="email" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="password" required autocomplete="current-password" minlength="8">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeAuthModal()">Cancel</button>
+          <button type="submit" class="btn-primary" id="authSubmit">Continue</button>
+        </div>
+      </form>
+      <button class="btn-text" style="width: 100%; margin-top: 16px;" id="authToggle" onclick="toggleAuthMode()"></button>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = '';
+    let authToken = localStorage.getItem('authToken');
+    let userData = JSON.parse(localStorage.getItem('userData') || 'null');
+    let authMode = 'signin';
+
+    // Initialize
+    if (authToken && userData) {
+      showUserSection();
+      checkSubscription();
+    }
+
+    // Drag and drop
+    const uploadBox = document.getElementById('uploadBox');
+    uploadBox.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadBox.classList.add('dragging');
+    });
+    uploadBox.addEventListener('dragleave', () => {
+      uploadBox.classList.remove('dragging');
+    });
+    uploadBox.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadBox.classList.remove('dragging');
+      const file = e.dataTransfer.files[0];
+      if (file) handleFileUpload(file);
+    });
+
+    function showUserSection() {
+      document.getElementById('userSection').classList.remove('hidden');
+      document.getElementById('guestSection').classList.add('hidden');
+      document.getElementById('userEmail').textContent = userData.email;
+    }
+
+    function showGuestSection() {
+      document.getElementById('userSection').classList.add('hidden');
+      document.getElementById('guestSection').classList.remove('hidden');
+    }
+
+    async function checkSubscription() {
+      try {
+        const res = await fetch(`${API_BASE}/subscriptions/me`, {
+          headers: { 'Authorization': `Bearer ${authToken}` },
+        });
+        const data = await res.json();
+        const tierEl = document.getElementById('userTier');
+        if (data.hasActiveSubscription) {
+          tierEl.textContent = 'Premium';
+          tierEl.className = 'tier-badge tier-premium';
+          document.getElementById('upgradePrompt').classList.add('hidden');
+        } else {
+          tierEl.textContent = 'Free';
+          tierEl.className = 'tier-badge tier-free';
+          document.getElementById('upgradePrompt').classList.remove('hidden');
+        }
+      } catch (e) {
+        document.getElementById('upgradePrompt').classList.remove('hidden');
+      }
+    }
+
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (file) handleFileUpload(file);
+    }
+
+    async function handleFileUpload(file) {
+      const maxFreeSize = 100 * 1024 * 1024;
+      
+      // Check if file is too large for free tier
+      if (!authToken && file.size > maxFreeSize) {
+        alert('File too large! Sign up for free to upload files up to 100MB, or upgrade to Premium for up to 5GB.');
+        showAuthModal('signup');
+        return;
+      }
+
+      document.getElementById('uploadProgress').classList.remove('hidden');
+      document.getElementById('uploadResult').classList.add('hidden');
+
+      try {
+        const headers = {
+          'X-Filename': file.name,
+          'Content-Type': file.type || 'application/octet-stream',
+        };
+        if (authToken) {
+          headers['Authorization'] = `Bearer ${authToken}`;
+        }
+
+        const res = await fetch(`${API_BASE}/upload`, {
+          method: 'POST',
+          headers,
+          body: file,
+        });
+
+        if (!res.ok) {
+          const error = await res.json();
+          if (error.error === 'file_too_large') {
+            alert('File too large for your tier! Upgrade to Premium for files up to 5GB.');
+            upgradeToPremium();
+            return;
+          }
+          throw new Error(error.error || 'Upload failed');
+        }
+
+        const data = await res.json();
+        const resultEl = document.getElementById('uploadResult');
+        resultEl.innerHTML = `
+          <h3>File uploaded successfully</h3>
+          <div class="result-link">
+            <input type="text" value="${data.downloadUrl}" readonly onclick="this.select()">
+            <button class="btn-primary" onclick="copyToClipboard('${data.downloadUrl}')" style="padding: 8px 16px;">Copy</button>
+          </div>
+          <div class="result-info">
+            <strong>File:</strong> ${file.name}<br>
+            <strong>Size:</strong> ${(file.size / 1024 / 1024).toFixed(2)} MB<br>
+            <strong>Tier:</strong> ${data.tier}<br>
+            <strong>Expires:</strong> ${new Date(data.expiresAt).toLocaleDateString()}
+          </div>
+        `;
+        resultEl.classList.remove('hidden');
+      } catch (error) {
+        alert(`Upload failed: ${error.message}`);
+      } finally {
+        document.getElementById('uploadProgress').classList.add('hidden');
+        document.getElementById('fileInput').value = '';
+      }
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text);
+      alert('Link copied to clipboard!');
+    }
+
+    // Auth modal
+    function showAuthModal(mode) {
+      authMode = mode;
+      document.getElementById('authModal').classList.add('active');
+      document.getElementById('modalTitle').textContent = mode === 'signin' ? 'Sign in' : 'Create account';
+      document.getElementById('nameGroup').style.display = mode === 'signup' ? 'block' : 'none';
+      document.getElementById('authSubmit').textContent = mode === 'signin' ? 'Sign in' : 'Create account';
+      document.getElementById('authToggle').textContent = mode === 'signin' ? "Don't have an account? Sign up" : 'Already have an account? Sign in';
+    }
+
+    function closeAuthModal() {
+      document.getElementById('authModal').classList.remove('active');
+      document.getElementById('authForm').reset();
+    }
+
+    function toggleAuthMode() {
+      showAuthModal(authMode === 'signin' ? 'signup' : 'signin');
+    }
+
+    document.getElementById('authForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const name = document.getElementById('name').value;
+
+      try {
+        const endpoint = authMode === 'signin' ? '/auth/signin' : '/auth/signup';
+        const body = authMode === 'signin' ? { email, password } : { name, email, password };
+
+        const res = await fetch(`${API_BASE}${endpoint}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+
+        if (!res.ok) throw new Error('Authentication failed');
+        const data = await res.json();
+
+        authToken = data.session.token;
+        userData = data.user;
+        localStorage.setItem('authToken', authToken);
+        localStorage.setItem('userData', JSON.stringify(userData));
+
+        closeAuthModal();
+        showUserSection();
+        checkSubscription();
+      } catch (error) {
+        alert(authMode === 'signin' ? 'Invalid email or password' : 'Signup failed. Please try again.');
+      }
+    });
+
+    async function signOut() {
+      try {
+        await fetch(`${API_BASE}/auth/signout`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: authToken }),
+        });
+      } catch (e) {}
+
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('userData');
+      authToken = null;
+      userData = null;
+      showGuestSection();
+      document.getElementById('upgradePrompt').classList.add('hidden');
+    }
+
+    async function upgradeToPremium() {
+      if (!authToken) {
+        alert('Please sign in first to upgrade to Premium');
+        showAuthModal('signup');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/checkout`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            productPriceId: '1173acd1-fd89-4ba8-b68f-08cc7d1c49f9',
+          }),
+        });
+
+        if (!res.ok) throw new Error('Failed to create checkout');
+        const data = await res.json();
+        window.location.href = data.checkoutUrl;
+      } catch (error) {
+        alert('Failed to start checkout. Please try again.');
+      }
+    }
+  </script>
+</body>
+</html>

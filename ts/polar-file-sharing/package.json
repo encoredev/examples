@@ -1,0 +1,19 @@
+{
+  "name": "polar-file-sharing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "File sharing service with Polar payments and Encore.ts",
+  "dependencies": {
+    "encore.dev": "^1.51.10",
+    "@polar-sh/sdk": "^0.10.0",
+    "better-auth": "latest",
+    "drizzle-orm": "^0.30.0",
+    "pg": "^8.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/pg": "^8.11.0",
+    "typescript": "^5.3.0",
+    "drizzle-kit": "^0.20.0"
+  }
+}
