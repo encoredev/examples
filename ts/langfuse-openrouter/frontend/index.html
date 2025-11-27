@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat with LangFuse</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <button class="new-chat-btn" onclick="createNewChat()">+ New Chat</button>
+            </div>
+            
+            <div class="chat-history" id="chat-history">
+                <!-- Chat sessions will be loaded here -->
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="model-selector">
+                    <label for="model">Model</label>
+                    <select id="model">
+                        <option value="anthropic/claude-4.5-opus">Claude 4.5 Opus</option>
+                        <option value="openai/gpt-5">GPT-5</option>
+                        <option value="google/gemini-3-pro">Gemini 3 Pro</option>
+                        <option value="meta-llama/llama-3.3-70b-instruct">Llama 3.3 70B</option>
+                    </select>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="main">
+            <header class="chat-header">
+                <h1>AI Chat</h1>
+                <div class="stats">
+                    <span class="stat-item"><span id="total-cost">$0.00</span></span>
+                    <span class="stat-item"><span id="total-tokens">0</span> tokens</span>
+                    <span class="stat-item"><span id="message-count">0</span> messages</span>
+                </div>
+            </header>
+
+            <div class="messages" id="messages">
+                <div class="empty-state">
+                    <h2>Start a conversation</h2>
+                    <p>Select a model and type your message below</p>
+                </div>
+            </div>
+            
+            <div class="input-container">
+                <textarea 
+                    id="message-input" 
+                    placeholder="Type your message..." 
+                    rows="1"
+                ></textarea>
+                <button id="send-btn" onclick="sendMessage()">Send</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
