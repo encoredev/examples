@@ -4,6 +4,7 @@ This example demonstrates how to build AI agent infrastructure that safely execu
 
 ## Features
 
+- **Code Playground UI** - Interactive web interface for writing and running code
 - **Secure Code Execution** - Run AI-generated Python, TypeScript, or JavaScript in isolated sandboxes
 - **Full AI Agent Loop** - Prompt → Claude generates code → Daytona executes → results with auto-retry
 - **Execution History** - PostgreSQL database stores all executions for debugging
@@ -52,7 +53,9 @@ encore secret set --dev AnthropicApiKey
 encore run
 ```
 
-4. Test the API:
+4. Open the playground at `http://localhost:4000`
+
+5. Or test the API directly:
 ```bash
 # Execute Python code
 curl -X POST http://localhost:4000/execute \
@@ -92,6 +95,12 @@ curl -X POST http://localhost:4000/ai/generate-and-run \
 │   ├── advanced.ts            # Timeout and advanced features
 │   ├── ai-generate.ts         # AI code generation endpoint
 │   └── migrations/            # Database schema
+├── frontend/                   # Playground UI
+│   ├── encore.service.ts      # Service definition
+│   ├── static.ts              # Static file server
+│   ├── index.html             # Playground UI
+│   ├── styles.css             # Dark theme styling
+│   └── app.js                 # Frontend logic
 ├── encore.app                 # App configuration
 ├── package.json               # Dependencies
 └── tsconfig.json              # TypeScript config

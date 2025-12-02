@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Playground - Daytona + Encore</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">▶</span>
+                <h1>Code Playground</h1>
+            </div>
+            <div class="header-controls">
+                <select id="language">
+                    <option value="python">Python</option>
+                    <option value="typescript">TypeScript</option>
+                    <option value="javascript">JavaScript</option>
+                </select>
+                <button class="run-btn" id="run-btn" onclick="runCode()">
+                    <span class="btn-icon">▶</span> Run
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Editor Panel -->
+            <div class="panel editor-panel">
+                <div class="panel-header">
+                    <span class="panel-title">Code</span>
+                    <button class="clear-btn" onclick="clearCode()">Clear</button>
+                </div>
+                <textarea 
+                    id="code-editor" 
+                    spellcheck="false"
+                    placeholder="Write your code here..."
+                ># Calculate prime numbers
+primes = []
+n = 2
+while len(primes) < 10:
+    is_prime = True
+    for p in primes:
+        if n % p == 0:
+            is_prime = False
+            break
+    if is_prime:
+        primes.append(n)
+    n += 1
+
+print(f"First 10 primes: {primes}")</textarea>
+            </div>
+
+            <!-- Output Panel -->
+            <div class="panel output-panel">
+                <div class="panel-header">
+                    <span class="panel-title">Output</span>
+                    <span class="execution-time" id="execution-time"></span>
+                </div>
+                <pre id="output" class="output">Click "Run" to execute your code...</pre>
+            </div>
+        </main>
+
+        <!-- AI Generator -->
+        <div class="ai-section">
+            <div class="ai-header">
+                <span class="ai-icon">✨</span>
+                <span>AI Code Generator</span>
+            </div>
+            <div class="ai-input-container">
+                <input 
+                    type="text" 
+                    id="ai-prompt" 
+                    placeholder="Describe what code you want to generate..."
+                    onkeypress="if(event.key === 'Enter') generateCode()"
+                >
+                <button class="generate-btn" onclick="generateCode()">Generate</button>
+            </div>
+        </div>
+
+        <!-- Execution History -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span>History</span>
+                <button class="clear-history-btn" onclick="clearHistory()">Clear</button>
+            </div>
+            <div class="history-list" id="history-list">
+                <!-- History items will be added here -->
+            </div>
+        </aside>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
