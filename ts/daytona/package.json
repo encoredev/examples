@@ -1,0 +1,11 @@
+{
+  "name": "daytona",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "encore run",
+    "test": "encore test"
+  },
+  "dependencies": {
+    "@daytonaio/sdk": "latest"
+  }
+}
