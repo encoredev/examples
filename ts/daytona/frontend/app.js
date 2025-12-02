@@ -2,9 +2,9 @@
 let history = [];
 let isRunning = false;
 let isGenerating = false;
+let editor = null;
 
 // DOM Elements
-const codeEditor = document.getElementById('code-editor');
 const languageSelect = document.getElementById('language');
 const runBtn = document.getElementById('run-btn');
 const output = document.getElementById('output');
@@ -12,87 +12,90 @@ const executionTime = document.getElementById('execution-time');
 const aiPrompt = document.getElementById('ai-prompt');
 const historyList = document.getElementById('history-list');
 
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    loadHistory();
-    updateLanguageTemplate();
-    
-    // Update template when language changes
-    languageSelect.addEventListener('change', updateLanguageTemplate);
-});
-
 // Language templates
 const templates = {
-    python: `# Calculate prime numbers
-primes = []
-n = 2
-while len(primes) < 10:
-    is_prime = True
-    for p in primes:
-        if n % p == 0:
-            is_prime = False
-            break
-    if is_prime:
-        primes.append(n)
-    n += 1
+    python: `# Calculate Fibonacci sequence
+def fibonacci(n):
+    fib = [0, 1]
+    for i in range(2, n):
+        fib.append(fib[i-1] + fib[i-2])
+    return fib
 
-print(f"First 10 primes: {primes}")`,
+result = fibonacci(10)
+print(f"First 10 Fibonacci numbers: {result}")`,
     
-    typescript: `// Calculate prime numbers
-const isPrime = (n: number): boolean => {
-    if (n < 2) return false;
-    for (let i = 2; i <= Math.sqrt(n); i++) {
-        if (n % i === 0) return false;
+    typescript: `// Calculate Fibonacci sequence
+function fibonacci(n: number): number[] {
+    const fib: number[] = [0, 1];
+    for (let i = 2; i < n; i++) {
+        fib.push(fib[i - 1] + fib[i - 2]);
     }
-    return true;
-};
-
-const primes: number[] = [];
-let n = 2;
-while (primes.length < 10) {
-    if (isPrime(n)) primes.push(n);
-    n++;
+    return fib;
 }
 
-console.log(\`First 10 primes: \${primes.join(', ')}\`);`,
+const result = fibonacci(10);
+console.log(\`First 10 Fibonacci numbers: \${result.join(', ')}\`);`,
     
-    javascript: `// Calculate prime numbers
-const isPrime = (n) => {
-    if (n < 2) return false;
-    for (let i = 2; i <= Math.sqrt(n); i++) {
-        if (n % i === 0) return false;
+    javascript: `// Calculate Fibonacci sequence
+function fibonacci(n) {
+    const fib = [0, 1];
+    for (let i = 2; i < n; i++) {
+        fib.push(fib[i - 1] + fib[i - 2]);
     }
-    return true;
-};
-
-const primes = [];
-let n = 2;
-while (primes.length < 10) {
-    if (isPrime(n)) primes.push(n);
-    n++;
+    return fib;
 }
 
-console.log(\`First 10 primes: \${primes.join(', ')}\`);`
+const result = fibonacci(10);
+console.log(\`First 10 Fibonacci numbers: \${result.join(', ')}\`);`
 };
 
-function updateLanguageTemplate() {
-    const language = languageSelect.value;
-    // Only update if editor has default content or is empty
-    const currentCode = codeEditor.value.trim();
-    const isDefaultTemplate = Object.values(templates).some(t => 
-        t.trim() === currentCode || currentCode === ''
-    );
+// Ace Editor language modes
+const aceLanguageModes = {
+    python: 'ace/mode/python',
+    typescript: 'ace/mode/typescript',
+    javascript: 'ace/mode/javascript'
+};
+
+// Initialize Ace Editor
+window.addEventListener('DOMContentLoaded', () => {
+    loadHistory();
     
-    if (isDefaultTemplate || currentCode === 'Write your code here...') {
-        codeEditor.value = templates[language];
-    }
-}
+    editor = ace.edit('code-editor');
+    editor.setTheme('ace/theme/tomorrow_night');
+    editor.session.setMode(aceLanguageModes.python);
+    editor.setValue(templates.python, -1);
+    editor.setOptions({
+        fontSize: '13px',
+        fontFamily: "'JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', monospace",
+        showPrintMargin: false,
+        enableBasicAutocompletion: true,
+        enableLiveAutocompletion: false,
+        tabSize: 4,
+        useSoftTabs: true
+    });
+    
+    // Update editor mode and template when language changes
+    languageSelect.addEventListener('change', () => {
+        const lang = languageSelect.value;
+        editor.session.setMode(aceLanguageModes[lang]);
+        editor.setValue(templates[lang], -1);
+    });
+    
+    // Keyboard shortcut: Cmd/Ctrl + Enter to run
+    editor.commands.addCommand({
+        name: 'runCode',
+        bindKey: {win: 'Ctrl-Enter', mac: 'Command-Enter'},
+        exec: function() {
+            runCode();
+        }
+    });
+});
 
 // Run code
 async function runCode() {
     if (isRunning) return;
     
-    const code = codeEditor.value;
+    const code = editor.getValue();
     const language = languageSelect.value;
     
     if (!code.trim()) {
@@ -102,7 +105,7 @@ async function runCode() {
     
     isRunning = true;
     runBtn.disabled = true;
-    runBtn.innerHTML = '<span class="btn-icon">⏳</span> Running...';
+    runBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="10 8 16 12 10 16"></polyline></svg> Running...';
     output.classList.add('loading');
     showOutput('Executing code in Daytona sandbox...', '');
     
@@ -137,7 +140,7 @@ async function runCode() {
     } finally {
         isRunning = false;
         runBtn.disabled = false;
-        runBtn.innerHTML = '<span class="btn-icon">▶</span> Run';
+        runBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Run Code';
         output.classList.remove('loading');
     }
 }
@@ -151,6 +154,9 @@ async function generateCode() {
     
     if (!prompt) {
         aiPrompt.placeholder = 'Please enter a prompt...';
+        setTimeout(() => {
+            aiPrompt.placeholder = 'Ask Claude to generate code...';
+        }, 2000);
         aiPrompt.focus();
         return;
     }
@@ -159,7 +165,7 @@ async function generateCode() {
     const generateBtn = document.querySelector('.generate-btn');
     generateBtn.disabled = true;
     generateBtn.textContent = 'Generating...';
-    showOutput('Generating code with AI...', '');
+    showOutput('Generating code with Claude...', '');
     
     try {
         const response = await fetch('/ai/generate-and-run', {
@@ -174,13 +180,14 @@ async function generateCode() {
         const data = await response.json();
         
         if (data.code) {
-            codeEditor.value = data.code;
+            editor.setValue(data.code, -1);
             
             if (data.success) {
                 showOutput(data.output || 'Code generated and executed successfully!', 'success');
                 addToHistory(data.code, language, data.output, true, 0);
             } else {
                 showOutput(`Generated but execution failed:\n${data.output}`, 'error');
+                addToHistory(data.code, language, data.output, false, 0);
             }
             
             executionTime.textContent = `${data.attempts} attempt${data.attempts > 1 ? 's' : ''}`;
@@ -209,8 +216,9 @@ function showOutput(text, type) {
 
 // Clear code
 function clearCode() {
-    codeEditor.value = '';
-    codeEditor.focus();
+    const lang = languageSelect.value;
+    editor.setValue(templates[lang], -1);
+    editor.focus();
 }
 
 // History management
@@ -236,7 +244,7 @@ function addToHistory(code, language, result, success, timeMs) {
 
 function renderHistory() {
     if (history.length === 0) {
-        historyList.innerHTML = '<div style="padding: 16px; color: var(--text-secondary); font-size: 12px; text-align: center;">No executions yet</div>';
+        historyList.innerHTML = '<div style="padding: 20px; color: var(--text-tertiary); font-size: 12px; text-align: center;">No executions yet</div>';
         return;
     }
     
@@ -252,14 +260,16 @@ function renderHistory() {
 function loadFromHistory(id) {
     const item = history.find(h => h.id === id);
     if (item) {
-        codeEditor.value = item.code;
+        editor.setValue(item.code, -1);
         languageSelect.value = item.language;
+        editor.session.setMode(aceLanguageModes[item.language]);
         showOutput(item.result, item.success ? 'success' : 'error');
         executionTime.textContent = `${item.timeMs}ms`;
     }
 }
 
 function clearHistory() {
+    if (!confirm('Clear all execution history?')) return;
     history = [];
     saveHistory();
     renderHistory();
@@ -291,13 +301,3 @@ function escapeHtml(text) {
     div.textContent = text;
     return div.innerHTML;
 }
-
-// Keyboard shortcuts
-document.addEventListener('keydown', (e) => {
-    // Cmd/Ctrl + Enter to run
-    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
-        e.preventDefault();
-        runCode();
-    }
-});
-

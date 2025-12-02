@@ -40,7 +40,7 @@ export const generateAndRun = api(
           "anthropic-version": "2023-06-01",
         },
         body: JSON.stringify({
-          model: "claude-sonnet-4-5-20250929",
+          model: "claude-haiku-4-5",
           max_tokens: 1024,
           messages: [
             { role: "user", content: `${systemPrompt}\n\n${userPrompt}` }
@@ -49,7 +49,10 @@ export const generateAndRun = api(
       });
 
       const data = await response.json();
-      generatedCode = data.content[0].text;
+      let generatedCode = data.content[0].text;
+
+      // Strip markdown code blocks if present
+      generatedCode = generatedCode.replace(/```\w*\n/g, "").replace(/```/g, "").trim();
 
       // Execute in Daytona sandbox
       const sandbox = await daytona.create({ language: req.language });

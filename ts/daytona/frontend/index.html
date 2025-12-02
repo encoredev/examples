@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Playground - Daytona + Encore</title>
+    <title>Daytona Playground</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,8 +11,12 @@
         <!-- Header -->
         <header class="header">
             <div class="logo">
-                <span class="logo-icon">▶</span>
-                <h1>Code Playground</h1>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="logo-icon">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+                <span>Daytona Playground</span>
             </div>
             <div class="header-controls">
                 <select id="language">
@@ -21,7 +25,10 @@
                     <option value="javascript">JavaScript</option>
                 </select>
                 <button class="run-btn" id="run-btn" onclick="runCode()">
-                    <span class="btn-icon">▶</span> Run
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    Run Code
                 </button>
             </div>
         </header>
@@ -31,55 +38,41 @@
             <!-- Editor Panel -->
             <div class="panel editor-panel">
                 <div class="panel-header">
-                    <span class="panel-title">Code</span>
+                    <span class="panel-title">Editor</span>
                     <button class="clear-btn" onclick="clearCode()">Clear</button>
                 </div>
-                <textarea 
-                    id="code-editor" 
-                    spellcheck="false"
-                    placeholder="Write your code here..."
-                ># Calculate prime numbers
-primes = []
-n = 2
-while len(primes) < 10:
-    is_prime = True
-    for p in primes:
-        if n % p == 0:
-            is_prime = False
-            break
-    if is_prime:
-        primes.append(n)
-    n += 1
-
-print(f"First 10 primes: {primes}")</textarea>
+                <div id="code-editor"></div>
             </div>
 
             <!-- Output Panel -->
             <div class="panel output-panel">
                 <div class="panel-header">
-                    <span class="panel-title">Output</span>
+                    <span class="panel-title">Terminal</span>
                     <span class="execution-time" id="execution-time"></span>
                 </div>
-                <pre id="output" class="output">Click "Run" to execute your code...</pre>
+                <pre id="output" class="output">Ready to execute.</pre>
             </div>
-        </main>
 
-        <!-- AI Generator -->
-        <div class="ai-section">
-            <div class="ai-header">
-                <span class="ai-icon">✨</span>
-                <span>AI Code Generator</span>
-            </div>
-            <div class="ai-input-container">
-                <input 
-                    type="text" 
-                    id="ai-prompt" 
-                    placeholder="Describe what code you want to generate..."
-                    onkeypress="if(event.key === 'Enter') generateCode()"
-                >
+            <!-- AI Floating Bar -->
+            <div class="ai-section">
+                <div class="ai-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
+                    </svg>
+                </div>
+                <div class="ai-input-container">
+                    <input 
+                        type="text" 
+                        id="ai-prompt" 
+                        placeholder="Ask Claude to generate code..."
+                        autocomplete="off"
+                        spellcheck="false"
+                        onkeypress="if(event.key === 'Enter') generateCode()"
+                    >
+                </div>
                 <button class="generate-btn" onclick="generateCode()">Generate</button>
             </div>
-        </div>
+        </main>
 
         <!-- Execution History -->
         <aside class="sidebar">
@@ -93,7 +86,12 @@ print(f"First 10 primes: {primes}")</textarea>
         </aside>
     </div>
 
+    <!-- Ace Editor -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.2/mode-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.2/mode-typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.2/mode-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.2/theme-tomorrow_night.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
-
