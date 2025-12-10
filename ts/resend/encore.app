@@ -1,4 +1,5 @@
 {
-  "id": "resend-example"
+  "id": "",
+  "lang": "typescript"
 }
 
