@@ -1,5 +1,5 @@
 {
-	"id":   "langfuse-example-hbh2",
+	"id":   "",
 	"lang": "typescript",
 	"global_cors": {
 		"allow_origins_without_credentials": ["*"]
