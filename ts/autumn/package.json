@@ -1,0 +1,16 @@
+{
+  "name": "autumn-billing",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Usage-based billing with Autumn and Encore.ts",
+  "license": "MPL-2.0",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "autumn-js": "^0.1.63",
+    "encore.dev": "^1.53.0"
+  }
+}
