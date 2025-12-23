@@ -1,0 +1,4 @@
+node_modules/
+encore.gen/
+.encore/
+.DS_Store
