@@ -1,4 +1,4 @@
 {
-	"id":   "atmn-example-otz2",
+	"id":   "",
 	"lang": "typescript"
 }
