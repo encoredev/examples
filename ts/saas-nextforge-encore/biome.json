@@ -1,0 +1,18 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "extends": ["ultracite"],
+  "javascript": {
+    "globals": ["Liveblocks"]
+  },
+  "files": {
+    "ignore": [
+      "frontend/packages/design-system/components/ui/**",
+      "frontend/packages/design-system/lib/**",
+      "frontend/packages/design-system/hooks/**",
+      "frontend/packages/collaboration/config.ts",
+      "frontend/apps/docs/**/*.json",
+      "frontend/apps/email/.react-email/**",
+      "backend/**/better-auth.routes.ts"
+    ]
+  }
+}
