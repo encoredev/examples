@@ -1,4 +1,4 @@
 {
-	"id":   "rest-api-starter-iu7i",
+	"id":   "",
 	"lang": "typescript"
 }
