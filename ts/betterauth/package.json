@@ -1,9 +1,9 @@
 {
-  "name": "resend-starter",
+  "name": "betterauth-starter",
   "version": "1.0.0",
   "dependencies": {
-    "resend": "^4.0.0",
-    "encore.dev": "^1.53.4"
+    "better-auth": "^1.2.0",
+    "pg": "^8.13.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

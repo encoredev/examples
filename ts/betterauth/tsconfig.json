@@ -16,6 +16,7 @@
     "sourceMap": true,
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "jsx": "react-jsx"
   }
 }
