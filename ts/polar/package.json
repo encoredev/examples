@@ -1,9 +1,8 @@
 {
-  "name": "resend-starter",
+  "name": "polar-starter",
   "version": "1.0.0",
   "dependencies": {
-    "resend": "^4.0.0",
-    "encore.dev": "^1.53.4"
+    "@polar-sh/sdk": "^0.30.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

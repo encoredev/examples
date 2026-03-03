@@ -1,7 +1,8 @@
 import { Resend } from "resend";
 import { secret } from "encore.dev/config";
 
-const resendApiKey = secret("ResendApiKey");
+// Store your Resend API key as an Encore secret:
+//   encore secret set --type dev,local,pr,production ResendAPIKey
+const apiKey = secret("ResendAPIKey");
 
-export const resend = new Resend(resendApiKey());
-
+export const resend = new Resend(apiKey());

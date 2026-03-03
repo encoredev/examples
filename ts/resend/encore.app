@@ -1,5 +1,4 @@
 {
-  "id": "",
-  "lang": "typescript"
+	"id":   "",
+	"lang": "typescript"
 }
-
