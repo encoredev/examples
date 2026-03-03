@@ -2,7 +2,7 @@ import { api } from "encore.dev/api";
 import { polar } from "./polar";
 
 interface CheckoutRequest {
-  productPriceId: string;
+  productId: string;
   customerEmail: string;
 }
 
@@ -15,8 +15,8 @@ interface CheckoutResponse {
 export const createCheckout = api(
   { expose: true, method: "POST", path: "/checkout" },
   async (req: CheckoutRequest): Promise<CheckoutResponse> => {
-    const checkout = await polar.checkouts.custom.create({
-      productPriceId: req.productPriceId,
+    const checkout = await polar.checkouts.create({
+      products: [req.productId],
       customerEmail: req.customerEmail,
       successUrl: `${process.env.ENCORE_API_URL}/site?success=true`,
     });

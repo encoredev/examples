@@ -2,7 +2,7 @@
   "name": "polar-starter",
   "version": "1.0.0",
   "dependencies": {
-    "@polar-sh/sdk": "^0.30.0"
+    "@polar-sh/sdk": "^0.46.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

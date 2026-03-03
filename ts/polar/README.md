@@ -13,9 +13,9 @@ Accept payments and subscriptions with [Polar](https://polar.sh) and [Encore](ht
 
 You'll need a [Polar](https://polar.sh) account. For development, use the [sandbox dashboard](https://sandbox.polar.sh):
 
-1. **Create a product** — Go to [Products](https://sandbox.polar.sh/products) and create a product. Copy the **price ID** — you'll paste it in the checkout form.
-2. **Create an access token** — Go to Settings > [Developers > Personal Access Tokens](https://sandbox.polar.sh/settings/developers/pat).
-3. **Create a webhook** (optional) — Go to Settings > [Webhooks](https://sandbox.polar.sh/settings/webhooks). Point it to your API URL followed by `/webhook/polar`. For local dev, use [ngrok](https://ngrok.com) or similar to expose your local server.
+1. **Create a product.** Go to [Products](https://sandbox.polar.sh/products) and create a product. Copy the **product ID**, you'll paste it in the checkout form.
+2. **Create an access token.** Go to Settings > [Developers > Personal Access Tokens](https://sandbox.polar.sh/settings/developers/pat).
+3. **Create a webhook** (optional). Go to Settings > [Webhooks](https://sandbox.polar.sh/settings/webhooks). Point it to your API URL followed by `/webhook/polar`. For local dev, use [ngrok](https://ngrok.com) or similar to expose your local server.
 
 ## Get started
 
@@ -39,7 +39,7 @@ You'll need a [Polar](https://polar.sh) account. For development, use the [sandb
    encore run
    ```
 
-5. Open http://localhost:4000 to create a test checkout. Paste your product's price ID and enter a test email.
+5. Open http://localhost:4000 to create a test checkout. Paste your product ID and enter a test email.
 
 ## Learn more
 

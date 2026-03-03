@@ -49,7 +49,7 @@ To enable GitHub login:
    encore secret set --type local GithubClientSecret
    ```
 
-Better Auth supports [20+ OAuth providers](https://www.better-auth.com/docs/concepts/oauth) — Google, Discord, Apple, and more.
+Better Auth supports [20+ OAuth providers](https://www.better-auth.com/docs/concepts/oauth) including Google, Discord, Apple, and more.
 
 ## Learn more
 
