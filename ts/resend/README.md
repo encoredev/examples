@@ -13,8 +13,8 @@ Send transactional emails with [Resend](https://resend.com) and [Encore](https:/
 
 You'll need a [Resend](https://resend.com) account:
 
-1. **Create an API key** — Go to [API Keys](https://resend.com/api-keys) and create a new key.
-2. **Verify a domain** (optional for testing) — Go to [Domains](https://resend.com/domains) to add your sending domain. Until you verify a domain, the example uses `onboarding@resend.dev` as the default sender, which works with any Resend API key.
+1. **Create an API key.** Go to [API Keys](https://resend.com/api-keys) and create a new key.
+2. **Verify a domain** (optional for testing). Go to [Domains](https://resend.com/domains) to add your sending domain. Until you verify a domain, the example uses `onboarding@resend.dev` as the default sender, which works with any Resend API key.
 
 ## Get started
 

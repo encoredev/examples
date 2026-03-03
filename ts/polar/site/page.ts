@@ -28,11 +28,11 @@ const html = `<!DOCTYPE html>
     <h1>Checkout with Polar</h1>
     <p>Create a checkout session to redirect your customer to Polar's hosted payment page.</p>
     <div class="info">
-      You'll need a product price ID from your <a href="https://sandbox.polar.sh" target="_blank">Polar Sandbox dashboard</a>. Create a product there first, then copy its price ID.
+      You'll need a product ID from your <a href="https://sandbox.polar.sh" target="_blank">Polar Sandbox dashboard</a>. Create a product there first, then copy its product ID.
     </div>
     <form id="form">
-      <label for="productPriceId">Product Price ID</label>
-      <input type="text" id="productPriceId" name="productPriceId" placeholder="price_..." required>
+      <label for="productId">Product ID</label>
+      <input type="text" id="productId" name="productId" placeholder="d35f805e-37f4-..." required>
       <label for="email">Customer email</label>
       <input type="email" id="email" name="email" placeholder="customer@example.com" required>
       <button type="submit">Create checkout</button>
@@ -60,7 +60,7 @@ const html = `<!DOCTYPE html>
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            productPriceId: document.getElementById('productPriceId').value,
+            productId: document.getElementById('productId').value,
             customerEmail: document.getElementById('email').value,
           }),
         });
