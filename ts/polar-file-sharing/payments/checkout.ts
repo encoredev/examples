@@ -5,7 +5,7 @@ import { db } from "./db";
 import log from "encore.dev/log";
 
 interface CreateCheckoutRequest {
-  productPriceId: string;
+  productId: string;
 }
 
 interface CreateCheckoutResponse {
@@ -21,7 +21,7 @@ export const createCheckout = api(
     try {
       // Create a checkout session using the Polar SDK
       const session = await polar.checkouts.create({
-        productPriceId: req.productPriceId,
+        products: [req.productId],
         customerEmail: authData.email,
         successUrl: `${baseUrl}/?success=true`,
       });
@@ -32,15 +32,11 @@ export const createCheckout = api(
         email: authData.email,
       });
 
-      // When webhook fires, we'll need to link the Polar customer to this user
-      // Store a mapping so the webhook can find the user
-      // For now, we'll rely on email matching in the webhook handler
-
       return {
         checkoutUrl: session.url || "",
       };
     } catch (error) {
-      log.error("Failed to create checkout", { error, productPriceId: req.productPriceId, userId: authData.userID });
+      log.error("Failed to create checkout", { error, productId: req.productId, userId: authData.userID });
       throw new Error(`Failed to create checkout: ${error}`);
     }
   }

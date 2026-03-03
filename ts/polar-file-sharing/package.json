@@ -5,7 +5,7 @@
   "description": "File sharing service with Polar payments and Encore.ts",
   "dependencies": {
     "encore.dev": "^1.51.10",
-    "@polar-sh/sdk": "^0.10.0",
+    "@polar-sh/sdk": "^0.46.0",
     "better-auth": "latest",
     "drizzle-orm": "^0.30.0",
     "pg": "^8.11.0"

@@ -1,33 +1,12 @@
-# File Sharing Service with Polar
+# File Sharing with Polar Payments
 
-A WeTransfer-style file sharing service with authentication and tiered subscriptions using [Polar](https://polar.sh) and [BetterAuth](https://better-auth.com).
+A WeTransfer-style file sharing service with user authentication and tiered subscriptions. Free users can upload files up to 100MB with 7-day retention. Premium subscribers ($10/month via [Polar](https://polar.sh)) get 5GB uploads and 30-day retention.
+
+Built with [BetterAuth](https://better-auth.com) for authentication, [Polar](https://polar.sh) for subscription payments, and [Drizzle ORM](https://orm.drizzle.team) for database queries.
 
 ## Build from scratch with a tutorial
 
-If you prefer, check out the [full tutorial](https://encore.dev/blog/polar-tutorial) to learn how to build this application from scratch.
-
-## Features
-
-**Authentication:**
-- Email/password signup and login
-- Secure session management with BetterAuth
-- Protected API endpoints
-
-**Free Tier:**
-- Upload files up to 100MB
-- Files stored for 7 days
-- Generate shareable download links
-
-**Premium Tier ($10/month):**
-- Upload files up to 5GB
-- Files stored for 30 days
-
-## Architecture
-
-- **Auth Service** - User authentication with BetterAuth
-- **Files Service** - File upload/download with object storage
-- **Payments Service** - Polar subscription management and webhooks
-- **Frontend Service** - Static HTML/JS frontend
+If you prefer, check out the [tutorial](https://encore.dev/blog/polar-tutorial) to learn how to build this application from scratch.
 
 ## Prerequisites
 
@@ -37,74 +16,96 @@ If you prefer, check out the [full tutorial](https://encore.dev/blog/polar-tutor
 - **Windows:** `iwr https://encore.dev/install.ps1 | iex`
 
 **Docker:**
-- Install [Docker](https://docker.com)
-- Start Docker
+1. Install [Docker](https://docker.com)
+2. Start Docker
 
-## Running locally
+## Create app
 
-1. Install dependencies:
+Create a local app from this template:
+
+```bash
+encore app create my-app-name --example=ts/polar-file-sharing
+```
+
+## Run app locally
+
+Before running your application, make sure you have Docker installed and running. Then install dependencies and set the required secrets:
+
 ```bash
 npm install
 ```
 
-2. Set required secrets:
 ```bash
-# BetterAuth secret
+# BetterAuth secret (use any random string, e.g. output of: openssl rand -base64 32)
 encore secret set --dev BetterAuthSecret
-# When prompted, enter a random string (e.g., output of: openssl rand -base64 32)
 
 # Polar API token (get from https://sandbox.polar.sh/settings)
 encore secret set --dev PolarAccessToken
-# Paste your Polar sandbox access token
 ```
 
-3. Start the backend (make sure Docker is running):
+Then start the app:
+
 ```bash
 encore run
 ```
 
-4. Open the frontend at `http://localhost:4000`
+Open the frontend at `http://localhost:4000`.
 
-**Note:** The example uses Polar's **sandbox environment** for testing without real payments.
+**Note:** The example uses Polar's sandbox environment for testing without real payments.
 
-## Local Testing
+## Using the API
 
-### 1. Create an account
+Create an account:
+```bash
+curl -X POST 'http://localhost:4000/auth/signup' \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"test@example.com","password":"secret123","name":"Test User"}'
+```
 
-1. Open `http://localhost:4000`
-2. Click "Don't have an account? Sign up"
-3. Enter your details and create an account
-4. You'll be automatically signed in
+Upload a file (requires auth):
+```bash
+curl -X POST 'http://localhost:4000/upload' \
+  -H 'Cookie: better-auth.session_token=YOUR_SESSION_TOKEN' \
+  -F 'file=@./myfile.txt'
+```
 
-### 2. Upload a free file
+Check subscription status:
+```bash
+curl 'http://localhost:4000/subscriptions/me' \
+  -H 'Cookie: better-auth.session_token=YOUR_SESSION_TOKEN'
+```
 
-1. Select a file under 100MB
-2. Click "Upload File"
-3. You'll see the download link and expiration date (7 days)
+Create a checkout session to upgrade:
+```bash
+curl -X POST 'http://localhost:4000/checkout' \
+  -H 'Content-Type: application/json' \
+  -H 'Cookie: better-auth.session_token=YOUR_SESSION_TOKEN' \
+  -d '{"productId":"YOUR_POLAR_PRODUCT_ID"}'
+```
 
-### 3. Test the premium upgrade flow
-
-1. Click "Upgrade Now" button
-2. You'll be redirected to Polar's sandbox checkout
-3. Complete the checkout (use test card info)
-4. **Important:** After checkout, webhooks won't work locally
-
-**Local limitation:** Polar webhooks can't reach `localhost`, so your subscription won't activate automatically. See "Deployment" below for full webhook testing.
+**Note:** Polar webhooks can't reach `localhost`, so subscriptions won't activate locally. Deploy to test the full flow (see below).
 
 ## Local Development Dashboard
 
-Open `http://localhost:9400` to access Encore's local development dashboard with:
+While `encore run` is running, open [http://localhost:9400/](http://localhost:9400/) to access Encore's [local developer dashboard](https://encore.dev/docs/ts/observability/dev-dash).
 
-- API Explorer with interactive documentation
-- Service architecture diagram
-- Distributed tracing for all requests
-- Database explorer
+Here you can see traces for all requests, see your architecture diagram, and view API documentation in the Service Catalog.
+
+## Connecting to databases
+
+You can connect to your databases via psql shell:
+
+```bash
+encore db shell <database-name> --env=local --superuser
+```
+
+Learn more in the [CLI docs](https://encore.dev/docs/ts/cli/cli-reference#database-management).
 
 ## Deployment
 
 ### Self-hosting
 
-See the [self-hosting instructions](https://encore.dev/docs/how-to/self-host) for how to use `encore build docker` to create a Docker image and configure it.
+See the [self-hosting instructions](https://encore.dev/docs/ts/self-host/build) for how to use `encore build docker` to create a Docker image and configure it.
 
 ### Encore Cloud Platform
 
@@ -119,73 +120,35 @@ git push encore
 Set your production secrets:
 ```bash
 encore secret set --prod BetterAuthSecret
-# For production Polar, also set:
-# encore secret set --prod PolarAccessToken
+encore secret set --prod PolarAccessToken
 ```
 
-You can also open your app in the [Cloud Dashboard](https://app.encore.cloud) to integrate with GitHub, or connect your AWS/GCP account, enabling Encore to automatically handle cloud deployments for you.
+You can also open your app in the [Cloud Dashboard](https://app.encore.dev) to integrate with GitHub, or connect your AWS/GCP account, enabling Encore to automatically handle cloud deployments for you.
 
 ### Configure Polar Webhooks
 
-To enable automatic subscription activation:
+Once deployed, set up webhooks to enable automatic subscription activation:
 
-1. Go to https://sandbox.polar.sh/dashboard → Settings → Webhooks
-2. Add webhook URL: `https://[your-app].encr.app/webhooks/polar`
+1. Go to your Polar dashboard, navigate to Settings then Webhooks
+2. Add webhook URL: `https://staging-$APP_ID.encr.app/webhooks/polar`
 3. Select events: `subscription.created`, `subscription.updated`, `customer.created`
 
-## API Endpoints
+## Link to GitHub
 
-### Authentication
-- `POST /auth/signup` - Create new account
-- `POST /auth/signin` - Sign in
-- `POST /auth/signout` - Sign out
+Follow these steps to link your app to GitHub:
 
-### Files
-- `POST /upload` - Upload file (requires auth)
-- `GET /download/:fileId` - Download file
+1. Create a GitHub repo, commit and push the app.
+2. Open your app in the [Cloud Dashboard](https://app.encore.dev).
+3. Go to **Settings ➔ GitHub** and click on **Link app to GitHub** to link your app to GitHub and select the repo you just created.
+4. To configure Encore to automatically trigger deploys when you push to a specific branch name, go to the **Overview** page for your intended environment. Click on **Settings** and then in the section **Branch Push** configure the **Branch name** and hit **Save**.
+5. Commit and push a change to GitHub to trigger a deploy.
 
-### Payments
-- `GET /subscriptions/me` - Check subscription status (requires auth)
-- `POST /checkout` - Create Polar checkout session (requires auth)
-- `POST /webhooks/polar` - Polar webhook handler
+[Learn more in the docs](https://encore.dev/docs/platform/integrations/github)
 
-## Tech Stack
+## Testing
 
-- **[Encore.ts](https://encore.dev)** - Backend framework with Infrastructure from Code
-- **[BetterAuth](https://better-auth.com)** - TypeScript authentication framework
-- **[Polar](https://polar.sh)** - Merchant of record for subscriptions
-- **[Drizzle ORM](https://orm.drizzle.team)** - Type-safe database queries
-- **PostgreSQL** - Database (automatically provisioned by Encore)
-- **Object Storage** - File storage (S3/GCS, automatically provisioned by Encore)
+To run tests, configure the `test` command in your `package.json` to the test runner of your choice, and then use the command `encore test` from the CLI. The `encore test` command sets up all the necessary infrastructure in test mode before handing over to the test runner. [Learn more](https://encore.dev/docs/ts/develop/testing)
 
-## Project Structure
-
+```bash
+encore test
 ```
-├── auth/                  # Authentication service
-│   ├── auth.ts           # Signup/signin/signout endpoints
-│   ├── handler.ts        # Auth handler for protected endpoints
-│   ├── better-auth.ts    # BetterAuth configuration
-│   └── migrations/       # Database schema for auth tables
-├── files/                # File management service
-│   ├── upload.ts        # File upload endpoint
-│   ├── download.ts      # File download endpoint
-│   └── bucket.ts        # Object storage bucket
-├── payments/            # Payments service
-│   ├── checkout.ts     # Create Polar checkout sessions
-│   ├── webhooks.ts     # Handle Polar webhooks
-│   └── subscriptions.ts # Check subscription status
-└── frontend/           # Static frontend
-    └── assets/
-        └── index.html  # Single-page app
-```
-
-## Learn More
-
-- [Encore.ts Documentation](https://encore.dev/docs/ts)
-- [BetterAuth Documentation](https://better-auth.com/docs)
-- [Polar Documentation](https://polar.sh/docs)
-- [Tutorial Article](https://encore.dev/blog/polar-tutorial) - Full step-by-step guide
-
-## License
-
-MIT
