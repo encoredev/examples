@@ -15,10 +15,12 @@ interface CheckoutResponse {
 export const createCheckout = api(
   { expose: true, method: "POST", path: "/checkout" },
   async (req: CheckoutRequest): Promise<CheckoutResponse> => {
+    const baseUrl = process.env.ENCORE_API_URL || "http://localhost:4000";
+
     const checkout = await polar.checkouts.create({
       products: [req.productId],
       customerEmail: req.customerEmail,
-      successUrl: `${process.env.ENCORE_API_URL}/site?success=true`,
+      successUrl: `${baseUrl}/site?success=true`,
     });
 
     return { checkoutUrl: checkout.url };
