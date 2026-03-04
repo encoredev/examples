@@ -20,7 +20,7 @@ export const createCheckout = api(
     const checkout = await polar.checkouts.create({
       products: [req.productId],
       customerEmail: req.customerEmail,
-      successUrl: `${baseUrl}/site?success=true`,
+      successUrl: `${baseUrl}/?success=true`,
     });
 
     return { checkoutUrl: checkout.url };
