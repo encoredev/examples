@@ -2,6 +2,7 @@ package fns
 
 import (
 	"io"
+	"slices"
 	"time"
 
 	"github.com/sashabaranov/go-openai"
@@ -83,10 +84,5 @@ func CloseIgnore(stream io.Closer) {
 }
 
 func Any(results []openai.Result, f func(r openai.Result) bool) bool {
-	for _, r := range results {
-		if f(r) {
-			return true
-		}
-	}
-	return false
+	return slices.ContainsFunc(results, f)
 }

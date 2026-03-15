@@ -75,7 +75,7 @@ func (s *Service) Callback(ctx context.Context, req *CallbackRequest) (*Callback
 		}
 	}
 
-	var profile map[string]interface{}
+	var profile map[string]any
 	if err := idToken.Claims(&profile); err != nil {
 		return nil, &errs.Error{
 			Code:    errs.Internal,
@@ -137,7 +137,7 @@ func (s *Service) AuthHandler(ctx context.Context, token string) (auth.UID, erro
 		}
 	}
 
-	var profile map[string]interface{}
+	var profile map[string]any
 	if err := t.Claims(&profile); err != nil {
 		return "", &errs.Error{
 			Code:    errs.Internal,
