@@ -2,10 +2,8 @@ module encore.app
 
 go 1.24.0
 
-toolchain go1.21.4
-
 require (
-	encore.dev v1.46.1
+	encore.dev v1.52.1
 	github.com/MicahParks/keyfunc/v3 v3.3.10
 	github.com/golang-jwt/jwt/v5 v5.2.1
 )
