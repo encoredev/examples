@@ -1,2 +1,2 @@
-ClientID: "<your clientID>"
+Domain: "<your domain>"
 Audience: "<your audience>"
