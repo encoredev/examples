@@ -32,7 +32,7 @@ interface CreateProjectRequest {
 export const create = api(
   { expose: true, auth: true, method: "POST", path: "/projects" },
   async ({ name, description }: CreateProjectRequest): Promise<Project> => {
-    const { userId: owner_id } = getAuthData()!;
+    const { userID: owner_id } = getAuthData()!;
 
     // Check the owner's plan to determine project limit.
     const sub = await billing.get();

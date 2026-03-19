@@ -45,7 +45,7 @@ interface SubscriptionInfo {
 export const get = api(
   { expose: true, auth: true, method: "GET", path: "/billing" },
   async (): Promise<SubscriptionInfo> => {
-    const { userId: user_id } = getAuthData()!;
+    const { userID: user_id } = getAuthData()!;
     const row = await db.queryRow<SubscriptionInfo>`
       SELECT id, user_id, plan, status, created_at, updated_at
       FROM subscriptions WHERE user_id = ${user_id}
@@ -63,7 +63,7 @@ interface UpgradeRequest {
 export const upgrade = api(
   { expose: true, auth: true, method: "POST", path: "/billing/upgrade" },
   async ({ plan }: UpgradeRequest): Promise<SubscriptionInfo> => {
-    const { userId: user_id } = getAuthData()!;
+    const { userID: user_id } = getAuthData()!;
     const valid = ["free", "pro", "enterprise"];
     if (!valid.includes(plan)) {
       throw APIError.invalidArgument(`plan must be one of: ${valid.join(", ")}`);
