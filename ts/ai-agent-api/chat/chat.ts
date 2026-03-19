@@ -10,8 +10,11 @@ import crypto from "node:crypto";
 export const index = api.raw(
   { expose: true, method: "GET", path: "/" },
   async (req, resp) => {
+    const host = req.headers["host"] ?? "localhost:4000";
+    const proto = req.headers["x-forwarded-proto"] ?? "http";
+    const baseUrl = `${proto}://${host}`;
     resp.setHeader("Content-Type", "text/html");
-    resp.end(landingPage);
+    resp.end(landingPage.replaceAll("{{baseUrl}}", baseUrl));
   },
 );
 
@@ -46,39 +49,43 @@ const landingPage = `<!DOCTYPE html>
 
   <p>Explore and test all endpoints in the <a href="http://localhost:9400/">Local Dashboard</a> when running locally, or in <a href="https://app.encore.cloud">Encore Cloud</a> when deployed.</p>
 
+  <h2>Setup</h2>
+  <p>Set your Anthropic API key:</p>
+  <pre><code>encore secret set --type dev,local,pr,prod AnthropicAPIKey</code></pre>
+  <p>The Postgres database is provisioned automatically when you run <code>encore run</code>. Migrations are applied on startup — no manual database setup required.</p>
+
   <h2>Endpoints</h2>
 
   <div class="endpoint">
     <span class="method post">POST</span>
     <span class="path">/chat</span>
+    <code>chat.send</code>
   </div>
   <p class="desc">Send a message. Returns an AI response and a session ID for follow-ups.</p>
-  <pre><code>curl -X POST http://localhost:4000/chat \\
+  <pre><code>curl -X POST {{baseUrl}}/chat \\
   -H "Content-Type: application/json" \\
   -d '{"message": "What is Encore?"}'</code></pre>
 
   <pre><code># Continue the conversation
-curl -X POST http://localhost:4000/chat \\
+curl -X POST {{baseUrl}}/chat \\
   -H "Content-Type: application/json" \\
   -d '{"message": "Tell me more", "session_id": "&lt;session_id&gt;"}'</code></pre>
 
   <div class="endpoint">
     <span class="method get">GET</span>
     <span class="path">/chat/:session_id</span>
+    <code>chat.history</code>
   </div>
   <p class="desc">Get the full conversation history for a session.</p>
-  <pre><code>curl http://localhost:4000/chat/&lt;session_id&gt;</code></pre>
+  <pre><code>curl {{baseUrl}}/chat/&lt;session_id&gt;</code></pre>
 
   <div class="endpoint">
     <span class="method get">GET</span>
     <span class="path">/chat</span>
+    <code>chat.listSessions</code>
   </div>
   <p class="desc">List all sessions.</p>
-  <pre><code>curl http://localhost:4000/chat</code></pre>
-
-  <h2>Setup</h2>
-  <p>Set your Anthropic API key:</p>
-  <pre><code>encore secret set --type dev,local,pr,prod AnthropicAPIKey</code></pre>
+  <pre><code>curl {{baseUrl}}/chat</code></pre>
 
 </body>
 </html>`;
@@ -105,9 +112,10 @@ export const send = api(
   { expose: true, auth: false, method: "POST", path: "/chat" },
   async ({ message, session_id }: ChatRequest): Promise<ChatResponse> => {
     // Create a new session if none provided.
-    const sid = session_id ?? crypto.randomUUID();
+    const isNew = !session_id;
+    const sid = session_id || crypto.randomUUID();
 
-    if (!session_id) {
+    if (isNew) {
       await db.exec`INSERT INTO sessions (id) VALUES (${sid})`;
     }
 
