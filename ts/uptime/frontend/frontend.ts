@@ -1,8 +1,12 @@
+import { appMeta } from "encore.dev";
 import { api } from "encore.dev/api";
 import next from "next";
 
+// Use Next.js's dev mode when running locally.
+const dev = appMeta().environment.cloud === "local";
+
 const app = next({
-  dev: true,
+  dev,
   dir: "./frontend",
 });
 const handle = app.getRequestHandler();

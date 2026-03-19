@@ -45,7 +45,7 @@ const SiteList: FC<{ client: Client }> = ({ client }) => {
 
   const doDelete = useMutation({
     mutationFn: (site: site.Site) => {
-      return client.site.del(site.id, { id: site.id });
+      return client.site.del(site.id);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sites"] });
