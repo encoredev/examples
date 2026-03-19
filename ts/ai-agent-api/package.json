@@ -14,6 +14,7 @@
     "vitest": "^2.1.4"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
     "encore.dev": "^1.37.1"
   },
   "optionalDependencies": {

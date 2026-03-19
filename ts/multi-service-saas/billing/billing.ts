@@ -1,4 +1,5 @@
 import { api, APIError } from "encore.dev/api";
+import { getAuthData } from "~encore/auth";
 import { Topic, Subscription } from "encore.dev/pubsub";
 import { SQLDatabase } from "encore.dev/storage/sqldb";
 import { UserCreatedTopic } from "../user/user";
@@ -31,7 +32,7 @@ const _ = new Subscription(UserCreatedTopic, "create-free-plan", {
   },
 });
 
-interface Subscription_ {
+interface SubscriptionInfo {
   id: number;
   user_id: string;
   plan: string;
@@ -40,11 +41,12 @@ interface Subscription_ {
   updated_at: string;
 }
 
-// Get billing info for a user.
+// Get billing info for the authenticated user.
 export const get = api(
-  { expose: true, auth: false, method: "GET", path: "/billing/:user_id" },
-  async ({ user_id }: { user_id: string }): Promise<Subscription_> => {
-    const row = await db.queryRow<Subscription_>`
+  { expose: true, auth: true, method: "GET", path: "/billing" },
+  async (): Promise<SubscriptionInfo> => {
+    const { userId: user_id } = getAuthData()!;
+    const row = await db.queryRow<SubscriptionInfo>`
       SELECT id, user_id, plan, status, created_at, updated_at
       FROM subscriptions WHERE user_id = ${user_id}
     `;
@@ -54,14 +56,14 @@ export const get = api(
 );
 
 interface UpgradeRequest {
-  user_id: string;
   plan: string;
 }
 
-// Upgrade a user's subscription plan. Options: free, pro, enterprise.
+// Upgrade the authenticated user's subscription plan. Options: free, pro, enterprise.
 export const upgrade = api(
-  { expose: true, auth: false, method: "POST", path: "/billing/:user_id/upgrade" },
-  async ({ user_id, plan }: UpgradeRequest): Promise<Subscription_> => {
+  { expose: true, auth: true, method: "POST", path: "/billing/upgrade" },
+  async ({ plan }: UpgradeRequest): Promise<SubscriptionInfo> => {
+    const { userId: user_id } = getAuthData()!;
     const valid = ["free", "pro", "enterprise"];
     if (!valid.includes(plan)) {
       throw APIError.invalidArgument(`plan must be one of: ${valid.join(", ")}`);
@@ -84,7 +86,7 @@ export const upgrade = api(
       new_plan: plan,
     });
 
-    const row = await db.queryRow<Subscription_>`
+    const row = await db.queryRow<SubscriptionInfo>`
       SELECT id, user_id, plan, status, created_at, updated_at
       FROM subscriptions WHERE user_id = ${user_id}
     `;

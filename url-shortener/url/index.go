@@ -3,25 +3,15 @@ package url
 import (
 	"net/http"
 	"strings"
+
+	"encore.dev"
 )
 
 // Landing page with usage instructions.
 //
 //encore:api public raw path=/!path
 func Index(w http.ResponseWriter, req *http.Request) {
-	if req.URL.Path != "/" {
-		http.NotFound(w, req)
-		return
-	}
-	host := req.Host
-	if host == "" {
-		host = "localhost:4000"
-	}
-	proto := req.Header.Get("X-Forwarded-Proto")
-	if proto == "" {
-		proto = "http"
-	}
-	baseUrl := proto + "://" + host
+	baseUrl := encore.Meta().APIBaseURL
 
 	w.Header().Set("Content-Type", "text/html")
 	w.Write([]byte(strings.ReplaceAll(urlLandingPage, "{{baseUrl}}", baseUrl)))

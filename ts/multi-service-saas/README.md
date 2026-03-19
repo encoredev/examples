@@ -6,9 +6,10 @@ A SaaS backend starter built with [Encore.ts](https://encore.dev), demonstrating
 
 This app has three services, each with its own database:
 
+- **auth** — Authentication handler. Reads `auth_user` from the query string (placeholder for demo purposes).
 - **user** — User management. Publishes `UserCreated` events.
-- **billing** — Subscription management. Subscribes to `UserCreated` to auto-provision free plans. Publishes `PlanChanged` events on upgrades.
-- **project** — Project management. Enforces plan-based limits (free: 3, pro: 25, enterprise: unlimited) via the billing service.
+- **billing** — Subscription management. Subscribes to `UserCreated` to auto-provision free plans. Publishes `PlanChanged` events on upgrades. Authenticated endpoints.
+- **project** — Project management. Enforces plan-based limits (free: 3, pro: 25, enterprise: unlimited) via the billing service. Project creation requires authentication.
 
 ### Patterns demonstrated
 
@@ -47,10 +48,10 @@ curl http://localhost:4000/users/<user_id>
 
 ```bash
 # Get billing info (auto-created after user signup)
-curl http://localhost:4000/billing/<user_id>
+curl "http://localhost:4000/billing?auth_user=<user_id>"
 
 # Upgrade plan
-curl -X POST http://localhost:4000/billing/<user_id>/upgrade \
+curl -X POST "http://localhost:4000/billing/upgrade?auth_user=<user_id>" \
   -H "Content-Type: application/json" \
   -d '{"plan": "pro"}'
 ```
@@ -58,10 +59,10 @@ curl -X POST http://localhost:4000/billing/<user_id>/upgrade \
 ### Projects
 
 ```bash
-# Create a project (enforces plan-based limits)
-curl -X POST http://localhost:4000/projects \
+# Create a project (enforces plan-based limits, requires auth)
+curl -X POST "http://localhost:4000/projects?auth_user=<user_id>" \
   -H "Content-Type: application/json" \
-  -d '{"name": "My Project", "description": "A great project", "owner_id": "<user_id>"}'
+  -d '{"name": "My Project", "description": "A great project"}'
 
 # List projects
 curl http://localhost:4000/projects

@@ -1,4 +1,5 @@
 import { api, APIError } from "encore.dev/api";
+import { getAuthData } from "~encore/auth";
 import { SQLDatabase } from "encore.dev/storage/sqldb";
 import { billing } from "~encore/clients";
 import crypto from "node:crypto";
@@ -25,15 +26,16 @@ interface Project {
 interface CreateProjectRequest {
   name: string;
   description: string;
-  owner_id: string;
 }
 
 // Create a project. Enforces plan-based limits on the number of projects per user.
 export const create = api(
-  { expose: true, auth: false, method: "POST", path: "/projects" },
-  async ({ name, description, owner_id }: CreateProjectRequest): Promise<Project> => {
+  { expose: true, auth: true, method: "POST", path: "/projects" },
+  async ({ name, description }: CreateProjectRequest): Promise<Project> => {
+    const { userId: owner_id } = getAuthData()!;
+
     // Check the owner's plan to determine project limit.
-    const sub = await billing.get({ user_id: owner_id });
+    const sub = await billing.get();
     const limit = PLAN_LIMITS[sub.plan] ?? PLAN_LIMITS.free;
 
     // Count existing projects for this user.

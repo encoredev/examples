@@ -1,12 +1,11 @@
 import { api } from "encore.dev/api";
+import { appMeta } from "encore.dev";
 
 // Landing page with usage instructions.
 export const index = api.raw(
   { expose: true, method: "GET", path: "/" },
   async (req, resp) => {
-    const host = req.headers["host"] ?? "localhost:4000";
-    const proto = req.headers["x-forwarded-proto"] ?? "http";
-    const baseUrl = `${proto}://${host}`;
+    const baseUrl = appMeta().apiBaseUrl;
     resp.setHeader("Content-Type", "text/html");
     resp.end(landingPage.replaceAll("{{baseUrl}}", baseUrl));
   },

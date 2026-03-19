@@ -1,4 +1,5 @@
 import { api, APIError } from "encore.dev/api";
+import { appMeta } from "encore.dev";
 import { SQLDatabase } from "encore.dev/storage/sqldb";
 import { randomBytes } from "node:crypto";
 
@@ -6,9 +7,7 @@ import { randomBytes } from "node:crypto";
 export const index = api.raw(
   { expose: true, method: "GET", path: "/" },
   async (req, resp) => {
-    const host = req.headers["host"] ?? "localhost:4000";
-    const proto = req.headers["x-forwarded-proto"] ?? "http";
-    const baseUrl = `${proto}://${host}`;
+    const baseUrl = appMeta().apiBaseUrl;
     resp.setHeader("Content-Type", "text/html");
     resp.end(landingPage.replaceAll("{{baseUrl}}", baseUrl));
   },

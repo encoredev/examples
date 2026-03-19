@@ -1,4 +1,5 @@
 import { api } from "encore.dev/api";
+import { appMeta } from "encore.dev";
 import { secret } from "encore.dev/config";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import type { IncomingMessage } from "node:http";
@@ -8,9 +9,7 @@ import type { IncomingHttpHeaders } from "http";
 export const index = api.raw(
   { expose: true, method: "GET", path: "/" },
   async (req, resp) => {
-    const host = req.headers["host"] ?? "localhost:4000";
-    const proto = req.headers["x-forwarded-proto"] ?? "http";
-    const baseUrl = `${proto}://${host}`;
+    const baseUrl = appMeta().apiBaseUrl;
     resp.setHeader("Content-Type", "text/html");
     resp.end(slackLandingPage.replaceAll("{{baseUrl}}", baseUrl));
   },

@@ -1,4 +1,5 @@
 import { api, APIError } from "encore.dev/api";
+import { appMeta } from "encore.dev";
 import { Topic } from "encore.dev/pubsub";
 import { SQLDatabase } from "encore.dev/storage/sqldb";
 import crypto from "node:crypto";
@@ -7,9 +8,7 @@ import crypto from "node:crypto";
 export const index = api.raw(
   { expose: true, method: "GET", path: "/" },
   async (req, resp) => {
-    const host = req.headers["host"] ?? "localhost:4000";
-    const proto = req.headers["x-forwarded-proto"] ?? "http";
-    const baseUrl = `${proto}://${host}`;
+    const baseUrl = appMeta().apiBaseUrl;
     resp.setHeader("Content-Type", "text/html");
     resp.end(landingPage.replaceAll("{{baseUrl}}", baseUrl));
   },
@@ -87,19 +86,19 @@ const landingPage = `<!DOCTYPE html>
 
   <div class="endpoint">
     <span class="method get">GET</span>
-    <span class="path">/billing/:user_id</span>
+    <span class="path">/billing</span>
     <code>billing.get</code>
   </div>
-  <p class="desc">Get billing info for a user. Auto-created after user signup.</p>
-  <pre><code>curl {{baseUrl}}/billing/&lt;user_id&gt;</code></pre>
+  <p class="desc">Get billing info for the authenticated user. Auto-created after user signup.</p>
+  <pre><code>curl "{{baseUrl}}/billing?auth_user=&lt;user_id&gt;"</code></pre>
 
   <div class="endpoint">
     <span class="method post">POST</span>
-    <span class="path">/billing/:user_id/upgrade</span>
+    <span class="path">/billing/upgrade</span>
     <code>billing.upgrade</code>
   </div>
-  <p class="desc">Upgrade a user's plan. Options: free, pro, enterprise.</p>
-  <pre><code>curl -X POST {{baseUrl}}/billing/&lt;user_id&gt;/upgrade \\
+  <p class="desc">Upgrade the authenticated user's plan. Options: free, pro, enterprise.</p>
+  <pre><code>curl -X POST "{{baseUrl}}/billing/upgrade?auth_user=&lt;user_id&gt;" \\
   -H "Content-Type: application/json" \\
   -d '{"plan": "pro"}'</code></pre>
 
@@ -110,10 +109,10 @@ const landingPage = `<!DOCTYPE html>
     <span class="path">/projects</span>
     <code>project.create</code>
   </div>
-  <p class="desc">Create a project. Enforces plan-based limits (free: 3, pro: 25, enterprise: unlimited).</p>
-  <pre><code>curl -X POST {{baseUrl}}/projects \\
+  <p class="desc">Create a project. Enforces plan-based limits (free: 3, pro: 25, enterprise: unlimited). Requires authentication.</p>
+  <pre><code>curl -X POST "{{baseUrl}}/projects?auth_user=&lt;user_id&gt;" \\
   -H "Content-Type: application/json" \\
-  -d '{"name": "My Project", "description": "A great project", "owner_id": "&lt;user_id&gt;"}'</code></pre>
+  -d '{"name": "My Project", "description": "A great project"}'</code></pre>
 
   <div class="endpoint">
     <span class="method get">GET</span>

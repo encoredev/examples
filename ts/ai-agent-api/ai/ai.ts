@@ -1,7 +1,11 @@
 import { api, APIError } from "encore.dev/api";
 import { secret } from "encore.dev/config";
+import Anthropic from "@anthropic-ai/sdk";
 
 const anthropicAPIKey = secret("AnthropicAPIKey");
+
+const client = () =>
+  new Anthropic({ apiKey: anthropicAPIKey() });
 
 export interface Message {
   role: "user" | "assistant";
@@ -20,35 +24,15 @@ interface CompleteResponse {
 export const complete = api(
   { expose: false, method: "POST", path: "/ai/complete" },
   async ({ messages }: CompleteRequest): Promise<CompleteResponse> => {
-    const resp = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": anthropicAPIKey(),
-        "anthropic-version": "2023-06-01",
-      },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 1024,
-        messages: messages.map((m) => ({
-          role: m.role,
-          content: m.content,
-        })),
-      }),
+    const response = await client().messages.create({
+      model: "claude-sonnet-4-6",
+      max_tokens: 1024,
+      messages,
     });
 
-    if (!resp.ok) {
-      const body = await resp.text();
-      throw APIError.internal(`AI request failed: ${resp.status} ${body}`);
-    }
-
-    const data = (await resp.json()) as {
-      content: { type: string; text: string }[];
-    };
-
-    const text = data.content
-      .filter((c) => c.type === "text")
-      .map((c) => c.text)
+    const text = response.content
+      .filter((block): block is Anthropic.TextBlock => block.type === "text")
+      .map((block) => block.text)
       .join("");
 
     return { content: text };
