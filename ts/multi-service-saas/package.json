@@ -1,0 +1,22 @@
+{
+  "name": "multi-service-saas",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Multi-Service SaaS Backend Starter",
+  "license": "MPL-2.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2",
+    "vitest": "^2.1.4"
+  },
+  "dependencies": {
+    "encore.dev": "^1.37.1"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
+  }
+}

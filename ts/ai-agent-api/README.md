@@ -1,0 +1,59 @@
+# AI Agent API Backend
+
+A backend for building AI-powered applications using [Encore.ts](https://encore.dev) and Claude.
+
+## Architecture
+
+This app has two services:
+
+- **chat** — Manages conversation sessions and message history (Postgres DB). Exposes the public API.
+- **ai** — Internal service that calls the Anthropic Claude API to generate responses.
+
+## Prerequisites
+
+- [Encore CLI](https://encore.dev/docs/ts/install)
+- An [Anthropic API key](https://console.anthropic.com/)
+
+## Getting Started
+
+1. Set the Anthropic API key as a secret:
+
+```bash
+encore secret set --type dev,local,pr,prod AnthropicAPIKey
+```
+
+2. Run the app:
+
+```bash
+encore run
+```
+
+## API Endpoints
+
+### Send a message
+
+```bash
+curl -X POST http://localhost:4000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "What is Encore?"}'
+```
+
+Returns a `session_id` you can use for follow-up messages:
+
+```bash
+curl -X POST http://localhost:4000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Tell me more", "session_id": "<session_id>"}'
+```
+
+### Get conversation history
+
+```bash
+curl http://localhost:4000/chat/<session_id>
+```
+
+### List all sessions
+
+```bash
+curl http://localhost:4000/chat
+```
