@@ -40,7 +40,7 @@ const landingPage = `<!DOCTYPE html>
     .path { font-family: monospace; color: #e5e5e5; }
     .desc { color: #737373; font-size: 0.9rem; margin-bottom: 1.25rem; }
     a { color: #60a5fa; }
-    .badge { display: inline-block; background: #1d4ed8; color: #fff; font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 999px; margin-left: 0.5rem; font-weight: 600; }
+    .badge { display: inline-block; background: #1d4ed8; color: #fff; font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 999px; margin-left: 0.5rem; font-weight: 600; vertical-align: middle; position: relative; top: -0.15em; }
   </style>
 </head>
 <body>
