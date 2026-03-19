@@ -69,12 +69,12 @@ encore secret set --type dev,local,pr,prod WebhookSecretGitHub</code></pre>
   <p class="desc">Receive a webhook. Validates signature if configured, then queues for processing.</p>
   <pre><code>curl -X POST {{baseUrl}}/webhooks/stripe \\
   -H "Content-Type: application/json" \\
-  -d '{"payload": {"type": "payment_intent.succeeded", "data": {"amount": 2000}}}'</code></pre>
+  -d '{"event_type": "payment_intent.succeeded", "body": "{\\\"amount\\\": 2000}"}'</code></pre>
 
   <pre><code># GitHub webhook example
 curl -X POST {{baseUrl}}/webhooks/github \\
   -H "Content-Type: application/json" \\
-  -d '{"payload": {"action": "push", "ref": "refs/heads/main"}}'</code></pre>
+  -d '{"event_type": "push", "body": "{\\\"ref\\\": \\\"refs/heads/main\\\"}"}'</code></pre>
 
   <h3>Processed Events</h3>
 
@@ -94,6 +94,24 @@ curl -X POST {{baseUrl}}/webhooks/github \\
   <p class="desc">Get a specific processed event by ID.</p>
   <pre><code>curl {{baseUrl}}/webhooks/events/1</code></pre>
 
+  <h3>Notifications</h3>
+
+  <div class="endpoint">
+    <span class="method get">GET</span>
+    <span class="path">/notifications</span>
+    <code>notifications.list</code>
+  </div>
+  <p class="desc">List recent important notifications (payment events, releases, etc.).</p>
+  <pre><code>curl {{baseUrl}}/notifications</code></pre>
+
+  <div class="endpoint">
+    <span class="method get">GET</span>
+    <span class="path">/notifications/stats</span>
+    <code>notifications.stats</code>
+  </div>
+  <p class="desc">Get notification counts grouped by event type.</p>
+  <pre><code>curl {{baseUrl}}/notifications/stats</code></pre>
+
 </body>
 </html>`;
 
@@ -102,7 +120,10 @@ const githubSecret = secret("WebhookSecretGitHub");
 
 interface IngestRequest {
   source: string;
-  payload: Record<string, unknown>;
+  // The event type (e.g. "payment_intent.succeeded" for Stripe, "push" for GitHub).
+  event_type?: string;
+  // The webhook payload as a JSON string.
+  body: string;
   signature?: string;
 }
 
@@ -114,13 +135,13 @@ interface IngestResponse {
 // Validates the signature if a secret is configured for the source.
 export const receive = api(
   { expose: true, auth: false, method: "POST", path: "/webhooks/:source" },
-  async ({ source, payload, signature }: IngestRequest): Promise<IngestResponse> => {
+  async ({ source, event_type, body, signature }: IngestRequest): Promise<IngestResponse> => {
     // Validate signature if secret is configured for this source.
     const webhookSecret = getSecretForSource(source);
     if (webhookSecret && signature) {
       const expected = crypto
         .createHmac("sha256", webhookSecret)
-        .update(JSON.stringify(payload))
+        .update(body)
         .digest("hex");
 
       if (signature !== expected) {
@@ -128,12 +149,20 @@ export const receive = api(
       }
     }
 
-    // Extract event type from common webhook payload patterns.
-    const event_type = extractEventType(source, payload);
+    // Parse body to store as structured data.
+    let payload: Record<string, unknown> = {};
+    try {
+      payload = JSON.parse(body);
+    } catch {
+      payload = { raw: body };
+    }
+
+    // Use provided event_type, or try to extract from payload.
+    const resolvedType = event_type ?? extractEventType(source, payload);
 
     await WebhookTopic.publish({
       source,
-      event_type,
+      event_type: resolvedType,
       payload,
       received_at: new Date().toISOString(),
     });
@@ -157,15 +186,12 @@ function extractEventType(
   source: string,
   payload: Record<string, unknown>,
 ): string {
-  // Stripe uses a "type" field (e.g. "payment_intent.succeeded").
   if (source === "stripe" && typeof payload.type === "string") {
     return payload.type;
   }
-  // GitHub uses an "action" field within the event payload.
   if (source === "github" && typeof payload.action === "string") {
     return payload.action;
   }
-  // Fall back to a generic event type.
   if (typeof payload.event === "string") {
     return payload.event;
   }

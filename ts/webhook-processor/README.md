@@ -7,8 +7,8 @@ A webhook ingestion and processing system built with [Encore.ts](https://encore.
 This app has three services:
 
 - **ingest** — Receives webhooks via HTTP, validates signatures, and publishes events to a Pub/Sub topic.
-- **processor** — Subscribes to the topic, stores events in Postgres, and exposes a query API.
-- **notifications** — Subscribes to the same topic independently, logging important events (fan-out pattern).
+- **processor** — Subscribes to the topic, stores all events in Postgres, and exposes a query API.
+- **notifications** — Subscribes to the same topic independently, stores important events (payments, releases, etc.) and provides stats. Demonstrates the fan-out pattern.
 
 Both `processor` and `notifications` receive every event, but handle them differently. This is the fan-out pattern — one event published, multiple subscribers process it independently.
 
@@ -27,6 +27,10 @@ encore secret set --type dev,local,pr,prod WebhookSecretGitHub
 encore run
 ```
 
+The Postgres databases are provisioned automatically on startup. No manual database setup required.
+
+Open [http://localhost:4000](http://localhost:4000) for usage instructions, or [http://localhost:9400](http://localhost:9400) for the Local Dashboard.
+
 ## API Endpoints
 
 ### Receive a webhook
@@ -34,7 +38,7 @@ encore run
 ```bash
 curl -X POST http://localhost:4000/webhooks/stripe \
   -H "Content-Type: application/json" \
-  -d '{"payload": {"type": "payment_intent.succeeded", "data": {"amount": 2000}}}'
+  -d '{"event_type": "payment_intent.succeeded", "body": "{\"amount\": 2000}"}'
 ```
 
 ### List processed events
@@ -47,4 +51,16 @@ curl http://localhost:4000/webhooks/events
 
 ```bash
 curl http://localhost:4000/webhooks/events/1
+```
+
+### List important notifications
+
+```bash
+curl http://localhost:4000/notifications
+```
+
+### Get notification stats
+
+```bash
+curl http://localhost:4000/notifications/stats
 ```
