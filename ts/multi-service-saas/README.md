@@ -1,6 +1,6 @@
 # Multi-Service SaaS Backend
 
-A production-ready SaaS backend pattern built with [Encore.ts](https://encore.dev), demonstrating multi-service architecture with event-driven communication.
+A SaaS backend starter built with [Encore.ts](https://encore.dev), demonstrating multi-service architecture with event-driven communication.
 
 ## Architecture
 
@@ -8,12 +8,12 @@ This app has three services, each with its own database:
 
 - **user** — User management. Publishes `UserCreated` events.
 - **billing** — Subscription management. Subscribes to `UserCreated` to auto-provision free plans. Publishes `PlanChanged` events on upgrades.
-- **product** — Product CRUD. Calls the billing service to verify active subscriptions before allowing product creation.
+- **project** — Project management. Enforces plan-based limits (free: 3, pro: 25, enterprise: unlimited) via the billing service.
 
 ### Patterns demonstrated
 
 - **Event-driven provisioning** — When a user signs up, the billing service automatically creates a free subscription via Pub/Sub.
-- **Cross-service authorization** — The product service calls the billing service to check subscription status before creating products.
+- **Plan-based limits** — The project service calls the billing service to enforce project limits based on the user's plan.
 - **Database per service** — Each service owns its data, with no shared tables.
 
 ## Getting Started
@@ -21,6 +21,10 @@ This app has three services, each with its own database:
 ```bash
 encore run
 ```
+
+The Postgres databases are provisioned automatically on startup. Each service gets its own database — no manual setup required.
+
+Open [http://localhost:4000](http://localhost:4000) for usage instructions, or [http://localhost:9400](http://localhost:9400) for the Local Dashboard.
 
 ## API Endpoints
 
@@ -51,20 +55,20 @@ curl -X POST http://localhost:4000/billing/<user_id>/upgrade \
   -d '{"plan": "pro"}'
 ```
 
-### Products
+### Projects
 
 ```bash
-# Create a product (requires active subscription)
-curl -X POST http://localhost:4000/products \
+# Create a project (enforces plan-based limits)
+curl -X POST http://localhost:4000/projects \
   -H "Content-Type: application/json" \
-  -d '{"name": "My Product", "description": "A great product", "owner_id": "<user_id>"}'
+  -d '{"name": "My Project", "description": "A great project", "owner_id": "<user_id>"}'
 
-# List products
-curl http://localhost:4000/products
+# List projects
+curl http://localhost:4000/projects
 
 # List by owner
-curl "http://localhost:4000/products?owner_id=<user_id>"
+curl "http://localhost:4000/projects?owner_id=<user_id>"
 
-# Get a product
-curl http://localhost:4000/products/<product_id>
+# Get a project
+curl http://localhost:4000/projects/<project_id>
 ```

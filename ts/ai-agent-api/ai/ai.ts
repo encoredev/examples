@@ -16,7 +16,7 @@ interface CompleteResponse {
   content: string;
 }
 
-// Internal API for generating AI completions using Claude.
+// Generate an AI completion using the Anthropic Claude API.
 export const complete = api(
   { expose: false, method: "POST", path: "/ai/complete" },
   async ({ messages }: CompleteRequest): Promise<CompleteResponse> => {

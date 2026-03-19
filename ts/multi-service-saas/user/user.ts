@@ -3,10 +3,7 @@ import { Topic } from "encore.dev/pubsub";
 import { SQLDatabase } from "encore.dev/storage/sqldb";
 import crypto from "node:crypto";
 
-// -------------------------------------------------------------------
-// GET / — Landing page with usage instructions
-// -------------------------------------------------------------------
-
+// Landing page with setup instructions and API documentation.
 export const index = api.raw(
   { expose: true, method: "GET", path: "/" },
   async (req, resp) => {
@@ -46,7 +43,7 @@ const landingPage = `<!DOCTYPE html>
 </head>
 <body>
   <h1>Multi-Service SaaS <span class="badge">Encore.ts</span></h1>
-  <p>A production-ready SaaS backend with user management, billing, and a product API. Demonstrates event-driven provisioning, cross-service authorization, and database-per-service architecture.</p>
+  <p>A SaaS backend starter with user management, billing, and project management. Demonstrates event-driven provisioning, plan-based limits, and database-per-service architecture.</p>
 
   <p>Explore and test all endpoints in the <a href="http://localhost:9400/">Local Dashboard</a> when running locally, or in <a href="https://app.encore.cloud">Encore Cloud</a> when deployed.</p>
 
@@ -54,7 +51,7 @@ const landingPage = `<!DOCTYPE html>
   <p>No secrets or manual configuration needed. The Postgres databases are provisioned automatically when you run <code>encore run</code>. Each service gets its own database.</p>
 
   <h2>Architecture</h2>
-  <p>When a user is created, the <strong>billing</strong> service automatically provisions a free subscription via Pub/Sub. The <strong>product</strong> service checks billing status before allowing product creation.</p>
+  <p>When a user is created, the <strong>billing</strong> service automatically provisions a free subscription via Pub/Sub. The <strong>project</strong> service enforces plan-based limits (free: 3, pro: 25, enterprise: unlimited).</p>
 
   <h2>Endpoints</h2>
 
@@ -106,34 +103,34 @@ const landingPage = `<!DOCTYPE html>
   -H "Content-Type: application/json" \\
   -d '{"plan": "pro"}'</code></pre>
 
-  <h3>Products</h3>
+  <h3>Projects</h3>
 
   <div class="endpoint">
     <span class="method post">POST</span>
-    <span class="path">/products</span>
-    <code>product.create</code>
+    <span class="path">/projects</span>
+    <code>project.create</code>
   </div>
-  <p class="desc">Create a product. Requires the owner to have an active subscription.</p>
-  <pre><code>curl -X POST {{baseUrl}}/products \\
+  <p class="desc">Create a project. Enforces plan-based limits (free: 3, pro: 25, enterprise: unlimited).</p>
+  <pre><code>curl -X POST {{baseUrl}}/projects \\
   -H "Content-Type: application/json" \\
-  -d '{"name": "My Product", "description": "A great product", "owner_id": "&lt;user_id&gt;"}'</code></pre>
+  -d '{"name": "My Project", "description": "A great project", "owner_id": "&lt;user_id&gt;"}'</code></pre>
 
   <div class="endpoint">
     <span class="method get">GET</span>
-    <span class="path">/products/:id</span>
-    <code>product.get</code>
+    <span class="path">/projects/:id</span>
+    <code>project.get</code>
   </div>
-  <p class="desc">Get a product by ID.</p>
-  <pre><code>curl {{baseUrl}}/products/&lt;product_id&gt;</code></pre>
+  <p class="desc">Get a project by ID.</p>
+  <pre><code>curl {{baseUrl}}/projects/&lt;project_id&gt;</code></pre>
 
   <div class="endpoint">
     <span class="method get">GET</span>
-    <span class="path">/products</span>
-    <code>product.list</code>
+    <span class="path">/projects</span>
+    <code>project.list</code>
   </div>
-  <p class="desc">List products. Optionally filter by owner.</p>
-  <pre><code>curl {{baseUrl}}/products
-curl "{{baseUrl}}/products?owner_id=&lt;user_id&gt;"</code></pre>
+  <p class="desc">List projects. Optionally filter by owner.</p>
+  <pre><code>curl {{baseUrl}}/projects
+curl "{{baseUrl}}/projects?owner_id=&lt;user_id&gt;"</code></pre>
 
 </body>
 </html>`;
@@ -141,10 +138,6 @@ curl "{{baseUrl}}/products?owner_id=&lt;user_id&gt;"</code></pre>
 const db = new SQLDatabase("user", {
   migrations: "./migrations",
 });
-
-// -------------------------------------------------------------------
-// Events
-// -------------------------------------------------------------------
 
 export interface UserCreatedEvent {
   user_id: string;
@@ -155,10 +148,6 @@ export interface UserCreatedEvent {
 export const UserCreatedTopic = new Topic<UserCreatedEvent>("user-created", {
   deliveryGuarantee: "at-least-once",
 });
-
-// -------------------------------------------------------------------
-// Types
-// -------------------------------------------------------------------
 
 interface CreateUserRequest {
   email: string;
@@ -172,10 +161,7 @@ interface User {
   created_at: string;
 }
 
-// -------------------------------------------------------------------
-// POST /users — Create a new user
-// -------------------------------------------------------------------
-
+// Create a new user. Publishes a UserCreated event for downstream services.
 export const create = api(
   { expose: true, auth: false, method: "POST", path: "/users" },
   async ({ email, name }: CreateUserRequest): Promise<User> => {
@@ -192,10 +178,7 @@ export const create = api(
   },
 );
 
-// -------------------------------------------------------------------
-// GET /users/:id — Get a user by ID
-// -------------------------------------------------------------------
-
+// Get a user by ID.
 export const get = api(
   { expose: true, auth: false, method: "GET", path: "/users/:id" },
   async ({ id }: { id: string }): Promise<User> => {
@@ -208,10 +191,7 @@ export const get = api(
   },
 );
 
-// -------------------------------------------------------------------
-// GET /users — List all users
-// -------------------------------------------------------------------
-
+// List all users.
 export const list = api(
   { expose: true, auth: false, method: "GET", path: "/users" },
   async (): Promise<{ users: User[] }> => {

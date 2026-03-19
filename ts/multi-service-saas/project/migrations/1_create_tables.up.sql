@@ -1,4 +1,4 @@
-CREATE TABLE products (
+CREATE TABLE projects (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
@@ -6,4 +6,4 @@ CREATE TABLE products (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX idx_products_owner_id ON products(owner_id);
+CREATE INDEX idx_projects_owner_id ON projects(owner_id);

@@ -3,10 +3,7 @@ import { SQLDatabase } from "encore.dev/storage/sqldb";
 import { ai } from "~encore/clients";
 import crypto from "node:crypto";
 
-// -------------------------------------------------------------------
-// GET / — Landing page with usage instructions
-// -------------------------------------------------------------------
-
+// Landing page with setup instructions and API documentation.
 export const index = api.raw(
   { expose: true, method: "GET", path: "/" },
   async (req, resp) => {
@@ -94,10 +91,6 @@ const db = new SQLDatabase("chat", {
   migrations: "./migrations",
 });
 
-// -------------------------------------------------------------------
-// POST /chat — Send a message and get an AI response
-// -------------------------------------------------------------------
-
 interface ChatRequest {
   message: string;
   session_id?: string;
@@ -108,6 +101,8 @@ interface ChatResponse {
   response: string;
 }
 
+// Send a message and get an AI response.
+// If no session_id is provided, a new conversation session is created.
 export const send = api(
   { expose: true, auth: false, method: "POST", path: "/chat" },
   async ({ message, session_id }: ChatRequest): Promise<ChatResponse> => {
@@ -149,16 +144,13 @@ export const send = api(
   },
 );
 
-// -------------------------------------------------------------------
-// GET /chat/:session_id — Get conversation history
-// -------------------------------------------------------------------
-
 interface MessageResponse {
   role: string;
   content: string;
   created_at: string;
 }
 
+// Get the full conversation history for a session.
 export const history = api(
   { expose: true, auth: false, method: "GET", path: "/chat/:session_id" },
   async ({ session_id }: { session_id: string }): Promise<{ messages: MessageResponse[] }> => {
@@ -179,15 +171,12 @@ export const history = api(
   },
 );
 
-// -------------------------------------------------------------------
-// GET /chat — List all sessions
-// -------------------------------------------------------------------
-
 interface Session {
   id: string;
   created_at: string;
 }
 
+// List all conversation sessions.
 export const listSessions = api(
   { expose: true, auth: false, method: "GET", path: "/chat" },
   async (): Promise<{ sessions: Session[] }> => {

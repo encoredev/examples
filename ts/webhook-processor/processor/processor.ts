@@ -20,10 +20,6 @@ const _ = new Subscription(WebhookTopic, "process-events", {
   },
 });
 
-// -------------------------------------------------------------------
-// GET /webhooks/events — List recent processed events
-// -------------------------------------------------------------------
-
 interface StoredEvent {
   id: number;
   source: string;
@@ -34,6 +30,7 @@ interface StoredEvent {
   processed_at: string;
 }
 
+// List the 50 most recent processed webhook events.
 export const list = api(
   { expose: true, auth: false, method: "GET", path: "/webhooks/events" },
   async (): Promise<{ events: StoredEvent[] }> => {
@@ -51,10 +48,7 @@ export const list = api(
   },
 );
 
-// -------------------------------------------------------------------
-// GET /webhooks/events/:id — Get a specific event
-// -------------------------------------------------------------------
-
+// Get a specific processed webhook event by ID.
 export const get = api(
   { expose: true, auth: false, method: "GET", path: "/webhooks/events/:id" },
   async ({ id }: { id: number }): Promise<StoredEvent> => {

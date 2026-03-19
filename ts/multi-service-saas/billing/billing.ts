@@ -8,10 +8,6 @@ const db = new SQLDatabase("billing", {
   migrations: "./migrations",
 });
 
-// -------------------------------------------------------------------
-// Events
-// -------------------------------------------------------------------
-
 export interface PlanChangedEvent {
   user_id: string;
   old_plan: string;
@@ -22,10 +18,7 @@ export const PlanChangedTopic = new Topic<PlanChangedEvent>("plan-changed", {
   deliveryGuarantee: "at-least-once",
 });
 
-// -------------------------------------------------------------------
-// Auto-create free plan when a user signs up
-// -------------------------------------------------------------------
-
+// Auto-create a free plan when a new user signs up.
 const _ = new Subscription(UserCreatedTopic, "create-free-plan", {
   handler: async (event) => {
     log.info("creating free plan for new user", { user_id: event.user_id });
@@ -38,10 +31,6 @@ const _ = new Subscription(UserCreatedTopic, "create-free-plan", {
   },
 });
 
-// -------------------------------------------------------------------
-// Types
-// -------------------------------------------------------------------
-
 interface Subscription_ {
   id: number;
   user_id: string;
@@ -51,10 +40,7 @@ interface Subscription_ {
   updated_at: string;
 }
 
-// -------------------------------------------------------------------
-// GET /billing/:user_id — Get billing info
-// -------------------------------------------------------------------
-
+// Get billing info for a user.
 export const get = api(
   { expose: true, auth: false, method: "GET", path: "/billing/:user_id" },
   async ({ user_id }: { user_id: string }): Promise<Subscription_> => {
@@ -67,15 +53,12 @@ export const get = api(
   },
 );
 
-// -------------------------------------------------------------------
-// POST /billing/:user_id/upgrade — Upgrade plan
-// -------------------------------------------------------------------
-
 interface UpgradeRequest {
   user_id: string;
   plan: string;
 }
 
+// Upgrade a user's subscription plan. Options: free, pro, enterprise.
 export const upgrade = api(
   { expose: true, auth: false, method: "POST", path: "/billing/:user_id/upgrade" },
   async ({ user_id, plan }: UpgradeRequest): Promise<Subscription_> => {

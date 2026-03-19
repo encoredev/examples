@@ -3,10 +3,7 @@ import { secret } from "encore.dev/config";
 import { WebhookTopic } from "./topic";
 import crypto from "node:crypto";
 
-// -------------------------------------------------------------------
-// GET / — Landing page with usage instructions
-// -------------------------------------------------------------------
-
+// Landing page with setup instructions and API documentation.
 export const index = api.raw(
   { expose: true, method: "GET", path: "/" },
   async (req, resp) => {
@@ -113,9 +110,8 @@ interface IngestResponse {
   status: string;
 }
 
-// POST /webhooks/:source — Receive and queue a webhook.
-// Validates the signature if a secret is configured for the source,
-// then publishes the event to the webhook topic for async processing.
+// Receive and queue a webhook for async processing.
+// Validates the signature if a secret is configured for the source.
 export const receive = api(
   { expose: true, auth: false, method: "POST", path: "/webhooks/:source" },
   async ({ source, payload, signature }: IngestRequest): Promise<IngestResponse> => {
