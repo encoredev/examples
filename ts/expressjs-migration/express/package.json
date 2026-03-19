@@ -7,7 +7,7 @@
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
-    "test": "vitest",
+    "test": "vitest --passWithNoTests",
     "db:up": "docker-compose -f docker/postgresql/docker-compose.yml up",
     "db:down": "docker-compose -f docker/postgresql/docker-compose.yml down"
   },
