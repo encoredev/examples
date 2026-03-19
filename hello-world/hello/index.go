@@ -9,6 +9,10 @@ import (
 //
 //encore:api public raw path=/!path
 func Index(w http.ResponseWriter, req *http.Request) {
+	if req.URL.Path != "/" {
+		http.NotFound(w, req)
+		return
+	}
 	host := req.Host
 	if host == "" {
 		host = "localhost:4000"
