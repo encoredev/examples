@@ -52,6 +52,9 @@ const landingPage = `<!DOCTYPE html>
   <h2>Architecture</h2>
   <p>When a user is created, the <strong>billing</strong> service automatically provisions a free subscription via Pub/Sub. The <strong>project</strong> service enforces plan-based limits (free: 3, pro: 25, enterprise: unlimited).</p>
 
+  <h2>Authentication</h2>
+  <p>Billing and project endpoints require authentication. This example includes a placeholder auth handler that reads the user ID from the <code>?auth_user=</code> query parameter. In a real app, you would replace this with a proper auth implementation (e.g. JWT validation, session cookies, or an auth provider like Clerk or Auth0).</p>
+
   <h2>Endpoints</h2>
 
   <h3>Users</h3>

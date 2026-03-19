@@ -13,8 +13,10 @@ This app has three services, each with its own database:
 
 ### Patterns demonstrated
 
+- **Authentication** — A placeholder auth handler reads the user ID from the `?auth_user=` query parameter. In a real app, replace this with JWT validation, session cookies, or an auth provider like Clerk or Auth0.
 - **Event-driven provisioning** — When a user signs up, the billing service automatically creates a free subscription via Pub/Sub.
 - **Plan-based limits** — The project service calls the billing service to enforce project limits based on the user's plan.
+- **Cross-service authorization** — Authenticated endpoints resolve the user from the auth context and pass it to downstream services.
 - **Database per service** — Each service owns its data, with no shared tables.
 
 ## Getting Started
