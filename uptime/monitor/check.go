@@ -38,7 +38,6 @@ func CheckAll(ctx context.Context) error {
 	g, ctx := errgroup.WithContext(ctx)
 	g.SetLimit(8)
 	for _, site := range resp.Sites {
-		site := site // capture for closure
 		g.Go(func() error {
 			return check(ctx, site)
 		})

@@ -12,15 +12,12 @@ var (
 	dist embed.FS
 
 	assets, _ = fs.Sub(dist, "dist")
-	handler   = http.StripPrefix("/frontend/", http.FileServer(http.FS(assets)))
+	handler   = http.FileServer(http.FS(assets))
 )
 
-// Serve serves the frontend for development using a raw endpoint.
-// Learn more: https://encore.dev/docs/primitives/services-and-apis#raw-endpoints
-// For production use we recommend deploying the frontend
-// using Vercel, Netlify, or similar.
+// Serves the frontend at the root URL.
 //
-//encore:api public raw path=/frontend/*path
-func Serve(w http.ResponseWriter, req *http.Request) {
+//encore:api public raw path=/!path
+func Index(w http.ResponseWriter, req *http.Request) {
 	handler.ServeHTTP(w, req)
 }

@@ -7,7 +7,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -34,6 +34,8 @@ const cowart = `
                 ||     ||
 `
 
+// Cowsay is a Slack slash command handler. Verifies the request signature and responds with ASCII cow art.
+//
 //encore:api public raw path=/cowsay
 func Cowsay(w http.ResponseWriter, req *http.Request) {
 	body, err := verifyRequest(req)
@@ -55,7 +57,7 @@ func Cowsay(w http.ResponseWriter, req *http.Request) {
 // verifyRequest verifies that a request is coming from Slack.
 func verifyRequest(req *http.Request) (body []byte, err error) {
 	eb := errs.B().Code(errs.InvalidArgument)
-	body, err = ioutil.ReadAll(req.Body)
+	body, err = io.ReadAll(req.Body)
 	if err != nil {
 		return nil, eb.Cause(err).Err()
 	}

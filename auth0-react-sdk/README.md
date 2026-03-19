@@ -21,12 +21,12 @@ Create an Auth0 account if you haven't already. Then, in the Auth0 dashboard, cr
 Next, go to the *Application Settings* section. There you will find the `Domain` and `Client ID` that you need to communicate with Auth0. 
 Copy these values, we will need them shortly.
 
-A callback URL is where Auth0 redirects the user after they have been authenticated. Add `http://localhost:3000` to the *Allowed Callback URLs*. 
+A callback URL is where Auth0 redirects the user after they have been authenticated. Add `http://localhost:4000` to the *Allowed Callback URLs*. 
 You will need to add more URLs to this list when you have a production or staging environments. 
 
-The same goes for the logout URL (were the user will get redirected after logout). Add `http://localhost:3000` to the *Allowed Logout URLs*.
+The same goes for the logout URL (were the user will get redirected after logout). Add `http://localhost:4000` to the *Allowed Logout URLs*.
 
-Add `http://localhost:3000` to the *Allowed Web Origins*.
+Add `http://localhost:4000` to the *Allowed Web Origins*.
 
 In the Auth0 dashboard, go to the *APIs* page.
 
@@ -54,7 +54,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+Open [http://localhost:4000](http://localhost:4000) in your browser to see the result.
 
 ### Encore's Local Development Dashboard
 
