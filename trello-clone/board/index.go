@@ -11,7 +11,7 @@ import (
 //
 //encore:api public raw path=/!path
 func Index(w http.ResponseWriter, req *http.Request) {
-	baseUrl := encore.Meta().APIBaseURL
+	baseUrl := encore.Meta().APIBaseURL.String()
 
 	w.Header().Set("Content-Type", "text/html")
 	w.Write([]byte(strings.ReplaceAll(trelloLandingPage, "{{baseUrl}}", baseUrl)))
