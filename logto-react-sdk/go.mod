@@ -1,6 +1,6 @@
 module encore.app
 
-go 1.21
+go 1.26
 
 toolchain go1.21.4
 

@@ -1,6 +1,6 @@
 module encore.app
 
-go 1.22.2
+go 1.26
 
 require (
 	cloud.google.com/go/vertexai v0.10.0

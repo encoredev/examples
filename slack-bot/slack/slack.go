@@ -7,7 +7,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -57,7 +57,7 @@ func Cowsay(w http.ResponseWriter, req *http.Request) {
 // verifyRequest verifies that a request is coming from Slack.
 func verifyRequest(req *http.Request) (body []byte, err error) {
 	eb := errs.B().Code(errs.InvalidArgument)
-	body, err = ioutil.ReadAll(req.Body)
+	body, err = io.ReadAll(req.Body)
 	if err != nil {
 		return nil, eb.Cause(err).Err()
 	}
