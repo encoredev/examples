@@ -44,6 +44,8 @@ const landingPage = `<!DOCTYPE html>
   <h1>AI Agent API <span class="badge">Encore.ts</span></h1>
   <p>A conversational AI backend powered by Claude. Messages are persisted in Postgres so you can continue conversations across requests.</p>
 
+  <p>Explore and test all endpoints in the <a href="/frontend">Local Dashboard</a> when running locally, or in <a href="https://app.encore.cloud">Encore Cloud</a> when deployed.</p>
+
   <h2>Endpoints</h2>
 
   <div class="endpoint">
@@ -78,7 +80,6 @@ curl -X POST http://localhost:4000/chat \\
   <p>Set your Anthropic API key:</p>
   <pre><code>encore secret set --type dev,local,pr,prod AnthropicAPIKey</code></pre>
 
-  <p>Open the <a href="/frontend">Encore Local Dashboard</a> to explore and test all endpoints interactively.</p>
 </body>
 </html>`;
 
