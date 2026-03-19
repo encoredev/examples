@@ -7,7 +7,7 @@ import (
 
 // Landing page with usage instructions.
 //
-//encore:api public raw path=/
+//encore:api public raw path=/!path
 func Index(w http.ResponseWriter, req *http.Request) {
 	host := req.Host
 	if host == "" {

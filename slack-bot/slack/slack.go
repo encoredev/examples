@@ -34,6 +34,8 @@ const cowart = `
                 ||     ||
 `
 
+// Cowsay is a Slack slash command handler. Verifies the request signature and responds with ASCII cow art.
+//
 //encore:api public raw path=/cowsay
 func Cowsay(w http.ResponseWriter, req *http.Request) {
 	body, err := verifyRequest(req)

@@ -49,13 +49,7 @@ const slackLandingPage = `<!DOCTYPE html>
   <p>Explore and test endpoints in the <a href="http://localhost:9400/">Local Dashboard</a> when running locally. When deployed to <a href="https://app.encore.cloud">Encore Cloud</a>, use the Service Catalog to call endpoints and view traces to see how requests flow between services.</p>
 
   <h2>Setup</h2>
-  <ol>
-    <li>Create a <a href="https://api.slack.com/apps">Slack app</a> and add a Slash Command pointing to <code>{{baseUrl}}/cowsay</code></li>
-    <li>Copy the Signing Secret from your Slack app's Basic Information page</li>
-    <li>Set the secret:
-      <pre><code>encore secret set --type dev,local,pr,prod SlackSigningSecret</code></pre>
-    </li>
-  </ol>
+  <p>Follow the full setup guide in the <a href="https://github.com/encoredev/examples/tree/main/ts/slack-bot">GitHub README</a> to create a Slack app and configure the slash command.</p>
 
   <h2>Endpoint</h2>
 
@@ -88,6 +82,7 @@ const cowart = (msg: string) => `
 \`\`\`
 `;
 
+// Slack slash command handler. Verifies the request signature and responds with ASCII cow art.
 export const cowsay = api.raw(
   { expose: true, path: "/cowsay", method: "*" },
   async (req, resp) => {
