@@ -45,7 +45,7 @@ const landingPage = `<!DOCTYPE html>
   <h1>Multi-Service SaaS <span class="badge">Encore.ts</span></h1>
   <p>A SaaS backend starter with user management, billing, and project management. Demonstrates event-driven provisioning, plan-based limits, and database-per-service architecture.</p>
 
-  <p>Explore and test all endpoints in the <a href="http://localhost:9400/">Local Dashboard</a> when running locally, or in <a href="https://app.encore.cloud">Encore Cloud</a> when deployed.</p>
+  <p>Explore and test endpoints in the <a href="http://localhost:9400/">Local Dashboard</a> when running locally. When deployed to <a href="https://app.encore.cloud">Encore Cloud</a>, use the Service Catalog to call endpoints and view traces to see how requests flow between services.</p>
 
   <h2>Setup</h2>
   <p>No secrets or manual configuration needed. The Postgres databases are provisioned automatically when you run <code>encore run</code>. Each service gets its own database.</p>

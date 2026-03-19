@@ -29,7 +29,7 @@ encore run
 
 The Postgres databases are provisioned automatically on startup. No manual database setup required.
 
-Open [http://localhost:4000](http://localhost:4000) for usage instructions, or [http://localhost:9400](http://localhost:9400) for the Local Dashboard.
+Open [http://localhost:4000](http://localhost:4000) for usage instructions, or [http://localhost:9400](http://localhost:9400) for the Local Dashboard. When deployed to [Encore Cloud](https://app.encore.cloud), use the Service Catalog to call endpoints and view traces to see how requests flow between services.
 
 ## API Endpoints
 

@@ -45,7 +45,7 @@ const landingPage = `<!DOCTYPE html>
   <h1>Webhook Processor <span class="badge">Encore.ts</span></h1>
   <p>Receive, validate, and process webhooks from external services. Events are published to a Pub/Sub topic and processed by multiple subscribers independently (fan-out pattern).</p>
 
-  <p>Explore and test all endpoints in the <a href="http://localhost:9400/">Local Dashboard</a> when running locally, or in <a href="https://app.encore.cloud">Encore Cloud</a> when deployed.</p>
+  <p>Explore and test endpoints in the <a href="http://localhost:9400/">Local Dashboard</a> when running locally. When deployed to <a href="https://app.encore.cloud">Encore Cloud</a>, use the Service Catalog to call endpoints and view traces to see how requests flow between services.</p>
 
   <h2>Setup</h2>
   <p>Optionally set webhook secrets for signature validation:</p>
