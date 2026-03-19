@@ -1,2 +1,2 @@
-ClientID: "<your clientID>"
-Audience: "<your audience>"
+Domain:   "<your Auth0 domain>"
+Audience: "<your Auth0 API audience>"
