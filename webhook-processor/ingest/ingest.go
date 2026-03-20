@@ -35,21 +35,21 @@ func Receive(w http.ResponseWriter, req *http.Request) {
 	// Validate signature if a secret is configured for this source.
 	webhookSecret := getSecretForSource(source)
 	if webhookSecret != "" {
-		signature := req.Header.Get("X-Signature-256")
-		if signature == "" {
-			signature = req.Header.Get("Stripe-Signature")
+		var valid bool
+		switch source {
+		case "github":
+			valid = verifyGitHubSignature(req.Header.Get("X-Hub-Signature-256"), body, webhookSecret)
+		case "stripe":
+			valid = verifyStripeSignature(req.Header.Get("Stripe-Signature"), body, webhookSecret)
+		default:
+			valid = true // No verification for unknown sources.
 		}
-		if signature != "" {
-			mac := hmac.New(sha256.New, []byte(webhookSecret))
-			mac.Write(body)
-			expected := hex.EncodeToString(mac.Sum(nil))
 
-			if !hmac.Equal([]byte(signature), []byte(expected)) {
-				w.Header().Set("Content-Type", "application/json")
-				w.WriteHeader(http.StatusUnauthorized)
-				w.Write([]byte(`{"status":"invalid signature"}`))
-				return
-			}
+		if !valid {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnauthorized)
+			w.Write([]byte(`{"status":"invalid signature"}`))
+			return
 		}
 	}
 
@@ -115,4 +115,52 @@ func extractEventType(source string, headers http.Header, payload map[string]any
 		return t
 	}
 	return "unknown"
+}
+
+// verifyGitHubSignature verifies a GitHub webhook signature.
+// GitHub sends the HMAC-SHA256 signature in the X-Hub-Signature-256 header
+// as "sha256=<hex-digest>".
+func verifyGitHubSignature(signature string, body []byte, secret string) bool {
+	if signature == "" {
+		return false
+	}
+	signature = strings.TrimPrefix(signature, "sha256=")
+	mac := hmac.New(sha256.New, []byte(secret))
+	mac.Write(body)
+	expected := hex.EncodeToString(mac.Sum(nil))
+	return hmac.Equal([]byte(signature), []byte(expected))
+}
+
+// verifyStripeSignature verifies a Stripe webhook signature.
+// Stripe sends the signature in the Stripe-Signature header as
+// "t=<timestamp>,v1=<signature>". The signed payload is "<timestamp>.<body>".
+func verifyStripeSignature(header string, body []byte, secret string) bool {
+	if header == "" {
+		return false
+	}
+
+	var timestamp, sig string
+	for _, part := range strings.Split(header, ",") {
+		kv := strings.SplitN(part, "=", 2)
+		if len(kv) != 2 {
+			continue
+		}
+		switch kv[0] {
+		case "t":
+			timestamp = kv[1]
+		case "v1":
+			sig = kv[1]
+		}
+	}
+	if timestamp == "" || sig == "" {
+		return false
+	}
+
+	// Stripe's signed payload is "timestamp.body".
+	mac := hmac.New(sha256.New, []byte(secret))
+	mac.Write([]byte(timestamp))
+	mac.Write([]byte("."))
+	mac.Write(body)
+	expected := hex.EncodeToString(mac.Sum(nil))
+	return hmac.Equal([]byte(sig), []byte(expected))
 }
