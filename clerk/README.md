@@ -3,6 +3,8 @@
 This is an example of how to do user authentication using [Clerk](https://clerk.com/) together with an Encore app.
 Check out the [Use Clerk with your app](https://encore.dev/docs/go/how-to/clerk-auth) guide to learn more about this example.
 
+[![Deploy to Encore](https://github.com/encoredev/examples/raw/main/assets/deploytoenc.svg)](https://app.encore.cloud/create-app/clone/clerk)
+
 ## Cloning the example
 
 When you have [installed Encore](https://encore.dev/docs/go/install), you can create a new Encore application and clone

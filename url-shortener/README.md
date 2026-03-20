@@ -2,6 +2,8 @@
 
 This is an Encore starter for a URL Shortener. It has two API endpoints and a PostgreSQL database to store the URL IDs and retrieve the full URL given an ID.
 
+[![Deploy to Encore](https://github.com/encoredev/examples/raw/main/assets/deploytoenc.svg)](https://app.encore.cloud/create-app/clone/url-shortener)
+
 ## Build from scratch with a tutorial
 
 If you prefer to built it yourself, check out the [tutorial](https://encore.dev/docs/go/tutorials/rest-api) to learn how to build this application from scratch.

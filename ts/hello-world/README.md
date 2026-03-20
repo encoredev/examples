@@ -2,6 +2,8 @@
 
 This is a RESTful API Starter with a single Hello World API endpoint.
 
+[![Deploy to Encore](https://github.com/encoredev/examples/raw/main/assets/deploytoenc.svg)](https://app.encore.cloud/create-app/clone/ts-hello-world)
+
 ## Prerequisites 
 
 **Install Encore:**
