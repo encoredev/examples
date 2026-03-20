@@ -10,6 +10,8 @@ import (
 	"net/http"
 	"strings"
 	"time"
+
+	"github.com/stripe/stripe-go/v82/webhook"
 )
 
 var secrets struct {
@@ -40,7 +42,8 @@ func Receive(w http.ResponseWriter, req *http.Request) {
 		case "github":
 			valid = verifyGitHubSignature(req.Header.Get("X-Hub-Signature-256"), body, webhookSecret)
 		case "stripe":
-			valid = verifyStripeSignature(req.Header.Get("Stripe-Signature"), body, webhookSecret)
+			_, err := webhook.ConstructEvent(body, req.Header.Get("Stripe-Signature"), webhookSecret)
+			valid = err == nil
 		default:
 			valid = true // No verification for unknown sources.
 		}
@@ -129,38 +132,4 @@ func verifyGitHubSignature(signature string, body []byte, secret string) bool {
 	mac.Write(body)
 	expected := hex.EncodeToString(mac.Sum(nil))
 	return hmac.Equal([]byte(signature), []byte(expected))
-}
-
-// verifyStripeSignature verifies a Stripe webhook signature.
-// Stripe sends the signature in the Stripe-Signature header as
-// "t=<timestamp>,v1=<signature>". The signed payload is "<timestamp>.<body>".
-func verifyStripeSignature(header string, body []byte, secret string) bool {
-	if header == "" {
-		return false
-	}
-
-	var timestamp, sig string
-	for _, part := range strings.Split(header, ",") {
-		kv := strings.SplitN(part, "=", 2)
-		if len(kv) != 2 {
-			continue
-		}
-		switch kv[0] {
-		case "t":
-			timestamp = kv[1]
-		case "v1":
-			sig = kv[1]
-		}
-	}
-	if timestamp == "" || sig == "" {
-		return false
-	}
-
-	// Stripe's signed payload is "timestamp.body".
-	mac := hmac.New(sha256.New, []byte(secret))
-	mac.Write([]byte(timestamp))
-	mac.Write([]byte("."))
-	mac.Write(body)
-	expected := hex.EncodeToString(mac.Sum(nil))
-	return hmac.Equal([]byte(sig), []byte(expected))
 }
