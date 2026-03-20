@@ -31,14 +31,51 @@ The Postgres databases are provisioned automatically on startup. No manual datab
 
 Open [http://localhost:4000](http://localhost:4000) for usage instructions, or [http://localhost:9400](http://localhost:9400) for the Local Dashboard. When deployed to [Encore Cloud](https://app.encore.cloud), use the Service Catalog to call endpoints and view traces to see how requests flow between services.
 
+## Signature Validation
+
+When secrets are configured, incoming webhooks are verified using the official SDKs:
+
+- **Stripe** — Uses the [Stripe Node SDK](https://www.npmjs.com/package/stripe) (`stripe.webhooks.constructEvent`) to verify the `Stripe-Signature` header. Stripe signs payloads using a timestamp and HMAC-SHA256 signature in the format `t=...,v1=...`.
+- **GitHub** — Uses HMAC-SHA256 with `crypto.timingSafeEqual` to verify the `X-Hub-Signature-256` header. GitHub signs payloads with HMAC-SHA256, prefixed with `sha256=`.
+
+Without secrets configured, all webhooks are accepted without signature checks.
+
 ## API Endpoints
 
 ### Receive a webhook
 
 ```bash
+# Stripe webhook (without signature validation)
 curl -X POST http://localhost:4000/webhooks/stripe \
   -H "Content-Type: application/json" \
   -d '{"type": "payment_intent.succeeded", "data": {"object": {"amount": 2000}}}'
+
+# GitHub webhook (without signature validation)
+curl -X POST http://localhost:4000/webhooks/github \
+  -H "Content-Type: application/json" \
+  -H "X-GitHub-Event: push" \
+  -d '{"ref": "refs/heads/main"}'
+```
+
+To test with signature validation, set the secrets and include the appropriate headers:
+
+```bash
+# GitHub with signature
+SECRET="your-github-secret"
+PAYLOAD='{"ref":"refs/heads/main"}'
+SIG="sha256=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" | awk '{print $2}')"
+curl -X POST http://localhost:4000/webhooks/github \
+  -H "Content-Type: application/json" \
+  -H "X-Hub-Signature-256: $SIG" \
+  -H "X-GitHub-Event: push" \
+  -d "$PAYLOAD"
+```
+
+For Stripe, use the [Stripe CLI](https://docs.stripe.com/stripe-cli) to forward and sign webhooks locally:
+
+```bash
+stripe listen --forward-to localhost:4000/webhooks/stripe
+stripe trigger payment_intent.succeeded
 ```
 
 ### List processed events

@@ -54,6 +54,12 @@ const landingPage = `<!DOCTYPE html>
 encore secret set --type dev,local,pr,prod WebhookSecretGitHub</code></pre>
   <p>The Postgres database is provisioned automatically when you run <code>encore run</code>. No manual database setup required.</p>
 
+  <h2>Signature Validation</h2>
+  <p>When secrets are configured, incoming webhooks are verified using the official SDKs:</p>
+  <p><strong>Stripe</strong> — Uses the <a href="https://github.com/stripe/stripe-go">Stripe Go SDK</a> (<code>webhook.ConstructEvent</code>) to verify the <code>Stripe-Signature</code> header. Stripe signs payloads using a timestamp and HMAC-SHA256 signature in the format <code>t=...,v1=...</code>.</p>
+  <p><strong>GitHub</strong> — Uses the <a href="https://github.com/google/go-github">go-github SDK</a> (<code>github.ValidatePayloadFromBody</code>) to verify the <code>X-Hub-Signature-256</code> header. GitHub signs payloads with HMAC-SHA256, prefixed with <code>sha256=</code>.</p>
+  <p>Without secrets configured, all webhooks are accepted without signature checks.</p>
+
   <h2>Architecture</h2>
   <p>Three services demonstrate the fan-out pattern:</p>
   <p><strong>ingest</strong> receives webhooks and publishes to a Pub/Sub topic. <strong>processor</strong> and <strong>notifications</strong> both subscribe independently, so each event is handled by both services in parallel.</p>
