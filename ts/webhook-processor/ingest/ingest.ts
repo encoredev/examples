@@ -3,6 +3,7 @@ import { appMeta } from "encore.dev";
 import { secret } from "encore.dev/config";
 import { WebhookTopic } from "./topic";
 import crypto from "node:crypto";
+import Stripe from "stripe";
 
 // Landing page with setup instructions and API documentation.
 export const index = api.raw(
@@ -68,12 +69,13 @@ encore secret set --type dev,local,pr,prod WebhookSecretGitHub</code></pre>
   <p class="desc">Receive a webhook. Validates signature if configured, then queues for processing.</p>
   <pre><code>curl -X POST {{baseUrl}}/webhooks/stripe \\
   -H "Content-Type: application/json" \\
-  -d '{"event_type": "payment_intent.succeeded", "body": "{\\\"amount\\\": 2000}"}'</code></pre>
+  -d '{"type": "payment_intent.succeeded", "data": {"object": {"amount": 2000}}}'</code></pre>
 
   <pre><code># GitHub webhook example
 curl -X POST {{baseUrl}}/webhooks/github \\
   -H "Content-Type: application/json" \\
-  -d '{"event_type": "push", "body": "{\\\"ref\\\": \\\"refs/heads/main\\\"}"}'</code></pre>
+  -H "X-GitHub-Event: push" \\
+  -d '{"ref": "refs/heads/main"}'</code></pre>
 
   <h3>Processed Events</h3>
 
@@ -117,56 +119,79 @@ curl -X POST {{baseUrl}}/webhooks/github \\
 const stripeSecret = secret("WebhookSecretStripe");
 const githubSecret = secret("WebhookSecretGitHub");
 
-interface IngestRequest {
-  source: string;
-  // The event type (e.g. "payment_intent.succeeded" for Stripe, "push" for GitHub).
-  event_type?: string;
-  // The webhook payload as a JSON string.
-  body: string;
-  signature?: string;
-}
+const stripe = new Stripe("unused"); // API key not needed for webhook signature verification.
 
-interface IngestResponse {
-  status: string;
-}
+// Receive incoming webhooks and queue them for async processing.
+// Uses a raw endpoint to access the full HTTP request for signature validation.
+export const receive = api.raw(
+  { expose: true, method: "POST", path: "/webhooks/:source" },
+  async (req, resp) => {
+    const source = req.url?.replace("/webhooks/", "") ?? "";
 
-// Receive and queue a webhook for async processing.
-// Validates the signature if a secret is configured for the source.
-export const receive = api(
-  { expose: true, auth: false, method: "POST", path: "/webhooks/:source" },
-  async ({ source, event_type, body, signature }: IngestRequest): Promise<IngestResponse> => {
-    // Validate signature if secret is configured for this source.
+    // Read the raw request body.
+    const body = await new Promise<Buffer>((resolve, reject) => {
+      const chunks: Buffer[] = [];
+      req.on("data", (chunk: Buffer) => chunks.push(chunk));
+      req.on("end", () => resolve(Buffer.concat(chunks)));
+      req.on("error", reject);
+    });
+
+    // Validate signature if a secret is configured for this source.
     const webhookSecret = getSecretForSource(source);
-    if (webhookSecret && signature) {
-      const expected = crypto
-        .createHmac("sha256", webhookSecret)
-        .update(body)
-        .digest("hex");
+    if (webhookSecret) {
+      let valid = false;
+      switch (source) {
+        case "github":
+          valid = verifyGitHubSignature(
+            req.headers["x-hub-signature-256"] as string,
+            body,
+            webhookSecret,
+          );
+          break;
+        case "stripe":
+          try {
+            stripe.webhooks.constructEvent(
+              body,
+              req.headers["stripe-signature"] as string,
+              webhookSecret,
+            );
+            valid = true;
+          } catch {
+            valid = false;
+          }
+          break;
+        default:
+          valid = true;
+      }
 
-      if (signature !== expected) {
-        return { status: "invalid signature" };
+      if (!valid) {
+        resp.writeHead(401, { "Content-Type": "application/json" });
+        resp.end(JSON.stringify({ status: "invalid signature" }));
+        return;
       }
     }
 
     // Parse body to store as structured data.
+    const bodyStr = body.toString("utf-8");
     let payload: Record<string, unknown> = {};
     try {
-      payload = JSON.parse(body);
+      payload = JSON.parse(bodyStr);
     } catch {
-      payload = { raw: body };
+      payload = { raw: bodyStr };
     }
 
-    // Use provided event_type, or try to extract from payload.
-    const resolvedType = event_type ?? extractEventType(source, payload);
+    // Extract event type from payload or headers.
+    const eventType = extractEventType(source, req.headers, payload);
 
     await WebhookTopic.publish({
       source,
-      event_type: resolvedType,
+      event_type: eventType,
       payload,
       received_at: new Date().toISOString(),
     });
 
-    return { status: "accepted" };
+    resp.writeHead(200, { "Content-Type": "application/json" });
+    resp.end(JSON.stringify({ status: "accepted" }));
   },
 );
 
@@ -183,16 +208,36 @@ function getSecretForSource(source: string): string | null {
 
 function extractEventType(
   source: string,
+  headers: Record<string, string | string[] | undefined>,
   payload: Record<string, unknown>,
 ): string {
+  // GitHub sends the event type in a header.
+  if (source === "github") {
+    const gh = headers["x-github-event"];
+    if (typeof gh === "string") return gh;
+  }
+
+  // Stripe includes the type in the payload.
   if (source === "stripe" && typeof payload.type === "string") {
     return payload.type;
   }
-  if (source === "github" && typeof payload.action === "string") {
-    return payload.action;
-  }
-  if (typeof payload.event === "string") {
-    return payload.event;
-  }
+
+  // Generic fallback.
+  if (typeof payload.event === "string") return payload.event;
+  if (typeof payload.event_type === "string") return payload.event_type;
   return "unknown";
+}
+
+// Verify a GitHub webhook signature.
+// GitHub sends the HMAC-SHA256 signature in the X-Hub-Signature-256 header
+// as "sha256=<hex-digest>".
+function verifyGitHubSignature(
+  signature: string | undefined,
+  body: Buffer,
+  secret: string,
+): boolean {
+  if (!signature) return false;
+  const sig = signature.replace("sha256=", "");
+  const expected = crypto.createHmac("sha256", secret).update(body).digest("hex");
+  return crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected));
 }

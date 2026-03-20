@@ -38,7 +38,7 @@ Open [http://localhost:4000](http://localhost:4000) for usage instructions, or [
 ```bash
 curl -X POST http://localhost:4000/webhooks/stripe \
   -H "Content-Type: application/json" \
-  -d '{"event_type": "payment_intent.succeeded", "body": "{\"amount\": 2000}"}'
+  -d '{"type": "payment_intent.succeeded", "data": {"object": {"amount": 2000}}}'
 ```
 
 ### List processed events
