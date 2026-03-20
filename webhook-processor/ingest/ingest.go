@@ -2,15 +2,14 @@
 package ingest
 
 import (
-	"crypto/hmac"
-	"crypto/sha256"
-	"encoding/hex"
+	"bytes"
 	"encoding/json"
 	"io"
 	"net/http"
 	"strings"
 	"time"
 
+	gh "github.com/google/go-github/v84/github"
 	"github.com/stripe/stripe-go/v82/webhook"
 )
 
@@ -40,7 +39,13 @@ func Receive(w http.ResponseWriter, req *http.Request) {
 		var valid bool
 		switch source {
 		case "github":
-			valid = verifyGitHubSignature(req.Header.Get("X-Hub-Signature-256"), body, webhookSecret)
+			_, err := gh.ValidatePayloadFromBody(
+				req.Header.Get("Content-Type"),
+				bytes.NewReader(body),
+				req.Header.Get("X-Hub-Signature-256"),
+				[]byte(webhookSecret),
+			)
+			valid = err == nil
 		case "stripe":
 			_, err := webhook.ConstructEvent(body, req.Header.Get("Stripe-Signature"), webhookSecret)
 			valid = err == nil
@@ -118,18 +123,4 @@ func extractEventType(source string, headers http.Header, payload map[string]any
 		return t
 	}
 	return "unknown"
-}
-
-// verifyGitHubSignature verifies a GitHub webhook signature.
-// GitHub sends the HMAC-SHA256 signature in the X-Hub-Signature-256 header
-// as "sha256=<hex-digest>".
-func verifyGitHubSignature(signature string, body []byte, secret string) bool {
-	if signature == "" {
-		return false
-	}
-	signature = strings.TrimPrefix(signature, "sha256=")
-	mac := hmac.New(sha256.New, []byte(secret))
-	mac.Write(body)
-	expected := hex.EncodeToString(mac.Sum(nil))
-	return hmac.Equal([]byte(signature), []byte(expected))
 }
