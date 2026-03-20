@@ -48,7 +48,7 @@ type ListResponse struct {
 
 // List lists the 50 most recent processed webhook events.
 //
-//encore:api public method=GET path=/webhooks/events
+//encore:api public method=GET path=/events
 func List(ctx context.Context) (*ListResponse, error) {
 	rows, err := db.Query(ctx, `
 		SELECT id, source, event_type, payload, status, received_at, processed_at
@@ -78,7 +78,7 @@ func List(ctx context.Context) (*ListResponse, error) {
 
 // Get gets a specific processed webhook event by ID.
 //
-//encore:api public method=GET path=/webhooks/events/:id
+//encore:api public method=GET path=/events/:id
 func Get(ctx context.Context, id int64) (*StoredEvent, error) {
 	var e StoredEvent
 	var receivedAt, processedAt time.Time

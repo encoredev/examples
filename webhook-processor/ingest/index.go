@@ -82,19 +82,19 @@ curl -X POST {{baseUrl}}/webhooks/github \
 
   <div class="endpoint">
     <span class="method get">GET</span>
-    <span class="path">/webhooks/events</span>
+    <span class="path">/events</span>
     <code>processor.List</code>
   </div>
   <p class="desc">List the 50 most recent processed events.</p>
-  <pre><code>curl {{baseUrl}}/webhooks/events</code></pre>
+  <pre><code>curl {{baseUrl}}/events</code></pre>
 
   <div class="endpoint">
     <span class="method get">GET</span>
-    <span class="path">/webhooks/events/:id</span>
+    <span class="path">/events/:id</span>
     <code>processor.Get</code>
   </div>
   <p class="desc">Get a specific processed event by ID.</p>
-  <pre><code>curl {{baseUrl}}/webhooks/events/1</code></pre>
+  <pre><code>curl {{baseUrl}}/events/1</code></pre>
 
   <h3>Notifications</h3>
 

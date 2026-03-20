@@ -56,13 +56,13 @@ curl -X POST http://localhost:4000/webhooks/github \
 ### List processed events
 
 ```bash
-curl http://localhost:4000/webhooks/events
+curl http://localhost:4000/events
 ```
 
 ### Get a specific event
 
 ```bash
-curl http://localhost:4000/webhooks/events/1
+curl http://localhost:4000/events/1
 ```
 
 ### List important notifications
