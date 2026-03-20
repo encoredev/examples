@@ -2,6 +2,8 @@
 
 A production-ready authentication backend using [Clerk](https://clerk.com/) and [Encore.ts](https://encore.dev).
 
+[![Deploy to Encore](https://github.com/encoredev/examples/raw/main/assets/deploytoenc.svg)](https://app.encore.cloud/create-app/clone/ts-clerk-simple)
+
 This example demonstrates:
 - Clerk session verification and user management
 - Protected API endpoints with type-safe auth data

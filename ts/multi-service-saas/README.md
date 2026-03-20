@@ -2,6 +2,8 @@
 
 A SaaS backend starter built with [Encore.ts](https://encore.dev), demonstrating multi-service architecture with event-driven communication.
 
+[![Deploy to Encore](https://github.com/encoredev/examples/raw/main/assets/deploytoenc.svg)](https://app.encore.cloud/create-app/clone/ts-multi-service-saas)
+
 ## Architecture
 
 This app has three services, each with its own database:

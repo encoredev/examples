@@ -2,6 +2,8 @@
 
 This example demonstrates how to build AI agent infrastructure that safely executes AI-generated code using [Daytona](https://www.daytona.io/) sandboxes and Encore.
 
+[![Deploy to Encore](https://github.com/encoredev/examples/raw/main/assets/deploytoenc.svg)](https://app.encore.cloud/create-app/clone/ts-daytona)
+
 ## Features
 
 - **Code Playground UI** - Interactive web interface for writing and running code

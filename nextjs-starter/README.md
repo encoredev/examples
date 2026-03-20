@@ -2,6 +2,8 @@
 
 This is an [Encore.go](https://encore.dev/) + [Next.js](https://nextjs.org/) project starter. It's a great way to learn how to combine Encore's backend capabilities with a modern web framework — perfect for building a web app.
 
+[![Deploy to Encore](https://github.com/encoredev/examples/raw/main/assets/deploytoenc.svg)](https://app.encore.cloud/create-app/clone/nextjs-starter)
+
 ## Prerequisites 
 
 - **Install Encore:**
