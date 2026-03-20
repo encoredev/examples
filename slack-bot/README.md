@@ -2,6 +2,8 @@
 
 This is an Encore starter application for a Slack bot. It brings the greatness of the cowsay utility to Slack!
 
+[![Deploy to Encore](https://github.com/encoredev/examples/raw/main/assets/deploytoenc.svg)](https://app.encore.cloud/create-app/clone/slack-bot)
+
 ## Build from scratch with a tutorial
 
 If you prefer to built it yourself, check out the [written tutorial](https://encore.dev/docs/go/tutorials/slack-bot) to learn how to build this application from scratch.

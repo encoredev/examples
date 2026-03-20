@@ -2,6 +2,8 @@
 
 A backend for building AI-powered applications using [Encore.ts](https://encore.dev) and Claude.
 
+[![Deploy to Encore](https://github.com/encoredev/examples/raw/main/assets/deploytoenc.svg)](https://app.encore.cloud/create-app/clone/ts-ai-agent-api)
+
 ## Architecture
 
 This app has two services:

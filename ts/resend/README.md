@@ -2,6 +2,8 @@
 
 Send transactional emails with [Resend](https://resend.com) and [Encore](https://encore.dev). Emails are delivered asynchronously via Pub/Sub so your API endpoints stay fast.
 
+[![Deploy to Encore](https://github.com/encoredev/examples/raw/main/assets/deploytoenc.svg)](https://app.encore.cloud/create-app/clone/ts-resend)
+
 ## What's included
 
 - **Resend SDK** initialized with an Encore secret
