@@ -67,15 +67,16 @@ encore secret set --type dev,local,pr,prod WebhookSecretGitHub</code></pre>
     <span class="path">/webhooks/:source</span>
     <code>ingest.Receive</code>
   </div>
-  <p class="desc">Receive a webhook. Validates signature if configured, then queues for processing.</p>
+  <p class="desc">Receive a webhook (raw endpoint). Validates signature from headers if configured, then queues for processing.</p>
   <pre><code>curl -X POST {{baseUrl}}/webhooks/stripe \
   -H "Content-Type: application/json" \
-  -d '{"event_type": "payment_intent.succeeded", "body": "{\"amount\": 2000}"}'</code></pre>
+  -d '{"type": "payment_intent.succeeded", "data": {"amount": 2000}}'</code></pre>
 
   <pre><code># GitHub webhook example
 curl -X POST {{baseUrl}}/webhooks/github \
   -H "Content-Type: application/json" \
-  -d '{"event_type": "push", "body": "{\"ref\": \"refs/heads/main\"}"}'</code></pre>
+  -H "X-GitHub-Event: push" \
+  -d '{"ref": "refs/heads/main", "commits": []}'</code></pre>
 
   <h3>Processed Events</h3>
 

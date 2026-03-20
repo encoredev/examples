@@ -41,9 +41,16 @@ Open [http://localhost:4000](http://localhost:4000) for usage instructions, or [
 ### Receive a webhook
 
 ```bash
+# Stripe-style webhook
 curl -X POST http://localhost:4000/webhooks/stripe \
   -H "Content-Type: application/json" \
-  -d '{"event_type": "payment_intent.succeeded", "body": "{\"amount\": 2000}"}'
+  -d '{"type": "payment_intent.succeeded", "data": {"amount": 2000}}'
+
+# GitHub-style webhook
+curl -X POST http://localhost:4000/webhooks/github \
+  -H "Content-Type: application/json" \
+  -H "X-GitHub-Event: push" \
+  -d '{"ref": "refs/heads/main", "commits": []}'
 ```
 
 ### List processed events

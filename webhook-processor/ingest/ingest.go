@@ -2,11 +2,13 @@
 package ingest
 
 import (
-	"context"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"io"
+	"net/http"
+	"strings"
 	"time"
 )
 
@@ -15,64 +17,68 @@ var secrets struct {
 	WebhookSecretGitHub string
 }
 
-// ReceiveRequest is the request to receive a webhook.
-type ReceiveRequest struct {
-	// The event type (e.g. "payment_intent.succeeded" for Stripe, "push" for GitHub).
-	EventType *string `json:"event_type,omitempty"`
-	// The webhook payload as a JSON string.
-	Body string `json:"body"`
-	// The signature to validate.
-	Signature *string `json:"signature,omitempty"`
-}
-
-// ReceiveResponse is the response from receiving a webhook.
-type ReceiveResponse struct {
-	Status string `json:"status"`
-}
-
-// Receive receives and queues a webhook for async processing.
-// Validates the signature if a secret is configured for the source.
+// Receive receives incoming webhooks and queues them for async processing.
+// Uses a raw endpoint to access the full HTTP request for signature validation.
 //
-//encore:api public method=POST path=/webhooks/:source
-func Receive(ctx context.Context, source string, req *ReceiveRequest) (*ReceiveResponse, error) {
-	// Validate signature if secret is configured for this source.
-	webhookSecret := getSecretForSource(source)
-	if webhookSecret != "" && req.Signature != nil {
-		mac := hmac.New(sha256.New, []byte(webhookSecret))
-		mac.Write([]byte(req.Body))
-		expected := hex.EncodeToString(mac.Sum(nil))
+//encore:api public raw path=/webhooks/:source
+func Receive(w http.ResponseWriter, req *http.Request) {
+	source := strings.TrimPrefix(req.URL.Path, "/webhooks/")
 
-		if *req.Signature != expected {
-			return &ReceiveResponse{Status: "invalid signature"}, nil
+	// Read the raw request body.
+	body, err := io.ReadAll(req.Body)
+	if err != nil {
+		http.Error(w, `{"status":"bad request"}`, http.StatusBadRequest)
+		return
+	}
+	defer req.Body.Close()
+
+	// Validate signature if a secret is configured for this source.
+	webhookSecret := getSecretForSource(source)
+	if webhookSecret != "" {
+		signature := req.Header.Get("X-Signature-256")
+		if signature == "" {
+			signature = req.Header.Get("Stripe-Signature")
+		}
+		if signature != "" {
+			mac := hmac.New(sha256.New, []byte(webhookSecret))
+			mac.Write(body)
+			expected := hex.EncodeToString(mac.Sum(nil))
+
+			if !hmac.Equal([]byte(signature), []byte(expected)) {
+				w.Header().Set("Content-Type", "application/json")
+				w.WriteHeader(http.StatusUnauthorized)
+				w.Write([]byte(`{"status":"invalid signature"}`))
+				return
+			}
 		}
 	}
 
 	// Parse body to store as structured data.
 	var parsed map[string]any
 	var payloadRaw json.RawMessage
-	if err := json.Unmarshal([]byte(req.Body), &parsed); err != nil {
-		raw, _ := json.Marshal(map[string]string{"raw": req.Body})
+	if err := json.Unmarshal(body, &parsed); err != nil {
+		raw, _ := json.Marshal(map[string]string{"raw": string(body)})
 		payloadRaw = raw
 	} else {
-		payloadRaw = []byte(req.Body)
+		payloadRaw = body
 	}
 
-	// Use provided event_type, or try to extract from payload.
-	eventType := extractEventType(source, parsed)
-	if req.EventType != nil && *req.EventType != "" {
-		eventType = *req.EventType
-	}
+	// Extract event type from payload or headers.
+	eventType := extractEventType(source, req.Header, parsed)
 
-	if _, err := WebhookTopic.Publish(ctx, &WebhookEvent{
+	if _, err := WebhookTopic.Publish(req.Context(), &WebhookEvent{
 		Source:     source,
 		EventType:  eventType,
 		Payload:    payloadRaw,
 		ReceivedAt: time.Now().UTC().Format(time.RFC3339),
 	}); err != nil {
-		return nil, err
+		http.Error(w, `{"status":"internal error"}`, http.StatusInternalServerError)
+		return
 	}
 
-	return &ReceiveResponse{Status: "accepted"}, nil
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(`{"status":"accepted"}`))
 }
 
 func getSecretForSource(source string) string {
@@ -86,19 +92,27 @@ func getSecretForSource(source string) string {
 	}
 }
 
-func extractEventType(source string, payload map[string]any) string {
+func extractEventType(source string, headers http.Header, payload map[string]any) string {
+	// GitHub sends the event type in a header.
+	if source == "github" {
+		if gh := headers.Get("X-GitHub-Event"); gh != "" {
+			return gh
+		}
+	}
+
+	// Stripe includes the type in the payload.
 	if source == "stripe" {
 		if t, ok := payload["type"].(string); ok {
 			return t
 		}
 	}
-	if source == "github" {
-		if a, ok := payload["action"].(string); ok {
-			return a
-		}
-	}
+
+	// Generic fallback: look for common field names.
 	if e, ok := payload["event"].(string); ok {
 		return e
+	}
+	if t, ok := payload["event_type"].(string); ok {
+		return t
 	}
 	return "unknown"
 }
