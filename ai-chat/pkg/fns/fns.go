@@ -2,6 +2,7 @@ package fns
 
 import (
 	"io"
+	"slices"
 	"time"
 
 	"github.com/sashabaranov/go-openai"
@@ -9,8 +10,10 @@ import (
 )
 
 // Ptr returns a pointer to the given value.
+//
+//go:fix inline
 func Ptr[T any](v T) *T {
-	return &v
+	return new(v)
 }
 
 // ToMap converts a slice to a map using the given key function.
@@ -83,10 +86,5 @@ func CloseIgnore(stream io.Closer) {
 }
 
 func Any(results []openai.Result, f func(r openai.Result) bool) bool {
-	for _, r := range results {
-		if f(r) {
-			return true
-		}
-	}
-	return false
+	return slices.ContainsFunc(results, f)
 }
