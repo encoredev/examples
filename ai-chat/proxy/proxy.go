@@ -29,6 +29,7 @@ var BaseURL = func() url.URL {
 		}
 		rlog.Info("Starting ngrok")
 		ngrokCtx, cancel := context.WithCancel(ctx)
+		defer cancel()
 		sessChan := make(chan ngrok.Session)
 		var session ngrok.Session
 		go func() {
