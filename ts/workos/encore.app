@@ -1,1 +1,4 @@
-{"id": ""}
+{
+  "id":   "",
+  "lang": "typescript"
+}
