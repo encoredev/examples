@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "encore.dev": "^1.46.0",
+    "encore.dev": "^1.54.2",
     "@workos-inc/node": "^7.0.0",
     "jose": "^5.0.0"
   }
