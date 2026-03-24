@@ -1,12 +1,31 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ES2020",
-    "moduleResolution": "bundler",
-    "esModuleInterop": true,
+    /* Basic Options */
+    "lib": ["ES2022"],
+    "target": "ES2022",
+    "module": "ES2022",
+    "types": ["node"],
+    "paths": {
+      "~encore/*": ["./encore.gen/*"]
+    },
+
+    /* Workspace Settings */
+    "composite": true,
+
+    /* Strict Type-Checking Options */
     "strict": true,
-    "skipLibCheck": true,
-    "outDir": "./dist"
-  },
-  "include": ["**/*.ts"]
+
+    /* Module Resolution Options */
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "sourceMap": true,
+
+    "declaration": true,
+
+    /* Advanced Options */
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  }
 }
