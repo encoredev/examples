@@ -36,9 +36,7 @@ const handler = authHandler<AuthParams, AuthData>(async (params) => {
 
   try {
     // Verify the JWT signature against WorkOS's JWKS and validate claims.
-    const { payload } = await jwtVerify(token, JWKS, {
-      issuer: `https://api.workos.com/`,
-    });
+    const { payload } = await jwtVerify(token, JWKS);
 
     const userID = payload.sub;
     if (!userID) {
@@ -52,7 +50,8 @@ const handler = authHandler<AuthParams, AuthData>(async (params) => {
       permissions: payload.permissions as string[] | undefined,
       sessionID: payload.sid as string | undefined,
     };
-  } catch (err) {
+  } catch (err: any) {
+    console.error("JWT verification failed:", err?.message || err);
     throw APIError.unauthenticated("invalid access token");
   }
 });

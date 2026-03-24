@@ -1,5 +1,5 @@
 import { api } from "encore.dev/api";
-import { workos } from "./workos";
+import { workos, workosClientId, workosRedirectUri } from "./workos";
 
 // Handle the OAuth callback from WorkOS AuthKit. After the user signs in,
 // WorkOS redirects here with an authorization code. We exchange it for
@@ -20,12 +20,13 @@ export const callback = api.raw(
       const { accessToken } =
         await workos.userManagement.authenticateWithCode({
           code,
+          clientId: workosClientId(),
         });
 
       // Redirect to frontend with the access token.
-      // The frontend stores it in localStorage and uses it for API requests.
-      const frontendUrl = `http://localhost:4000/?token=${encodeURIComponent(accessToken)}`;
-      res.writeHead(302, { Location: frontendUrl });
+      // Derive the frontend origin from the redirect URI.
+      const origin = new URL(workosRedirectUri()).origin;
+      res.writeHead(302, { Location: `${origin}/?token=${encodeURIComponent(accessToken)}` });
       res.end();
     } catch (err) {
       res.writeHead(401, { "Content-Type": "application/json" });

@@ -1,4 +1,4 @@
 {
-	"id":   "workos-test-oey2",
-	"lang": "typescript"
+  "id":   "",
+  "lang": "typescript"
 }

@@ -78,9 +78,7 @@
     </div>
 
     <script>
-        const API = window.location.hostname === 'localhost'
-            ? 'http://localhost:4000'
-            : window.location.origin;
+        const API = window.location.origin;
 
         // Check for token in URL (redirect from callback)
         const params = new URLSearchParams(window.location.search);
@@ -112,6 +110,8 @@
                 });
                 if (!res.ok) {
                     localStorage.removeItem('workos_token');
+                    document.getElementById('signed-out').style.display = 'block';
+                    document.getElementById('signed-in').style.display = 'none';
                     return;
                 }
                 const profile = await res.json();
@@ -128,8 +128,21 @@
             }
         }
 
-        function signOut() {
+        async function signOut() {
+            const token = localStorage.getItem('workos_token');
             localStorage.removeItem('workos_token');
+            if (token) {
+                try {
+                    const res = await fetch(`${API}/auth/logout`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token }),
+                    });
+                    const { url } = await res.json();
+                    window.location.href = url;
+                    return;
+                } catch (e) {}
+            }
             window.location.reload();
         }
 
