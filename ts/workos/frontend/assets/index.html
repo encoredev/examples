@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkOS Auth Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #eeeee1;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1 { font-size: 28px; font-weight: 600; margin-bottom: 8px; }
+        .subtitle { color: #666; margin-bottom: 32px; }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .login-btn {
+            display: inline-block;
+            background: #111;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .login-btn:hover { background: #333; }
+        .profile-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+        .profile-row:last-child { border-bottom: none; }
+        .profile-label { color: #666; font-size: 14px; }
+        .profile-value { font-weight: 500; font-size: 14px; }
+        .logout-btn {
+            background: none;
+            border: 1px solid #ccc;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            margin-top: 16px;
+        }
+        .logout-btn:hover { border-color: #999; }
+        #signed-in { display: none; }
+        .error { color: #c00; font-size: 14px; margin-top: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WorkOS Auth Demo</h1>
+        <p class="subtitle">AuthKit authentication with Encore.ts</p>
+
+        <div id="signed-out" class="card">
+            <p style="margin-bottom: 16px;">Sign in with WorkOS AuthKit to test the protected endpoints.</p>
+            <button class="login-btn" onclick="signIn()">Sign in with AuthKit</button>
+        </div>
+
+        <div id="signed-in">
+            <div class="card">
+                <h2 style="font-size: 18px; margin-bottom: 16px;">Profile</h2>
+                <div id="profile"></div>
+                <button class="logout-btn" onclick="signOut()">Sign out</button>
+            </div>
+        </div>
+
+        <div id="error" class="error"></div>
+    </div>
+
+    <script>
+        const API = window.location.origin;
+
+        // Check for token in URL (redirect from callback)
+        const params = new URLSearchParams(window.location.search);
+        const urlToken = params.get('token');
+        if (urlToken) {
+            localStorage.setItem('workos_token', urlToken);
+            window.history.replaceState({}, '', '/');
+        }
+
+        const token = localStorage.getItem('workos_token');
+        if (token) {
+            loadProfile();
+        }
+
+        async function signIn() {
+            try {
+                const res = await fetch(`${API}/auth/login`);
+                const { url } = await res.json();
+                window.location.href = url;
+            } catch (e) {
+                showError('Failed to start sign-in flow');
+            }
+        }
+
+        async function loadProfile() {
+            try {
+                const res = await fetch(`${API}/user/profile`, {
+                    headers: { 'Authorization': `Bearer ${token || localStorage.getItem('workos_token')}` }
+                });
+                if (!res.ok) {
+                    localStorage.removeItem('workos_token');
+                    document.getElementById('signed-out').style.display = 'block';
+                    document.getElementById('signed-in').style.display = 'none';
+                    return;
+                }
+                const profile = await res.json();
+                document.getElementById('signed-out').style.display = 'none';
+                document.getElementById('signed-in').style.display = 'block';
+                document.getElementById('profile').innerHTML = `
+                    <div class="profile-row"><span class="profile-label">User ID</span><span class="profile-value">${profile.userId}</span></div>
+                    <div class="profile-row"><span class="profile-label">Theme</span><span class="profile-value">${profile.theme || 'light'}</span></div>
+                    <div class="profile-row"><span class="profile-label">Notifications</span><span class="profile-value">${profile.notifications ? 'On' : 'Off'}</span></div>
+                    ${profile.bio ? `<div class="profile-row"><span class="profile-label">Bio</span><span class="profile-value">${profile.bio}</span></div>` : ''}
+                `;
+            } catch (e) {
+                showError('Failed to load profile');
+            }
+        }
+
+        async function signOut() {
+            const token = localStorage.getItem('workos_token');
+            localStorage.removeItem('workos_token');
+            if (token) {
+                try {
+                    const res = await fetch(`${API}/auth/logout`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token }),
+                    });
+                    const { url } = await res.json();
+                    window.location.href = url;
+                    return;
+                } catch (e) {}
+            }
+            window.location.reload();
+        }
+
+        function showError(msg) {
+            document.getElementById('error').textContent = msg;
+        }
+    </script>
+</body>
+</html>
