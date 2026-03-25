@@ -1,0 +1,9 @@
+{
+  "name": "ory-auth",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "encore.dev": "^1.54.2",
+    "@ory/client": "^1.0.0"
+  }
+}

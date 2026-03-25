@@ -1,0 +1,4 @@
+node_modules/
+encore.gen/
+*.log
+.DS_Store

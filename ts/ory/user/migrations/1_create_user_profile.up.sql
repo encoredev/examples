@@ -1,0 +1,8 @@
+CREATE TABLE user_profile (
+  ory_user_id TEXT PRIMARY KEY,
+  theme TEXT DEFAULT 'light',
+  notifications BOOLEAN DEFAULT true,
+  bio TEXT,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
