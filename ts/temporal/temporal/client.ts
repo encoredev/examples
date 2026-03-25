@@ -1,40 +1,48 @@
 // temporal/client.ts
 import { Client, Connection } from "@temporalio/client";
-import { Worker } from "@temporalio/worker";
+import { NativeConnection, Worker, bundleWorkflowCode } from "@temporalio/worker";
 import * as activities from "./activities";
+import path from "path";
 
 let client: Client;
 let worker: Worker;
+let ready: Promise<void>;
 
-export async function initTemporal(): Promise<void> {
-  // Connect to the Temporal server (localhost:7233 in dev).
-  // For production, point this to Temporal Cloud or your self-hosted cluster.
-  const connection = await Connection.connect({
+export function initTemporal(): void {
+  ready = startTemporal();
+}
+
+async function startTemporal(): Promise<void> {
+  const clientConnection = await Connection.connect({
+    address: "localhost:7233",
+  });
+  client = new Client({ connection: clientConnection });
+
+  const workerConnection = await NativeConnection.connect({
     address: "localhost:7233",
   });
 
-  client = new Client({ connection });
+  // Pre-bundle workflow code from the source directory.
+  // Temporal needs the raw source to bundle into its V8 isolate,
+  // but Encore compiles everything into a combined bundle first.
+  // Using the original source path ensures Temporal can find the file.
+  const workflowBundle = await bundleWorkflowCode({
+    workflowsPath: path.join(process.cwd(), "temporal", "workflows.ts"),
+  });
 
-  // The worker polls for tasks and executes workflows + activities.
-  // workflowsPath points to the workflow file - Temporal bundles it
-  // into a sandboxed V8 isolate automatically.
   worker = await Worker.create({
-    connection,
-    workflowsPath: require.resolve("./workflows"),
+    connection: workerConnection,
+    workflowBundle,
     activities,
     taskQueue: "orders",
   });
 
-  // Run the worker in the background. It returns when shut down.
   worker.run().catch((err) => {
     console.error("Worker stopped with error:", err);
   });
 }
 
-export async function shutdownTemporal(): Promise<void> {
-  worker?.shutdown();
-}
-
-export function getClient(): Client {
+export async function getClient(): Promise<Client> {
+  await ready;
   return client;
 }

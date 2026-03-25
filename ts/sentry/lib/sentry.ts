@@ -1,16 +1,13 @@
 import * as Sentry from "@sentry/node";
-import { secret } from "encore.dev/config";
-
-const sentryDsn = secret("SentryDSN");
 
 let initialized = false;
 
-export function initSentry() {
+export function initSentry(dsn: string) {
   if (initialized) return;
   initialized = true;
 
   Sentry.init({
-    dsn: sentryDsn(),
+    dsn,
     environment: process.env.ENCORE_ENVIRONMENT ?? "development",
     sampleRate: 1.0,
     // Encore has its own distributed tracing, so disable Sentry's.

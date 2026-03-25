@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@sentry/node": "^8.0.0",
-    "encore.dev": "^1.51.10"
+    "encore.dev": "^1.54.2"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.13.0"

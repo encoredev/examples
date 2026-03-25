@@ -29,24 +29,24 @@ iwr https://encore.dev/install.ps1 | iex
 2. Create a new Node.js project
 3. Copy the **DSN** from project settings
 
-## Getting Started
+## Running locally
 
-1. Create a new app from this example:
+1. Create the app and set your Sentry DSN:
    ```bash
    encore app create --example=ts/sentry
+   cd sentry
+   npm install
+   encore secret set --type dev,local SentryDSN
    ```
 
-2. Set your Sentry DSN:
-   ```bash
-   encore secret set --type dev,local,pr,production SentryDSN
-   ```
-
-3. Run the app:
+2. Run the app:
    ```bash
    encore run
    ```
 
-## Endpoints
+3. Open the frontend at the URL shown in `encore run` output.
+
+## API Endpoints
 
 | Method | Path | Description |
 |--------|------|-------------|
@@ -54,35 +54,39 @@ iwr https://encore.dev/install.ps1 | iex
 | POST | `/process` | Process an item (wrapped with Sentry) |
 | GET | `/error-test` | Intentionally throws an error to test Sentry |
 
-### Test error capture
+## How it works
+
+Sentry is initialized in the service definition, which passes the DSN from Encore's secret manager. The `withSentry` wrapper catches errors from API handlers and reports them with endpoint name, request data, and breadcrumbs as context.
+
+Sentry's tracing is disabled (`tracesSampleRate: 0`) since Encore handles distributed tracing. HTTP integrations are filtered out since Encore's Rust gateway handles inbound requests.
+
+## Test error capture
 
 ```bash
-# This will throw an error and report it to Sentry
+# Trigger an error
 curl http://localhost:4000/error-test
 
-# This works normally
+# Process an item (works normally)
 curl -X POST http://localhost:4000/process \
   -H "Content-Type: application/json" \
   -d '{"itemId": "prod_1", "quantity": 2}'
-
-# This triggers a validation error
-curl -X POST http://localhost:4000/process \
-  -H "Content-Type: application/json" \
-  -d '{"itemId": "prod_1", "quantity": -1}'
 ```
 
-Check your Sentry dashboard to see the captured errors with endpoint tags and request context.
+Check your Sentry dashboard to see captured errors with endpoint tags and request context.
 
 ## Deployment
 
 ```bash
-git add .
-git commit -m "Add Sentry error tracking"
 git push encore
+```
+
+Set the production secret:
+```bash
+encore secret set --type production SentryDSN
 ```
 
 ## Learn More
 
+- [Complete Tutorial](https://encore.dev/blog/sentry-tutorial)
 - [Sentry Node.js Docs](https://docs.sentry.io/platforms/node/)
-- [Encore.ts Documentation](https://encore.dev/docs)
-- [Tutorial: Sentry + Encore](https://encore.dev/blog/sentry-tutorial)
+- [Encore Documentation](https://encore.dev/docs)

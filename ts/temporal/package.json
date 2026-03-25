@@ -14,7 +14,7 @@
     "@temporalio/client": "^1.11.7",
     "@temporalio/worker": "^1.11.7",
     "@temporalio/workflow": "^1.11.7",
-    "encore.dev": "^1.51.10"
+    "encore.dev": "^1.54.2"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.13.0"

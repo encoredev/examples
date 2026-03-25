@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temporal + Encore Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #EEEEE1; color: #111111; line-height: 1.6; }
+        .wrap { max-width: 960px; margin: 0 auto; padding: 40px 20px; }
+        h1 { font-size: 24px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.02em; }
+        .subtitle { color: #666; margin-bottom: 24px; font-size: 14px; }
+        .layout { display: flex; gap: 32px; }
+        .main { flex: 1; min-width: 0; }
+        .sidebar { width: 260px; flex-shrink: 0; align-self: flex-start; position: sticky; top: 40px; }
+        .card { background: #fff; border: 1px solid #ccc; padding: 20px; margin-bottom: 16px; }
+        .card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; font-weight: 600; }
+        .info { border: 1px solid #ccc; padding: 16px; font-size: 12px; line-height: 1.7; background: #fff; }
+        .info h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-bottom: 6px; margin-top: 14px; }
+        .info h3:first-child { margin-top: 0; }
+        .info p { color: #555; margin-bottom: 8px; }
+        .info code { background: #EEEEE1; padding: 1px 4px; font-size: 11px; }
+        .info ul { padding-left: 14px; color: #555; margin-bottom: 8px; }
+        .info li { margin-bottom: 2px; }
+        .info a { color: #4651FF; text-decoration: none; }
+        .info a:hover { text-decoration: underline; }
+        button { background: #111; color: #EEEEE1; border: none; padding: 8px 16px; font-size: 13px; cursor: pointer; font-weight: 500; margin-right: 6px; margin-bottom: 6px; }
+        button:hover { background: #333; }
+        button:disabled { background: #999; cursor: wait; }
+        .btn-outline { background: none; color: #111; border: 1px solid #ccc; }
+        .btn-outline:hover { background: #111; color: #EEEEE1; border-color: #111; }
+        .btn-danger { background: #F05C48; color: #fff; }
+        .btn-danger:hover { background: #d94a38; }
+        input { padding: 7px 10px; border: 1px solid #ccc; font-size: 13px; width: 100%; margin-bottom: 6px; background: #fff; font-family: inherit; }
+        .result { margin-top: 10px; padding: 10px; background: #111; color: #EEEEE1; font-family: 'SF Mono', 'Fira Mono', Menlo, monospace; font-size: 12px; white-space: pre-wrap; display: none; }
+        .result.error { background: #F05C48; color: #fff; }
+        .row { display: flex; gap: 6px; margin-bottom: 6px; }
+        .row input { flex: 1; }
+        @media (max-width: 768px) { .layout { flex-direction: column; } .sidebar { width: 100%; } }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <h1>Temporal + Encore</h1>
+        <p class="subtitle">Durable workflow orchestration</p>
+        <div class="layout">
+            <div class="main">
+                <div class="card">
+                    <h2>Create Order</h2>
+                    <div class="row">
+                        <input id="userId" placeholder="User ID" value="user_123">
+                        <input id="productId" placeholder="Product ID" value="prod_1">
+                    </div>
+                    <div class="row">
+                        <input id="quantity" placeholder="Quantity" type="number" value="2">
+                        <input id="amount" placeholder="Amount" type="number" step="0.01" value="49.99">
+                    </div>
+                    <button onclick="createOrder()" id="create-btn">Create Order</button>
+                    <button class="btn-outline" onclick="startAsync()" id="async-btn">Start Async</button>
+                    <div id="order-result" class="result"></div>
+                </div>
+                <div class="card">
+                    <h2>Test Failure Scenarios</h2>
+                    <p style="color: #666; font-size: 12px; margin-bottom: 10px;">Trigger the saga compensation pattern.</p>
+                    <button class="btn-danger" onclick="testOutOfStock()">Out of Stock</button>
+                    <button class="btn-danger" onclick="testShippingFailure()">Shipping Failure</button>
+                    <div id="failure-result" class="result"></div>
+                </div>
+                <div class="card">
+                    <h2>Check Order Status</h2>
+                    <input id="workflowId" placeholder="Workflow ID">
+                    <button onclick="checkStatus()">Check Status</button>
+                    <div id="status-result" class="result"></div>
+                </div>
+            </div>
+            <div class="sidebar">
+                <div class="info">
+                    <h3>What is Temporal?</h3>
+                    <p><a href="https://temporal.io">Temporal</a> is a durable execution platform. Workflows are regular code with automatic retries, timeouts, and crash recovery.</p>
+                    <h3>This example</h3>
+                    <p>An order processing workflow:</p>
+                    <ul><li>Create order in database</li><li>Check inventory</li><li>Process payment</li><li>Ship order</li><li>Send confirmation</li></ul>
+                    <p>If shipping fails after payment, the workflow refunds automatically (saga pattern).</p>
+                    <h3>Encore integration</h3>
+                    <p>Activities call Encore services via type-safe clients. The orders service uses <code>SQLDatabase</code> for persistence.</p>
+                    <h3>Try it</h3>
+                    <p>Use <strong>out-of-stock</strong> as Product ID for inventory failure. Use <strong>fail-shipping</strong> for the saga refund path.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const API = window.location.origin;
+        function show(id, data, isError) { const el = document.getElementById(id); el.style.display = 'block'; el.className = 'result' + (isError ? ' error' : ''); el.textContent = typeof data === 'string' ? data : JSON.stringify(data, null, 2); }
+        function getOrderInput(overrides = {}) { return { userId: document.getElementById('userId').value, items: [{ productId: overrides.productId || document.getElementById('productId').value, quantity: parseInt(document.getElementById('quantity').value) }], totalAmount: parseFloat(document.getElementById('amount').value) }; }
+        async function createOrder() { const btn = document.getElementById('create-btn'); btn.disabled = true; btn.textContent = 'Running...'; try { const res = await fetch(`${API}/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(getOrderInput()) }); show('order-result', await res.json(), !res.ok); } catch (e) { show('order-result', e.message, true); } btn.disabled = false; btn.textContent = 'Create Order'; }
+        async function startAsync() { try { const res = await fetch(`${API}/orders/async`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(getOrderInput()) }); const data = await res.json(); if (data.workflowId) document.getElementById('workflowId').value = data.workflowId; show('order-result', data, !res.ok); } catch (e) { show('order-result', e.message, true); } }
+        async function testOutOfStock() { const btn = event.target; btn.disabled = true; try { const res = await fetch(`${API}/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(getOrderInput({ productId: 'out-of-stock' })) }); show('failure-result', await res.json(), true); } catch (e) { show('failure-result', e.message, true); } btn.disabled = false; }
+        async function testShippingFailure() { const btn = event.target; btn.disabled = true; btn.textContent = 'Running...'; try { const res = await fetch(`${API}/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(getOrderInput({ productId: 'fail-shipping' })) }); show('failure-result', await res.json(), true); } catch (e) { show('failure-result', e.message, true); } btn.disabled = false; btn.textContent = 'Shipping Failure'; }
+        async function checkStatus() { const wfId = document.getElementById('workflowId').value; if (!wfId) { show('status-result', 'Enter a workflow ID', true); return; } try { const res = await fetch(`${API}/orders/${encodeURIComponent(wfId)}`); show('status-result', await res.json(), !res.ok); } catch (e) { show('status-result', e.message, true); } }
+    </script>
+</body>
+</html>

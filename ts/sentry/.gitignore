@@ -2,3 +2,7 @@ node_modules/
 encore.gen/
 *.log
 .DS_Store
+encore.gen.go
+encore.gen.cue
+/.encore
+/encore.gen
