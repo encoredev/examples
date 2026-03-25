@@ -16,7 +16,7 @@ export async function initTemporal(): Promise<void> {
   client = new Client({ connection });
 
   // The worker polls for tasks and executes workflows + activities.
-  // workflowsPath points to the workflow file — Temporal bundles it
+  // workflowsPath points to the workflow file - Temporal bundles it
   // into a sandboxed V8 isolate automatically.
   worker = await Worker.create({
     connection,

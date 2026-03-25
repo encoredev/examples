@@ -1,7 +1,7 @@
 import { api, APIError } from "encore.dev/api";
 import { Sentry, withSentry } from "../lib/sentry";
 
-// Simple health check — no Sentry wrapper needed.
+// Simple health check - no Sentry wrapper needed.
 export const health = api(
   { expose: true, method: "GET", path: "/health" },
   async (): Promise<{ ok: boolean }> => {
@@ -19,7 +19,7 @@ interface ProcessResponse {
   itemId: string;
 }
 
-// Wrapped with withSentry — errors are captured and reported
+// Wrapped with withSentry - errors are captured and reported
 // with the endpoint name and request data as context.
 export const process = api(
   { expose: true, method: "POST", path: "/process" },

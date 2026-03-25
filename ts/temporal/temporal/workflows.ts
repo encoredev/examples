@@ -1,7 +1,7 @@
 // temporal/workflows.ts
 //
 // Workflows run in a deterministic, sandboxed V8 isolate.
-// They CANNOT do I/O directly — no HTTP, no DB, no console.log.
+// They CANNOT do I/O directly - no HTTP, no DB, no console.log.
 // All side effects go through activities via proxyActivities.
 
 import {
@@ -59,7 +59,7 @@ export async function orderProcessingWorkflow(
     };
   }
 
-  // Step 3: Ship order — if this fails, refund the payment (saga pattern)
+  // Step 3: Ship order - if this fails, refund the payment (saga pattern)
   let trackingId: string;
   try {
     trackingId = await shipOrder(order);
@@ -77,7 +77,7 @@ export async function orderProcessingWorkflow(
   try {
     await sendConfirmationEmail(order, trackingId);
   } catch {
-    // Log but don't fail — the order is already shipped
+    // Log but don't fail - the order is already shipped
   }
 
   return {

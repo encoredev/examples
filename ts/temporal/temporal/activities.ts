@@ -14,7 +14,7 @@ export interface OrderInput {
 
 export async function checkInventory(order: OrderInput): Promise<boolean> {
   log.info("checking inventory", { orderId: order.orderId });
-  // Replace with real inventory check — e.g. query a database or call
+  // Replace with real inventory check - e.g. query a database or call
   // another Encore service.
   await new Promise((r) => setTimeout(r, 200));
   return true;
@@ -52,6 +52,6 @@ export async function sendConfirmationEmail(
 
 export async function refundPayment(paymentId: string): Promise<void> {
   log.info("refunding payment", { paymentId });
-  // Compensation action — called when a later step fails (saga pattern)
+  // Compensation action - called when a later step fails (saga pattern)
   await new Promise((r) => setTimeout(r, 300));
 }
