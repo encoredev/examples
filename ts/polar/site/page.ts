@@ -80,6 +80,8 @@ const html = `<!DOCTYPE html>
             <li>Add usage-based billing</li>
             <li>Deploy to production</li>
           </ul>
+          <h3>Local dashboard</h3>
+          <p>Open <a href="http://localhost:9400">localhost:9400</a> to explore your API docs, traces, and database. Inspect incoming Polar webhook payloads and checkout flows in the trace view.</p>
         </div>
       </div>
     </div>

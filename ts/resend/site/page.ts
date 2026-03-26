@@ -79,7 +79,10 @@ const html = `<!DOCTYPE html>
         </div>
       </div>
     </div>
-  </div>
+  
+                    <h3>Local dashboard</h3>
+                    <p>Open <a href="http://localhost:9400">localhost:9400</a> to explore your API docs, traces, and database. See the outbound HTTP call to the Resend API in the trace view.</p>
+                </div>
   <script>
     document.getElementById('form').addEventListener('submit', async (e) => {
       e.preventDefault();

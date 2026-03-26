@@ -101,7 +101,10 @@ const html = `<!DOCTYPE html>
           <button onclick="signOut()">Sign out</button>
         </div>
       </div>
-    </div>
+    
+                    <h3>Local dashboard</h3>
+                    <p>Open <a href="http://localhost:9400">localhost:9400</a> to explore your API docs, traces, and database. Check traces to see Better Auth session validation and database queries on each request.</p>
+                </div>
 
     <aside class="sidebar">
       <section>
