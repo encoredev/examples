@@ -8,31 +8,38 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: #eeeee1;
-            color: #333;
+            background: #EEEEE1;
+            color: #111111;
             line-height: 1.6;
         }
-        .container {
-            max-width: 600px;
+        .page-wrapper {
+            max-width: 960px;
             margin: 0 auto;
             padding: 40px 20px;
         }
         h1 { font-size: 28px; font-weight: 600; margin-bottom: 8px; }
         .subtitle { color: #666; margin-bottom: 32px; }
+        .layout {
+            display: flex;
+            gap: 32px;
+            align-items: flex-start;
+        }
+        .main-content {
+            flex: 1;
+            min-width: 0;
+        }
         .card {
             background: #fff;
-            border-radius: 12px;
+            border: 1px solid #ccc;
             padding: 32px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
         .login-btn {
             display: inline-block;
             background: #111;
-            color: #fff;
+            color: #EEEEE1;
             border: none;
             padding: 12px 24px;
-            border-radius: 8px;
             font-size: 15px;
             cursor: pointer;
             text-decoration: none;
@@ -46,7 +53,6 @@
             background: none;
             border: 1px solid #ccc;
             padding: 8px 16px;
-            border-radius: 6px;
             cursor: pointer;
             font-size: 13px;
             margin-top: 16px;
@@ -54,27 +60,108 @@
         .logout-btn:hover { border-color: #999; }
         #signed-in { display: none; }
         .error { color: #c00; font-size: 14px; margin-top: 12px; }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            flex-shrink: 0;
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            position: sticky;
+            top: 24px;
+        }
+        .sidebar-section {
+            margin-bottom: 20px;
+        }
+        .sidebar-section:last-child {
+            margin-bottom: 0;
+        }
+        .sidebar-section h3 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #111111;
+        }
+        .sidebar-section p,
+        .sidebar-section li {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #444;
+        }
+        .sidebar-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar-section ul li {
+            margin-bottom: 4px;
+        }
+        .sidebar-section a {
+            color: #4651FF;
+            text-decoration: none;
+        }
+        .sidebar-section a:hover {
+            text-decoration: underline;
+        }
+        .sidebar-section code {
+            background: #EEEEE1;
+            padding: 1px 4px;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="page-wrapper">
         <h1>WorkOS Auth Demo</h1>
         <p class="subtitle">AuthKit authentication with Encore.ts</p>
 
-        <div id="signed-out" class="card">
-            <p style="margin-bottom: 16px;">Sign in with WorkOS AuthKit to test the protected endpoints.</p>
-            <button class="login-btn" onclick="signIn()">Sign in with AuthKit</button>
-        </div>
+        <div class="layout">
+            <div class="main-content">
+                <div id="signed-out" class="card">
+                    <p style="margin-bottom: 16px;">Sign in with WorkOS AuthKit to test the protected endpoints.</p>
+                    <button class="login-btn" onclick="signIn()">Sign in with AuthKit</button>
+                </div>
 
-        <div id="signed-in">
-            <div class="card">
-                <h2 style="font-size: 18px; margin-bottom: 16px;">Profile</h2>
-                <div id="profile"></div>
-                <button class="logout-btn" onclick="signOut()">Sign out</button>
+                <div id="signed-in">
+                    <div class="card">
+                        <h2 style="font-size: 18px; margin-bottom: 16px;">Profile</h2>
+                        <div id="profile"></div>
+                        <button class="logout-btn" onclick="signOut()">Sign out</button>
+                    </div>
+                </div>
+
+                <div id="error" class="error"></div>
             </div>
-        </div>
 
-        <div id="error" class="error"></div>
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3>What is WorkOS?</h3>
+                    <p>Enterprise authentication with AuthKit hosted UI, SSO, and directory sync.</p>
+                </div>
+                <div class="sidebar-section">
+                    <h3>How auth works</h3>
+                    <p>Redirect to AuthKit, callback exchanges code for token, JWT verified by backend.</p>
+                </div>
+                <div class="sidebar-section">
+                    <h3>Encore integration</h3>
+                    <p>Auth handler verifies JWT via JWKS. <code>getAuthData()</code> provides user data to endpoints.</p>
+                </div>
+                <div class="sidebar-section">
+                    <h3>Next steps</h3>
+                    <ul>
+                        <li>Add SSO providers</li>
+                        <li>Enable organizations</li>
+                        <li><a href="https://encore.dev/docs/deploy/infra">Deploy to production</a></li>
+                        <li><a href="https://encore.dev/docs/develop/auth-with-frontend">Connect a frontend framework</a></li>
+                    </ul>
+                
+                    <h3>Local dashboard</h3>
+                    <p>Open <a href="http://localhost:9400">localhost:9400</a> to explore your API docs, traces, and database. Check traces to see the auth handler verifying WorkOS JWTs on each request.</p>
+                </div>
+            </aside>
+        </div>
     </div>
 
     <script>
