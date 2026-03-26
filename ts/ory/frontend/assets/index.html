@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ory + Encore Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #EEEEE1; color: #111111; line-height: 1.6; }
+        .wrap { max-width: 960px; margin: 0 auto; padding: 40px 20px; }
+        h1 { font-size: 24px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.02em; }
+        .subtitle { color: #666; margin-bottom: 24px; font-size: 14px; }
+        .layout { display: flex; gap: 32px; }
+        .main { flex: 1; min-width: 0; }
+        .sidebar { width: 260px; flex-shrink: 0; align-self: flex-start; position: sticky; top: 40px; }
+        .card { background: #fff; border: 1px solid #ccc; padding: 20px; margin-bottom: 16px; }
+        .card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; font-weight: 600; }
+        .info { border: 1px solid #ccc; padding: 16px; font-size: 12px; line-height: 1.7; background: #fff; }
+        .info h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-bottom: 6px; margin-top: 14px; }
+        .info h3:first-child { margin-top: 0; }
+        .info p { color: #555; margin-bottom: 8px; }
+        .info code { background: #EEEEE1; padding: 1px 4px; font-size: 11px; }
+        .info a { color: #4651FF; text-decoration: none; }
+        .info a:hover { text-decoration: underline; }
+        button { background: #111; color: #EEEEE1; border: none; padding: 8px 16px; font-size: 13px; cursor: pointer; font-weight: 500; width: 100%; margin-bottom: 6px; }
+        button:hover { background: #333; }
+        .logout-btn { background: none; color: #111; border: 1px solid #ccc; padding: 8px 16px; cursor: pointer; font-size: 13px; margin-top: 12px; width: auto; }
+        .logout-btn:hover { border-color: #111; }
+        input { padding: 7px 10px; border: 1px solid #ccc; font-size: 13px; width: 100%; margin-bottom: 6px; background: #fff; font-family: inherit; }
+        .profile-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+        .profile-row:last-child { border-bottom: none; }
+        .profile-label { color: #666; font-size: 13px; }
+        .profile-value { font-weight: 500; font-size: 13px; }
+        #signed-in { display: none; }
+        .error { color: #F05C48; font-size: 13px; margin-top: 8px; }
+        .tabs { display: flex; gap: 0; margin-bottom: 16px; border-bottom: 1px solid #ccc; }
+        .tab { padding: 8px 16px; cursor: pointer; border-bottom: 2px solid transparent; font-size: 13px; color: #666; margin-bottom: -1px; }
+        .tab.active { border-bottom-color: #111; color: #111; font-weight: 500; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        @media (max-width: 768px) { .layout { flex-direction: column; } .sidebar { width: 100%; } }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <h1>Ory + Encore</h1>
+        <p class="subtitle">Authentication with Ory Network</p>
+        <div class="layout">
+            <div class="main">
+                <div id="signed-out" class="card">
+                    <div class="tabs">
+                        <div class="tab active" onclick="switchTab('register')">Register</div>
+                        <div class="tab" onclick="switchTab('login')">Sign in</div>
+                    </div>
+                    <div id="tab-register" class="tab-content active">
+                        <input id="reg-email" type="email" placeholder="Email">
+                        <input id="reg-password" type="password" placeholder="Password (min 8 chars)">
+                        <input id="reg-name" placeholder="Name (optional)">
+                        <button onclick="register()">Create Account</button>
+                    </div>
+                    <div id="tab-login" class="tab-content">
+                        <input id="login-email" type="email" placeholder="Email">
+                        <input id="login-password" type="password" placeholder="Password">
+                        <button onclick="login()">Sign In</button>
+                    </div>
+                    <div id="auth-error" class="error"></div>
+                </div>
+                <div id="signed-in">
+                    <div class="card">
+                        <h2>Profile</h2>
+                        <div id="profile"></div>
+                        <button class="logout-btn" onclick="signOut()">Sign out</button>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar">
+                <div class="info">
+                    <h3>What is Ory?</h3>
+                    <p><a href="https://www.ory.sh">Ory</a> is an open-source identity platform. Ory Network is their managed offering with session management, social login, MFA, and more.</p>
+                    <h3>How auth works here</h3>
+                    <p>This uses Ory's <strong>API flow</strong>. The frontend calls Ory's self-service APIs directly to register or sign in, then gets a session token back. That token is sent to the Encore backend as a Bearer token.</p>
+                    <h3>Encore integration</h3>
+                    <p>The backend verifies sessions by calling <code>ory.toSession()</code>. The auth handler runs before any protected endpoint, and <code>getAuthData()</code> gives endpoints type-safe access to the user's identity.</p>
+                    <h3>What gets provisioned</h3>
+                    <p>Encore auto-provisions a PostgreSQL database for user preferences. Ory handles identity storage separately.</p>
+                    <h3>Local development</h3>
+                    <p>Ory doesn't allow <code>localhost</code> as a CORS origin. For local dev, run <a href="https://www.ory.sh/docs/guides/cli/proxy-and-tunnel">Ory Tunnel</a> to proxy Ory's API through localhost:</p>
+                    <p><code>ory tunnel http://localhost:4000 --project your-slug</code></p>
+                    <p>Then update the Ory URL in your config to use the tunnel URL (usually <code>http://localhost:4000/.ory</code>).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const API = window.location.origin;
+        let oryUrl = '';
+        async function init() { try { const res = await fetch(`${API}/auth/login-info`); const data = await res.json(); oryUrl = data.oryUrl; } catch (e) { document.getElementById('auth-error').textContent = 'Failed to load Ory config'; } const token = localStorage.getItem('ory_token'); if (token) loadProfile(token); }
+        init();
+        function switchTab(tab) { document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active')); document.querySelector(`.tab-content#tab-${tab}`).classList.add('active'); event.target.classList.add('active'); document.getElementById('auth-error').textContent = ''; }
+        async function register() { const email = document.getElementById('reg-email').value; const password = document.getElementById('reg-password').value; const name = document.getElementById('reg-name').value; document.getElementById('auth-error').textContent = ''; try { const flowRes = await fetch(`${oryUrl}/self-service/registration/api`); const flow = await flowRes.json(); const body = { method: "password", password, traits: { email } }; if (name) body.traits.name = name; const submitRes = await fetch(`${oryUrl}/self-service/registration?flow=${flow.id}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); const result = await submitRes.json(); if (result.session_token) { localStorage.setItem('ory_token', result.session_token); loadProfile(result.session_token); } else if (result.ui?.messages) { document.getElementById('auth-error').textContent = result.ui.messages.map(m => m.text).join('. '); } else { document.getElementById('auth-error').textContent = 'Registration failed'; } } catch (e) { document.getElementById('auth-error').textContent = 'Registration failed: ' + e.message; } }
+        async function login() { const email = document.getElementById('login-email').value; const password = document.getElementById('login-password').value; document.getElementById('auth-error').textContent = ''; try { const flowRes = await fetch(`${oryUrl}/self-service/login/api`); const flow = await flowRes.json(); const submitRes = await fetch(`${oryUrl}/self-service/login?flow=${flow.id}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ method: "password", identifier: email, password }) }); const result = await submitRes.json(); if (result.session_token) { localStorage.setItem('ory_token', result.session_token); loadProfile(result.session_token); } else if (result.ui?.messages) { document.getElementById('auth-error').textContent = result.ui.messages.map(m => m.text).join('. '); } else { document.getElementById('auth-error').textContent = 'Sign in failed'; } } catch (e) { document.getElementById('auth-error').textContent = 'Sign in failed: ' + e.message; } }
+        async function loadProfile(token) { try { const res = await fetch(`${API}/user/profile`, { headers: { 'Authorization': `Bearer ${token}` } }); if (!res.ok) { localStorage.removeItem('ory_token'); document.getElementById('signed-out').style.display = 'block'; document.getElementById('signed-in').style.display = 'none'; return; } const p = await res.json(); document.getElementById('signed-out').style.display = 'none'; document.getElementById('signed-in').style.display = 'block'; document.getElementById('profile').innerHTML = `<div class="profile-row"><span class="profile-label">User ID</span><span class="profile-value">${p.userId}</span></div><div class="profile-row"><span class="profile-label">Email</span><span class="profile-value">${p.email}</span></div>${p.name ? `<div class="profile-row"><span class="profile-label">Name</span><span class="profile-value">${p.name}</span></div>` : ''}<div class="profile-row"><span class="profile-label">Theme</span><span class="profile-value">${p.theme || 'light'}</span></div><div class="profile-row"><span class="profile-label">Notifications</span><span class="profile-value">${p.notifications ? 'On' : 'Off'}</span></div>`; } catch (e) { document.getElementById('auth-error').textContent = 'Failed to load profile'; } }
+        function signOut() { localStorage.removeItem('ory_token'); document.getElementById('signed-out').style.display = 'block'; document.getElementById('signed-in').style.display = 'none'; }
+    </script>
+</body>
+</html>

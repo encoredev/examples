@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentry + Encore Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #EEEEE1; color: #111111; line-height: 1.6; }
+        .wrap { max-width: 960px; margin: 0 auto; padding: 40px 20px; }
+        h1 { font-size: 24px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.02em; }
+        .subtitle { color: #666; margin-bottom: 24px; font-size: 14px; }
+        .layout { display: flex; gap: 32px; }
+        .main { flex: 1; min-width: 0; }
+        .sidebar { width: 260px; flex-shrink: 0; align-self: flex-start; position: sticky; top: 40px; }
+        .card { background: #fff; border: 1px solid #ccc; padding: 20px; margin-bottom: 16px; }
+        .card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; font-weight: 600; }
+        .info { border: 1px solid #ccc; padding: 16px; font-size: 12px; line-height: 1.7; background: #fff; }
+        .info h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-bottom: 6px; margin-top: 14px; }
+        .info h3:first-child { margin-top: 0; }
+        .info p { color: #555; margin-bottom: 8px; }
+        .info code { background: #EEEEE1; padding: 1px 4px; font-size: 11px; }
+        .info ul { padding-left: 14px; color: #555; margin-bottom: 8px; }
+        .info li { margin-bottom: 2px; }
+        .info a { color: #4651FF; text-decoration: none; }
+        .info a:hover { text-decoration: underline; }
+        button { background: #111; color: #EEEEE1; border: none; padding: 8px 16px; font-size: 13px; cursor: pointer; font-weight: 500; margin-right: 6px; margin-bottom: 6px; }
+        button:hover { background: #333; }
+        .btn-danger { background: #F05C48; color: #fff; }
+        .btn-danger:hover { background: #d94a38; }
+        input { padding: 7px 10px; border: 1px solid #ccc; font-size: 13px; width: 100%; margin-bottom: 6px; background: #fff; font-family: inherit; }
+        .result { margin-top: 10px; padding: 10px; background: #111; color: #EEEEE1; font-family: 'SF Mono', 'Fira Mono', Menlo, monospace; font-size: 12px; white-space: pre-wrap; display: none; }
+        .result.error { background: #F05C48; color: #fff; }
+        .row { display: flex; gap: 6px; margin-bottom: 6px; }
+        .row input { flex: 1; }
+        @media (max-width: 768px) { .layout { flex-direction: column; } .sidebar { width: 100%; } }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <h1>Sentry + Encore</h1>
+        <p class="subtitle">Error tracking for backend services</p>
+        <div class="layout">
+            <div class="main">
+                <div class="card">
+                    <h2>Health Check</h2>
+                    <button onclick="healthCheck()">Check Health</button>
+                    <div id="health-result" class="result"></div>
+                </div>
+                <div class="card">
+                    <h2>Process Item</h2>
+                    <div class="row">
+                        <input id="itemId" placeholder="Item ID" value="prod_1">
+                        <input id="quantity" placeholder="Quantity" type="number" value="2">
+                    </div>
+                    <button onclick="processItem()">Process</button>
+                    <div id="process-result" class="result"></div>
+                </div>
+                <div class="card">
+                    <h2>Trigger Test Error</h2>
+                    <p style="color: #666; font-size: 12px; margin-bottom: 10px;">Throws an error that gets reported to Sentry with endpoint context.</p>
+                    <button class="btn-danger" onclick="triggerError()">Trigger Error</button>
+                    <div id="error-result" class="result"></div>
+                </div>
+            </div>
+            <div class="sidebar">
+                <div class="info">
+                    <h3>What is Sentry?</h3>
+                    <p><a href="https://sentry.io">Sentry</a> captures exceptions, groups them by root cause, and gives you stack traces, breadcrumbs, and context to debug faster.</p>
+                    <h3>Why with Encore?</h3>
+                    <p>Encore provides distributed tracing and structured logging. Sentry adds error alerting and reporting on top. The <code>withSentry</code> wrapper captures errors with endpoint name, request data, and breadcrumbs.</p>
+                    <h3>What to look for</h3>
+                    <p>After triggering an error, check your <a href="https://sentry.io">Sentry dashboard</a>:</p>
+                    <ul><li>Stack trace</li><li>Endpoint tag</li><li>Request payload</li><li>Breadcrumb timeline</li></ul>
+                    <h3>How it works</h3>
+                    <p>Sentry tracing is disabled (<code>tracesSampleRate: 0</code>) since Encore handles that. HTTP integrations are filtered out since Encore's Rust gateway handles inbound requests.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const API = window.location.origin;
+        function show(id, data, isError) { const el = document.getElementById(id); el.style.display = 'block'; el.className = 'result' + (isError ? ' error' : ''); el.textContent = typeof data === 'string' ? data : JSON.stringify(data, null, 2); }
+        async function healthCheck() { try { const res = await fetch(`${API}/health`); show('health-result', await res.json()); } catch (e) { show('health-result', e.message, true); } }
+        async function processItem() { try { const res = await fetch(`${API}/process`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ itemId: document.getElementById('itemId').value, quantity: parseInt(document.getElementById('quantity').value) }) }); const data = await res.json(); show('process-result', data, !res.ok); } catch (e) { show('process-result', e.message, true); } }
+        async function triggerError() { try { const res = await fetch(`${API}/error-test`); show('error-result', await res.json(), true); } catch (e) { show('error-result', e.message, true); } }
+    </script>
+</body>
+</html>
