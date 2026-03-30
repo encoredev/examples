@@ -1,8 +1,8 @@
 encore.dev v1.30.0 h1:qa6g1uj7d2mEOLibsy9wPJpR0sz8DSKp9Ekxgf8MLkc=
 encore.dev v1.30.0/go.mod h1:XdWK6bKKAVzutmOKpC5qzalDQJLNfRCF/YCgA7OUZ3E=
 github.com/brianvoe/gofakeit/v6 v6.19.0/go.mod h1:Ow6qC71xtwm79anlwKRlWZW6zVq9D2XHE4QSSMP/rU8=
-github.com/clerkinc/clerk-sdk-go v1.49.0 h1:tJLIAx3qfP2cNQJ/iPq6OF1BSB0NzI3alcOuEueexoA=
-github.com/clerkinc/clerk-sdk-go v1.49.0/go.mod h1:pejhMTTDAuw5aBpiHBEOOOHMAsxNfPvKfM5qexFJYlc=
+github.com/clerk/clerk-sdk-go v1.49.0 h1:tJLIAx3qfP2cNQJ/iPq6OF1BSB0NzI3alcOuEueexoA=
+github.com/clerk/clerk-sdk-go v1.49.0/go.mod h1:pejhMTTDAuw5aBpiHBEOOOHMAsxNfPvKfM5qexFJYlc=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/go-jose/go-jose/v3 v3.0.0 h1:s6rrhirfEP/CGIoc6p+PZAeogN2SxKav6Wp7+dyMWVo=
