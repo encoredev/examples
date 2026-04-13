@@ -19,7 +19,7 @@
     "vite": "^4.4.5"
   },
   "dependencies": {
-    "encore.dev": "^1.41.1",
+    "encore.dev": "^1.56.5",
     "typescript": "^5.2.2"
   }
 }

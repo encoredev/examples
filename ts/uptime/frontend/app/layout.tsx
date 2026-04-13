@@ -20,6 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://encore.dev/encore-toolbar.js"></script>
       </head>
       <Providers>
         <body className={inter.className}>{children}</body>
