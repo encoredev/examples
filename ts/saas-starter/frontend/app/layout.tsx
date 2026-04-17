@@ -32,6 +32,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
+			<head>
+				<script src="https://encore.dev/encore-toolbar.js"></script>
+			</head>
 			<body
 				className={cn("antialiased", geistSans.variable, geistMono.variable)}
 			>

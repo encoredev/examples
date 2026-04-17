@@ -25,6 +25,9 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <script src="https://encore.dev/encore-toolbar.js"></script>
+      </head>
       <body className={inter.className}>
         <header>
           <nav className={styles.nav}>

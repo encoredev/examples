@@ -7,7 +7,7 @@
   "type": "module",
   "dependencies": {
     "elevenlabs": "^0.6.0",
-    "encore.dev": "^1.37.7"
+    "encore.dev": "^1.56.5"
   },
   "devDependencies": {
     "@types/node": "^20.5.7",

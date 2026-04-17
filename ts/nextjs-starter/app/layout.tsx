@@ -25,6 +25,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <script src="https://encore.dev/encore-toolbar.js"></script>
+      </head>
       <body className={`${inter.className} text-black bg-white`}>
         <header>
           <nav className="h-navBar bg-black text-white flex items-center justify-between p-5">
