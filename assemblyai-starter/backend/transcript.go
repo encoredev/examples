@@ -249,7 +249,7 @@ func getClient() *aai.Client {
 func newTranscriptParams() *aai.TranscriptOptionalParams {
 	params := &aai.TranscriptOptionalParams{
 		// Enables Speaker Diarization.
-		SpeakerLabels: aai.Bool(true),
+		SpeakerLabels: new(true),
 	}
 
 	// AssemblyAI won't be able to send a webhook delivery when we're running
@@ -257,9 +257,9 @@ func newTranscriptParams() *aai.TranscriptOptionalParams {
 	if cfg.UseWebhook() {
 		url := encore.Meta().APIBaseURL.ResolveReference(&url.URL{Path: "/api/transcripts/webhook"})
 
-		params.WebhookURL = aai.String(url.String())
-		params.WebhookAuthHeaderName = aai.String("X-Webhook-Secret")
-		params.WebhookAuthHeaderValue = aai.String(secrets.AssemblyAIWebhookSecret)
+		params.WebhookURL = new(url.String())
+		params.WebhookAuthHeaderName = new("X-Webhook-Secret")
+		params.WebhookAuthHeaderValue = new(secrets.AssemblyAIWebhookSecret)
 	}
 
 	return params

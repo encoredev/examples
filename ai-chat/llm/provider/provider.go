@@ -208,6 +208,10 @@ func (s *ChatRequest) processLine(ctx context.Context, line string) error {
 			Type:    BotMessageTypeTyping,
 		}},
 	})
+	if err != nil {
+		rlog.Warn("publish message", "error", err)
+	}
+
 	// Simulate the bot typing
 	randBackoff := time.Duration(rand.IntN(1000)) * time.Millisecond
 	time.Sleep(randBackoff + time.Duration(len(msg)*40)*time.Millisecond)

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 )
 
 var secrets struct {
@@ -76,12 +77,12 @@ func Complete(ctx context.Context, req *CompleteRequest) (*CompleteResponse, err
 		return nil, fmt.Errorf("unmarshal response: %v", err)
 	}
 
-	var text string
+	var text strings.Builder
 	for _, block := range result.Content {
 		if block.Type == "text" {
-			text += block.Text
+			text.WriteString(block.Text)
 		}
 	}
 
-	return &CompleteResponse{Content: text}, nil
+	return &CompleteResponse{Content: text.String()}, nil
 }

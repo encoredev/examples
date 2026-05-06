@@ -3,7 +3,6 @@ package billing
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"encore.app/user"
@@ -91,7 +90,7 @@ func Upgrade(ctx context.Context, req *UpgradeRequest) (*SubscriptionInfo, error
 	if !valid[req.Plan] {
 		return nil, &errs.Error{
 			Code:    errs.InvalidArgument,
-			Message: fmt.Sprintf("plan must be one of: free, pro, enterprise"),
+			Message: "plan must be one of: free, pro, enterprise",
 		}
 	}
 

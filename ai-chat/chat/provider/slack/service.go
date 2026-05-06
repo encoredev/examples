@@ -202,7 +202,7 @@ func (s *Service) SendMessage(ctx context.Context, channelID string, req *provid
 		channelID,
 		slack.MsgOptionMetadata(slack.SlackMetadata{
 			EventType: BotMessageEventType,
-			EventPayload: map[string]interface{}{
+			EventPayload: map[string]any{
 				BotIDPayload: req.Bot.ID,
 			},
 		}),
