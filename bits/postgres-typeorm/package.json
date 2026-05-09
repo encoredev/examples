@@ -1,0 +1,17 @@
+{
+  "name": "encore-ts-starter",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Encore Typescript Starter",
+  "license": "MPL-2.0",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "encore.dev": "^1.43.9",
+    "typeorm": "^0.3.20"
+  }
+}
