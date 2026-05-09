@@ -1,0 +1,28 @@
+{
+  "name": "api",
+  "private": true,
+  "version": "0.0.1",
+  "description": "NextForge Encore Backend",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "postinstall": "npx prisma generate --schema=auth/prisma/schema.prisma"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2",
+    "prisma": "^5.22.0",
+    "vitest": "^2.1.4"
+  },
+  "dependencies": {
+    "encore.dev": "^1.46.6",
+    "@prisma/client": "^5.22.0",
+    "better-auth": "^1.2.3",
+    "encore-better-auth": "0.2.0",
+    "posthog-node": "^4.9.0"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
+  }
+}
