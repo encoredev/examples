@@ -1,0 +1,26 @@
+{
+  "name": "encore-saas-template",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Encore SaaS Template",
+  "license": "MPL-2.0",
+  "type": "module",
+  "scripts": {
+    "start": "encore run",
+    "client": "encore gen client <encore-id> --output=../frontend/lib/encore_client.ts --env=local"
+  },
+  "devDependencies": {
+    "@types/busboy": "^1.5.4",
+    "@types/node": "^20.5.7",
+    "@types/pg": "^8.11.11",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@better-auth/stripe": "^1.2.2",
+    "better-auth": "^1.2.2",
+    "busboy": "^1.6.0",
+    "encore.dev": "^1.46.5",
+    "pg": "^8.13.3",
+    "stripe": "^17.7.0"
+  }
+}
