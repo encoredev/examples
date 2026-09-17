@@ -54,11 +54,5 @@
         "desc": "Start from scratch (experienced users only)",
         "template": "ts/empty",
         "lang": "ts"
-    },
-    {
-        "title": "Clean Architecture",
-        "desc": "Clean Architecture starter, enforced by ArchContract",
-        "template": "ts/encore-clean-arch-starter",
-        "lang": "ts"
     }
 ]
