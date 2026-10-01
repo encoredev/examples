@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+/* Encore design system */
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --color-paper: #eeeee1;
+  --color-ink: #111111;
+  --color-accent: #4651ff;
+  --color-line: #cccccc;
+}
+
+body {
+  @apply bg-paper text-ink antialiased;
+}

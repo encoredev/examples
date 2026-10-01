@@ -4,3 +4,4 @@ encore.gen.cue
 /.encore
 node_modules
 /encore.gen
+*.tsbuildinfo
