@@ -56,7 +56,7 @@ encore secret set --type local,dev,pr,prod SlackWebhookURL
 
 ## Frontend
 
-The React app lives in [`frontend/`](./frontend) and is served by the `frontend` service, so there's no separate dev server to start:
+The React app lives in [`frontend/`](./frontend), uses [shadcn/ui](https://ui.shadcn.com) components (in `frontend/src/components/ui`), and is served by the `frontend` service, so there's no separate dev server to start:
 
 - **Locally**, `encore run` also starts a [Vite dev server](https://vite.dev/guide/backend-integration) with hot reloading. Page loads go through Encore, while Vite serves source files and hot updates on port 4400.
 - **In the cloud**, Encore runs `npm run build` after compiling the app (see `build.hooks` in `encore.app`), and the `frontend` service serves the static files from `frontend/dist`.
