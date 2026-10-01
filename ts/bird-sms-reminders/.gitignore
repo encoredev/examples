@@ -1,0 +1,8 @@
+node_modules
+encore.gen
+.encore
+*.tsbuildinfo
+encore.gen.go
+encore.gen.cue
+/.encore
+/encore.gen
