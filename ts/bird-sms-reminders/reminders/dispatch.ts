@@ -2,7 +2,7 @@ import { api } from "encore.dev/api";
 import { CronJob } from "encore.dev/cron";
 import { Subscription, Topic } from "encore.dev/pubsub";
 import { db } from "./db";
-import { sendReminder } from "./bird";
+import { missingBirdSecrets, sendReminder } from "./bird";
 import { canSendReminder, type ReminderRecord } from "./model";
 
 export interface ReminderDue {
@@ -56,6 +56,14 @@ new CronJob("dispatch-reminders", {
   endpoint: dispatch,
 });
 
+export const birdStatus = api(
+  { expose: true, method: "GET", path: "/reminders/bird-status" },
+  async (): Promise<{ configured: boolean; missingSecrets: string[] }> => {
+    const missingSecrets = missingBirdSecrets();
+    return { configured: missingSecrets.length === 0, missingSecrets };
+  },
+);
+
 async function loadReminder(reminderID: string): Promise<ReminderRecord | null> {
   return db.queryRow<ReminderRecord>`
     SELECT r.id, r.appointment_id, r.due_at,
@@ -80,6 +88,17 @@ export async function handleReminderDue(event: ReminderDue): Promise<void> {
         WHERE id = ${reminder.id} AND status <> 'accepted'
       `;
     }
+    return;
+  }
+
+  // Without Bird credentials, put the reminder back so the next dispatch
+  // picks it up once the secrets are set, rather than retrying a send that
+  // can't succeed.
+  if (missingBirdSecrets().length > 0) {
+    await db.exec`
+      UPDATE reminders SET status = 'pending', last_error = NULL, updated_at = NOW()
+      WHERE id = ${reminder.id} AND status = 'queued'
+    `;
     return;
   }
 

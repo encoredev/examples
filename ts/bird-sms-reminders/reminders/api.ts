@@ -110,47 +110,72 @@ export interface AppointmentState {
     status: string;
     birdMessageID: string | null;
     attempts: number;
+    lastError: string | null;
   };
 }
+
+interface AppointmentRow {
+  id: string;
+  customer_name: string;
+  phone: string;
+  starts_at: Date;
+  appointment_status: string;
+  reminder_id: string;
+  due_at: Date;
+  reminder_status: string;
+  bird_message_id: string | null;
+  attempt_count: number;
+  last_error: string | null;
+}
+
+function toAppointmentState(row: AppointmentRow): AppointmentState {
+  return {
+    id: row.id,
+    customerName: row.customer_name,
+    phone: row.phone,
+    startsAt: row.starts_at,
+    status: row.appointment_status,
+    reminder: {
+      id: row.reminder_id,
+      dueAt: row.due_at,
+      status: row.reminder_status,
+      birdMessageID: row.bird_message_id,
+      attempts: row.attempt_count,
+      lastError: row.last_error,
+    },
+  };
+}
+
+export const listAppointments = api(
+  { expose: true, method: "GET", path: "/appointments" },
+  async (): Promise<{ appointments: AppointmentState[] }> => {
+    const rows = await db.queryAll<AppointmentRow>`
+      SELECT a.id, a.customer_name, a.phone, a.starts_at,
+             a.status AS appointment_status, r.id AS reminder_id,
+             r.due_at, r.status AS reminder_status,
+             r.bird_message_id, r.attempt_count, r.last_error
+      FROM appointments a
+      JOIN reminders r ON r.appointment_id = a.id
+      ORDER BY a.created_at DESC
+      LIMIT 50
+    `;
+    return { appointments: rows.map(toAppointmentState) };
+  },
+);
 
 export const getAppointment = api(
   { expose: true, method: "GET", path: "/appointments/:id" },
   async ({ id }: { id: string }): Promise<AppointmentState> => {
-    const row = await db.queryRow<{
-      id: string;
-      customer_name: string;
-      phone: string;
-      starts_at: Date;
-      appointment_status: string;
-      reminder_id: string;
-      due_at: Date;
-      reminder_status: string;
-      bird_message_id: string | null;
-      attempt_count: number;
-    }>`
+    const row = await db.queryRow<AppointmentRow>`
       SELECT a.id, a.customer_name, a.phone, a.starts_at,
              a.status AS appointment_status, r.id AS reminder_id,
              r.due_at, r.status AS reminder_status,
-             r.bird_message_id, r.attempt_count
+             r.bird_message_id, r.attempt_count, r.last_error
       FROM appointments a
       JOIN reminders r ON r.appointment_id = a.id
       WHERE a.id = ${id}
     `;
     if (!row) throw APIError.notFound("appointment not found");
-
-    return {
-      id: row.id,
-      customerName: row.customer_name,
-      phone: row.phone,
-      startsAt: row.starts_at,
-      status: row.appointment_status,
-      reminder: {
-        id: row.reminder_id,
-        dueAt: row.due_at,
-        status: row.reminder_status,
-        birdMessageID: row.bird_message_id,
-        attempts: row.attempt_count,
-      },
-    };
+    return toAppointmentState(row);
   },
 );
