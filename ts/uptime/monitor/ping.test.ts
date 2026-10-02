@@ -12,7 +12,7 @@ describe("ping", () => {
     // Invalid URLs should be considered down.
     { site: "invalid://scheme", expected: false },
   ])(
-    `should verify that $site is ${"$expected" ? "up" : "down"}`,
+    "should report whether $site is up (expected: $expected)",
     async ({ site, expected }) => {
       const resp = await ping({ url: site });
       expect(resp.up).toBe(expected);

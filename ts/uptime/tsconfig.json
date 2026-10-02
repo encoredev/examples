@@ -27,5 +27,7 @@
     /* Advanced Options */
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
-  }
+  },
+  // The React app in frontend/src has its own tsconfig.json.
+  "exclude": ["node_modules", "frontend/src", "frontend/dist"]
 }
