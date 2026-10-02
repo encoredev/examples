@@ -1,0 +1,11 @@
+{
+	"name": "backend",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"dependencies": {
+		"@workos-inc/node": "^7.0.0",
+		"encore.dev": "^1.44.0",
+		"jose": "^6.0.0"
+	}
+}
