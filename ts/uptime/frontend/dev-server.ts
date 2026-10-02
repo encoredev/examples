@@ -3,7 +3,6 @@ import fs from "node:fs/promises";
 import http from "node:http";
 import type { AddressInfo } from "node:net";
 import path from "node:path";
-import type { Handler } from "./frontend";
 
 // Vite serves the app's modules and hot reloading from its own port, so that
 // only page loads go through Encore and your traces aren't flooded with
@@ -11,7 +10,11 @@ import type { Handler } from "./frontend";
 const HOST = "127.0.0.1";
 const PORT = 4400;
 
-export async function viteDevServer(root: string): Promise<Handler> {
+// Starts Vite's dev server and returns a function that renders index.html
+// with the app's scripts loaded from it.
+export async function viteDevServer(
+  root: string,
+): Promise<() => Promise<string>> {
   const { createServer } = await import("vite");
 
   const server = http.createServer();
@@ -24,17 +27,13 @@ export async function viteDevServer(root: string): Promise<Handler> {
     server: { middlewareMode: true, origin, hmr: { server } },
   });
   server.on("request", vite.middlewares);
+  log.info("frontend dev server ready", { url: "http://localhost:4000" });
 
-  return async (req, res, next) => {
-    if (!req.headers.accept?.includes("text/html")) {
-      return vite.middlewares(req, res, next);
-    }
-
+  return async () => {
     const template = await fs.readFile(path.join(root, "index.html"), "utf-8");
-    const html = await vite.transformIndexHtml(req.url ?? "/", template);
-    res.setHeader("Content-Type", "text/html");
+    const html = await vite.transformIndexHtml("/", template);
     // Load scripts and styles from the Vite server.
-    res.end(html.replace(/(src="|href="|from ")\/(?!\/)/g, `$1${origin}/`));
+    return html.replace(/(src="|href="|from ")\/(?!\/)/g, `$1${origin}/`);
   };
 }
 
@@ -58,6 +57,8 @@ async function listen(server: http.Server, port: number): Promise<number> {
     }
   }
 
-  log.warn(`port ${port} is in use, starting the Vite dev server on a random port`);
+  log.warn(
+    `port ${port} is in use, starting the Vite dev server on a random port`,
+  );
   return listen(server, 0);
 }

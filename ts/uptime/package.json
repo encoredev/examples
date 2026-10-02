@@ -8,6 +8,7 @@
   "scripts": {
     "test": "vitest --passWithNoTests",
     "build": "vite build frontend",
+    "postinstall": "npm run build",
     "typecheck": "tsc --noEmit && tsc --noEmit -p frontend",
     "gen": "encore gen client --output=./frontend/src/lib/client.ts --env=local"
   },
@@ -21,7 +22,6 @@
     "pg": "^8.23.1",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "sirv": "^3.0.2",
     "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
