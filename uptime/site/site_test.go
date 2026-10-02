@@ -3,6 +3,8 @@ package site
 import (
 	"context"
 	"testing"
+
+	"encore.dev/beta/errs"
 )
 
 // Run tests using `encore test`, which compiles the Encore app and then runs `go test`.
@@ -26,5 +28,23 @@ func TestAdd(t *testing.T) {
 		t.Errorf("got site %+v, want %+v", *site, *params)
 	} else if site.ID <= 0 {
 		t.Errorf("got id %d, want positive integer", site.ID)
+	}
+}
+
+func TestAddDuplicate(t *testing.T) {
+	svc, err := initService()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ctx := context.Background()
+	params := &AddParams{
+		URL: "https://example.com/duplicate",
+	}
+	if _, err := svc.Add(ctx, params); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := svc.Add(ctx, params); errs.Code(err) != errs.AlreadyExists {
+		t.Errorf("got error %v, want code %s", err, errs.AlreadyExists)
 	}
 }
