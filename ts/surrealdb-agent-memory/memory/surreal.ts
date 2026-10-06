@@ -21,7 +21,7 @@ function connectionConfig(): ConnectionConfig {
     return {
       url: "http://127.0.0.1:8000",
       username: "root",
-      password: "root",
+      password: "secret",
     };
   }
   return { url: surrealURL(), token: surrealToken() };

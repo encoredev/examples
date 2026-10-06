@@ -12,7 +12,7 @@ Install the [Encore CLI](https://encore.dev/docs/install) and start SurrealDB 3.
 docker run --rm --name encore-surrealdb-memory \
   -p 8000:8000 \
   surrealdb/surrealdb:v3.3.0 \
-  start --user root --pass root memory
+  start --user root --pass secret memory
 ```
 
 Create the example app in another terminal and start it:

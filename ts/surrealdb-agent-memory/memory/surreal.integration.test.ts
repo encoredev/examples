@@ -20,7 +20,7 @@ describe.skipIf(!testURL)("SurrealDB memory store", () => {
     db = await connectSurreal({
       url: testURL!,
       username: "root",
-      password: "root",
+      password: "secret",
     });
   });
 
