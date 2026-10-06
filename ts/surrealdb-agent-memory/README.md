@@ -26,6 +26,20 @@ encore run
 
 Local development connects to `http://127.0.0.1:8000` with the credentials from the Docker command. Encore starts the API, Pub/Sub topic, subscription, and cron infrastructure used by the application.
 
+The `SurrealDBURL` and `SurrealDBToken` secrets are only used for deployed environments. Encore may warn that they are undefined locally; the warning is expected because the application uses the local URL and Docker credentials instead.
+
+Open [http://localhost:4000](http://localhost:4000) to use the React frontend, where you can store memories, recall them by vector similarity, and follow their entity relationships.
+
+## Frontend
+
+The React app lives in [`frontend/`](./frontend), uses Vite, Tailwind CSS and [shadcn/ui](https://ui.shadcn.com) components, and is served by the Encore app itself. `encore run` starts both the backend and a Vite development server with hot reloading, while production builds are served from `frontend/dist`.
+
+The frontend calls the backend through the type-safe Encore client in `frontend/src/lib/client.ts`. Regenerate it after changing an API:
+
+```bash
+npm run gen
+```
+
 ## Store and recall a memory
 
 The example uses eight-dimensional vectors so its requests remain readable. A production embedding model will usually return larger vectors; update `EMBEDDING_DIMENSIONS` and the `DIMENSION` in the HNSW index together before using one.
