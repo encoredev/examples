@@ -3,7 +3,7 @@ module encore.app
 go 1.26
 
 require (
-	encore.dev v1.12.0
+	encore.dev v1.52.1
 	github.com/google/go-github/v84 v84.0.0
 	github.com/stripe/stripe-go/v82 v82.5.1
 )
