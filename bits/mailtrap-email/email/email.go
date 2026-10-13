@@ -9,7 +9,8 @@ import (
 )
 
 var secrets struct {
-	MailtrapAPIToken string
+MailtrapAPIToken  string
+MailtrapFromEmail string
 }
 
 type SendParams struct {
@@ -25,11 +26,11 @@ type SendResponse struct {
 
 // Send sends a transactional email via Mailtrap Email API.
 //
-//encore:api public method=POST path=/email/send
+//encore:api private method=POST path=/email/send
 func Send(ctx context.Context, p *SendParams) (*SendResponse, error) {
 	payload := map[string]interface{}{
 		"from": map[string]string{
-			"email": "hello@yourdomain.com",
+			"email": secrets.MailtrapFromEmail,,
 			"name":  "My App",
 		},
 		"to": []map[string]string{
