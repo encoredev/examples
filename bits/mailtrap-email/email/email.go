@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-
-	"encore.dev/config"
 )
 
 var secrets struct {
