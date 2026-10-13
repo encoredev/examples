@@ -10,11 +10,7 @@ This example shows how to send transactional emails using [Mailtrap's Email API]
 
 ## Setup
 
-1. Clone and install the example:
-```bash
-   encore app create my-app --example=mailtrap-email
-   cd my-app
-```
+1. Copy the `email` folder into your Encore app so it becomes an `email` service.
 
 2. Set your Mailtrap API token as an Encore secret:
 ```bash
@@ -40,11 +36,9 @@ curl -X POST http://localhost:4000/email/send \
   }'
 ```
 
-## Using Mailtrap Sandbox for testing
-
-To test emails safely without delivering to real inboxes, use Mailtrap's Sandbox API by setting the `MAILTRAP_SANDBOX` environment variable to `true` and providing your `MAILTRAP_INBOX_ID`.
+> **Note:** The `from` address in `email/email.go` is a placeholder. Replace it with an address on your verified sending domain. The endpoint is public for demonstration; add authentication or make it `private` before deploying.
 
 ## Learn more
 
-- [Mailtrap Email API docs](https://mailtrap.io/docs)
+- [Mailtrap Email API docs](https://docs.mailtrap.io/)
 - [Encore documentation](https://encore.dev/docs)
