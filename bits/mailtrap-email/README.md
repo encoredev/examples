@@ -12,9 +12,10 @@ This example shows how to send transactional emails using [Mailtrap's Email API]
 
 1. Copy the `email` folder into your Encore app so it becomes an `email` service.
 
-2. Set your Mailtrap API token as an Encore secret:
+2. Set your Mailtrap API token and a sender address on your verified sending domain as Encore secrets:
 ```bash
    encore secret set --type local,dev,prod MailtrapAPIToken
+   encore secret set --type local,dev,prod MailtrapFromEmail
 ```
 
 3. Run the app locally:
@@ -24,19 +25,19 @@ This example shows how to send transactional emails using [Mailtrap's Email API]
 
 ## Send an email
 
-Call the API endpoint to send an email:
+The `Send` endpoint is `private`, so only other services in your Encore app can call it. It isn't exposed to the internet. Call it from another service like this:
 
-```bash
-curl -X POST http://localhost:4000/email/send \
-  -H "Content-Type: application/json" \
-  -d '{
-    "to": "recipient@example.com",
-    "subject": "Hello from Encore + Mailtrap",
-    "body": "This email was sent using Mailtrap Email API and Encore."
-  }'
+```go
+   import "encore.app/email"
+
+   _, err := email.Send(ctx, &email.SendParams{
+       To:      "recipient@example.com",
+       Subject: "Hello from Encore + Mailtrap",
+       Body:    "This email was sent using Mailtrap Email API and Encore.",
+   })
 ```
 
-> **Note:** The `from` address in `email/email.go` is a placeholder. Replace it with an address on your verified sending domain. The endpoint is public for demonstration; add authentication or make it `private` before deploying.
+The import path assumes the default Encore module name `encore.app`. Adjust it if your `go.mod` differs. If you expose a sending endpoint publicly, add authentication first.
 
 ## Learn more
 
