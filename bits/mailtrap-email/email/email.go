@@ -30,7 +30,7 @@ type SendResponse struct {
 func Send(ctx context.Context, p *SendParams) (*SendResponse, error) {
 	payload := map[string]interface{}{
 		"from": map[string]string{
-			"email": secrets.MailtrapFromEmail,,
+			"email": secrets.MailtrapFromEmail,
 			"name":  "My App",
 		},
 		"to": []map[string]string{
