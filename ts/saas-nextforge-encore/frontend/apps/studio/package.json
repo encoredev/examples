@@ -1,0 +1,13 @@
+{
+  "name": "studio",
+  "version": "0.0.0",
+  "scripts": {
+    "dev:auth": "prisma studio --schema ../../../backend/auth/prisma/schema.prisma --port 3005",
+    "dev:api": "prisma studio --schema ../../../backend/api/prisma/schema.prisma --port 3005",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "devDependencies": {
+    "prisma": "6.4.1"
+  }
+}
