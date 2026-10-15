@@ -1,105 +1,133 @@
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from "@testing-library/react";
-import App from "./App";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import React, { FC, PropsWithChildren } from "react";
-import { APIError, ErrCode, monitor, site } from "./client";
+import { render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
+import type { PropsWithChildren } from "react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import App from "./App";
+import { ErrCode, type monitor, type site } from "./lib/client";
 
 const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-    },
-  },
+  defaultOptions: { queries: { retry: false } },
 });
 
-const wrapper: FC<PropsWithChildren> = ({ children }) => (
+const wrapper = ({ children }: PropsWithChildren) => (
   <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 );
 
 const ListResponse: site.ListResponse = { sites: [{ id: 1, url: "test.dev" }] };
 const StatusResponse: monitor.StatusResponse = {
-  sites: {
-    1: {
-      up: true,
-      checked_at: Date.now().toString(),
-    },
-  },
+  sites: { 1: { up: true, checked_at: new Date().toISOString() } },
 };
+
+// Fake API responses, keyed by "METHOD /path".
+let routes: Record<string, () => Response>;
+
+// The generated client captures `fetch` when it's imported, so replace it
+// before any imports run.
+const fetchMock = vi.hoisted(() => {
+  const mock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+    const url = new URL(input.toString());
+    const route = routes[`${init?.method ?? "GET"} ${url.pathname}`];
+    return route ? route() : new Response("not found", { status: 404 });
+  });
+  globalThis.fetch = mock;
+  return mock;
+});
+
+const json =
+  (body: unknown, status = 200) =>
+  () =>
+    new Response(JSON.stringify(body), {
+      status,
+      headers: { "Content-Type": "application/json" },
+    });
+
+const calls = (method: string, path: string) =>
+  fetchMock.mock.calls.filter(
+    ([input, init]) =>
+      (init?.method ?? "GET") === method &&
+      new URL(input.toString()).pathname === path,
+  );
 
 describe("App", () => {
   beforeEach(() => {
-    jest
-      .spyOn(site.ServiceClient.prototype, "List")
-      .mockReturnValue(Promise.resolve(ListResponse));
-
-    jest
-      .spyOn(monitor.ServiceClient.prototype, "Status")
-      .mockReturnValue(Promise.resolve(StatusResponse));
-
-    jest.spyOn(site.ServiceClient.prototype, "Add");
-    jest.spyOn(site.ServiceClient.prototype, "Delete");
+    routes = {
+      "GET /site": json(ListResponse),
+      "GET /status": json(StatusResponse),
+      "POST /site": json({ id: 2, url: "another.com" }),
+      "DELETE /site/1": json({}),
+      "POST /check-all": json({}),
+    };
   });
 
   afterEach(() => {
     queryClient.clear();
+    fetchMock.mockClear();
   });
 
-  it("render sites", async () => {
+  it("renders sites and their status", async () => {
     render(<App />, { wrapper });
-    await waitForElementToBeRemoved(() => screen.queryByText("Loading..."));
 
-    expect(site.ServiceClient.prototype.List).toBeCalledTimes(1);
-    expect(monitor.ServiceClient.prototype.Status).toBeCalledTimes(1);
-
-    screen.getAllByText("test.dev");
-    screen.getByText("Up");
+    expect(
+      await screen.findByRole("link", { name: "test.dev" }),
+    ).toBeInTheDocument();
+    expect(await screen.findByText("Up")).toBeInTheDocument();
+    expect(screen.getByText("1 site · 1 up · 0 down")).toBeInTheDocument();
   });
 
-  it("render api error", async () => {
-    jest.spyOn(site.ServiceClient.prototype, "List").mockReturnValue(
-      Promise.reject(
-        new APIError(500, {
-          code: ErrCode.Unknown,
-          message: "request failed",
-        }),
-      ),
+  it("renders API errors", async () => {
+    routes["GET /site"] = json(
+      { code: ErrCode.Unknown, message: "request failed" },
+      500,
     );
 
     render(<App />, { wrapper });
-    await waitForElementToBeRemoved(() => screen.queryByText("Loading..."));
 
-    screen.getAllByText("request failed");
+    expect(await screen.findByText("request failed")).toBeInTheDocument();
   });
 
-  it("add site", async () => {
+  it("adds a site", async () => {
     render(<App />, { wrapper });
-    await waitForElementToBeRemoved(() => screen.queryByText("Loading..."));
-
-    await userEvent.click(screen.getByText("Add website"));
 
     await userEvent.type(
-      screen.getByPlaceholderText("google.com"),
+      await screen.findByLabelText("Website URL"),
       "another.com",
     );
+    await userEvent.click(screen.getByRole("button", { name: "Add website" }));
 
-    await userEvent.click(screen.getByText("Save"));
-
-    expect(site.ServiceClient.prototype.Add).toHaveBeenCalledWith({
-      url: "another.com",
-    });
+    const [[, init]] = calls("POST", "/site");
+    expect(JSON.parse(init!.body as string)).toEqual({ url: "another.com" });
   });
 
-  it("delete site", async () => {
+  it("adds a suggested site when there are none", async () => {
+    routes["GET /site"] = json({ sites: [] });
+
     render(<App />, { wrapper });
-    await waitForElementToBeRemoved(() => screen.queryByText("Loading..."));
+    await userEvent.click(
+      await screen.findByRole("button", { name: "+ encore.dev" }),
+    );
 
-    await userEvent.click(screen.getByText("Delete"));
+    const [[, init]] = calls("POST", "/site");
+    expect(JSON.parse(init!.body as string)).toEqual({ url: "encore.dev" });
+  });
 
-    expect(site.ServiceClient.prototype.Delete).toHaveBeenCalledWith(1);
+  it("checks all sites", async () => {
+    render(<App />, { wrapper });
+
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Check all now" }),
+    );
+
+    expect(calls("POST", "/check-all")).toHaveLength(1);
+  });
+
+  it("removes a site", async () => {
+    render(<App />, { wrapper });
+
+    await userEvent.click(
+      await screen.findByRole("button", { name: /Remove\s*test\.dev/ }),
+    );
+
+    expect(calls("DELETE", "/site/1")).toHaveLength(1);
   });
 });

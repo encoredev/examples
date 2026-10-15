@@ -1,272 +1,433 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { DateTime } from "luxon";
-import React, { FC, useEffect, useState } from "react";
-import Client, { monitor, site } from "./client";
+import { type FormEvent, type ReactNode, useEffect, useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import Client, { Local, type monitor, type site } from "@/lib/client";
 
-const client = new Client(window.location.origin);
+// The frontend is served by the Encore app itself, so the API lives on the same
+// origin. With `npm run dev`, Vite serves the frontend and the API runs on :4000.
+const client = new Client(import.meta.env.DEV ? Local : window.location.origin);
 
-function App() {
+// Suggestions shown when no sites are being monitored yet.
+const SUGGESTIONS = ["encore.dev", "github.com", "this-site-is-down.invalid"];
+
+export default function App() {
   return (
-    <>
-      <div className="min-h-full container px-4 mx-auto my-16">
-        <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-          Uptime Monitoring
-        </h2>
+    <div className="mx-auto max-w-6xl px-5 py-10">
+      <header className="mb-8">
+        <h1 className="text-3xl font-semibold tracking-tight">
+          Uptime Monitor
+        </h1>
+        <p className="mt-1 text-muted-foreground">
+          Event-driven uptime monitoring with Encore.go, Pub/Sub, and PostgreSQL
+        </p>
+      </header>
 
-        <main className="pt-8 pb-16">
+      <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
+        <main className="min-w-0 flex-1">
           <SiteList />
         </main>
+        <Sidebar />
       </div>
-    </>
+    </div>
   );
 }
 
-const SiteList: FC = () => {
-  const { isLoading, error, data } = useQuery({
+function SiteList() {
+  const queryClient = useQueryClient();
+
+  const sites = useQuery({
     queryKey: ["sites"],
     queryFn: () => client.site.List(),
-    refetchInterval: 10000, // 10s
-    retry: false,
   });
 
-  const { data: status } = useQuery({
+  const status = useQuery({
     queryKey: ["status"],
     queryFn: () => client.monitor.Status(),
-    refetchInterval: 1000, // every second
-    retry: false,
-  });
-
-  const queryClient = useQueryClient();
-
-  const doDelete = useMutation({
-    mutationFn: (site: site.Site) => {
-      return client.site.Delete(site.id);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["sites"] });
+    // Sites are checked in the background after they're added, so poll
+    // quickly until every site has a status, then slow down.
+    refetchInterval: (query) => {
+      const checked = query.state.data?.sites ?? {};
+      const pending = sites.data?.sites.some((s) => !(s.id in checked));
+      return pending ? 1000 : 10_000;
     },
   });
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  } else if (error) {
-    return <div className="text-red-600">{(error as Error).message}</div>;
-  }
+  const refresh = () => queryClient.invalidateQueries();
 
-  const now = DateTime.now();
-  return (
-    <>
-      <div className="sm:flex sm:items-center">
-        <div className="sm:flex-auto">
-          <h1 className="text-xl font-semibold text-gray-900">
-            Monitored Websites
-          </h1>
-          <p className="mt-2 text-sm text-gray-700">
-            A list of all the websites being monitored, their current status,
-            and when they were last checked.
-          </p>
-        </div>
-        <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-          <AddSiteForm />
-        </div>
-      </div>
-
-      <div className="mt-8 flex flex-col">
-        <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Site
-                    </th>
-                    <th
-                      scope="col"
-                      className="relative py-3.5 pl-3 pr-4 sm:pr-6"
-                    >
-                      <span className="sr-only"></span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
-                  {data?.sites.length === 0 && (
-                    <tr>
-                      <td
-                        colSpan={2}
-                        className={"text-center text-gray-400 py-8"}
-                      >
-                        Nothing to monitor yet. Add a website to see it here.
-                      </td>
-                    </tr>
-                  )}
-                  {data!.sites.map((site) => {
-                    const st = status?.sites[site.id];
-                    const dt = st && DateTime.fromISO(st.checked_at);
-                    return (
-                      <tr key={site.id}>
-                        <td className="px-3 py-4 text-sm">
-                          <div className="flex items-center gap-2">
-                            <span className="text-gray-700">{site.url}</span>
-                            <StatusBadge status={st} />
-                          </div>
-                          {dt && (
-                            <div className="text-gray-400">
-                              Last checked <TimeDelta dt={dt} />
-                            </div>
-                          )}
-                        </td>
-                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                          <button
-                            className="text-indigo-600 hover:text-indigo-900"
-                            onClick={() => doDelete.mutate(site)}
-                          >
-                            Delete<span className="sr-only"> {site.url}</span>
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
-
-const AddSiteForm: FC = () => {
-  const [formOpen, setFormOpen] = useState(false);
-  const [url, setUrl] = useState("");
-
-  const queryClient = useQueryClient();
-
-  const save = useMutation({
-    mutationFn: async (url: string) => {
-      if (!validURL(url)) {
-        return;
-      }
-
-      await client.site.Add({ url });
-      setFormOpen(false);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["sites"] });
-      queryClient.invalidateQueries({ queryKey: ["status"] });
-    },
+  const checkAll = useMutation({
+    mutationFn: () => client.monitor.CheckAll(),
+    onSettled: refresh,
   });
 
-  const onSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    save.mutate(url);
-  };
-
-  if (!formOpen) {
+  if (sites.isPending) {
     return (
-      <button
-        type="button"
-        className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-        onClick={() => setFormOpen(true)}
-      >
-        Add website
-      </button>
+      <Card>
+        <CardContent className="text-sm text-muted-foreground">
+          Loading…
+        </CardContent>
+      </Card>
+    );
+  }
+  if (sites.isError) {
+    return (
+      <Card>
+        <CardContent>
+          <ErrorMessage error={sites.error} />
+        </CardContent>
+      </Card>
     );
   }
 
+  const list = sites.data.sites;
+  const statuses = status.data?.sites ?? {};
+  const up = list.filter((s) => statuses[s.id]?.up === true).length;
+  const down = list.filter((s) => statuses[s.id]?.up === false).length;
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-lg">Monitored websites</CardTitle>
+        <CardDescription>
+          {list.length === 0
+            ? "Add a website to start monitoring it."
+            : `${list.length} ${list.length === 1 ? "site" : "sites"} · ${up} up · ${down} down`}
+        </CardDescription>
+        {list.length > 0 && (
+          <CardAction>
+            <Button
+              variant="outline"
+              onClick={() => checkAll.mutate()}
+              disabled={checkAll.isPending}
+            >
+              {checkAll.isPending ? "Checking…" : "Check all now"}
+            </Button>
+          </CardAction>
+        )}
+      </CardHeader>
+
+      <CardContent>
+        <AddSiteForm />
+
+        {list.length === 0 ? (
+          <EmptyState />
+        ) : (
+          <ul className="mt-6 divide-y border-t">
+            {list.map((s) => (
+              <SiteRow key={s.id} site={s} status={statuses[s.id]} />
+            ))}
+          </ul>
+        )}
+
+        {checkAll.isError && <ErrorMessage error={checkAll.error} />}
+      </CardContent>
+    </Card>
+  );
+}
+
+function AddSiteForm() {
+  const queryClient = useQueryClient();
+  const [url, setUrl] = useState("");
+
+  const add = useMutation({
+    mutationFn: (url: string) => client.site.Add({ url }),
+    onSuccess: () => {
+      setUrl("");
+      return queryClient.invalidateQueries();
+    },
+  });
+
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (isValidURL(url)) add.mutate(url.trim());
+  };
+
+  const invalid = url.trim() !== "" && !isValidURL(url);
+
   return (
     <form onSubmit={onSubmit}>
-      <div className="flex flex-col md:flex-row md:items-end gap-4">
-        <div>
-          <input
-            type="text"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="google.com"
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          />
-        </div>
-
-        <div>
-          <button
-            type="submit"
-            className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm enabled:hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-75"
-            disabled={!validURL(url)}
-          >
-            Save
-          </button>
-        </div>
+      <div className="flex gap-2">
+        <Input
+          type="text"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          placeholder="example.com"
+          aria-label="Website URL"
+          aria-invalid={invalid}
+        />
+        <Button type="submit" disabled={!isValidURL(url) || add.isPending}>
+          {add.isPending ? "Adding…" : "Add website"}
+        </Button>
       </div>
+      {invalid && (
+        <p className="mt-2 text-sm text-muted-foreground">
+          Enter a domain like <InlineCode>example.com</InlineCode> or a full
+          URL.
+        </p>
+      )}
+      {add.isError && <ErrorMessage error={add.error} />}
     </form>
   );
-};
+}
 
-export default App;
-
-const validURL = (url: string) => {
-  const idx = url.lastIndexOf(".");
-  if (idx === -1 || url.substring(idx + 1) === "") {
-    return false;
-  }
-
-  if (!url.startsWith("http:") && !url.startsWith("https:")) {
-    url = "https://" + url;
-  }
-
-  try {
-    const u = new URL(url);
-    return u.protocol === "http:" || u.protocol === "https:";
-  } catch (_) {
-    return false;
-  }
-};
-
-const StatusBadge: FC<{ status: monitor.SiteStatus | undefined }> = ({
-  status,
-}) => {
-  const up = status?.up;
-  return up ? (
-    <Badge color="green">Up</Badge>
-  ) : up === false ? (
-    <Badge color="red">Down</Badge>
-  ) : (
-    <Badge color="gray">Unknown</Badge>
-  );
-};
-
-const Badge: FC<{
-  color: "green" | "red" | "orange" | "gray";
-  children?: React.ReactNode;
-}> = ({ color, children }) => {
-  const [bgColor, textColor] = {
-    green: ["bg-green-100", "text-green-800"],
-    red: ["bg-red-100", "text-red-800"],
-    orange: ["bg-orange-100", "text-orange-800"],
-    gray: ["bg-gray-100", "text-gray-800"],
-  }[color]!;
+function EmptyState() {
+  const queryClient = useQueryClient();
+  const add = useMutation({
+    mutationFn: (url: string) => client.site.Add({ url }),
+    onSuccess: () => queryClient.invalidateQueries(),
+  });
 
   return (
-    <span
-      className={`inline-flex items-center rounded-md px-2.5 py-0.5 text-sm font-medium uppercase ${bgColor} ${textColor}`}
-    >
-      {children}
-    </span>
+    <div className="mt-6 rounded-lg border border-dashed px-6 py-10 text-center">
+      <p className="text-sm text-muted-foreground">
+        Nothing to monitor yet. Add your own website above, or try one of these:
+      </p>
+      <div className="mt-4 flex flex-wrap justify-center gap-2">
+        {SUGGESTIONS.map((url) => (
+          <Button
+            key={url}
+            variant="outline"
+            size="sm"
+            disabled={add.isPending}
+            onClick={() => add.mutate(url)}
+          >
+            + {url}
+          </Button>
+        ))}
+      </div>
+      {add.isError && <ErrorMessage error={add.error} />}
+    </div>
   );
-};
+}
 
-const TimeDelta: FC<{ dt: DateTime }> = ({ dt }) => {
-  const compute = () => dt.toRelative();
-  const [str, setStr] = useState(compute());
+function SiteRow({
+  site,
+  status,
+}: {
+  site: site.Site;
+  status?: monitor.SiteStatus;
+}) {
+  const queryClient = useQueryClient();
 
+  const check = useMutation({
+    mutationFn: () => client.monitor.Check(site.id),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["status"] }),
+  });
+
+  const remove = useMutation({
+    mutationFn: () => client.site.Delete(site.id),
+    onSettled: () => queryClient.invalidateQueries(),
+  });
+
+  return (
+    <li className="flex flex-wrap items-center gap-x-4 gap-y-2 py-4">
+      <StatusBadge up={check.isPending ? undefined : status?.up} />
+      <div className="min-w-0 flex-1">
+        <a
+          href={withScheme(site.url)}
+          target="_blank"
+          rel="noreferrer"
+          className="block truncate font-medium underline-offset-4 hover:underline"
+        >
+          {site.url}
+        </a>
+        <p className="text-sm text-muted-foreground">
+          {check.isPending || !status ? (
+            "Checking…"
+          ) : (
+            <>
+              Last checked <RelativeTime date={status.checked_at} />
+            </>
+          )}
+        </p>
+      </div>
+      <div className="flex gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => check.mutate()}
+          disabled={check.isPending}
+        >
+          Check
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => remove.mutate()}
+          disabled={remove.isPending}
+        >
+          Remove<span className="sr-only"> {site.url}</span>
+        </Button>
+      </div>
+    </li>
+  );
+}
+
+function Sidebar() {
+  return (
+    <aside className="lg:sticky lg:top-6 lg:w-72 lg:shrink-0">
+      <Card className="text-sm leading-relaxed">
+        <CardContent className="space-y-5">
+          <SidebarSection title="How it works">
+            <p>
+              Adding a site publishes an event to the{" "}
+              <InlineCode>site-added</InlineCode> Pub/Sub topic. The{" "}
+              <InlineCode>monitor</InlineCode> service subscribes, pings the
+              site, and stores the result in its database.
+            </p>
+            <p className="mt-2">
+              When a site goes down or comes back up,{" "}
+              <InlineCode>monitor</InlineCode> publishes to{" "}
+              <InlineCode>uptime-transition</InlineCode>, and the{" "}
+              <InlineCode>slack</InlineCode> service sends a notification.
+            </p>
+          </SidebarSection>
+
+          <SidebarSection title="Cron jobs">
+            <p>
+              In the cloud, a cron job checks every site each hour. Cron jobs
+              don't run locally, so use <em>Check all now</em> to call the same
+              endpoint.
+            </p>
+          </SidebarSection>
+
+          <SidebarSection title="Slack notifications">
+            <p>
+              Set a Slack webhook URL to get notified when a site goes down:
+            </p>
+            <pre className="mt-2 rounded-md bg-muted p-3 font-mono text-xs whitespace-pre-wrap">
+              encore secret set --type local SlackWebhookURL
+            </pre>
+          </SidebarSection>
+
+          <SidebarSection title="Local dashboard">
+            <p>
+              Open <a href="http://localhost:9400">localhost:9400</a> to see
+              traces of every request, including the Pub/Sub messages flowing
+              between services, plus API docs and an architecture diagram.
+            </p>
+          </SidebarSection>
+
+          <SidebarSection title="Next steps">
+            <ul className="space-y-1">
+              <li>
+                <a href="https://encore.dev/docs/go/tutorials/uptime">
+                  Build this app step by step
+                </a>
+              </li>
+              <li>
+                <a href="https://encore.dev/docs/go/primitives/pubsub">
+                  Learn about Pub/Sub
+                </a>
+              </li>
+              <li>
+                <a href="https://encore.dev/docs/platform/deploy/deploying">
+                  Deploy to the cloud
+                </a>
+              </li>
+            </ul>
+          </SidebarSection>
+        </CardContent>
+      </Card>
+    </aside>
+  );
+}
+
+function SidebarSection({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <section className="text-muted-foreground [&_a]:font-medium [&_a]:text-foreground [&_a]:underline [&_a]:underline-offset-4">
+      <h3 className="mb-1.5 font-medium text-foreground">{title}</h3>
+      {children}
+    </section>
+  );
+}
+
+function InlineCode({ children }: { children: ReactNode }) {
+  return (
+    <code className="rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-xs text-foreground">
+      {children}
+    </code>
+  );
+}
+
+function StatusBadge({ up }: { up?: boolean }) {
+  if (up === true) {
+    return (
+      <Badge variant="outline" className="w-16">
+        <span className="size-1.5 rounded-full bg-emerald-500" />
+        Up
+      </Badge>
+    );
+  }
+  if (up === false) {
+    return (
+      <Badge variant="destructive" className="w-16">
+        Down
+      </Badge>
+    );
+  }
+  return (
+    <Badge variant="secondary" className="w-16">
+      …
+    </Badge>
+  );
+}
+
+function ErrorMessage({ error }: { error: Error }) {
+  return <p className="mt-3 text-sm text-destructive">{error.message}</p>;
+}
+
+const relativeTime = new Intl.RelativeTimeFormat(undefined, {
+  numeric: "auto",
+});
+
+// RelativeTime renders a timestamp like "5 seconds ago", updating every second.
+function RelativeTime({ date }: { date: string }) {
+  const [now, setNow] = useState(Date.now);
   useEffect(() => {
-    const handler = () => setStr(compute());
-    const timer = setInterval(handler, 1000);
+    const timer = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(timer);
-  }, [dt]);
+  }, []);
 
-  return <>{str}</>;
-};
+  const seconds = Math.round((new Date(date).getTime() - now) / 1000);
+  const units: [Intl.RelativeTimeFormatUnit, number][] = [
+    ["day", 86400],
+    ["hour", 3600],
+    ["minute", 60],
+  ];
+  for (const [unit, size] of units) {
+    if (Math.abs(seconds) >= size) {
+      return <>{relativeTime.format(Math.round(seconds / size), unit)}</>;
+    }
+  }
+  return <>{relativeTime.format(Math.min(seconds, 0), "second")}</>;
+}
+
+// Mirrors the backend, which defaults to https:// when no scheme is given.
+function withScheme(url: string) {
+  return /^https?:\/\//.test(url) ? url : `https://${url}`;
+}
+
+function isValidURL(input: string) {
+  try {
+    const url = new URL(withScheme(input.trim()));
+    return url.hostname.includes(".") && !url.hostname.endsWith(".");
+  } catch {
+    return false;
+  }
+}

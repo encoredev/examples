@@ -3,11 +3,13 @@ package site
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
+	"encore.dev/beta/errs"
 	"encore.dev/pubsub"
 	"encore.dev/storage/sqldb"
 )
@@ -40,7 +42,9 @@ func (s *Service) Add(ctx context.Context, p *AddParams) (*Site, error) {
 	}
 
 	site := &Site{URL: p.URL}
-	if err := s.db.Create(site).Error; err != nil {
+	if err := s.db.Create(site).Error; errors.Is(err, gorm.ErrDuplicatedKey) {
+		return nil, &errs.Error{Code: errs.AlreadyExists, Message: "site is already being monitored"}
+	} else if err != nil {
 		return nil, err
 	}
 	if _, err := SiteAddedTopic.Publish(ctx, site); err != nil {
@@ -94,7 +98,10 @@ type Service struct {
 func initService() (*Service, error) {
 	db, err := gorm.Open(postgres.New(postgres.Config{
 		Conn: db.Stdlib(),
-	}))
+	}), &gorm.Config{
+		// Return gorm.ErrDuplicatedKey for unique constraint violations.
+		TranslateError: true,
+	})
 	if err != nil {
 		return nil, err
 	}
