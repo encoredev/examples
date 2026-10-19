@@ -1,0 +1,17 @@
+{
+  "$schema": "../schema.json",
+  "title": "Django Notes API",
+  "description": "A Django project with a notes CRUD JSON API on the Django ORM and the Django admin, backed by a Postgres database whose schema Django's migrations manage. A starting point for a Python service on Django.",
+  "lang": "python",
+  "category": "framework",
+  "framework": "django",
+  "tags": [
+    "http",
+    "rest",
+    "crud",
+    "postgres",
+    "django",
+    "orm",
+    "secrets"
+  ]
+}

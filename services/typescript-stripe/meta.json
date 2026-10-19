@@ -1,0 +1,16 @@
+{
+  "$schema": "../schema.json",
+  "title": "Stripe Checkout Payments",
+  "description": "Accept payments with Stripe Checkout: create a checkout session for a product, receive Stripe's webhooks with their signatures verified, and record each completed payment in Postgres, with a route to list them. Running on Bun.",
+  "lang": "typescript",
+  "category": "integration",
+  "framework": "bun",
+  "tags": [
+    "stripe",
+    "payments",
+    "webhooks",
+    "postgres",
+    "secrets",
+    "http"
+  ]
+}

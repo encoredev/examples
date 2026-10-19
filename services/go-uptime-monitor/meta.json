@@ -1,0 +1,17 @@
+{
+  "$schema": "../schema.json",
+  "title": "Uptime Monitor",
+  "description": "Monitors whether websites are up: keep a list of URLs, check them on a schedule, record each check in Postgres, and post a Slack message through an incoming webhook when a site goes down or comes back up.",
+  "lang": "go",
+  "category": "demo",
+  "tags": [
+    "postgres",
+    "pubsub",
+    "cron",
+    "secrets",
+    "webhooks",
+    "http",
+    "rest",
+    "monitoring"
+  ]
+}

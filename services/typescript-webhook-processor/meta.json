@@ -1,0 +1,17 @@
+{
+  "$schema": "../schema.json",
+  "title": "Webhook Processor",
+  "description": "Receives webhooks from Stripe, GitHub or any other sender, verifies their signatures against a secret, queues them on Pub/Sub and stores them in Postgres, keeping the important ones (payments, pushes, releases) as notifications with per-type counts. Running on Bun.",
+  "lang": "typescript",
+  "category": "demo",
+  "framework": "bun",
+  "tags": [
+    "webhooks",
+    "http",
+    "postgres",
+    "pubsub",
+    "secrets",
+    "stripe",
+    "github"
+  ]
+}

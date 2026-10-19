@@ -1,0 +1,15 @@
+{
+  "$schema": "../schema.json",
+  "title": "FastAPI Notes API",
+  "description": "A FastAPI service with a notes CRUD REST API stored in a Postgres database, with SQL migrations, Pydantic validation and interactive OpenAPI docs. A starting point for a Python API service on FastAPI.",
+  "lang": "python",
+  "category": "framework",
+  "framework": "fastapi",
+  "tags": [
+    "http",
+    "rest",
+    "crud",
+    "postgres",
+    "fastapi"
+  ]
+}

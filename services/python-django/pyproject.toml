@@ -1,0 +1,10 @@
+[project]
+name = "{{ident}}"
+version = "0.1.0"
+description = "A notes API on Django with an Encore Postgres database"
+requires-python = ">=3.14"
+dependencies = [
+    "django>=6.1",
+    "encore-dev>=0.1.0",
+    "psycopg[binary]>=3.3",
+]

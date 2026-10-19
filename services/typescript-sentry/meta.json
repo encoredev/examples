@@ -1,0 +1,15 @@
+{
+  "$schema": "../schema.json",
+  "title": "Sentry Error Tracking",
+  "description": "Error tracking with Sentry: errors thrown by the service's routes are reported to Sentry with their request and Encore trace id, and answered with the Sentry event id. The DSN is an Encore secret; without it Sentry is disabled. Running on Bun.",
+  "lang": "typescript",
+  "category": "integration",
+  "framework": "bun",
+  "tags": [
+    "sentry",
+    "errors",
+    "monitoring",
+    "secrets",
+    "http"
+  ]
+}
