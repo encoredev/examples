@@ -1,0 +1,11 @@
+{
+  "$schema": "../schema.json",
+  "title": "Hello World",
+  "description": "A minimal HTTP service that answers every request with a greeting. A starting point with no dependencies, built on the Rust standard library.",
+  "lang": "rust",
+  "category": "demo",
+  "tags": [
+    "http",
+    "starter"
+  ]
+}

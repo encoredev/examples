@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/encoredev/examples/blob/main/services/schema.json",
+  "title": "Encore service template metadata",
+  "description": "The meta.json of a service template under services/. The template's id is the name of its directory.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "title",
+    "description",
+    "lang",
+    "category"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "The path to this schema, for editors."
+    },
+    "title": {
+      "type": "string",
+      "description": "A short human-readable name, shown in the template picker.",
+      "minLength": 1,
+      "maxLength": 60
+    },
+    "description": {
+      "type": "string",
+      "description": "What the service does, in a sentence or two. Shown in the picker and used to match the template against what a user asks for, so say what it is for rather than how it is built.",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "lang": {
+      "type": "string",
+      "description": "The language the service is written in. The same value as \"lang\" in its encore.service.json.",
+      "enum": [
+        "go",
+        "typescript",
+        "rust",
+        "python"
+      ]
+    },
+    "category": {
+      "type": "string",
+      "description": "Which section of the template picker it is listed in: \"integration\" for a third-party service such as Stripe, Resend or Slack; \"framework\" for a web framework or library such as FastAPI, Django or Prisma; \"demo\" for one that shows what Encore itself does, such as Pub/Sub or cron.",
+      "enum": [
+        "integration",
+        "framework",
+        "demo"
+      ]
+    },
+    "framework": {
+      "type": "string",
+      "description": "The web framework or library the service is built on, if any, such as \"express\" or \"axum\". Leave it out for the standard library.",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "tags": {
+      "type": "array",
+      "description": "Lowercase keywords for what the service uses or does, such as \"http\", \"postgres\", \"pubsub\" or \"webhooks\".",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+        "maxLength": 30
+      },
+      "uniqueItems": true,
+      "maxItems": 10
+    }
+  }
+}

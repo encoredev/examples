@@ -1,0 +1,14 @@
+{
+  "$schema": "../schema.json",
+  "title": "Todo REST API",
+  "description": "A JSON REST API to create, list, update and delete todo items, kept in memory. A starting point for a CRUD service, running on Bun.",
+  "lang": "typescript",
+  "category": "demo",
+  "framework": "bun",
+  "tags": [
+    "http",
+    "rest",
+    "json",
+    "crud"
+  ]
+}
