@@ -10,8 +10,7 @@ one is up, and posts to Slack when a site goes down or comes back up.
   webhook. Without the webhook secret it logs the message instead, so the
   service runs without Slack.
 
-It runs on Bun with no web framework: `bun install`, then `encore run` starts
-it with `bun run start`.
+It runs on Bun with no web framework: `encore run` starts it with `bun run start`.
 
 A site counts as up when a `GET` for it answers within 10 seconds with a
 2xx status. A URL without a scheme is checked over `https://`. At most

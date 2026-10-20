@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "A notes REST API on Flask with an Encore Postgres database"
 requires-python = ">=3.14"
 dependencies = [
-    "encore-dev>=0.1.0",
+    "encore-dev=={{sdk_version}}",
     "flask[async]>=3.1",
     "waitress>=3.0",
 ]

@@ -6,7 +6,7 @@
     "start": "bun run index.ts"
   },
   "dependencies": {
-    "@encore.dev/sdk": "^0.1.0",
+    "@encore.dev/sdk": "{{sdk_version}}",
     "resend": "^6.34.1"
   },
   "devDependencies": {

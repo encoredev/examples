@@ -32,8 +32,8 @@ query parameters, never part of the SQL text.
 
 ## Try it locally
 
-Run `bun install` in this directory once. With `encore run` running, use the gateway's
-address that it prints in place of `localhost:4000`:
+With `encore run` running, use the gateway's address that it prints in place of
+`localhost:4000`:
 
 ```bash
 curl -s localhost:4000/{{name}}/todos -d '{"title": "Buy milk"}' -H 'content-type: application/json'
