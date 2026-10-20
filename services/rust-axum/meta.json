@@ -1,0 +1,15 @@
+{
+  "$schema": "../schema.json",
+  "title": "Axum REST API with Postgres",
+  "description": "A JSON REST API built on Axum that creates, lists, updates and deletes todo items stored in a Postgres database, with SQL migrations. A starting point for a CRUD service in Rust.",
+  "lang": "rust",
+  "category": "framework",
+  "framework": "axum",
+  "tags": [
+    "http",
+    "rest",
+    "json",
+    "crud",
+    "postgres"
+  ]
+}

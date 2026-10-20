@@ -1,0 +1,15 @@
+{
+  "$schema": "../schema.json",
+  "title": "Slack Bot (cowsay)",
+  "description": "A Slack bot answering the /cowsay slash command with ASCII cow art. Shows how to receive Slack slash commands and webhooks and verify their request signatures with the Slack signing secret, kept as an Encore secret. Running on Bun.",
+  "lang": "typescript",
+  "category": "integration",
+  "framework": "bun",
+  "tags": [
+    "slack",
+    "bot",
+    "webhooks",
+    "secrets",
+    "http"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "{{name}}",
+  "lang": "go",
+  "api": [
+    { "type": "http", "prefix": "/{{name}}", "name": "{{ident}}", "expose": true }
+  ]
+}

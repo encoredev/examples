@@ -1,0 +1,12 @@
+{
+  "$schema": "../schema.json",
+  "title": "Hello World",
+  "description": "A minimal HTTP service that answers every request with a greeting. A starting point with no dependencies, running on Bun.",
+  "lang": "typescript",
+  "category": "demo",
+  "framework": "bun",
+  "tags": [
+    "http",
+    "starter"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "../schema.json",
+  "title": "URL Shortener",
+  "description": "A URL shortener with a Postgres database: shorten a long URL to a random short id, look the original URL up by its id, and list every shortened URL. Runs on Bun with Encore's Postgres.",
+  "lang": "typescript",
+  "category": "demo",
+  "framework": "bun",
+  "tags": [
+    "postgres",
+    "http",
+    "rest",
+    "json"
+  ]
+}

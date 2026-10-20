@@ -1,0 +1,13 @@
+{
+  "$schema": "../schema.json",
+  "title": "Todo REST API",
+  "description": "A JSON REST API to create, list, update and delete todo items, kept in memory. A starting point for a CRUD service, built on the Go standard library.",
+  "lang": "go",
+  "category": "demo",
+  "tags": [
+    "http",
+    "rest",
+    "json",
+    "crud"
+  ]
+}

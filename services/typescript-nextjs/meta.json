@@ -1,0 +1,16 @@
+{
+  "$schema": "../schema.json",
+  "title": "Next.js app with Postgres",
+  "description": "A Next.js web app hosted by an Encore service: server-rendered pages, Server Actions and route handlers that read and write the service's own Postgres database. Shown as a guestbook; a starting point for a full-stack web frontend with server-side data access.",
+  "lang": "typescript",
+  "category": "framework",
+  "framework": "nextjs",
+  "tags": [
+    "nextjs",
+    "react",
+    "frontend",
+    "ssr",
+    "postgres",
+    "http"
+  ]
+}

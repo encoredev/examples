@@ -6,11 +6,12 @@ Templates to help you build backend applications with <a href="https://github.co
 
 ## Template types
 
-This repo contains two types of templates:
+This repo contains three types of templates:
 
 - **Starters:** Runnable Encore applications to use as they are or to take inspiration from.
 - **Bits:** Small re-usable parts solving common development patterns or integrating Encore applications with
   third-party APIs and services.
+- **Services:** Single services to add to an existing app with `encore service new`. See [services](services).
 
 ## Prerequisite: Install Encore
 

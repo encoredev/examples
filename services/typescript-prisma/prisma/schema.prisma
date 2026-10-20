@@ -1,0 +1,19 @@
+// The Prisma schema: the models Prisma generates a typed client for.
+// Encore owns the database and its migrations (see ../migrations); keep the
+// two in step, as the README describes.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+  runtime  = "bun"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id      Int    @id @default(autoincrement())
+  name    String
+  surname String
+}

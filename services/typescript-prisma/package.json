@@ -1,0 +1,21 @@
+{
+  "name": "{{ident}}",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "prisma generate && bun run index.ts",
+    "generate": "prisma generate",
+    "postinstall": "prisma generate",
+    "typecheck": "prisma generate && tsc --noEmit"
+  },
+  "dependencies": {
+    "@encore.dev/sdk": "^0.1.0",
+    "@prisma/adapter-pg": "^7.10.1",
+    "@prisma/client": "^7.10.1"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.3",
+    "prisma": "^7.10.1",
+    "typescript": "^5.9.3"
+  }
+}

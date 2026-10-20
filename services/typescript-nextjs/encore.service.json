@@ -1,0 +1,8 @@
+{
+  "name": "{{name}}",
+  "lang": "typescript",
+  "frontend": {
+    "gateways": ["api"]
+  },
+  "run": { "type": "custom", "cmd": ["bun", "run", "dev"] }
+}

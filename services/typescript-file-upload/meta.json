@@ -1,0 +1,15 @@
+{
+  "$schema": "../schema.json",
+  "title": "File Uploads",
+  "description": "Upload, list, download and delete files over HTTP, with the contents kept in an object storage bucket and each file's metadata in Postgres. Accepts multipart form uploads and includes a small HTML upload page. Runs on Bun.",
+  "lang": "typescript",
+  "category": "demo",
+  "framework": "bun",
+  "tags": [
+    "http",
+    "objects",
+    "postgres",
+    "uploads",
+    "rest"
+  ]
+}

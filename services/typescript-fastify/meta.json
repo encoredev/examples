@@ -1,0 +1,15 @@
+{
+  "$schema": "../schema.json",
+  "title": "Fastify REST API with Postgres",
+  "description": "A JSON REST API built on Fastify that creates, lists, updates and deletes todo items stored in a Postgres database, with SQL migrations and validated request bodies. A starting point for a CRUD service in TypeScript, running on Bun.",
+  "lang": "typescript",
+  "category": "framework",
+  "framework": "fastify",
+  "tags": [
+    "http",
+    "rest",
+    "json",
+    "crud",
+    "postgres"
+  ]
+}

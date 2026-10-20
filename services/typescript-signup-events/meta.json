@@ -1,0 +1,17 @@
+{
+  "$schema": "../schema.json",
+  "title": "User Signups with Welcome Emails",
+  "description": "Sign up users over a JSON API, storing them in Postgres and publishing a user-added event; a Pub/Sub subscription sends each new user a welcome email through SendGrid, or logs it when no API key is set. A starting point for event-driven processing, running on Bun.",
+  "lang": "typescript",
+  "category": "demo",
+  "framework": "bun",
+  "tags": [
+    "http",
+    "rest",
+    "postgres",
+    "pubsub",
+    "secrets",
+    "email",
+    "event-driven"
+  ]
+}

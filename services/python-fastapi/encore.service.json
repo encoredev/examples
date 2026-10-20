@@ -1,0 +1,8 @@
+{
+  "name": "{{name}}",
+  "lang": "python",
+  "run": { "type": "custom", "cmd": ["uv", "run", "main.py"] },
+  "api": [
+    { "type": "http", "prefix": "/{{name}}", "name": "{{ident}}", "expose": true }
+  ]
+}
