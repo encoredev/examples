@@ -1,13 +1,13 @@
 import getRequestClient from "@/app/lib/getRequestClient";
-import { APIError } from "@/app/lib/client";
 
 export default async function UserDetails({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const client = getRequestClient();
-  const response = await client.user.GetUser(params.id);
+  const client = await getRequestClient();
+  const { id } = await params;
+  const response = await client.user.GetUser(id);
 
   return (
     <section>

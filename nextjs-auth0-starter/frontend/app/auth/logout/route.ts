@@ -5,11 +5,11 @@ export async function POST(req: Request) {
 
 
   try {
-    const client = getRequestClient();
+    const client = await getRequestClient();
     const response = await client.auth.Logout();
 
-    cookies().delete("auth-token");
-    cookies().delete("state");
+    (await cookies()).delete("auth-token");
+    (await cookies()).delete("state");
 
     return Response.redirect(response?.redirect_url);
   } catch (error) {

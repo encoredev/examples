@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect } from "react";
+import { PropsWithChildren, useEffect } from "react";
 import {
   createBrowserRouter,
   Link,
@@ -13,13 +13,12 @@ import IndexPage from "./components/IndexPage.tsx";
 import "./App.css";
 import {
   ClerkProvider,
-  SignedIn,
-  SignedOut,
+  Show,
   SignIn,
   SignUp,
   useAuth,
   UserButton,
-} from "@clerk/clerk-react";
+} from "@clerk/react";
 
 // Import your publishable key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -86,7 +85,12 @@ function Layout({ children }: PropsWithChildren) {
   const navigate = useNavigate();
 
   return (
-    <ClerkProvider navigate={navigate} publishableKey={PUBLISHABLE_KEY}>
+    <ClerkProvider
+      publishableKey={PUBLISHABLE_KEY}
+      routerPush={(to) => navigate(to)}
+      routerReplace={(to) => navigate(to, { replace: true })}
+      afterSignOutUrl="/"
+    >
       <div>
         <header>
           <nav className="nav">
@@ -96,14 +100,14 @@ function Layout({ children }: PropsWithChildren) {
             </div>
 
             <div>
-              <SignedIn>
-                <UserButton afterSignOutUrl="/" />
-              </SignedIn>
-              <SignedOut>
+              <Show when="signed-in">
+                <UserButton />
+              </Show>
+              <Show when="signed-out">
                 <Link to="/sign-in">
                   <button>Sign In</button>
                 </Link>
-              </SignedOut>
+              </Show>
             </div>
           </nav>
         </header>

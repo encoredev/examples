@@ -6,8 +6,8 @@ import Client, { Environment } from "@/app/lib/client";
  * If we are running the frontend locally (development) we assume that our Encore backend is also running locally
  * and make requests to that, otherwise we use the staging client.
  */
-const getRequestClient = () => {
-  const token = cookies().get("auth-token")?.value;
+const getRequestClient = async () => {
+  const token = (await cookies()).get("auth-token")?.value;
   const env =
     process.env.NODE_ENV === "development"
       ? "http://127.0.0.1:4000"

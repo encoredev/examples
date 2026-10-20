@@ -36,7 +36,7 @@ export default async function Home() {
             Local Dev Dash <span>-&gt;</span>
           </h2>
           <p>
-            Access Encore's local development dashboard when running Encore
+            Access Encore&apos;s local development dashboard when running Encore
             locally.
           </p>
         </a>
