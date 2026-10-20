@@ -1,16 +1,14 @@
 module encore.app
 
-go 1.26
-
-toolchain go1.21.4
+go 1.26.0
 
 require (
-	encore.dev v1.46.1
-	github.com/MicahParks/keyfunc/v3 v3.3.10
-	github.com/golang-jwt/jwt/v5 v5.2.1
+	encore.dev v1.57.13
+	github.com/MicahParks/keyfunc/v3 v3.8.2
+	github.com/golang-jwt/jwt/v5 v5.3.1
 )
 
 require (
-	github.com/MicahParks/jwkset v0.8.0 // indirect
-	golang.org/x/time v0.9.0 // indirect
+	github.com/MicahParks/jwkset v0.11.3 // indirect
+	golang.org/x/time v0.16.0 // indirect
 )
