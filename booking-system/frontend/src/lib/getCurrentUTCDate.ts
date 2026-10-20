@@ -1,7 +1,7 @@
-import { utcToZonedTime } from "date-fns-tz";
+import { toZonedTime } from "date-fns-tz";
 
 const getCurrentUTCDate = () => {
-  return utcToZonedTime(new Date(), "Etc/UTC");
+  return toZonedTime(new Date(), "Etc/UTC");
 };
 
 export default getCurrentUTCDate;

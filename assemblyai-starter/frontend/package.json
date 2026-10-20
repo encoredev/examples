@@ -15,21 +15,24 @@
     "@heroicons/react": "^2.0.11",
     "@tailwindcss/forms": "^0.5.7",
     "@tanstack/react-query": "^5.0.0",
-    "date-fns": "^2.30.0",
-    "date-fns-tz": "^2.0.0",
+    "date-fns": "^4.4.0",
+    "date-fns-tz": "^3.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/node": "^18.11.2",
+    "@types/node": "^24.19.2",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
-    "@vitejs/plugin-react": "^2.1.0",
+    "@vitejs/plugin-react": "^6.1.2",
     "autoprefixer": "^10.4.12",
     "postcss": "^8.4.16",
     "prettier": "^3.1.1",
     "tailwindcss": "^3.1.8",
-    "typescript": "^4.6.4",
-    "vite": "^3.1.0"
+    "typescript": "~6.0.3",
+    "vite": "^8.3.4"
+  },
+  "allowScripts": {
+    "fsevents": false
   }
 }
