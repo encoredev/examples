@@ -11,10 +11,10 @@
     "arch:check:json": "arch-contract check --format json"
   },
   "devDependencies": {
-    "@types/node": "^20.5.7",
+    "@types/node": "^22.0.0",
     "arch-contract": "^0.2.0",
     "typescript": "^5.2.2",
-    "vitest": "^1.5.0"
+    "vitest": "^5.0.5"
   },
   "dependencies": {
     "encore.dev": "^1.57.4"

@@ -5,7 +5,7 @@ import path from "path";
 export default defineConfig({
   resolve: {
     alias: {
-      "~encore": path.resolve(__dirname, "./encore.gen"),
+      "~encore": path.resolve(import.meta.dirname, "./encore.gen"),
     },
   },
 });

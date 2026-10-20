@@ -1,5 +1,5 @@
 /// <reference types="vitest" />
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import path from "path";
 
 // Set by Encore Cloud when it runs your tests; unset locally.
@@ -9,7 +9,7 @@ const reportDir = process.env.ENCORE_TEST_REPORT_DIR;
 export default defineConfig({
   resolve: {
     alias: {
-      "~encore": path.resolve(__dirname, "./encore.gen"),
+      "~encore": path.resolve(import.meta.dirname, "./encore.gen"),
     },
   },
   test: {

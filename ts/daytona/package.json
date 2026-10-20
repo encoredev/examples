@@ -4,9 +4,12 @@
   "type": "module",
   "scripts": {
     "dev": "encore run",
-    "test": "encore test"
+    "test": "vitest --passWithNoTests"
   },
   "dependencies": {
     "@daytonaio/sdk": "latest"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.5"
   }
 }
