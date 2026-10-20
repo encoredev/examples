@@ -1,0 +1,15 @@
+{
+  "$schema": "../schema.json",
+  "title": "Prisma REST API",
+  "description": "A REST API to create, list, page through, update and delete users, using the Prisma ORM over Encore's Postgres database. A starting point for a CRUD service with a typed ORM, where Prisma writes the migrations and Encore applies them.",
+  "lang": "typescript",
+  "category": "framework",
+  "framework": "prisma",
+  "tags": [
+    "postgres",
+    "orm",
+    "http",
+    "rest",
+    "crud"
+  ]
+}

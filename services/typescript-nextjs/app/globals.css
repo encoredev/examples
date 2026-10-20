@@ -1,0 +1,51 @@
+:root {
+  color-scheme: light dark;
+  font-family: system-ui, sans-serif;
+}
+
+main {
+  max-width: 40rem;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+.lede,
+.meta,
+.empty {
+  opacity: 0.7;
+}
+
+form {
+  display: grid;
+  gap: 0.5rem;
+  margin: 2rem 0;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+  padding: 0.5rem;
+}
+
+textarea {
+  min-height: 5rem;
+}
+
+.error {
+  color: #c62828;
+}
+
+.entries {
+  list-style: none;
+  padding: 0;
+}
+
+.entries li {
+  border-top: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  padding: 0.75rem 0;
+}
+
+.entries p {
+  margin: 0.25rem 0;
+}

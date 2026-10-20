@@ -1,0 +1,15 @@
+{
+  "$schema": "../schema.json",
+  "title": "Transactional Email with Resend",
+  "description": "Send transactional emails through Resend from a JSON API. Each email is queued on Pub/Sub so the request returns at once, and a subscription delivers it in the background, retrying failed sends. Running on Bun.",
+  "lang": "typescript",
+  "category": "integration",
+  "framework": "bun",
+  "tags": [
+    "resend",
+    "email",
+    "pubsub",
+    "secrets",
+    "http"
+  ]
+}

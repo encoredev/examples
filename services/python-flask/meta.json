@@ -1,0 +1,15 @@
+{
+  "$schema": "../schema.json",
+  "title": "Flask Notes API",
+  "description": "A Flask service with a notes CRUD REST API stored in a Postgres database, with SQL migrations, async views and JSON errors, served by Waitress. A starting point for a Python API service on Flask.",
+  "lang": "python",
+  "category": "framework",
+  "framework": "flask",
+  "tags": [
+    "http",
+    "rest",
+    "crud",
+    "postgres",
+    "flask"
+  ]
+}

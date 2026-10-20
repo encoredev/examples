@@ -1,0 +1,17 @@
+{
+  "$schema": "../schema.json",
+  "title": "Clerk Authentication",
+  "description": "User authentication with Clerk: verifies Clerk session tokens on protected routes (networkless, with the JWT public key) and keeps each user's profile and preferences in Postgres. Handles Clerk's signed user.created and user.deleted webhooks. Running on Bun.",
+  "lang": "typescript",
+  "category": "integration",
+  "framework": "bun",
+  "tags": [
+    "clerk",
+    "auth",
+    "jwt",
+    "postgres",
+    "secrets",
+    "webhooks",
+    "http"
+  ]
+}
