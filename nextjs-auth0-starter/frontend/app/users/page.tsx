@@ -2,7 +2,7 @@ import Link from "@/node_modules/next/link";
 import getRequestClient from "@/app/lib/getRequestClient";
 
 export default async function Users() {
-  const client = getRequestClient();
+  const client = await getRequestClient();
   const response = await client.user.ListUsers();
 
   return (

@@ -9,6 +9,7 @@ import (
 	"encore.dev/beta/auth"
 	"encore.dev/beta/errs"
 	"encore.dev/config"
+	"encore.dev/rlog"
 	"github.com/auth0/go-jwt-middleware/v2/jwks"
 	"github.com/auth0/go-jwt-middleware/v2/validator"
 )
@@ -26,10 +27,24 @@ var cfg = config.Load[*Auth0Config]()
 //encore:service
 type Service struct {
 	validator *validator.Validator
+	// validatorErr is why validator is nil, usually because the Auth0 settings aren't filled in yet.
+	validatorErr error
 }
 
 // initService is automatically called by Encore when the service starts up.
+// If Auth0 can't be set up, the app still starts, and authenticated calls
+// return an error until the Auth0 settings are filled in.
 func initService() (*Service, error) {
+	jwtValidator, err := newValidator()
+	if err != nil {
+		rlog.Error("could not set up Auth0, check the auth config", "error", err)
+		return &Service{validatorErr: err}, nil
+	}
+	return &Service{validator: jwtValidator}, nil
+}
+
+// newValidator creates a validator for tokens issued by your Auth0 tenant.
+func newValidator() (*validator.Validator, error) {
 	issuerURL, err := url.Parse("https://" + cfg.Domain() + "/")
 	if err != nil {
 		return nil, err
@@ -47,7 +62,7 @@ func initService() (*Service, error) {
 		return nil, err
 	}
 
-	return &Service{validator: jwtValidator}, nil
+	return jwtValidator, nil
 }
 
 type UserData struct {
@@ -62,6 +77,13 @@ type UserData struct {
 //
 //encore:authhandler
 func (s *Service) AuthHandler(ctx context.Context, token string) (auth.UID, *UserData, error) {
+	if s.validator == nil {
+		return "", nil, &errs.Error{
+			Code:    errs.Unavailable,
+			Message: "Auth0 is not configured: " + s.validatorErr.Error(),
+		}
+	}
+
 	_, err := s.validator.ValidateToken(ctx, token)
 	if err != nil {
 		return "", nil, &errs.Error{

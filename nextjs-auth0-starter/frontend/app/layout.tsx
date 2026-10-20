@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import Link from "next/link";
 import styles from "@/app/page.module.css";
 import { cookies } from "next/headers";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,17 +17,17 @@ const navLinks = [
   { href: "/users", label: "User List" },
 ];
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const isLoggedIn = cookies().has("auth-token");
+  const isLoggedIn = (await cookies()).has("auth-token");
 
   return (
     <html lang="en">
       <head>
-        <script src="https://encore.dev/encore-toolbar.js"></script>
+        <Script src="https://encore.dev/encore-toolbar.js" strategy="afterInteractive" />
       </head>
       <body className={inter.className}>
         <header>

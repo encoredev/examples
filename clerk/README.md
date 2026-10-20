@@ -27,14 +27,14 @@ The `Secret key` is sensitive and should not be hardcoded in your code/config. I
 From your terminal (inside your Encore app directory), run:
 
 ```shell
-$ encore secret set --prod ClientSecretKey
+$ encore secret set --type prod ClientSecretKey
 ```
 
 Next, do the same for the development secret. The most secure way is to create another secret key (Clerk allows you to have multiple).
 Once you have a client secret for development, set it similarly to before:
 
 ```shell
-$ encore secret set --dev ClientSecretKey
+$ encore secret set --type dev,local,pr ClientSecretKey
 ```
 
 ## Developing locally

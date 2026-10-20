@@ -46,8 +46,8 @@ npm install
 
 2. Set your API keys:
 ```bash
-encore secret set --dev DaytonaApiKey
-encore secret set --dev AnthropicApiKey
+encore secret set --type dev,local,pr DaytonaApiKey
+encore secret set --type dev,local,pr AnthropicApiKey
 ```
 
 3. Start the backend (make sure Docker is running):
@@ -145,8 +145,8 @@ git push encore
 
 Set your production secrets:
 ```bash
-encore secret set --prod DaytonaApiKey
-encore secret set --prod AnthropicApiKey
+encore secret set --type prod DaytonaApiKey
+encore secret set --type prod AnthropicApiKey
 ```
 
 You can also open your app in the [Cloud Dashboard](https://app.encore.cloud) to integrate with GitHub, or connect your AWS/GCP account, enabling Encore to automatically handle cloud deployments for you.

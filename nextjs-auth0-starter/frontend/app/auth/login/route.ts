@@ -5,9 +5,9 @@ import {auth} from "@/app/lib/client";
 export async function GET(req: Request) {
   let response: auth.LoginResponse
   try {
-    const client = getRequestClient();
+    const client = await getRequestClient();
     response = await client.auth.Login();
-    cookies().set("state", response.state);
+    (await cookies()).set("state", response.state);
   } catch (error) {
     console.error(error);
     return Response.redirect("http://localhost:3000/error");

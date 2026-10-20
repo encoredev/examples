@@ -18,22 +18,23 @@ interface SendEmailResponse {
 export const sendEmail = api(
   { expose: true, method: "POST", path: "/email/send" },
   async (req: SendEmailRequest): Promise<SendEmailResponse> => {
-    const { data, error } = await inbound.emails.send({
-      from: req.from ?? "notifications@yourdomain.com",
-      to: req.to,
-      subject: req.subject,
-      html: req.html,
-      replyTo: req.replyTo,
-    });
+    try {
+      const email = await inbound.emails.send({
+        from: req.from ?? "notifications@yourdomain.com",
+        to: req.to,
+        subject: req.subject,
+        html: req.html,
+        reply_to: req.replyTo,
+      });
 
-    if (error) {
-      log.error("Failed to send email", { error: error.message });
-      throw APIError.internal(`Failed to send email: ${error.message}`);
+      log.info("Email sent", { id: email.id, to: req.to });
+
+      return { id: email.id };
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      log.error("Failed to send email", { error: message });
+      throw APIError.internal(`Failed to send email: ${message}`);
     }
-
-    log.info("Email sent", { id: data?.id, to: req.to });
-
-    return { id: data!.id };
   }
 );
 

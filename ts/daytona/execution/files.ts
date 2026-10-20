@@ -24,7 +24,7 @@ export const executeWithFiles = api(
       // Write input files to sandbox
       if (req.files) {
         for (const [filename, content] of Object.entries(req.files)) {
-          await sandbox.fs.write(filename, content);
+          await sandbox.fs.uploadFile(Buffer.from(content), filename);
           log.info("Wrote file to sandbox", { filename });
         }
       }
@@ -33,11 +33,11 @@ export const executeWithFiles = api(
       const result = await sandbox.process.codeRun(req.code);
 
       if (result.exitCode !== 0) {
-        throw new Error(`Execution failed: ${result.stderr}`);
+        throw new Error(`Execution failed: ${result.result}`);
       }
 
-      // List files created in the sandbox
-      const files = await sandbox.fs.list("/workspace");
+      // List files in the sandbox's working directory, where the input files were uploaded
+      const files = await sandbox.fs.listFiles(".");
       const createdFiles = files.map((f) => f.name);
 
       return {

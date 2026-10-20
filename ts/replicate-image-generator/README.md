@@ -37,7 +37,7 @@ npm install
 
 2. Set your Replicate API token:
 ```bash
-encore secret set --dev ReplicateToken
+encore secret set --type dev,local,pr ReplicateToken
 ```
 
 3. Start the backend (make sure Docker is running):
@@ -100,7 +100,7 @@ git push encore
 
 Set your production secret:
 ```bash
-encore secret set --prod ReplicateToken
+encore secret set --type prod ReplicateToken
 ```
 
 You can also open your app in the [Cloud Dashboard](https://app.encore.cloud) to integrate with GitHub, or connect your AWS/GCP account, enabling Encore to automatically handle cloud deployments for you.

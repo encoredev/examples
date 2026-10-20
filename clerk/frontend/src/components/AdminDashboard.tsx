@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import getRequestClient from "../lib/getRequestClient.ts";
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth } from "@clerk/react";
 import { admin } from "../lib/client.ts";
 
 function AdminDashboard() {

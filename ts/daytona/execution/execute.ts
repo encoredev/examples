@@ -3,13 +3,13 @@ import { daytona } from "./daytona";
 import { db } from "./db";
 import log from "encore.dev/log";
 
-interface ExecuteRequest {
+export interface ExecuteRequest {
   code: string;
   language: "python" | "typescript" | "javascript";
   userId?: string;
 }
 
-interface ExecuteResponse {
+export interface ExecuteResponse {
   id: string;
   output: string;
   error?: string;
@@ -46,7 +46,7 @@ export const execute = api(
         )
         VALUES (
           ${executionId}, ${req.userId}, ${req.language}, ${req.code},
-          ${result.result}, ${result.stderr || null}, ${result.exitCode},
+          ${result.result}, ${result.exitCode !== 0 ? result.result : null}, ${result.exitCode},
           ${executionTime}, ${sandbox.id}
         )
       `;
@@ -60,7 +60,7 @@ export const execute = api(
       return {
         id: executionId,
         output: result.result || "",
-        error: result.stderr || undefined,
+        error: result.exitCode !== 0 ? result.result : undefined,
         exitCode: result.exitCode,
         executionTimeMs: executionTime,
       };

@@ -48,7 +48,7 @@ export const generateAndRun = api(
         }),
       });
 
-      const data = await response.json();
+      const data = (await response.json()) as { content: { text: string }[] };
       let generatedCode = data.content[0].text;
 
       // Strip markdown code blocks if present
@@ -70,7 +70,7 @@ export const generateAndRun = api(
         }
 
         // Code failed - save error for retry
-        lastError = result.stderr || result.result || "Unknown error";
+        lastError = result.result || "Unknown error";
       } finally {
         await sandbox.delete();
       }

@@ -37,7 +37,7 @@ The `ClientSecret` is especially sensitive and should not be hardcoded in your c
 From your terminal (inside your Encore app directory), run:
 
 ```shell
-$ encore secret set --prod Auth0ClientSecret
+$ encore secret set --type prod Auth0ClientSecret
 ```
 
 Now you should do the same for the development secret. The most secure way is to set up a different Auth0 application and use that for development.
@@ -46,7 +46,7 @@ Depending on your security requirements you could also use the same secret for d
 Once you have a client secret for development, set it similarly to before:
 
 ```shell
-$ encore secret set --dev Auth0ClientSecret
+$ encore secret set --type dev,local,pr Auth0ClientSecret
 ```
 
 ## Developing locally
