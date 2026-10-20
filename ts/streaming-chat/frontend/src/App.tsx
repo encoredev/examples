@@ -15,6 +15,7 @@ const router = createHashRouter([
     id: "root",
     path: "/",
     Component: Layout,
+    HydrateFallback: () => <p>Initial Load...</p>,
     children: [
       {
         path: "",
@@ -48,7 +49,7 @@ const router = createHashRouter([
 
 export default function App() {
   return (
-    <RouterProvider router={router} fallbackElement={<p>Initial Load...</p>} />
+    <RouterProvider router={router} />
   );
 }
 

@@ -10,14 +10,14 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "typescript": "^5.2.2",
+    "typescript": "^6.0.3",
     "vitest": "^5.0.5"
   },
   "dependencies": {
-    "encore.dev": "^1.44.10",
-    "rate-limiter-flexible": "^5.0.4"
+    "encore.dev": "^1.58.7",
+    "rate-limiter-flexible": "^11.2.3"
   },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
+  "allowScripts": {
+    "fsevents": false
   }
 }

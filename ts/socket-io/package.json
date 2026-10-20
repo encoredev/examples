@@ -10,15 +10,14 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "typescript": "^5.2.2",
+    "typescript": "^6.0.3",
     "vitest": "^5.0.5"
   },
   "dependencies": {
-    "@types/socket.io": "^3.0.1",
-    "encore.dev": "^1.46.16",
-    "socket.io": "^4.8.1"
+    "encore.dev": "^1.58.7",
+    "socket.io": "^4.8.4"
   },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
+  "allowScripts": {
+    "fsevents": false
   }
 }

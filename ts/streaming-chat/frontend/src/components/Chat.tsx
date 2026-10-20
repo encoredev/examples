@@ -9,8 +9,9 @@ function Chat() {
   const [queryParams] = useSearchParams();
   const username = queryParams.get("name") ?? "Anonymous";
 
-  const stream =
-    useRef<Awaited<ReturnType<typeof chat.ServiceClient.prototype.chat>>>();
+  const stream = useRef<
+    Awaited<ReturnType<typeof chat.ServiceClient.prototype.chat>> | undefined
+  >(undefined);
 
   const [userID] = useState<string>(uuidv4());
   const [loading, setLoading] = useState(true);
@@ -48,7 +49,7 @@ function Chat() {
   return (
     <div className="flex h-[calc(100vh-120px)] items-center justify-center w-full">
       <div className="bg-gray-100 h-full flex flex-col w-full max-w-4xl mx-auto">
-        <header className="flex items-center justify-between p-4 bg-white border-b">
+        <header className="flex items-center justify-between p-4 bg-white border-b border-gray-200">
           <h1 className="text-lg font-bold">Chat Room</h1>
           <div className="flex items-center space-x-2">
             {loading ? (
@@ -77,7 +78,7 @@ function Chat() {
                     className={`text-black relative p-2 rounded-lg max-w-xs ${isMe ? "bg-blue-200" : "bg-gray-300"}`}
                   >
                     {!isMe && (
-                      <span className="font-bold text-sm absolute bg-gray-300 rounded px-1.5 -top-3 left-0">
+                      <span className="font-bold text-sm absolute bg-gray-300 rounded-sm px-1.5 -top-3 left-0">
                         {msg.username}
                       </span>
                     )}
@@ -95,9 +96,9 @@ function Chat() {
             onChange={(e) => setUserInput(e.target.value)}
             type="text"
             placeholder="Type your message..."
-            className="flex-1 border rounded-full px-4 py-2 focus:outline-none"
+            className="flex-1 border border-gray-200 rounded-full px-4 py-2 focus:outline-hidden"
           />
-          <button className="bg-blue-500 text-white rounded-full p-2 ml-2 hover:bg-blue-600 focus:outline-none">
+          <button className="bg-blue-500 text-white rounded-full p-2 ml-2 hover:bg-blue-600 focus:outline-hidden">
             <SendIcon />
           </button>
         </form>

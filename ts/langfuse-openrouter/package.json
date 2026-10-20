@@ -10,15 +10,15 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "typescript": "^5.2.2",
+    "typescript": "^6.0.3",
     "vitest": "^5.0.5"
   },
   "dependencies": {
-    "encore.dev": "^1.51.10",
-    "langfuse": "^3.38.6",
-    "openai": "^6.9.1"
+    "encore.dev": "^1.58.7",
+    "langfuse": "^3.39.2",
+    "openai": "^7.39.0"
   },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
+  "allowScripts": {
+    "fsevents": false
   }
 }

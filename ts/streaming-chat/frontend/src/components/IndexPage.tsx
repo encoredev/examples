@@ -43,10 +43,10 @@ function IndexPage() {
           required
           onChange={(e) => setName(e.target.value)}
           placeholder="Your name"
-          className="px-4 py-2 text-lg rounded border border-black/20"
+          className="px-4 py-2 text-lg rounded-sm border border-black/20 bg-white"
         />
         <button
-          className="border border-black rounded px-4 py-2 w-fit transition hover:bg-black/5"
+          className="border border-black rounded-sm px-4 py-2 w-fit transition hover:bg-black/5"
           type="submit"
         >
           Join chat

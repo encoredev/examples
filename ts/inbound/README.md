@@ -32,7 +32,7 @@ cd myapp
 ### 3. Set your secret
 
 ```bash
-encore secret set --dev InboundApiKey
+encore secret set --type dev,local,pr InboundApiKey
 # Paste your Inbound API key
 ```
 
@@ -91,7 +91,7 @@ git push encore
 Set your production secret:
 
 ```bash
-encore secret set --prod InboundApiKey
+encore secret set --type prod InboundApiKey
 ```
 
 ## Learn More

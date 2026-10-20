@@ -45,9 +45,9 @@ npm install
 
 2. Set your API keys:
 ```bash
-encore secret set --dev LangfuseSecretKey
-encore secret set --dev LangfusePublicKey
-encore secret set --dev OpenRouterKey
+encore secret set --type dev,local,pr LangfuseSecretKey
+encore secret set --type dev,local,pr LangfusePublicKey
+encore secret set --type dev,local,pr OpenRouterKey
 ```
 
 3. Start the backend (make sure Docker is running):
@@ -128,9 +128,9 @@ git push encore
 
 Set your production secrets:
 ```bash
-encore secret set --prod LangfuseSecretKey
-encore secret set --prod LangfusePublicKey
-encore secret set --prod OpenRouterKey
+encore secret set --type prod LangfuseSecretKey
+encore secret set --type prod LangfusePublicKey
+encore secret set --type prod OpenRouterKey
 ```
 
 You can also open your app in the [Cloud Dashboard](https://app.encore.cloud) to integrate with GitHub, or connect your AWS/GCP account, enabling Encore to automatically handle cloud deployments for you.

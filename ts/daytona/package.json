@@ -7,9 +7,16 @@
     "test": "vitest --passWithNoTests"
   },
   "dependencies": {
-    "@daytonaio/sdk": "latest"
+    "@daytonaio/sdk": "^0.225.0",
+    "encore.dev": "^1.58.7"
   },
   "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^6.0.3",
     "vitest": "^5.0.5"
+  },
+  "allowScripts": {
+    "fsevents": false,
+    "protobufjs": false
   }
 }

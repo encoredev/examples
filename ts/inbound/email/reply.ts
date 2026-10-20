@@ -29,26 +29,27 @@ export const replyToEmail = api(
       throw APIError.notFound("Email not found");
     }
 
-    const { data, error } = await inbound.emails.send({
-      from: "support@yourdomain.com",
-      to: original.sender,
-      subject: original.subject.startsWith("Re:")
-        ? original.subject
-        : `Re: ${original.subject}`,
-      html: req.html,
-      headers: {
-        "In-Reply-To": req.emailId,
-        References: req.emailId,
-      },
-    });
+    try {
+      const email = await inbound.emails.send({
+        from: "support@yourdomain.com",
+        to: original.sender,
+        subject: original.subject.startsWith("Re:")
+          ? original.subject
+          : `Re: ${original.subject}`,
+        html: req.html,
+        headers: {
+          "In-Reply-To": req.emailId,
+          References: req.emailId,
+        },
+      });
 
-    if (error) {
-      throw APIError.internal(`Failed to send reply: ${error.message}`);
+      log.info("Reply sent", { id: email.id, to: original.sender });
+
+      return { id: email.id };
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      throw APIError.internal(`Failed to send reply: ${message}`);
     }
-
-    log.info("Reply sent", { id: data?.id, to: original.sender });
-
-    return { id: data!.id };
   }
 );
 

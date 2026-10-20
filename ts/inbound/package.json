@@ -10,14 +10,14 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "typescript": "^5.2.2",
+    "typescript": "^6.0.3",
     "vitest": "^5.0.5"
   },
   "dependencies": {
-    "encore.dev": "^1.53.0",
-    "inboundemail": "^1.0.0"
+    "encore.dev": "^1.58.7",
+    "inboundemail": "^0.20.0"
   },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
+  "allowScripts": {
+    "fsevents": false
   }
 }
