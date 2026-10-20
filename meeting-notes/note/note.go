@@ -5,6 +5,11 @@ import (
 	"encore.dev/storage/sqldb"
 )
 
+// db is the note service's database.
+var db = sqldb.NewDatabase("note", sqldb.DatabaseConfig{
+	Migrations: "./migrations",
+})
+
 // Type that represents a note.
 type Note struct {
 	ID       string `json:"id"`
@@ -16,7 +21,7 @@ type Note struct {
 func SaveNote(ctx context.Context, note *Note) (*Note, error) {
 	// Save the note to the database.
 	// If the note already exists (i.e. CONFLICT), we update the notes text and the cover URL.
-	_, err := sqldb.Exec(ctx, `
+	_, err := db.Exec(ctx, `
 		INSERT INTO note (id, text, cover_url) VALUES ($1, $2, $3)
 		ON CONFLICT (id) DO UPDATE SET text=$2, cover_url=$3
 	`, note.ID, note.Text, note.CoverURL)
@@ -35,7 +40,7 @@ func GetNote(ctx context.Context, id string) (*Note, error) {
 	note := &Note{ID: id}
 
 	// We use the note ID to query the database for the note's text and cover URL.
-	err := sqldb.QueryRow(ctx, `
+	err := db.QueryRow(ctx, `
 		SELECT text, cover_url FROM note
 		WHERE id = $1
 	`, id).Scan(&note.Text, &note.CoverURL)
