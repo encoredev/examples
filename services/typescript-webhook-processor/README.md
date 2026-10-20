@@ -11,12 +11,6 @@ service handle every message independently (the fan-out pattern):
 The receiving route answers as soon as the webhook is queued, so a slow database never makes
 the sender time out, and a failed insert is retried by Pub/Sub.
 
-Install the dependencies once, in this directory, before the first `encore run`:
-
-```bash
-bun install
-```
-
 ## Signing secrets
 
 Set the signing secret of each sender whose signatures should be checked. `encore secret set`

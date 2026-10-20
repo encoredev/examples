@@ -40,16 +40,33 @@ user's request (`encore service new` asks what the service should do) is matched
   an app twice: `{{ident}}` for databases, which are snake_case, and `{{kebab}}` for the
   kebab-case names of topics, subscriptions, buckets and cron jobs.
 - Depend on the Encore SDK as published (`sdk.encore.dev`, `@encore.dev/sdk`, `encore-dev`),
-  with no lockfile, `go.sum` or local path overrides.
+  with no lockfile, `go.sum` or local path overrides. Write `{{sdk_version}}` for its version,
+  pinned exactly: `"@encore.dev/sdk": "{{sdk_version}}"` in `package.json`,
+  `"encore-dev=={{sdk_version}}"` in `pyproject.toml`, `encore-dev = "={{sdk_version}}"` in
+  `Cargo.toml`. The CLI fills in its own version, which every SDK package is released at, spelled
+  for the file (`2.0.0a9` in Python manifests, `2.0.0-alpha.9` elsewhere); a CLI built from source
+  points the dependency at its checkout instead. Go needs no version: `require sdk.encore.dev
+  v0.1.0` is replaced with the installed SDK.
+- Don't tell the user to install packages. `encore service new` runs the install for the
+  service's package manager: `bun install` (or npm, pnpm, yarn: `package.json`'s
+  `packageManager` field decides, then the program `encore.service.json` runs it with),
+  `uv sync`, or `cargo fetch`.
 - Make it run without third-party accounts: read API keys from Encore secrets, and when one
   is unset (an empty string in TypeScript), skip the call with a log line or answer 503
   naming the secret. Never verify a signature with an empty key.
 - Include a `README.md` for the user: the routes, with curl examples through the gateway,
-  the secrets to set (`encore secret set --service <name> <Secret>`) and any setup step,
-  such as `bun install`.
+  the secrets to set (`encore secret set --service <name> <Secret>`) and any other setup step.
+- Give each secret a doc comment saying what it is and where to get a value: `encore service
+  new` prints it, with the command that sets it, for every secret the new service declares.
+  It reads the service's databases, topics, buckets and cron jobs from the code the same way.
 - Keep the files as text (UTF-8); binary files are skipped. A template's files are
   limited to 1 MiB in total.
 - `meta.json` itself is not copied into the app.
 
 Encore's platform reads this directory from the `main` branch and caches it for 10 minutes,
-so a merged change shows up in the CLI within that time.
+so a merged change shows up in the CLI within that time. To try a template before that, point
+the CLI at a checkout of this directory:
+
+```sh
+ENCORE_SERVICE_TEMPLATES_DIR=path/to/examples/services encore service new billing -t typescript-stripe
+```

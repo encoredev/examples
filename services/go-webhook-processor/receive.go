@@ -19,7 +19,10 @@ import (
 // The signing secrets of the senders whose signatures are checked. A source
 // whose secret is not set has its webhooks accepted without a check.
 var (
+	// stripeSecret is the Stripe webhook endpoint's signing secret
+	// (whsec_...), from the endpoint's page in the Stripe dashboard.
 	stripeSecret = secrets.New[string]("WebhookSecretStripe")
+	// githubSecret is the secret entered in the GitHub webhook's settings.
 	githubSecret = secrets.New[string]("WebhookSecretGitHub")
 )
 

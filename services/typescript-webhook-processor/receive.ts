@@ -4,7 +4,12 @@ import { webhooks } from "./events";
 
 // The signing secrets of the senders whose signatures are checked. A source
 // whose secret is not set has its webhooks accepted without a check.
+
+// The Stripe webhook endpoint's signing secret (whsec_...), from the
+// endpoint's page in the Stripe dashboard.
 const stripeSecret = secret("WebhookSecretStripe");
+
+// The secret entered in the GitHub webhook's settings.
 const githubSecret = secret("WebhookSecretGitHub");
 
 // How old a Stripe signature may be, in seconds, as in Stripe's SDKs: an

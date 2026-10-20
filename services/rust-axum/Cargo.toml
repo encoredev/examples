@@ -6,7 +6,7 @@ publish = false
 
 [dependencies]
 # Encore's Rust SDK: the Postgres database, logging and graceful shutdown.
-encore-dev = "0.1"
+encore-dev = "={{sdk_version}}"
 axum = "0.8"
 log = { version = "0.4", features = ["kv"] }
 serde = { version = "1", features = ["derive"] }

@@ -73,8 +73,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 # Encore provisions the database and gives its connection string; Django's
 # standard PostgreSQL backend connects with psycopg. Parsing it with psycopg
-# keeps its escaping and options.
-connection = conninfo_to_dict(db.connection_string)
+# keeps its escaping and options. Admin access, since Django's migrations
+# create and alter the tables.
+connection = conninfo_to_dict(db.admin().connection_string)
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",

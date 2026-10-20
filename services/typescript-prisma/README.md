@@ -20,8 +20,8 @@ Every response is JSON like `{"success": true, "result": ...}`, or
 
 ## Try it locally
 
-Install the packages once (`bun install`, which also runs `prisma generate`), then with
-`encore run` running, use the gateway's address that it prints in place of `localhost:4000`:
+`encore service new` installs the packages with `bun install`, which also runs `prisma generate`.
+With `encore run` running, use the gateway's address that it prints in place of `localhost:4000`:
 
 ```bash
 curl -s localhost:4000/{{name}}/users -d '{"name": "John", "surname": "Doe"}'

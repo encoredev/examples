@@ -28,8 +28,6 @@ curl -s 127.0.0.1:63861/api/entries -d '{"name": "Ada", "message": "Hello!"}'
 curl -s 127.0.0.1:63861/api/entries
 ```
 
-Install the packages once with `bun install` before the first `encore run`.
-
 ## Database
 
 The database is named `{{ident}}` and declared in `db.ts`. Encore provisions it and applies the

@@ -7,7 +7,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@encore.dev/sdk": "^0.1.0",
+    "@encore.dev/sdk": "{{sdk_version}}",
     "@sentry/bun": "^11.8.0"
   },
   "devDependencies": {

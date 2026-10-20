@@ -9,7 +9,7 @@
     "typecheck": "prisma generate && tsc --noEmit"
   },
   "dependencies": {
-    "@encore.dev/sdk": "^0.1.0",
+    "@encore.dev/sdk": "{{sdk_version}}",
     "@prisma/adapter-pg": "^7.10.1",
     "@prisma/client": "^7.10.1"
   },

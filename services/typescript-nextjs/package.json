@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@encore.dev/sdk": "^0.1.0",
+    "@encore.dev/sdk": "{{sdk_version}}",
     "next": "^16.4.2",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
