@@ -7,9 +7,9 @@ export async function POST(req: Request) {
   const password = (data.get("password") as string) || "password";
 
   try {
-    const client = getRequestClient();
+    const client = await getRequestClient();
     const response = await client.auth.Login({ email, password });
-    cookies().set("auth-token", response.token);
+    (await cookies()).set("auth-token", response.token);
   } catch (error) {
     console.error(error);
   }

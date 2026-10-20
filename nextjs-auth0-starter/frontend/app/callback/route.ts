@@ -10,7 +10,7 @@ export async function GET(req: Request) {
     if (typeof state !== "string") {
         return Response.redirect("http://localhost:3000/error");
     }
-    if (state != cookies().get("state")?.value) {
+    if (state != (await cookies()).get("state")?.value) {
         return Response.redirect("http://localhost:3000/error");
     }
 
@@ -20,11 +20,11 @@ export async function GET(req: Request) {
     }
 
     try {
-        const client = getRequestClient();
+        const client = await getRequestClient();
         const response = await client.auth.Callback({
             code: code,
         });
-        cookies().set("auth-token", response.token);
+        (await cookies()).set("auth-token", response.token);
         return Response.redirect("http://localhost:3000/users");
     } catch (error) {
         console.error(error);
