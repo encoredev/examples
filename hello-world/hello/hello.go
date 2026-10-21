@@ -5,20 +5,7 @@ import (
 	"context"
 )
 
-// Welcome to Encore!
-// This is a simple "Hello World" project to get you started.
-//
-// To run it, execute "encore run" in your favorite shell.
-
-// ==================================================================
-
 // This is a public REST API that responds with a personalized greeting.
-// Learn more about defining APIs with Encore:
-// https://encore.dev/docs/primitives/services-and-apis
-//
-// To call it, run in your terminal:
-//
-//	curl http://localhost:4000/hello/World
 //
 //encore:api public path=/hello/:name
 func World(ctx context.Context, name string) (*Response, error) {
@@ -29,6 +16,20 @@ func World(ctx context.Context, name string) (*Response, error) {
 type Response struct {
 	Message string
 }
+
+// ==================================================================
+
+// Welcome to Encore!
+// This is a simple "Hello World" project to get you started.
+//
+// To run it, execute "encore run" in your favorite shell.
+//
+// To call the API above, run in your terminal:
+//
+//	curl http://localhost:4000/hello/World
+//
+// Learn more about defining APIs with Encore:
+// https://encore.dev/docs/primitives/services-and-apis
 
 // ==================================================================
 
