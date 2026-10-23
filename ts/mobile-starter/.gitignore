@@ -1,0 +1,6 @@
+node_modules
+dist
+.encore
+encore.gen
+.turbo
+.expo
