@@ -4,17 +4,8 @@ address Encore assigns."""
 import logging
 import os
 
-from django.core.management import call_command, execute_from_command_line
+import encore
 from encore.logs import ConsoleHandler
-
-
-def listen_addr() -> str:
-    """Encore's local run supplies ENCORE_LISTEN_ADDR as host:port. Run on its
-    own, this falls back to PORT and then to 8080."""
-    return (
-        os.environ.get("ENCORE_LISTEN_ADDR")
-        or f"0.0.0.0:{os.environ.get('PORT', '8080')}"
-    )
 
 
 def main() -> None:
@@ -22,13 +13,25 @@ def main() -> None:
     # Print `logging` records in Encore's log format, with the current trace ids.
     logging.basicConfig(level=logging.INFO, handlers=[ConsoleHandler()])
 
-    import django
+    # Importing the ASGI application sets Django up.
+    from config.asgi import application
+    from django.conf import settings
+    from django.core.management import call_command
 
-    django.setup()
     # Django owns the schema: bring the database up to date before serving.
     call_command("migrate", interactive=False)
-    # Encore restarts the service on changes, so Django's reloader is off.
-    execute_from_command_line(["manage.py", "runserver", listen_addr(), "--noreload"])
+
+    app = application
+    if settings.DEBUG:
+        # Serve the admin's static files, as `runserver` does when debugging.
+        from django.contrib.staticfiles.handlers import ASGIStaticFilesHandler
+
+        app = ASGIStaticFilesHandler(application)
+
+    # Serve the project where Encore assigns the service, on Encore's HTTP
+    # server: each request is traced, and the service shuts down gracefully
+    # with Encore. Django runs the views, which are synchronous, on a thread.
+    encore.run(app)
 
 
 if __name__ == "__main__":

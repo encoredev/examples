@@ -17,13 +17,18 @@ schema.
 
 ## Running it
 
-You need [uv](https://docs.astral.sh/uv/) and Docker. `encore run` starts the service with
-`uv run main.py`, which installs the dependencies on first run and writes a `uv.lock`; commit it,
-since Encore's builds install from it.
+You need [uv](https://docs.astral.sh/uv/). `encore run` starts the service with `uv run main.py`,
+which installs the dependencies on first run and writes a `uv.lock`; commit it, since Encore's
+builds install from it. `.python-version` asks for Python 3.14 with the GIL (`3.14+gil`), since
+psycopg's binary package has no build for free-threaded Python.
 
-`main.py` applies Django's migrations (`manage.py migrate`) and then serves the project with
-Django's `runserver` on the address Encore gives it. Run other management commands through
-`encore exec`, so Django gets the database's connection settings:
+`main.py` applies Django's migrations (`manage.py migrate`) and then serves the project's ASGI
+application with `encore.run`, on Encore's own HTTP server, where Encore assigns the service.
+Each request gets a trace, and the service shuts down gracefully: on stop, the requests in
+flight finish first.
+
+Run other management commands through `encore exec`, so Django gets the database's connection
+settings:
 
 ```bash
 encore exec -- uv run python manage.py createsuperuser   # to sign in to the admin
@@ -76,6 +81,6 @@ keeps them.
 - `config/` — settings, URLs (everything under `/{{name}}/`), ASGI/WSGI entrypoints.
 - `notes/` — the Django app: model, form, views, admin, migrations, and `resources.py` with the
   database declaration.
-- `main.py` — migrates, then serves on `ENCORE_LISTEN_ADDR`. `runserver` is Django's development
-  server; for heavier production traffic, serve `config.wsgi` with a threaded WSGI server
-  such as Waitress instead (the Encore runtime does not support forked workers).
+- `main.py` — migrates, then serves `config.asgi` with `encore.run`. When debugging it also
+  serves the static files, as `runserver` would. Don't serve the project with forked workers
+  (Gunicorn's): the Encore runtime does not support them.

@@ -16,10 +16,13 @@ Postgres database that Encore provisions; requests and responses are validated w
 
 ## Running it
 
-You need [uv](https://docs.astral.sh/uv/) and Docker. `encore run` starts the service with
-`uv run main.py`, which installs the dependencies on first run and writes a `uv.lock`; commit it,
-since Encore's builds install from it. `main.py` serves the app with Uvicorn on the address
-Encore gives it.
+You need [uv](https://docs.astral.sh/uv/). `encore run` starts the service with `uv run main.py`,
+which installs the dependencies on first run and writes a `uv.lock`; commit it, since Encore's
+builds install from it.
+
+`main.py` serves the app with `encore.run(app)`, on Encore's own HTTP server, where Encore
+assigns the service. Each request gets a trace, named after the route FastAPI matched, and the
+service shuts down gracefully: on stop, the requests in flight finish first.
 
 ## Database
 
