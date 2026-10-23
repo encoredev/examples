@@ -18,12 +18,15 @@ Send request bodies with `Content-Type: application/json`.
 
 ## Running it
 
-You need [uv](https://docs.astral.sh/uv/) and Docker. `encore run` starts the service with
-`uv run main.py`, which installs the dependencies on first run and writes a `uv.lock`; commit it,
-since Encore's builds install from it. `main.py` serves the app with
-[Waitress](https://docs.pylonsproject.org/projects/waitress/), a production WSGI server that
-uses threads in one process (the Encore runtime does not support forked workers, as Gunicorn's
-are).
+You need [uv](https://docs.astral.sh/uv/). `encore run` starts the service with `uv run main.py`,
+which installs the dependencies on first run and writes a `uv.lock`; commit it, since Encore's
+builds install from it.
+
+`main.py` serves the app with `encore.run`, on Encore's own HTTP server, where Encore assigns the
+service. Flask is a WSGI app, so [a2wsgi](https://github.com/abersheeran/a2wsgi) adapts it,
+running the views on a thread pool in one process (the Encore runtime does not support forked
+workers, as Gunicorn's are). Each request gets a trace, and the service shuts down gracefully:
+on stop, the requests in flight finish first.
 
 ## Database
 

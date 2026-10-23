@@ -8,12 +8,12 @@ DELETE /{{name}}/notes/<id>  delete one
 """
 
 import logging
-import os
 
+import encore
+from a2wsgi import WSGIMiddleware
 from encore.logs import ConsoleHandler
 from encore.storage import postgres
 from flask import Blueprint, Flask, abort, jsonify, request
-from waitress import serve
 from werkzeug.exceptions import HTTPException
 
 SERVICE = "{{name}}"
@@ -75,7 +75,7 @@ async def get_note(note_id: int):
     row = (
         await db.read()
         .query(f"SELECT {COLUMNS} FROM note WHERE id = $1", note_id)
-        .one()
+        .first()
     )
     if row is None:
         abort(404, "note not found")
@@ -92,7 +92,7 @@ async def update_note(note_id: int):
         note_id,
         title,
         body,
-    ).one()
+    ).first()
     if row is None:
         abort(404, "note not found")
     return row
@@ -116,18 +116,10 @@ def json_error(error: HTTPException):
     return jsonify(detail=error.description), error.code
 
 
-def listen_addr() -> tuple[str, int]:
-    """Encore's local run supplies ENCORE_LISTEN_ADDR as host:port. Run on its
-    own, this falls back to PORT and then to 8080."""
-    addr = os.environ.get("ENCORE_LISTEN_ADDR")
-    if addr:
-        host, _, port = addr.rpartition(":")
-        return host or "0.0.0.0", int(port)
-    return "0.0.0.0", int(os.environ.get("PORT", "8080"))
-
-
 if __name__ == "__main__":
-    host, port = listen_addr()
-    # Waitress is a production WSGI server that serves with threads in this
-    # one process; the Encore runtime does not support forked workers.
-    serve(app, host=host, port=port)
+    # Serve the app where Encore assigns the service, on Encore's HTTP server:
+    # each request is traced, and the service shuts down gracefully with Encore.
+    # Flask is a WSGI app, so a2wsgi adapts it to ASGI, running the views on a
+    # thread pool in this one process; the Encore runtime does not support
+    # forked workers.
+    encore.run(WSGIMiddleware(app))

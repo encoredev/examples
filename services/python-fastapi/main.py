@@ -8,10 +8,9 @@ DELETE /{{name}}/notes/{id}  delete one
 """
 
 import logging
-import os
 from datetime import datetime
 
-import uvicorn
+import encore
 from encore.logs import ConsoleHandler
 from encore.storage import postgres
 from fastapi import APIRouter, FastAPI, HTTPException, Response
@@ -77,7 +76,7 @@ async def get_note(note_id: int) -> Note:
     row = (
         await db.read()
         .query(f"SELECT {COLUMNS} FROM note WHERE id = $1", note_id)
-        .one()
+        .first()
     )
     if row is None:
         raise HTTPException(status_code=404, detail="note not found")
@@ -93,7 +92,7 @@ async def update_note(note_id: int, update: NoteUpdate) -> Note:
         note_id,
         update.title,
         update.body,
-    ).one()
+    ).first()
     if row is None:
         raise HTTPException(status_code=404, detail="note not found")
     return Note(**row)
@@ -118,16 +117,7 @@ app = FastAPI(
 app.include_router(router)
 
 
-def listen_addr() -> tuple[str, int]:
-    """Encore's local run supplies ENCORE_LISTEN_ADDR as host:port. Run on its
-    own, this falls back to PORT and then to 8080."""
-    addr = os.environ.get("ENCORE_LISTEN_ADDR")
-    if addr:
-        host, _, port = addr.rpartition(":")
-        return host or "0.0.0.0", int(port)
-    return "0.0.0.0", int(os.environ.get("PORT", "8080"))
-
-
 if __name__ == "__main__":
-    host, port = listen_addr()
-    uvicorn.run(app, host=host, port=port)
+    # Serve the app where Encore assigns the service, on Encore's HTTP server:
+    # each request is traced, and the service shuts down gracefully with Encore.
+    encore.run(app)
