@@ -1,0 +1,24 @@
+{
+	"scripts": {
+		"setup-firebase-and-users": "node --no-deprecation scripts/setup-firebase-and-users.js ",
+		"setup-firebase-and-users:clean": "node --no-deprecation scripts/setup-firebase-and-users.js --delete-all",
+		"setup-stripe": "npx tsx scripts/setup-payment-and-webhook.ts"
+	},
+	"dependencies": {
+		"@firebase/auth": "^1.9.1",
+		"dotenv": "^16.4.7",
+		"expect": "^29.7.0",
+		"firebase": "^11.4.0",
+		"firebase-admin": "^13.1.0",
+		"google-auth-library": "^9.15.1",
+		"minimist": "^1.2.8",
+		"node-fetch": "^3.3.2",
+		"pg": "^8.13.3",
+		"react-firebase-hooks": "^5.1.1"
+	},
+	"devDependencies": {
+		"@types/node": "^22.13.5",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.8.2"
+	}
+}
