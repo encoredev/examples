@@ -1,0 +1,3 @@
+package sharedconfig
+
+EnableFoo: true
