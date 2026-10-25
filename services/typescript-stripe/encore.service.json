@@ -3,6 +3,7 @@
   "lang": "typescript",
   "run": { "type": "custom", "cmd": ["bun", "run", "start"] },
   "api": [
-    { "type": "http", "prefix": "/{{name}}", "name": "{{ident}}" }
+    { "type": "http", "prefix": "/{{name}}", "name": "{{ident}}" },
+    { "type": "http", "prefix": "/{{name}}/webhook", "name": "{{ident}}_webhooks", "methods": ["POST"], "expose": true }
   ]
 }

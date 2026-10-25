@@ -28,7 +28,7 @@ encore secret set --service {{name}} WebhookSecretGitHub   # the secret entered 
 
 A webhook with a missing or wrong signature is rejected with `401`. Until a source's secret
 is set, its webhooks are accepted without a check, and webhooks from any other source always
-are, so set both before exposing the service.
+are, so set both before deploying: the webhook routes are exposed through the gateway.
 
 ## Routes
 
