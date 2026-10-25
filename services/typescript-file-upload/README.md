@@ -18,26 +18,25 @@ Encore provisions the bucket and the database, and applies the migrations in
 | `GET`    | `/{{name}}/files/:name` | Download a file                                |
 | `DELETE` | `/{{name}}/files/:name` | Delete a file                                  |
 
-Through the app's gateway:
+With `encore run` running, call the service through the service proxy at
+`localhost:4000/{{name}}`:
 
 ```sh
-GW=http://127.0.0.1:4001   # the "gateway api" address encore run prints
-
 # Upload one file, or several in one request.
-curl -F file=@photo.png $GW/{{name}}/upload
-curl -F a=@notes.txt -F b=@report.pdf $GW/{{name}}/upload
+curl -F file=@photo.png localhost:4000/{{name}}/upload
+curl -F a=@notes.txt -F b=@report.pdf localhost:4000/{{name}}/upload
 
 # List them.
-curl $GW/{{name}}/files
+curl localhost:4000/{{name}}/files
 
 # Download one; a name with spaces or slashes must be URL-encoded.
-curl -o photo.png $GW/{{name}}/files/photo.png
+curl -o photo.png localhost:4000/{{name}}/files/photo.png
 
 # Delete one.
-curl -X DELETE $GW/{{name}}/files/photo.png
+curl -X DELETE localhost:4000/{{name}}/files/photo.png
 ```
 
-Or open `$GW/{{name}}/` in a browser to upload from a form.
+Or open `http://localhost:4000/{{name}}/` in a browser to upload from a form.
 
 `POST /{{name}}/upload` answers `201` with the stored files' metadata, or, for a
 browser submitting the page's form, redirects back to the page. A download is

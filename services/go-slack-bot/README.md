@@ -71,13 +71,12 @@ With `encore run` running, sign a request the way Slack does (`v0=` and the hex
 HMAC-SHA256 of `v0:<timestamp>:<body>`, keyed with the signing secret):
 
 ```bash
-gw=http://localhost:4001   # the "gateway api" address encore run prints
 secret='the value you set for SlackSigningSecret'
 body='command=%2Fcowsay&text=Hello%21'
 ts=$(date +%s)
 sig="v0=$(printf 'v0:%s:%s' "$ts" "$body" | openssl dgst -sha256 -hmac "$secret" -hex | sed 's/^.* //')"
 
-curl -s $gw/{{name}}/cowsay \
+curl -s localhost:4000/{{name}}/cowsay \
   -H "X-Slack-Request-Timestamp: $ts" -H "X-Slack-Signature: $sig" \
   --data "$body"
 ```

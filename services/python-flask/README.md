@@ -36,8 +36,8 @@ file, such as `migrations/2_add_tags.up.sql`.
 
 ## Try it locally
 
-With `encore run` running, use the gateway's address that it prints in place of
-`localhost:4000`:
+With `encore run` running, call the service through the service proxy at
+`localhost:4000/{{name}}`:
 
 ```bash
 curl -s localhost:4000/{{name}}/notes -H 'Content-Type: application/json' \

@@ -38,8 +38,6 @@ curl localhost:4000/{{name}}/status
 curl localhost:4000/{{name}}/ping/encore.dev
 ```
 
-Replace `localhost:4000` with the gateway address `encore run` prints.
-
 ## Slack
 
 Create an [incoming webhook](https://api.slack.com/messaging/webhooks) and set

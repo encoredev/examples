@@ -29,8 +29,8 @@ Queries go through `DB.query`, `DB.query_opt`, `DB.execute` and the other method
 
 ## Try it locally
 
-With `encore run` running, use the gateway's address that it prints in place of
-`localhost:4000`:
+With `encore run` running, call the service through the service proxy at
+`localhost:4000/{{name}}`:
 
 ```bash
 curl -s localhost:4000/{{name}}/todos -d '{"title": "Buy milk"}' -H 'content-type: application/json'

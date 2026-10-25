@@ -106,8 +106,8 @@ async def delete_note(note_id: int) -> Response:
     return Response(status_code=204)
 
 
-# Keep the interactive docs under the service's prefix, where the gateway
-# routes requests: /{{name}}/docs.
+# Keep the interactive docs under the service's prefix, where the service
+# proxy routes requests: /{{name}}/docs.
 app = FastAPI(
     title=SERVICE,
     docs_url=f"/{SERVICE}/docs",

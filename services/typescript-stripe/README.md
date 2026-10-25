@@ -16,7 +16,8 @@ when the app runs.
 | `POST` | `/{{name}}/webhook`  | Receive Stripe's webhook events                           |
 | `GET`  | `/{{name}}/payments` | List the completed payments, newest first                 |
 
-With `encore run` serving the app on `localhost:4000`:
+With `encore run` running, call the service through the service proxy at
+`localhost:4000/{{name}}`:
 
 ```sh
 curl -X POST http://localhost:4000/{{name}}/checkout \

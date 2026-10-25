@@ -32,12 +32,12 @@ are, so set both before exposing the service.
 
 ## Routes
 
-With `encore run`, the API gateway serves the service at `http://localhost:4001/{{name}}` (the
-port after the one `encore run` is given; it prints the gateway's address).
+With `encore run` running, call the service through the service proxy at
+`localhost:4000/{{name}}`:
 
 ```bash
 # Receive a webhook: /{{name}}/webhooks/<source>.
-curl -X POST http://localhost:4001/{{name}}/webhooks/stripe \
+curl -X POST http://localhost:4000/{{name}}/webhooks/stripe \
   -H "Content-Type: application/json" \
   -d '{"type": "payment_intent.succeeded", "data": {"object": {"amount": 2000}}}'
 
@@ -45,25 +45,25 @@ curl -X POST http://localhost:4001/{{name}}/webhooks/stripe \
 SECRET="your-github-secret"
 PAYLOAD='{"ref":"refs/heads/main"}'
 SIG="sha256=$(printf '%s' "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" | sed 's/^.* //')"
-curl -X POST http://localhost:4001/{{name}}/webhooks/github \
+curl -X POST http://localhost:4000/{{name}}/webhooks/github \
   -H "Content-Type: application/json" \
   -H "X-GitHub-Event: push" \
   -H "X-Hub-Signature-256: $SIG" \
   -d "$PAYLOAD"
 
 # The 50 most recent events, and one of them.
-curl http://localhost:4001/{{name}}/events
-curl http://localhost:4001/{{name}}/events/1
+curl http://localhost:4000/{{name}}/events
+curl http://localhost:4000/{{name}}/events/1
 
 # The 50 most recent notifications, and how many there are of each event type.
-curl http://localhost:4001/{{name}}/notifications
-curl http://localhost:4001/{{name}}/notifications/stats
+curl http://localhost:4000/{{name}}/notifications
+curl http://localhost:4000/{{name}}/notifications/stats
 ```
 
 To send real, signed Stripe events locally, use the [Stripe CLI](https://docs.stripe.com/stripe-cli):
 
 ```bash
-stripe listen --forward-to localhost:4001/{{name}}/webhooks/stripe
+stripe listen --forward-to localhost:4000/{{name}}/webhooks/stripe
 stripe trigger payment_intent.succeeded
 ```
 

@@ -19,14 +19,13 @@ Add a schema change as the next numbered file, such as `migrations/2_add_created
 
 ## Try it locally
 
-With `encore run` running:
+With `encore run` running, call the service through the service proxy at
+`localhost:4000/{{name}}`:
 
 ```bash
-gw=http://localhost:4001   # the "gateway api" address encore run prints
-
-curl -s $gw/{{name}}/url -d '{"url": "https://encore.dev"}'
+curl -s localhost:4000/{{name}}/url -d '{"url": "https://encore.dev"}'
 # {"id":"m1qJ8Fmv","url":"https://encore.dev"}
 
-curl -s $gw/{{name}}/url/m1qJ8Fmv
-curl -s $gw/{{name}}/url
+curl -s localhost:4000/{{name}}/url/m1qJ8Fmv
+curl -s localhost:4000/{{name}}/url
 ```
