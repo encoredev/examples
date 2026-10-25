@@ -2,6 +2,6 @@
   "name": "{{name}}",
   "lang": "rust",
   "api": [
-    { "type": "http", "prefix": "/{{name}}", "name": "{{ident}}", "expose": true }
+    { "type": "http", "prefix": "/{{name}}", "name": "{{ident}}" }
   ]
 }

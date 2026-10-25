@@ -18,17 +18,16 @@ migrations in `./migrations`, when the app runs.
 | `GET`  | `/{{name}}/users`     | List every user                                         |
 | `GET`  | `/{{name}}/users/:id` | Get one user                                            |
 
-Through the app's gateway:
+With `encore run` running, call the service through the service proxy at
+`localhost:4000/{{name}}`:
 
 ```sh
-GW=http://127.0.0.1:4001   # the "gateway api" address encore run prints
-
-curl -X POST $GW/{{name}}/users \
+curl -X POST localhost:4000/{{name}}/users \
   -H 'Content-Type: application/json' \
   -d '{"name": "Ada", "email": "ada@example.com"}'
 
-curl $GW/{{name}}/users
-curl $GW/{{name}}/users/1
+curl localhost:4000/{{name}}/users
+curl localhost:4000/{{name}}/users/1
 ```
 
 ## Sending the email

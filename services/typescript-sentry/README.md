@@ -25,8 +25,6 @@ curl 'localhost:4000/{{name}}/users?page=1&limit=2'
 curl localhost:4000/{{name}}/trigger-error -d '{"errorType": "database"}'
 ```
 
-Use the gateway address that `encore run` prints in place of `localhost:4000`.
-
 ## Secrets
 
 | Secret | Value |

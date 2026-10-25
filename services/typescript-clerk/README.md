@@ -24,8 +24,6 @@ curl localhost:4000/{{name}}/preferences -H "Authorization: Bearer $TOKEN" \
   -d '{"theme": "dark", "bio": "Hello!"}'
 ```
 
-Use the gateway address that `encore run` prints in place of `localhost:4000`.
-
 ## Secrets
 
 | Secret | Value |

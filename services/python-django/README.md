@@ -52,14 +52,14 @@ reads the value from stdin and sets it for this machine:
 python3 -c 'import secrets; print(secrets.token_urlsafe(50))' | encore secret set --service {{name}} DjangoSecretKey
 ```
 
-`DEBUG` is on only when running locally. The admin's CSRF check trusts the local gateway's
+`DEBUG` is on only when running locally. The admin's CSRF check trusts the service proxy's
 address, `http://localhost:4000`; if you run on another port (`encore run --port`), add it to
 `CSRF_TRUSTED_ORIGINS` in `config/settings.py`.
 
 ## Try it locally
 
-With `encore run` running, use the gateway's address that it prints in place of
-`localhost:4000`:
+With `encore run` running, call the service through the service proxy at
+`localhost:4000/{{name}}`:
 
 ```bash
 curl -s localhost:4000/{{name}}/notes -H 'Content-Type: application/json' \

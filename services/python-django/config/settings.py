@@ -24,7 +24,7 @@ except KeyError:
         raise ImproperlyConfigured("set the DjangoSecretKey secret") from None
     SECRET_KEY = "django-insecure-local-development-only"
 
-# Requests reach the service through Encore's gateway, which decides which
+# Requests reach the service through Encore's proxy, which decides which
 # hosts are served and passes on the host and scheme the client used, as the
 # admin's CSRF checks need.
 ALLOWED_HOSTS = ["*"]
@@ -32,8 +32,8 @@ USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 if LOCAL:
     # `encore run` forwards requests to the service with `Host: 127.0.0.1`,
-    # so the admin's CSRF check is told the gateway's address. Add yours if
-    # you run on another port (`encore run --port`).
+    # so the admin's CSRF check is told the service proxy's address. Add
+    # yours if you run on another port (`encore run --port`).
     CSRF_TRUSTED_ORIGINS = ["http://localhost:4000", "http://127.0.0.1:4000"]
 
 INSTALLED_APPS = [
@@ -100,6 +100,7 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
-# Under the service's prefix, so the admin's styles route through the gateway.
+# Under the service's prefix, so the admin's styles route through the
+# service proxy.
 STATIC_URL = "/{{name}}/static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

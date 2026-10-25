@@ -13,7 +13,8 @@ Encore provisions the topic and the subscription when the app runs.
 | ------ | ---------------- | ------------------------------------------------------------------- |
 | `POST` | `/{{name}}/send` | Queue an email from `{"to": "...", "subject": "...", "html": "..."}` |
 
-With `encore run` serving the app on `localhost:4000`:
+With `encore run` running, call the service through the service proxy at
+`localhost:4000/{{name}}`:
 
 ```sh
 curl -X POST http://localhost:4000/{{name}}/send \

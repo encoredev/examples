@@ -54,8 +54,9 @@ user's request (`encore service new` asks what the service should do) is matched
 - Make it run without third-party accounts: read API keys from Encore secrets, and when one
   is unset (an empty string in TypeScript), skip the call with a log line or answer 503
   naming the secret. Never verify a signature with an empty key.
-- Include a `README.md` for the user: the routes, with curl examples through the gateway,
-  the secrets to set (`encore secret set --service <name> <Secret>`) and any other setup step.
+- Include a `README.md` for the user: the routes, with curl examples through the service
+  proxy (`localhost:4000/{{name}}/...`), the secrets to set (`encore secret set --service
+  <name> <Secret>`) and any other setup step.
 - Give each secret a doc comment saying what it is and where to get a value: `encore service
   new` prints it, with the command that sets it, for every secret the new service declares.
   It reads the service's databases, topics, buckets and cron jobs from the code the same way.
