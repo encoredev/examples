@@ -94,11 +94,11 @@ export default function Sidebar(props: {
           </div>
         ))}
         {showDeploy && (
-          <a className="deploy" href={DEPLOY_URL} target="_blank" rel="noreferrer">
-            <span>
-              <span className="deploy-title">Deploy to your AWS or GCP</span>
-              <span className="deploy-sub">Clones this app and provisions all of the above in your account.</span>
-            </span>
+          <a className="deploy" href={DEPLOY_URL} target="_blank" rel="noreferrer" aria-label="Deploy to AWS or GCP">
+            Deploy to
+            <img src="/aws.svg" alt="" className="deploy-aws" />
+            <span className="deploy-or">or</span>
+            <img src="/gcp.svg" alt="" className="deploy-gcp" />
             <span className="deploy-arrow">→</span>
           </a>
         )}

@@ -469,8 +469,10 @@ button { cursor: pointer; }
   margin: 12px 12px 0;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
+  gap: 8px;
+  padding: 10px 14px;
+  font-weight: 600;
+  font-size: 13.5px;
   border-radius: var(--radius);
   background: var(--text);
   color: var(--ground);
@@ -478,6 +480,7 @@ button { cursor: pointer; }
   transition: opacity 0.15s;
 }
 .deploy:hover { opacity: 0.88; }
-.deploy-title { display: block; font-weight: 600; font-size: 13.5px; }
-.deploy-sub { display: block; font-size: 12px; opacity: 0.65; line-height: 1.4; margin-top: 2px; }
+.deploy-aws { width: 26px; height: auto; margin-top: 3px; }
+.deploy-gcp { width: 19px; height: auto; }
+.deploy-or { font-weight: 400; opacity: 0.6; }
 .deploy-arrow { margin-left: auto; font-size: 16px; }
