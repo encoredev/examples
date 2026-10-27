@@ -78,6 +78,18 @@ export default function About(props: {
           Postgres, Pub/Sub topic and cron job are all declared in this one Encore app.
         </p>
 
+        {/* No auth: deployed, every endpoint is public. Said up front, in red,
+            so nobody leaves a copy running on their key without knowing. */}
+        <div className="about-warn" role="alert">
+          <strong>{local ? "Deployed, this app is public." : "This app is public."}</strong>{" "}
+          It has no login, so anyone with its URL can chat with the agent on your Cursor key, read its threads and
+          change incidents. Add{" "}
+          <a href="https://encore.dev/docs/ts/develop/auth" target="_blank" rel="noreferrer">
+            authentication
+          </a>{" "}
+          before you leave it running or connect it to real systems.
+        </div>
+
         <ol className="about-steps">
           <Step
             n={1}

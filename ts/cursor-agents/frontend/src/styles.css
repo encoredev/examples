@@ -486,7 +486,19 @@ button { cursor: pointer; }
 .about-body { padding: 28px; }
 .about h2 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
 .about-lead { margin: 8px 0 0; color: var(--text-2); line-height: 1.55; }
-.about-steps { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 22px 0 0; padding: 0; }
+.about-warn {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border: 1px solid rgba(240, 92, 72, 0.45);
+  border-radius: var(--radius);
+  background: rgba(240, 92, 72, 0.1);
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.about-warn strong { color: var(--red); font-weight: 600; }
+.about-warn a { color: var(--text); }
+.about-steps { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 12px 0 0; padding: 0; }
 .about-step { display: flex; gap: 14px; padding: 16px; border-radius: var(--radius); background: var(--surface-2); }
 .about-num {
   flex: none;
