@@ -1,7 +1,6 @@
 import type { RefObject } from "react";
 import BlockField, { type BlockFieldHandle } from "./BlockField";
-import { AwsMark, GcpMark } from "./CloudMarks";
-import { ago, DEPLOY_URL, type Thread } from "../lib/api";
+import { ago, type Thread } from "../lib/api";
 import type { agent } from "../lib/client";
 
 // What this app runs on. Every row is declared in the code and provisioned by
@@ -37,11 +36,8 @@ export default function Sidebar(props: {
   stats: agent.DeskStats | null;
   activeId: string | null;
   onSelect(id: string | null): void;
-  // Shown on the public demo and when running locally. Hidden once the desk is
-  // deployed live, since by then it is already your own deploy.
-  showDeploy: boolean;
 }) {
-  const { field, threads, stats, activeId, onSelect, showDeploy } = props;
+  const { field, threads, stats, activeId, onSelect } = props;
   return (
     <aside className="sidebar">
       <div className="sidebar-hero">
@@ -94,15 +90,6 @@ export default function Sidebar(props: {
             <span className="infra-kind">{r.kind}</span>
           </div>
         ))}
-        {showDeploy && (
-          <a className="deploy" href={DEPLOY_URL} target="_blank" rel="noreferrer" aria-label="Deploy to AWS or GCP">
-            Deploy to
-            <AwsMark className="deploy-aws" />
-            <span className="deploy-or">or</span>
-            <GcpMark className="deploy-gcp" />
-            <span className="deploy-arrow">→</span>
-          </a>
-        )}
       </div>
     </aside>
   );

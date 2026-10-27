@@ -445,7 +445,7 @@ button { cursor: pointer; }
 @keyframes spawnTint { 0%, 40% { filter: sepia(1) saturate(2.4) hue-rotate(23deg) brightness(0.94); } 62%, 100% { filter: sepia(0) saturate(1) hue-rotate(0deg) brightness(1); } }
 @keyframes spawnTintB { 0%, 40% { filter: sepia(1) saturate(2.4) hue-rotate(23deg) brightness(0.94); } 62%, 100% { filter: sepia(0) saturate(1) hue-rotate(0deg) brightness(1); } }
 
-/* ── Setup, demo note, deploy ──────────────────────────────────────────── */
+/* ── Setup, demo note ──────────────────────────────────────────────────── */
 .setup {
   margin-top: 32px;
   padding: 18px 20px;
@@ -455,7 +455,8 @@ button { cursor: pointer; }
 }
 .setup-title { font-weight: 600; margin-bottom: 8px; }
 .setup ol { margin: 0; padding-left: 20px; color: var(--text-2); line-height: 1.7; }
-.setup a, .demo-note a { color: var(--orange); }
+.setup a, .demo-note a, .demo-note .link { color: var(--orange); }
+.demo-note .link { padding: 0; border: 0; background: none; font: inherit; text-decoration: underline; cursor: pointer; }
 .setup code {
   font-family: var(--mono);
   font-size: 12.5px;
@@ -466,31 +467,12 @@ button { cursor: pointer; }
 }
 .demo-note { max-width: 760px; margin: 0 auto 10px; font-size: 12.5px; color: var(--text-3); }
 
-.deploy {
-  margin: 12px 12px 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-  font-weight: 600;
-  font-size: 13.5px;
-  border-radius: var(--radius);
-  background: var(--text);
-  color: var(--ground);
-  text-decoration: none;
-  transition: opacity 0.15s;
-}
-.deploy:hover { opacity: 0.88; }
-.deploy-aws { height: 14px; width: auto; transform: translateY(2px); }
-.deploy-gcp { height: 18px; width: auto; }
-.deploy-or { font-weight: 400; opacity: 0.6; }
-.deploy-arrow { margin-left: auto; font-size: 16px; }
 
 /* About dialog */
 .topbar-link { background: none; border: 0; padding: 4px 0; color: var(--text-3); font-size: 12.5px; cursor: pointer; }
 .topbar-link:hover { color: var(--text); }
 .about {
-  width: min(800px, calc(100vw - 32px));
+  width: min(640px, calc(100vw - 32px));
   max-height: calc(100vh - 48px);
   padding: 0;
   border: 1px solid var(--line-strong);
@@ -504,30 +486,31 @@ button { cursor: pointer; }
 .about-body { padding: 28px; }
 .about h2 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
 .about-lead { margin: 8px 0 0; color: var(--text-2); line-height: 1.55; }
-.about-paths { display: grid; grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr); gap: 12px; margin-top: 22px; }
-.about-path {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 16px;
-  border-radius: var(--radius);
-  background: var(--surface-2);
-}
-.about h3 { margin: 0; font-size: 14px; font-weight: 600; }
-.about-path p { margin: 0; color: var(--text-2); font-size: 13px; line-height: 1.5; }
-.about-path code { font-family: var(--mono); font-size: 12px; color: var(--text); }
-.about-path pre {
-  margin: 0;
-  padding: 10px 12px;
-  border-radius: 8px;
-  background: var(--sunken);
+.about-steps { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 22px 0 0; padding: 0; }
+.about-step { display: flex; gap: 14px; padding: 16px; border-radius: var(--radius); background: var(--surface-2); }
+.about-num {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--surface-3);
   font-family: var(--mono);
-  font-size: 11px;
-  line-height: 1.7;
-  overflow-x: auto;
+  font-size: 11.5px;
+  color: var(--text-2);
 }
-.about-path-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: -3px 0; }
+.about-step.done .about-num { color: var(--green); }
+.about-step.done h3 { color: var(--text-2); }
+.about-step-body { display: flex; flex-direction: column; gap: 8px; min-width: 0; flex: 1; padding-top: 2px; }
+.about h3 { margin: 0; font-size: 14px; font-weight: 600; }
+.about-step p { margin: 0; color: var(--text-2); font-size: 13px; line-height: 1.5; }
+.about-step a { color: var(--text); }
+.about-step code { font-family: var(--mono); font-size: 12px; color: var(--text); }
+.about-cmd { display: flex; align-items: flex-start; gap: 8px; padding: 8px 8px 8px 12px; border-radius: 8px; background: var(--sunken); }
+.about-cmd pre { flex: 1; min-width: 0; margin: 0; padding-top: 2px; font-family: var(--mono); font-size: 11.5px; line-height: 1.7; overflow-x: auto; }
 .about-copy {
+  flex: none;
   padding: 3px 8px;
   border: 1px solid var(--line-strong);
   border-radius: 6px;
@@ -537,10 +520,9 @@ button { cursor: pointer; }
   cursor: pointer;
 }
 .about-copy:hover { color: var(--text); }
-.about-deploy { margin: auto 0 0; }
-.about-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; }
-.about-foot a { color: var(--text-2); font-size: 13px; text-decoration: none; }
-.about-foot a:hover { color: var(--text); }
+.about-step .about-link { align-self: flex-start; font-size: 13px; font-weight: 500; text-decoration: none; }
+.about-step .about-link:hover { text-decoration: underline; }
+.about-foot { display: flex; justify-content: flex-end; margin-top: 20px; }
 .about-close {
   padding: 8px 14px;
   border: 1px solid var(--line-strong);
@@ -550,4 +532,3 @@ button { cursor: pointer; }
   cursor: pointer;
 }
 .about-close:hover { background: var(--surface-2); }
-@media (max-width: 640px) { .about-paths { grid-template-columns: 1fr; } }

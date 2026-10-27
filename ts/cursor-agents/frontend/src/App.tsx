@@ -4,7 +4,7 @@ import ThreadView from "./components/ThreadView";
 import IncidentRail from "./components/IncidentRail";
 import About from "./components/About";
 import type { BlockFieldHandle } from "./components/BlockField";
-import { api, DEPLOY_URL, errorMessage, type Mode, type Thread } from "./lib/api";
+import { api, errorMessage, type Mode, type Thread } from "./lib/api";
 import type { agent } from "./lib/client";
 
 // Set once the visitor closes the About dialog, so it opens only on a first
@@ -34,7 +34,7 @@ export default function App() {
   const [sending, setSending] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [mode, setMode] = useState<Mode | null>(null);
-  const [local, setLocal] = useState(false);
+  const [where, setWhere] = useState({ appId: "", cloud: "" });
   const [recorded, setRecorded] = useState<string[]>([]);
   const [about, setAbout] = useState(false);
   const awaiting = useRef<number | null>(null);
@@ -61,10 +61,8 @@ export default function App() {
       .then((s) => {
         setMode(s.mode);
         setRecorded(s.prompts);
-        setLocal(s.local);
-        // Open by default on the public demo and on a local run, the two
-        // places someone is deciding what to do with the example.
-        if ((s.mode === "replay" || s.local) && !seenAbout()) setAbout(true);
+        setWhere({ appId: s.appId, cloud: s.cloud });
+        if (!seenAbout()) setAbout(true);
       })
       .catch(() => {});
   }, []);
@@ -132,7 +130,6 @@ export default function App() {
         stats={stats}
         activeId={activeId}
         onSelect={setActiveId}
-        showDeploy={mode === "replay" || local}
       />
 
       <main className="main">
@@ -192,10 +189,10 @@ export default function App() {
           {notice && <div className="notice">{notice}</div>}
           {mode === "replay" && (
             <div className="demo-note">
-              This demo replays recorded runs, and the tool calls run for real.{" "}
-              <a href={DEPLOY_URL} target="_blank" rel="noreferrer">
-                Deploy your own
-              </a>{" "}
+              The desk replays recorded runs, and the tool calls run for real.{" "}
+              <button className="link" onClick={() => setAbout(true)}>
+                Add your Cursor API key
+              </button>{" "}
               to ask it anything.
             </div>
           )}
@@ -226,7 +223,7 @@ export default function App() {
         </div>
       </main>
 
-      <About open={about} onClose={closeAbout} />
+      <About open={about} onClose={closeAbout} mode={mode} appId={where.appId} cloud={where.cloud} />
 
       <IncidentRail
         live={mode === "live"}

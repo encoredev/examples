@@ -20,11 +20,3 @@ export const ago = (d: string | Date) => {
 };
 
 export type Mode = agent.Mode;
-
-// One-click: Encore Cloud clones this example into a new app and walks you
-// through connecting AWS or GCP. Same flow as the Deploy buttons on encore.dev.
-export const CODE_URL = "https://github.com/encoredev/examples/tree/main/ts/cursor-agents";
-
-export const DEPLOY_URL =
-  "https://app.encore.dev/create-app/clone/ts-cursor-agents?" +
-  new URLSearchParams({ utm_source: "oncall_desk", utm_medium: "example_app", utm_campaign: "cursor-agents" });

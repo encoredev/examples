@@ -209,13 +209,15 @@ export const stats = api(
 );
 
 // Tells the UI which mode the desk is in, in replay mode which prompts have
-// recordings, and whether it runs locally rather than deployed.
+// recordings, and where it runs: the app's ID for dashboard links, and its
+// cloud ("local", "encore" for Encore Cloud hosting, "aws" or "gcp").
 export const setup = api(
   { expose: true, method: "GET", path: "/setup" },
-  async (): Promise<{ mode: Mode; prompts: string[]; local: boolean }> => ({
+  async (): Promise<{ mode: Mode; prompts: string[]; appId: string; cloud: string }> => ({
     mode: mode(),
     prompts: mode() === "replay" ? recordedPrompts() : [],
-    local: appMeta().environment.cloud === "local",
+    appId: appMeta().appId,
+    cloud: appMeta().environment.cloud,
   }),
 );
 
