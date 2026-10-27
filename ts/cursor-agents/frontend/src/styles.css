@@ -526,6 +526,17 @@ button { cursor: pointer; }
   line-height: 1.7;
   overflow-x: auto;
 }
+.about-path-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: -3px 0; }
+.about-copy {
+  padding: 3px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--text-2);
+  font-size: 11px;
+  cursor: pointer;
+}
+.about-copy:hover { color: var(--text); }
 .about-deploy { margin: auto 0 0; }
 .about-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; }
 .about-foot a { color: var(--text-2); font-size: 13px; text-decoration: none; }

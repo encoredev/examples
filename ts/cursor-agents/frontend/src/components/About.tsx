@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CODE_URL, DEPLOY_URL } from "../lib/api";
 import { AwsMark, GcpMark } from "./CloudMarks";
 
@@ -13,6 +13,17 @@ encore run`;
 export default function About(props: { open: boolean; onClose(): void }) {
   const { open, onClose } = props;
   const ref = useRef<HTMLDialogElement>(null);
+  const [copied, setCopied] = useState(false);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(LOCAL_STEPS);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1600);
+    } catch {
+      // No clipboard access (an insecure origin): the text is still selectable.
+    }
+  };
 
   useEffect(() => {
     const d = ref.current;
@@ -54,7 +65,12 @@ export default function About(props: { open: boolean; onClose(): void }) {
           </section>
 
           <section className="about-path">
-            <h3>Run it locally and make it yours</h3>
+            <div className="about-path-head">
+              <h3>Run it locally and make it yours</h3>
+              <button className="about-copy" onClick={copy}>
+                {copied ? "Copied" : "Copy"}
+              </button>
+            </div>
             <pre>{LOCAL_STEPS}</pre>
             <p>
               Then change the tools in <code>agent/tools.ts</code> and the brief in <code>agent/runtime.ts</code> into
