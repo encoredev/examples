@@ -1,5 +1,6 @@
 import type { RefObject } from "react";
 import BlockField, { type BlockFieldHandle } from "./BlockField";
+import { AwsMark, GcpMark } from "./CloudMarks";
 import { ago, DEPLOY_URL, type Thread } from "../lib/api";
 import type { agent } from "../lib/client";
 
@@ -96,9 +97,9 @@ export default function Sidebar(props: {
         {showDeploy && (
           <a className="deploy" href={DEPLOY_URL} target="_blank" rel="noreferrer" aria-label="Deploy to AWS or GCP">
             Deploy to
-            <img src="/aws.svg" alt="" className="deploy-aws" />
+            <AwsMark className="deploy-aws" />
             <span className="deploy-or">or</span>
-            <img src="/gcp.svg" alt="" className="deploy-gcp" />
+            <GcpMark className="deploy-gcp" />
             <span className="deploy-arrow">→</span>
           </a>
         )}
