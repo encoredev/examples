@@ -2,6 +2,7 @@
   "name": "{{name}}",
   "lang": "typescript",
   "run": { "type": "custom", "cmd": ["bun", "run", "start"] },
+  "build": { "runtime": "bun" },
   "api": [
     { "type": "http", "prefix": "/{{name}}", "name": "{{ident}}" },
     { "type": "http", "prefix": "/{{name}}/webhooks", "name": "{{ident}}_webhooks", "methods": ["POST"], "expose": true }
