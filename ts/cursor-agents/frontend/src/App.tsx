@@ -2,9 +2,22 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import ThreadView from "./components/ThreadView";
 import IncidentRail from "./components/IncidentRail";
+import About from "./components/About";
 import type { BlockFieldHandle } from "./components/BlockField";
 import { api, DEPLOY_URL, errorMessage, type Mode, type Thread } from "./lib/api";
 import type { agent } from "./lib/client";
+
+// Set once the visitor closes the About dialog, so it opens only on a first
+// visit.
+const ABOUT_SEEN = "oncall-desk:about-seen";
+
+const seenAbout = () => {
+  try {
+    return localStorage.getItem(ABOUT_SEEN) === "1";
+  } catch {
+    return false;
+  }
+};
 
 const SUGGESTIONS = [
   "Why is checkout slow right now? Check the recent deploys.",
@@ -23,6 +36,7 @@ export default function App() {
   const [mode, setMode] = useState<Mode | null>(null);
   const [local, setLocal] = useState(false);
   const [recorded, setRecorded] = useState<string[]>([]);
+  const [about, setAbout] = useState(false);
   const awaiting = useRef<number | null>(null);
   const input = useRef<HTMLTextAreaElement>(null);
 
@@ -48,6 +62,9 @@ export default function App() {
         setMode(s.mode);
         setRecorded(s.prompts);
         setLocal(s.local);
+        // Open by default on the public demo and on a local run, the two
+        // places someone is deciding what to do with the example.
+        if ((s.mode === "replay" || s.local) && !seenAbout()) setAbout(true);
       })
       .catch(() => {});
   }, []);
@@ -71,6 +88,15 @@ export default function App() {
   }, []);
 
   useEffect(() => setNotice(null), [activeId]);
+
+  const closeAbout = () => {
+    setAbout(false);
+    try {
+      localStorage.setItem(ABOUT_SEEN, "1");
+    } catch {
+      // Private mode: it opens again next visit.
+    }
+  };
 
   const active = threads.find((t) => t.id === activeId) ?? null;
   const busy = active?.status === "running";
@@ -112,6 +138,10 @@ export default function App() {
       <main className="main">
         <header className="topbar">
           <span className="topbar-title">{active ? active.title : "New thread"}</span>
+          <span className="spacer" />
+          <button className="topbar-link" onClick={() => setAbout(true)}>
+            About this app
+          </button>
         </header>
 
         {active ? (
@@ -195,6 +225,8 @@ export default function App() {
           </div>
         </div>
       </main>
+
+      <About open={about} onClose={closeAbout} />
 
       <IncidentRail
         live={mode === "live"}
