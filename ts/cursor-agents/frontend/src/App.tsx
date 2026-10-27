@@ -104,7 +104,7 @@ export default function App() {
         stats={stats}
         activeId={activeId}
         onSelect={setActiveId}
-        showDeploy={mode === "replay"}
+        showDeploy={mode === "replay" || mode === "setup"}
       />
 
       <main className="main">

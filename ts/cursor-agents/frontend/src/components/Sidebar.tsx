@@ -36,7 +36,8 @@ export default function Sidebar(props: {
   stats: agent.DeskStats | null;
   activeId: string | null;
   onSelect(id: string | null): void;
-  // The public demo invites you to deploy your own. Your own deploy doesn't.
+  // Shown on the public demo and before a key is set up. Hidden once the desk
+  // runs live, since by then it is already your own deploy.
   showDeploy: boolean;
 }) {
   const { field, threads, stats, activeId, onSelect, showDeploy } = props;
