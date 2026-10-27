@@ -109,7 +109,9 @@ interface OpenParams {
   summary: string;
 }
 
-// Opens an incident and announces it on the incident-opened topic.
+// Opens an incident and announces it on the incident-opened topic. If the
+// announcement fails, the incident is removed again, so a retry doesn't leave
+// one behind that the agent never hears about.
 export const open = api(
   { expose: true, method: "POST", path: "/incidents" },
   async (p: OpenParams): Promise<Incident> => {
@@ -118,7 +120,12 @@ export const open = api(
       VALUES (${p.title}, ${p.service}, ${p.severity}, ${p.summary})
       RETURNING *`;
     const incident = toIncident(row!);
-    await incidentOpened.publish({ incidentId: incident.id });
+    try {
+      await incidentOpened.publish({ incidentId: incident.id });
+    } catch (err) {
+      await db.exec`DELETE FROM incidents WHERE id = ${incident.id}`;
+      throw err;
+    }
     return incident;
   },
 );

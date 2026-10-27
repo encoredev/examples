@@ -10,6 +10,7 @@ import { db } from "./db";
 import { postgresAgentStore } from "./store";
 import { deskTools } from "./tools";
 import { findRecording, replayTurn } from "./replay";
+import { RECORDINGS } from "./recordings";
 
 // Where the Cursor agent loop runs: right here, in this service's process.
 // Inference goes to Cursor's hosted models; everything else (tool calls,
@@ -19,14 +20,16 @@ const cursorApiKey = secret("CursorApiKey");
 
 // The desk runs in one of three modes, all decided by the CursorApiKey secret:
 //   setup:  no key yet. The UI shows how to add one instead of failing.
-//   replay: the key is the literal string "replay". Used by the public demo,
-//           which replays recorded runs (see replay.ts) instead of spending
-//           tokens on strangers' prompts.
+//   replay: the key is the literal string "replay". The desk replays recorded
+//           runs (see replay.ts) instead of calling the model, so it can be
+//           shown without spending tokens. With no recordings there is nothing
+//           to replay, so it counts as setup.
 //   live:   a real key. The agent runs for real.
 export type Mode = "setup" | "replay" | "live";
 export const mode = (): Mode => {
   const key = cursorApiKey().trim();
-  return key === "" ? "setup" : key === "replay" ? "replay" : "live";
+  if (key === "replay") return RECORDINGS.length > 0 ? "replay" : "setup";
+  return key === "" ? "setup" : "live";
 };
 
 const NO_KEY = "No Cursor API key yet. Add one as the CursorApiKey secret, then send this again.";
@@ -60,17 +63,18 @@ const options = (tools: Record<string, SDKCustomTool>) => ({
   local: { cwd: WORKSPACE, store: postgresAgentStore, customTools: tools },
 });
 
-// A turn's run lives in the process that started it. If that process dies (a
-// deploy, a crash), the turn stops producing events; after a few quiet minutes
-// it is marked interrupted so the thread can take new messages.
-const STALE_MINUTES = 5;
+// A turn's run lives in the process that started it, which bumps the turn's
+// heartbeat while it runs. If that process dies (a deploy, a crash), the
+// heartbeat stops; a couple of minutes later the turn is marked interrupted so
+// the thread can take new messages. A run that is only slow keeps beating.
+const HEARTBEAT_MS = 15_000;
+const STALE_MINUTES = 2;
 export const reapStale = () =>
   db.rawExec(
     `WITH reaped AS (
        UPDATE turns t SET status = 'error', error = $2
        WHERE t.status = 'running'
-         AND t.created_at < now() - make_interval(mins => $1::int)
-         AND NOT EXISTS (SELECT 1 FROM turn_events e WHERE e.turn_id = t.id AND e.at > now() - make_interval(mins => $1::int))
+         AND t.heartbeat_at < now() - make_interval(mins => $1::int)
        RETURNING t.id, t.thread_id
      )
      INSERT INTO turn_events (thread_id, turn_id, kind, data)
@@ -151,37 +155,55 @@ async function getAgent(threadId: string): Promise<SDKAgent> {
   return agent;
 }
 
+// Checks that the desk can answer this prompt, before anything is written:
+// it needs a key, and in replay mode a recording of the prompt.
+export function checkPrompt(prompt: string) {
+  const m = mode();
+  if (m === "setup") throw APIError.failedPrecondition(NO_KEY);
+  if (m === "replay" && !findRecording(prompt)) {
+    throw APIError.failedPrecondition(
+      "This desk replays recorded runs, so it only answers the suggested prompts. Add your Cursor API key to ask it anything.",
+    );
+  }
+}
+
+const BUSY = "the agent is still working on the last message";
+
 // Starts a turn and returns its id straight away. The run itself continues in
 // the background, writing events that the stream endpoint tails.
 export async function startTurn(threadId: string, prompt: string): Promise<string> {
-  const m = mode();
-  if (m === "setup") throw APIError.failedPrecondition(NO_KEY);
-  const recording = m === "replay" ? findRecording(prompt) : null;
-  if (m === "replay" && !recording) {
-    throw APIError.failedPrecondition(
-      "This demo replays recorded runs, so it only answers the suggested prompts. Deploy your own desk to ask it anything.",
-    );
-  }
+  checkPrompt(prompt);
+  const recording = mode() === "replay" ? findRecording(prompt) : null;
 
   await reapStale();
   const busy = await db.queryRow`
     SELECT 1 AS busy FROM turns WHERE thread_id = ${threadId} AND status = 'running'`;
-  if (busy) throw APIError.failedPrecondition("the agent is still working on the last message");
+  if (busy) throw APIError.failedPrecondition(BUSY);
 
   const prior = await db.queryRow<{ n: number }>`
     SELECT count(*)::int AS n FROM turns WHERE thread_id = ${threadId}`;
   const message = prior!.n === 0 ? `${BRIEF}\n\n---\n\n${prompt}` : prompt;
 
+  // The check above gives the usual answer; the unique index on running turns
+  // settles two messages that pass it at the same moment.
   const turnId = randomUUID();
-  await db.exec`
-    INSERT INTO turns (id, thread_id, prompt, model) VALUES (${turnId}, ${threadId}, ${prompt}, ${MODEL.id})`;
+  try {
+    await db.exec`
+      INSERT INTO turns (id, thread_id, prompt, model) VALUES (${turnId}, ${threadId}, ${prompt}, ${MODEL.id})`;
+  } catch (err) {
+    if (String(err).includes("turns_one_running")) throw APIError.failedPrecondition(BUSY);
+    throw err;
+  }
   await db.exec`UPDATE threads SET updated_at = now() WHERE id = ${threadId}`;
   await record(threadId, turnId, "prompt", { text: prompt });
 
+  const beat = setInterval(() => {
+    db.exec`UPDATE turns SET heartbeat_at = now() WHERE id = ${turnId}`.catch(() => {});
+  }, HEARTBEAT_MS);
   const run = recording ? replayTurn(threadId, turnId, recording) : runTurn(threadId, turnId, message);
-  void run.catch((err) =>
-    log.error(err, "turn crashed", { threadId, turnId }),
-  );
+  void run
+    .catch((err) => log.error(err, "turn crashed", { threadId, turnId }))
+    .finally(() => clearInterval(beat));
   return turnId;
 }
 

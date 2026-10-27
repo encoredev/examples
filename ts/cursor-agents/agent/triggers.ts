@@ -3,6 +3,7 @@ import { CronJob } from "encore.dev/cron";
 import { Subscription } from "encore.dev/pubsub";
 import { incidentOpened } from "../incidents/incidents";
 import { incidents } from "~encore/clients";
+import { db } from "./db";
 import { openThread } from "./api";
 import { mode } from "./runtime";
 
@@ -10,12 +11,18 @@ import { mode } from "./runtime";
 // starts work on its own.
 
 // 1. Every new incident gets a triage run. Encore delivers the message from
-// SNS/SQS on AWS or Pub/Sub on GCP, and retries if the handler throws.
+// SNS/SQS on AWS or Pub/Sub on GCP, and retries if the handler throws. Delivery
+// is at least once, so a message can arrive twice: an incident that already
+// has a triage thread is skipped, and a unique index on threads settles two
+// deliveries racing (the loser throws, and its retry is then skipped).
 const _ = new Subscription(incidentOpened, "agent-triage", {
   handler: async ({ incidentId }) => {
     // Only a live agent triages. Without a key there is nothing to run, and
     // throwing here would just make Pub/Sub redeliver forever.
     if (mode() !== "live") return;
+    const seen = await db.queryRow`
+      SELECT 1 AS seen FROM threads WHERE trigger = 'incident' AND incident_id = ${incidentId}`;
+    if (seen) return;
     const { incident } = await incidents.get({ id: incidentId });
     await openThread({
       title: `Triage #${incident.id}: ${incident.title}`,

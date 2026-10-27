@@ -1,7 +1,7 @@
 import { api, APIError } from "encore.dev/api";
 import { appMeta } from "encore.dev";
 import { db, json } from "./db";
-import { createAgent, mode, reapStale, startTurn, type Mode, type TurnEventKind } from "./runtime";
+import { checkPrompt, createAgent, mode, reapStale, startTurn, type Mode, type TurnEventKind } from "./runtime";
 import { recordedPrompts, type Recording } from "./replay";
 
 export type Trigger = "manual" | "incident" | "schedule";
@@ -68,6 +68,8 @@ export async function openThread(p: {
   trigger: Trigger;
   incidentId?: number;
 }): Promise<{ threadId: string; turnId: string }> {
+  // Checked first, so a prompt the desk can't answer leaves no empty thread.
+  checkPrompt(p.prompt);
   const threadId = await createAgent();
   await db.exec`
     INSERT INTO threads (id, title, trigger, incident_id)

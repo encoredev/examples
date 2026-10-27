@@ -77,16 +77,21 @@ The `CursorApiKey` secret decides how the desk behaves:
 
 - **Not set:** the UI explains how to add a key instead of failing.
 - **A real key:** the agent runs for real.
-- **The literal value `replay`:** the desk replays recorded runs instead of calling Cursor. This is how the public
-  demo runs without spending tokens on anyone's prompt. The recorded text and timing are replayed, and every tool
-  call runs again for real against the current data. Record new runs with `node scripts/record.mjs <threadId>...`
-  against a desk running with a real key.
+- **The literal value `replay`:** the desk replays recorded runs instead of calling Cursor, so it can be shown
+  without spending tokens on anyone's prompt. The recorded text and timing are replayed, and every tool call runs
+  again for real against the current data. Record runs with `node scripts/record.mjs <threadId>...` against a desk
+  running with a real key. With no recordings, `replay` counts as no key.
 
 ## Things to know
 
 - `@cursor/sdk` needs Node 22.13 or newer. `encore.app` pins `node:22-slim` as the image base for that reason.
-- One turn per thread runs at a time. If an instance dies mid-turn, the turn is marked interrupted after five quiet
-  minutes and the thread takes messages again.
+- **There is no authentication.** Anyone who can reach a deployed desk can read its threads, change incidents and
+  start turns on your Cursor key. Add an [auth handler](https://encore.dev/docs/ts/develop/auth) before you point it
+  at real systems or leave it running.
+- One turn per thread runs at a time, enforced by a unique index. The instance running a turn keeps a heartbeat on
+  it; if the instance dies mid-turn, the turn is marked interrupted two minutes later and the thread takes messages
+  again.
+- Pub/Sub delivers at least once, so each incident gets at most one triage thread.
 - The first message of each thread carries the agent's brief (`BRIEF` in `runtime.ts`). The SDK's `systemPrompt`
   option would be cleaner but is enabled per account.
 - Tool call arguments and results are recorded by wrapping the tools, not read from the SDK stream, whose tool
