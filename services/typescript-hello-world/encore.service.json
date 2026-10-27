@@ -1,6 +1,7 @@
 {
   "name": "{{name}}",
   "lang": "typescript",
+  "runtime": "bun",
   "dev": { "cmd": ["bun", "run", "start"] },
   "api": {
     "specs": [
