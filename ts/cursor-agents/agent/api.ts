@@ -1,4 +1,5 @@
 import { api, APIError } from "encore.dev/api";
+import { appMeta } from "encore.dev";
 import { db, json } from "./db";
 import { createAgent, mode, reapStale, startTurn, type Mode, type TurnEventKind } from "./runtime";
 import { recordedPrompts, type Recording } from "./replay";
@@ -207,13 +208,14 @@ export const stats = api(
   },
 );
 
-// Tells the UI which mode the desk is in, and in replay mode which prompts
-// have recordings.
+// Tells the UI which mode the desk is in, in replay mode which prompts have
+// recordings, and whether it runs locally rather than deployed.
 export const setup = api(
   { expose: true, method: "GET", path: "/setup" },
-  async (): Promise<{ mode: Mode; prompts: string[] }> => ({
+  async (): Promise<{ mode: Mode; prompts: string[]; local: boolean }> => ({
     mode: mode(),
     prompts: mode() === "replay" ? recordedPrompts() : [],
+    local: appMeta().environment.cloud === "local",
   }),
 );
 

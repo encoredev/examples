@@ -258,18 +258,20 @@ export namespace agent {
         }
 
         /**
-         * Tells the UI which mode the desk is in, and in replay mode which prompts
-         * have recordings.
+         * Tells the UI which mode the desk is in, in replay mode which prompts have
+         * recordings, and whether it runs locally rather than deployed.
          */
         public async setup(): Promise<{
     mode: Mode
     prompts: string[]
+    local: boolean
 }> {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI("GET", `/setup`)
             return await resp.json() as {
     mode: Mode
     prompts: string[]
+    local: boolean
 }
         }
 

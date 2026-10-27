@@ -21,6 +21,7 @@ export default function App() {
   const [sending, setSending] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [mode, setMode] = useState<Mode | null>(null);
+  const [local, setLocal] = useState(false);
   const [recorded, setRecorded] = useState<string[]>([]);
   const awaiting = useRef<number | null>(null);
   const input = useRef<HTMLTextAreaElement>(null);
@@ -46,6 +47,7 @@ export default function App() {
       .then((s) => {
         setMode(s.mode);
         setRecorded(s.prompts);
+        setLocal(s.local);
       })
       .catch(() => {});
   }, []);
@@ -104,7 +106,7 @@ export default function App() {
         stats={stats}
         activeId={activeId}
         onSelect={setActiveId}
-        showDeploy={mode === "replay" || mode === "setup"}
+        showDeploy={mode === "replay" || local}
       />
 
       <main className="main">
