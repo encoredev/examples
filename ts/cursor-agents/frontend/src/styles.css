@@ -480,7 +480,7 @@ button { cursor: pointer; }
   transition: opacity 0.15s;
 }
 .deploy:hover { opacity: 0.88; }
-.deploy-aws { height: 18px; width: auto; transform: translateY(3px); }
-.deploy-gcp { height: 14px; width: auto; }
+.deploy-aws { height: 14px; width: auto; transform: translateY(2px); }
+.deploy-gcp { height: 18px; width: auto; }
 .deploy-or { font-weight: 400; opacity: 0.6; }
 .deploy-arrow { margin-left: auto; font-size: 16px; }
