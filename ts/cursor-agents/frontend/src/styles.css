@@ -436,7 +436,8 @@ button { cursor: pointer; }
 .setup-title { font-weight: 600; margin-bottom: 8px; }
 .setup ol { margin: 0; padding-left: 20px; color: var(--text-2); line-height: 1.7; }
 .setup a { color: var(--orange); }
-.setup-text { margin: 0 0 14px; color: var(--text-2); font-size: 14px; line-height: 1.55; }
+/* Beats `.welcome p`, which would zero the margin and narrow the line. */
+.setup .setup-text { margin: 0 0 18px; max-width: none; color: var(--text-2); font-size: 14px; line-height: 1.55; }
 .key-row { display: flex; gap: 8px; }
 .key-input {
   flex: 1;
