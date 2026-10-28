@@ -49,7 +49,8 @@ const options = (apiKey: string, tools: Record<string, SDKCustomTool>) => ({
 // Cursor's errors arrive as raw JSON from its API. The common key problems get
 // one plain sentence; anything else keeps the detail Cursor gave, if any.
 const keyError = (err: unknown) => {
-  const raw = err instanceof Error ? err.message : String(err);
+  const raw =
+    typeof err === "object" && err !== null && "message" in err ? String(err.message) : String(err);
   if (raw.includes("cli:session")) {
     return "This Cursor API key can't run agents in your own service: it's missing the cli:session scope. Create a user API key at cursor.com/dashboard/api and use that instead.";
   }
