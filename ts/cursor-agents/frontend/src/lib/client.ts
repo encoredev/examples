@@ -33,7 +33,7 @@ const BROWSER = typeof globalThis === "object" && ("window" in globalThis);
  */
 export default class Client {
     public readonly agent: agent.ServiceClient
-    public readonly incidents: incidents.ServiceClient
+    public readonly notes: notes.ServiceClient
     public readonly web: web.ServiceClient
     private readonly options: ClientOptions
     private readonly target: string
@@ -50,7 +50,7 @@ export default class Client {
         this.options = options ?? {}
         const base = new BaseClient(this.target, this.options)
         this.agent = new agent.ServiceClient(base)
-        this.incidents = new incidents.ServiceClient(base)
+        this.notes = new notes.ServiceClient(base)
         this.web = new web.ServiceClient(base)
     }
 
@@ -83,38 +83,17 @@ export interface ClientOptions {
 }
 
 /**
- * Hosts the on-call agent. The Cursor SDK runs the agent loop inside this
- * service's process; Encore provides the database, secrets, Pub/Sub and cron
- * around it, and provisions all of it in your own AWS or GCP account.
+ * Hosts the agent. The Cursor SDK runs the agent loop inside this service's
+ * process; Encore provides the database around it and provisions it, with the
+ * rest of the app, in your own AWS or GCP account.
  */
 export namespace agent {
-    export interface DeskStats {
+    export interface ChatStats {
         threads: number
         turns: number
         toolCalls: number
         totalTokens: number
         running: number
-    }
-
-    /**
-     * The desk runs in one of three modes, all decided by the CursorApiKey secret:
-     * setup:  no key yet. The UI shows how to add one instead of failing.
-     * replay: the key is the literal string "replay". Used by the public demo,
-     * which replays recorded runs (see replay.ts) instead of spending
-     * tokens on strangers' prompts.
-     * live:   a real key. The agent runs for real.
-     */
-    export type Mode = "setup" | "replay" | "live"
-
-    export interface RecordedEvent {
-        kind: "prompt" | "text" | "thinking" | "tool" | "done"
-        data: any
-        ms: number
-    }
-
-    export interface Recording {
-        prompt: string
-        events: RecordedEvent[]
     }
 
     export interface StreamHandshake {
@@ -127,14 +106,10 @@ export namespace agent {
     export interface Thread {
         id: string
         title: string
-        trigger: Trigger
-        incidentId: number | null
         status: TurnStatus | null
         createdAt: string
         updatedAt: string
     }
-
-    export type Trigger = "manual" | "incident" | "schedule"
 
     export interface Turn {
         id: string
@@ -176,7 +151,6 @@ export namespace agent {
             this.create = this.create.bind(this)
             this.get = this.get.bind(this)
             this.list = this.list.bind(this)
-            this.recording = this.recording.bind(this)
             this.send = this.send.bind(this)
             this.setup = this.setup.bind(this)
             this.stats = this.stats.bind(this)
@@ -184,16 +158,27 @@ export namespace agent {
         }
 
         /**
-         * Starts a new conversation with the on-call agent.
+         * Starts a new conversation: a new Cursor agent, and its first message.
          */
         public async create(params: {
+    key?: string
     prompt: string
 }): Promise<{
     threadId: string
     turnId: string
 }> {
+            // Convert our params into the objects we need for the request
+            const headers = makeRecord<string, string>({
+                "x-cursor-key": params.key,
+            })
+
+            // Construct the body with only the fields which we want encoded within the body (excluding query string or header fields)
+            const body: Record<string, any> = {
+                prompt: params.prompt,
+            }
+
             // Now make the actual call to the API
-            const resp = await this.baseClient.callTypedAPI("POST", `/threads`, JSON.stringify(params))
+            const resp = await this.baseClient.callTypedAPI("POST", `/threads`, JSON.stringify(body), {headers})
             return await resp.json() as {
     threadId: string
     turnId: string
@@ -229,62 +214,54 @@ export namespace agent {
         }
 
         /**
-         * Exports a thread as recordings, one per turn, for replay mode. Offsets are
-         * measured from each turn's prompt.
-         */
-        public async recording(id: string): Promise<{
-    recordings: Recording[]
-}> {
-            // Now make the actual call to the API
-            const resp = await this.baseClient.callTypedAPI("GET", `/threads/${encodeURIComponent(id)}/recording`)
-            return await resp.json() as {
-    recordings: Recording[]
-}
-        }
-
-        /**
          * Sends a follow-up message to an existing thread.
          */
         public async send(id: string, params: {
+    key?: string
     prompt: string
 }): Promise<{
     turnId: string
 }> {
+            // Convert our params into the objects we need for the request
+            const headers = makeRecord<string, string>({
+                "x-cursor-key": params.key,
+            })
+
+            // Construct the body with only the fields which we want encoded within the body (excluding query string or header fields)
+            const body: Record<string, any> = {
+                prompt: params.prompt,
+            }
+
             // Now make the actual call to the API
-            const resp = await this.baseClient.callTypedAPI("POST", `/threads/${encodeURIComponent(id)}/messages`, JSON.stringify(params))
+            const resp = await this.baseClient.callTypedAPI("POST", `/threads/${encodeURIComponent(id)}/messages`, JSON.stringify(body), {headers})
             return await resp.json() as {
     turnId: string
 }
         }
 
         /**
-         * Tells the UI which mode the desk is in, in replay mode which prompts have
-         * recordings, and where it runs: the app's ID for dashboard links, and its
-         * cloud ("local", "encore" for Encore Cloud hosting, "aws" or "gcp").
+         * Tells the UI where the app runs: its ID for dashboard links, and its cloud
+         * ("local", "encore" for Encore Cloud hosting, "aws" or "gcp").
          */
         public async setup(): Promise<{
-    mode: Mode
-    prompts: string[]
     appId: string
     cloud: string
 }> {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI("GET", `/setup`)
             return await resp.json() as {
-    mode: Mode
-    prompts: string[]
     appId: string
     cloud: string
 }
         }
 
         /**
-         * Desk-wide counters for the sidebar.
+         * App-wide counters for the sidebar.
          */
-        public async stats(): Promise<DeskStats> {
+        public async stats(): Promise<ChatStats> {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI("GET", `/stats`)
-            return await resp.json() as DeskStats
+            return await resp.json() as ChatStats
         }
 
         /**
@@ -305,175 +282,37 @@ export namespace agent {
 }
 
 /**
- * The system the on-call agent works on: incidents, their timelines, and the
- * deploys that might have caused them. Plain Encore APIs over Postgres, so the
- * agent's tools are just typed calls into this service.
+ * Notes the agent keeps for you. Its own service and database, which the agent
+ * reaches through typed API calls like any other part of the app.
  */
-export namespace incidents {
-    export interface Deploy {
-        id: number
-        service: string
-        commitSha: string
-        message: string
-        author: string
-        deployedAt: string
-    }
-
-    export interface Incident {
+export namespace notes {
+    export interface Note {
         id: number
         title: string
-        service: string
-        severity: Severity
-        status: Status
-        summary: string
-        openedAt: string
-        updatedAt: string
-    }
-
-    export interface IncidentUpdate {
-        id: number
-        author: string
         body: string
         createdAt: string
+        updatedAt: string
     }
-
-    export interface MetricPoint {
-        minute: string
-        p95Ms: number
-        errorRate: number
-        rps: number
-    }
-
-    export interface OpenParams {
-        title: string
-        service: string
-        severity: Severity
-        summary: string
-    }
-
-    export type Severity = "sev1" | "sev2" | "sev3"
-
-    export type Status = "open" | "investigating" | "mitigated" | "resolved"
 
     export class ServiceClient {
         private baseClient: BaseClient
 
         constructor(baseClient: BaseClient) {
             this.baseClient = baseClient
-            this.addUpdate = this.addUpdate.bind(this)
-            this.deploys = this.deploys.bind(this)
-            this.get = this.get.bind(this)
             this.list = this.list.bind(this)
-            this.metrics = this.metrics.bind(this)
-            this.open = this.open.bind(this)
-            this.setStatus = this.setStatus.bind(this)
         }
 
         /**
-         * Appends a note to an incident's timeline.
+         * Lists notes, most recently changed first. The UI shows these beside the chat.
          */
-        public async addUpdate(id: number, params: {
-    author: string
-    body: string
-}): Promise<IncidentUpdate> {
-            // Now make the actual call to the API
-            const resp = await this.baseClient.callTypedAPI("POST", `/incidents/${encodeURIComponent(id)}/updates`, JSON.stringify(params))
-            return await resp.json() as IncidentUpdate
-        }
-
-        /**
-         * Lists recent deploys, optionally for one service.
-         */
-        public async deploys(params: {
-    service?: string
-}): Promise<{
-    deploys: Deploy[]
-}> {
-            // Convert our params into the objects we need for the request
-            const query = makeRecord<string, string | string[]>({
-                service: params.service,
-            })
-
-            // Now make the actual call to the API
-            const resp = await this.baseClient.callTypedAPI("GET", `/deploys`, undefined, {query})
-            return await resp.json() as {
-    deploys: Deploy[]
-}
-        }
-
-        /**
-         * Returns one incident with its timeline.
-         */
-        public async get(id: number): Promise<{
-    incident: Incident
-    updates: IncidentUpdate[]
+        public async list(): Promise<{
+    notes: Note[]
 }> {
             // Now make the actual call to the API
-            const resp = await this.baseClient.callTypedAPI("GET", `/incidents/${encodeURIComponent(id)}`)
+            const resp = await this.baseClient.callTypedAPI("GET", `/notes`)
             return await resp.json() as {
-    incident: Incident
-    updates: IncidentUpdate[]
+    notes: Note[]
 }
-        }
-
-        /**
-         * Lists incidents, most recently updated first.
-         */
-        public async list(params: {
-    status?: Status
-}): Promise<{
-    incidents: Incident[]
-}> {
-            // Convert our params into the objects we need for the request
-            const query = makeRecord<string, string | string[]>({
-                status: params.status === undefined ? undefined : String(params.status),
-            })
-
-            // Now make the actual call to the API
-            const resp = await this.baseClient.callTypedAPI("GET", `/incidents`, undefined, {query})
-            return await resp.json() as {
-    incidents: Incident[]
-}
-        }
-
-        /**
-         * Returns per-minute latency, error rate and throughput for a service.
-         */
-        public async metrics(service: string, params: {
-    minutes?: number
-}): Promise<{
-    points: MetricPoint[]
-}> {
-            // Convert our params into the objects we need for the request
-            const query = makeRecord<string, string | string[]>({
-                minutes: params.minutes === undefined ? undefined : String(params.minutes),
-            })
-
-            // Now make the actual call to the API
-            const resp = await this.baseClient.callTypedAPI("GET", `/metrics/${encodeURIComponent(service)}`, undefined, {query})
-            return await resp.json() as {
-    points: MetricPoint[]
-}
-        }
-
-        /**
-         * Opens an incident and announces it on the incident-opened topic.
-         */
-        public async open(params: OpenParams): Promise<Incident> {
-            // Now make the actual call to the API
-            const resp = await this.baseClient.callTypedAPI("POST", `/incidents`, JSON.stringify(params))
-            return await resp.json() as Incident
-        }
-
-        /**
-         * Moves an incident to a new status.
-         */
-        public async setStatus(id: number, params: {
-    status: Status
-}): Promise<Incident> {
-            // Now make the actual call to the API
-            const resp = await this.baseClient.callTypedAPI("POST", `/incidents/${encodeURIComponent(id)}/status`, JSON.stringify(params))
-            return await resp.json() as Incident
         }
     }
 }

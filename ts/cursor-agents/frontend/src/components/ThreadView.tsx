@@ -173,7 +173,7 @@ export default function ThreadView(props: {
           return (
             <section className="turn" key={turn.id}>
               <div className="prompt">
-                <div className="avatar">{thread.trigger === "manual" ? "Y" : thread.trigger === "incident" ? "⚑" : "◷"}</div>
+                <div className="avatar">Y</div>
                 <div className="prompt-text">{turn.prompt}</div>
               </div>
               <div className="agent-body">

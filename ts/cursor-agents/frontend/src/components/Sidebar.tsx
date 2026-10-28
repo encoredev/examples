@@ -6,18 +6,11 @@ import type { agent } from "../lib/client";
 // What this app runs on. Every row is declared in the code and provisioned by
 // Encore in your own AWS or GCP account; nothing here is a hosted service.
 const INFRA = [
-  { name: "agent", kind: "Postgres" },
-  { name: "incidents", kind: "Postgres" },
-  { name: "incident-opened", kind: "Pub/Sub" },
-  { name: "morning-handoff", kind: "Cron" },
-  { name: "CursorApiKey", kind: "Secret" },
+  { name: "agent", kind: "Service" },
+  { name: "notes", kind: "Service" },
+  { name: "agent db", kind: "Postgres" },
+  { name: "notes db", kind: "Postgres" },
 ];
-
-const TriggerIcon = ({ trigger }: { trigger: Thread["trigger"] }) => (
-  <span className="thread-meta" title={trigger} style={{ width: 18, textAlign: "center" }}>
-    {trigger === "incident" ? "⚑" : trigger === "schedule" ? "◷" : "›"}
-  </span>
-);
 
 // A single isometric cube, the same three tones as the field.
 const Cube = () => (
@@ -33,7 +26,7 @@ const fmt = (n: number) => (n >= 1e6 ? `${(n / 1e6).toFixed(1)}M` : n >= 1e4 ? `
 export default function Sidebar(props: {
   field: RefObject<BlockFieldHandle>;
   threads: Thread[];
-  stats: agent.DeskStats | null;
+  stats: agent.ChatStats | null;
   activeId: string | null;
   onSelect(id: string | null): void;
 }) {
@@ -43,7 +36,7 @@ export default function Sidebar(props: {
       <div className="sidebar-hero">
         <BlockField ref={field} />
         <div className="brand">
-          <span className="brand-name">On-call Desk</span>
+          <span className="brand-name">Notes Agent</span>
         </div>
       </div>
 
@@ -71,7 +64,7 @@ export default function Sidebar(props: {
         {threads.length === 0 && <div className="empty-threads">Nothing yet. Ask the agent something.</div>}
         {threads.map((t) => (
           <button key={t.id} className={`thread ${t.id === activeId ? "active" : ""}`} onClick={() => onSelect(t.id)}>
-            <TriggerIcon trigger={t.trigger} />
+            <span className="thread-meta" style={{ width: 18, textAlign: "center" }}>›</span>
             <span className="thread-title">{t.title}</span>
             <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <span className="thread-meta">{ago(t.updatedAt)}</span>

@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import type { Mode } from "../lib/api";
 
 const DASHBOARD = "https://app.encore.dev";
 
@@ -34,17 +33,17 @@ const Step = (props: { n: number; title: string; done?: string; children?: React
   </li>
 );
 
-// What to do with your own copy of the desk: add the key, move it into your
-// own AWS or GCP, and change it into the agent you need. Steps that are
+// What to do with your own copy of the app: add a key, move it into your own
+// AWS or GCP, and change it into the agent you need. Steps that are
 // already done say so. Opens on the first visit; the topbar reopens it.
 export default function About(props: {
   open: boolean;
   onClose(): void;
-  mode: Mode | null;
+  hasKey: boolean;
   appId: string;
   cloud: string;
 }) {
-  const { open, onClose, mode, appId, cloud } = props;
+  const { open, onClose, hasKey, appId, cloud } = props;
   const ref = useRef<HTMLDialogElement>(null);
   const close = useRef<HTMLButtonElement>(null);
   const local = cloud === "local";
@@ -71,52 +70,39 @@ export default function About(props: {
       onClick={(e) => e.target === ref.current && onClose()}
     >
       <div className="about-body">
-        <h2>Your On-call Desk</h2>
+        <h2>Notes Agent</h2>
         <p className="about-lead">
-          This is your own copy of an example agent built with the Cursor SDK and Encore. It triages incidents: it
-          reads them, checks recent deploys and metrics with its tools, and posts what it finds. The agent, its
-          Postgres, Pub/Sub topic and cron job are all declared in this one Encore app.
+          This is your own copy of an example agent built with the Cursor SDK and Encore. It keeps notes for you: tell
+          it something worth remembering, or ask what you saved. The agent loop runs inside an Encore service, its
+          tools call a notes service, and both keep their data in Postgres.
         </p>
 
-        {/* No auth: deployed, every endpoint is public. Said up front, in red,
-            so nobody leaves a copy running on their key without knowing. */}
+        {/* No auth: deployed, every endpoint is public. The Cursor key stays in
+            each visitor's browser, so the open risk is reading, not spending. */}
         <div className="about-warn" role="alert">
-          <strong>{local ? "Deployed, this app is public." : "This app is public."}</strong>{" "}
-          It has no login, so anyone with its URL can chat with the agent on your Cursor key, read its threads and
-          change incidents. Add{" "}
+          <strong>{local ? "Deployed, this app is public." : "This app is public."}</strong> It has no login, so
+          anyone with its URL can read its conversations and notes. Your Cursor key stays in your browser, so they
+          can't use it. Add{" "}
           <a href="https://encore.dev/docs/ts/develop/auth" target="_blank" rel="noreferrer">
             authentication
           </a>{" "}
-          before you leave it running or connect it to real systems.
+          before you save anything private.
         </div>
 
         <ol className="about-steps">
           <Step
             n={1}
             title="Add your Cursor API key"
-            done={mode === "live" ? "The agent has its key and runs for real." : undefined}
+            done={hasKey ? "Your key is saved in this browser." : undefined}
           >
             <p>
               Create one at{" "}
               <a href="https://cursor.com/dashboard/api" target="_blank" rel="noreferrer">
                 cursor.com/dashboard/api
-              </a>
-              . {mode === "replay" ? "Until then the desk replays recorded runs." : "The agent needs it to run."}
+              </a>{" "}
+              and paste it into the box on the start screen. It stays in this browser and goes with each message;
+              the app never stores it.
             </p>
-            {local ? (
-              <>
-                <Command text="encore secret set --type dev,local CursorApiKey" />
-                <p>Then restart <code>encore run</code>.</p>
-              </>
-            ) : (
-              <p>
-                Add it as <code>CursorApiKey</code> under{" "}
-                <a href={`${app}/secrets`} target="_blank" rel="noreferrer">
-                  Secrets
-                </a>{" "}
-                in the Encore dashboard, then redeploy.
-              </p>
-            )}
           </Step>
 
           <Step
@@ -129,8 +115,8 @@ export default function About(props: {
             }
           >
             <p>
-              Connect your AWS or GCP account and create an environment in it. Encore provisions the agent's databases,
-              Pub/Sub topic, cron job and secret there, and redeploys on every push.
+              Connect your AWS or GCP account and create an environment in it. Encore provisions both services and
+              their databases there, and redeploys on every push.
             </p>
             <a className="about-link" href={`${app}/envs/create`} target="_blank" rel="noreferrer">
               Create an environment →
@@ -145,15 +131,15 @@ export default function About(props: {
               </>
             )}
             <p>
-              Change the tools in <code>agent/tools.ts</code> and the brief in <code>agent/runtime.ts</code> into the
-              agent your team needs, then <code>git push encore</code> to deploy it.
+              Point the tools in <code>agent/tools.ts</code> at your own services and rewrite the brief in{" "}
+              <code>agent/runtime.ts</code>, then <code>git push encore</code> to deploy it.
             </p>
           </Step>
         </ol>
 
         <div className="about-foot">
           <button ref={close} className="about-close" onClick={onClose}>
-            Explore the desk
+            Explore the app
           </button>
         </div>
       </div>

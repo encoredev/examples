@@ -1,68 +1,67 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import ThreadView from "./components/ThreadView";
-import IncidentRail from "./components/IncidentRail";
+import NotesRail from "./components/NotesRail";
 import About from "./components/About";
+import KeyForm from "./components/KeyForm";
 import type { BlockFieldHandle } from "./components/BlockField";
-import { api, errorMessage, type Mode, type Thread } from "./lib/api";
+import { api, errorMessage, type Thread } from "./lib/api";
 import type { agent } from "./lib/client";
 
 // Set once the visitor closes the About dialog, so it opens only on a first
 // visit.
-const ABOUT_SEEN = "oncall-desk:about-seen";
+const ABOUT_SEEN = "notes-agent:about-seen";
+// The visitor's own Cursor API key. It lives only in this browser.
+const KEY = "notes-agent:cursor-key";
 
-const seenAbout = () => {
+const load = (k: string) => {
   try {
-    return localStorage.getItem(ABOUT_SEEN) === "1";
+    return localStorage.getItem(k);
   } catch {
-    return false;
+    return null;
+  }
+};
+const store = (k: string, v: string | null) => {
+  try {
+    if (v === null) localStorage.removeItem(k);
+    else localStorage.setItem(k, v);
+  } catch {
+    // Private mode: it lasts until the page closes.
   }
 };
 
 const SUGGESTIONS = [
-  "Why is checkout slow right now? Check the recent deploys.",
-  "Go through every open incident and post a status update on each.",
-  "Write a handoff for the next on-call: what is open and what to check first.",
+  "Remember that the team offsite is on March 12 in Lisbon.",
+  "What have I saved so far?",
+  "Turn my notes into a short to-do list.",
 ];
 
 export default function App() {
   const field = useRef<BlockFieldHandle>(null);
   const [threads, setThreads] = useState<Thread[]>([]);
-  const [stats, setStats] = useState<agent.DeskStats | null>(null);
+  const [stats, setStats] = useState<agent.ChatStats | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
-  const [mode, setMode] = useState<Mode | null>(null);
   const [where, setWhere] = useState({ appId: "", cloud: "" });
-  const [recorded, setRecorded] = useState<string[]>([]);
+  const [key, setKey] = useState<string | null>(() => load(KEY));
+  const [editingKey, setEditingKey] = useState(false);
   const [about, setAbout] = useState(false);
-  const awaiting = useRef<number | null>(null);
   const input = useRef<HTMLTextAreaElement>(null);
 
   const refresh = useCallback(async () => {
     const [{ threads }, s] = await Promise.all([api.agent.list(), api.agent.stats()]);
     setThreads(threads);
     setStats(s);
-    // A test incident was opened: jump to its triage thread once Pub/Sub has
-    // delivered it and the agent service has started the run.
-    if (awaiting.current !== null) {
-      const t = threads.find((x) => x.incidentId === awaiting.current);
-      if (t) {
-        awaiting.current = null;
-        setActiveId(t.id);
-      }
-    }
   }, []);
 
   useEffect(() => {
     api.agent
       .setup()
       .then((s) => {
-        setMode(s.mode);
-        setRecorded(s.prompts);
         setWhere({ appId: s.appId, cloud: s.cloud });
-        if (!seenAbout()) setAbout(true);
+        if (load(ABOUT_SEEN) !== "1") setAbout(true);
       })
       .catch(() => {});
   }, []);
@@ -89,27 +88,28 @@ export default function App() {
 
   const closeAbout = () => {
     setAbout(false);
-    try {
-      localStorage.setItem(ABOUT_SEEN, "1");
-    } catch {
-      // Private mode: it opens again next visit.
-    }
+    store(ABOUT_SEEN, "1");
+  };
+
+  const saveKey = (k: string | null) => {
+    store(KEY, k);
+    setKey(k);
+    setEditingKey(false);
   };
 
   const active = threads.find((t) => t.id === activeId) ?? null;
   const busy = active?.status === "running";
-  const suggestions = mode === "replay" && recorded.length > 0 ? recorded : SUGGESTIONS;
 
   const submit = async (text = draft) => {
     const prompt = text.trim();
-    if (!prompt || sending) return;
+    if (!prompt || sending || !key) return;
     setSending(true);
     setNotice(null);
     try {
       if (active) {
-        await api.agent.send(active.id, { prompt });
+        await api.agent.send(active.id, { prompt, key });
       } else {
-        const { threadId } = await api.agent.create({ prompt });
+        const { threadId } = await api.agent.create({ prompt, key });
         setActiveId(threadId);
       }
       setDraft("");
@@ -136,6 +136,17 @@ export default function App() {
         <header className="topbar">
           <span className="topbar-title">{active ? active.title : "New thread"}</span>
           <span className="spacer" />
+          {key && (
+            <button
+              className="topbar-link"
+              onClick={() => {
+                setActiveId(null);
+                setEditingKey(true);
+              }}
+            >
+              Change key
+            </button>
+          )}
           <button className="topbar-link" onClick={() => setAbout(true)}>
             About this app
           </button>
@@ -146,35 +157,16 @@ export default function App() {
         ) : (
           <div className="scroll">
             <div className="welcome">
-              <h1>An on-call agent that runs in your own cloud.</h1>
+              <h1>A notes agent that runs in your own cloud.</h1>
               <p>
-                The agent loop runs inside an Encore service. Its tools call your APIs, its memory lives in your
-                Postgres, and Pub/Sub and Cron put it to work without anyone asking.
+                The agent loop runs inside an Encore service. Its tools are typed calls to a notes service, and its
+                conversations and your notes live in your Postgres.
               </p>
-              {mode === "setup" ? (
-                <div className="setup">
-                  <div className="setup-title">Add a Cursor API key to start</div>
-                  <ol>
-                    <li>
-                      Create a key at{" "}
-                      <a href="https://cursor.com/dashboard/api" target="_blank" rel="noreferrer">
-                        cursor.com/dashboard/api
-                      </a>
-                      .
-                    </li>
-                    <li>
-                      Running locally: <code>encore secret set --type dev,local CursorApiKey</code>, then restart{" "}
-                      <code>encore run</code>.
-                    </li>
-                    <li>
-                      Deployed: add <code>CursorApiKey</code> under Settings → Secrets in the Encore Cloud dashboard
-                      and redeploy.
-                    </li>
-                  </ol>
-                </div>
+              {!key || editingKey ? (
+                <KeyForm onSave={saveKey} onCancel={key ? () => setEditingKey(false) : undefined} />
               ) : (
                 <div className="suggestions">
-                  {suggestions.map((prompt) => (
+                  {SUGGESTIONS.map((prompt) => (
                     <button key={prompt} className="suggestion" onClick={() => submit(prompt)}>
                       {prompt}
                     </button>
@@ -187,22 +179,13 @@ export default function App() {
 
         <div className="composer-wrap">
           {notice && <div className="notice">{notice}</div>}
-          {mode === "replay" && (
-            <div className="demo-note">
-              The desk replays recorded runs, and the tool calls run for real.{" "}
-              <button className="link" onClick={() => setAbout(true)}>
-                Add your Cursor API key
-              </button>{" "}
-              to ask it anything.
-            </div>
-          )}
           <div className="composer">
             <textarea
               ref={input}
               rows={1}
               value={draft}
-              placeholder={active ? "Follow up…" : "Ask the on-call agent…"}
-              disabled={mode === "setup"}
+              placeholder={key ? (active ? "Follow up…" : "Ask the agent…") : "Add your Cursor API key to start"}
+              disabled={!key}
               onChange={(e) => setDraft(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
@@ -223,18 +206,9 @@ export default function App() {
         </div>
       </main>
 
-      <About open={about} onClose={closeAbout} mode={mode} appId={where.appId} cloud={where.cloud} />
+      <About open={about} onClose={closeAbout} hasKey={!!key} appId={where.appId} cloud={where.cloud} />
 
-      <IncidentRail
-        live={mode === "live"}
-        threads={threads}
-        onOpenThread={setActiveId}
-        onAwaitTriage={(id) => (awaiting.current = id)}
-        onAsk={(p) => {
-          setActiveId(null);
-          submit(p);
-        }}
-      />
+      <NotesRail />
     </div>
   );
 }

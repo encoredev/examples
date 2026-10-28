@@ -367,7 +367,7 @@ button { cursor: pointer; }
 }
 .suggestion:hover { border-color: var(--line-strong); color: var(--text); background: var(--surface-2); }
 
-/* ── Incident rail ─────────────────────────────────────────────────────── */
+/* ── Notes rail ────────────────────────────────────────────────────────── */
 .rail { display: flex; flex-direction: column; min-height: 0; border-left: 1px solid var(--line); background: var(--sunken); }
 .rail-head { display: flex; align-items: center; justify-content: space-between; height: 52px; padding: 0 16px; border-bottom: 1px solid var(--line); flex-shrink: 0; }
 .rail-title { font-weight: 500; }
@@ -381,31 +381,11 @@ button { cursor: pointer; }
 }
 .ghost:hover { color: var(--text); background: var(--surface); }
 .ghost:disabled { opacity: 0.4; cursor: default; }
-.incidents { flex: 1; min-height: 0; overflow-y: auto; padding: 10px; }
-.incident {
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-  margin-bottom: 8px;
-}
-.incident.resolved { opacity: 0.55; }
-.incident-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-.sev { font-family: var(--mono); font-size: 10.5px; padding: 1px 6px; border-radius: 4px; background: var(--surface-3); color: var(--text-2); }
-.sev.sev1 { background: rgba(240, 92, 72, 0.16); color: #f7a497; }
-.sev.sev2 { background: var(--orange-soft); color: var(--orange); }
-.status { margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--text-3); }
-.status.investigating { color: var(--yellow); }
-.status.mitigated { color: var(--green); }
-.incident-title { font-size: 13.5px; font-weight: 500; line-height: 1.35; }
-.incident-service { font-family: var(--mono); font-size: 11.5px; color: var(--text-3); margin-top: 2px; }
-.updates { margin-top: 10px; display: grid; gap: 8px; }
-.update { font-size: 12.5px; line-height: 1.45; color: var(--text-2); padding: 8px 10px; border-radius: 8px; background: var(--surface-3); }
-.update.agent { color: var(--text); animation: rise 0.4s ease both; }
-.update-author { display: block; font-family: var(--mono); font-size: 10.5px; color: var(--text-3); margin-bottom: 2px; }
-.update.agent .update-author { color: var(--orange); }
-.triage-link { margin-top: 10px; font-size: 12px; color: var(--orange); background: none; border: 0; padding: 0; }
-.triage-link:hover { text-decoration: underline; }
+.notes { flex: 1; min-height: 0; overflow-y: auto; padding: 10px; display: grid; align-content: start; gap: 8px; }
+.note { padding: 12px; border-radius: var(--radius); background: var(--surface); animation: rise 0.4s ease both; }
+.note-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.note-title { font-size: 13.5px; font-weight: 500; line-height: 1.35; }
+.note-body { margin-top: 4px; font-size: 12.5px; line-height: 1.5; color: var(--text-2); white-space: pre-wrap; }
 
 /* ── Block field (ported from encore.dev) ──────────────────────────────── */
 .block-field { position: relative; isolation: isolate; overflow: hidden; background: var(--ground); cursor: pointer; }
@@ -445,7 +425,7 @@ button { cursor: pointer; }
 @keyframes spawnTint { 0%, 40% { filter: sepia(1) saturate(2.4) hue-rotate(23deg) brightness(0.94); } 62%, 100% { filter: sepia(0) saturate(1) hue-rotate(0deg) brightness(1); } }
 @keyframes spawnTintB { 0%, 40% { filter: sepia(1) saturate(2.4) hue-rotate(23deg) brightness(0.94); } 62%, 100% { filter: sepia(0) saturate(1) hue-rotate(0deg) brightness(1); } }
 
-/* ── Setup, demo note ──────────────────────────────────────────────────── */
+/* ── Key form ─────────────────────────────────────────────────────────── */
 .setup {
   margin-top: 32px;
   padding: 18px 20px;
@@ -455,8 +435,32 @@ button { cursor: pointer; }
 }
 .setup-title { font-weight: 600; margin-bottom: 8px; }
 .setup ol { margin: 0; padding-left: 20px; color: var(--text-2); line-height: 1.7; }
-.setup a, .demo-note a, .demo-note .link { color: var(--orange); }
-.demo-note .link { padding: 0; border: 0; background: none; font: inherit; text-decoration: underline; cursor: pointer; }
+.setup a { color: var(--orange); }
+.setup-text { margin: 0 0 14px; color: var(--text-2); font-size: 14px; line-height: 1.55; }
+.key-row { display: flex; gap: 8px; }
+.key-input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--sunken);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 13px;
+  outline: none;
+}
+.key-input:focus { border-color: var(--text-3); }
+.key-save {
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--text);
+  color: var(--ground);
+  font-weight: 600;
+  cursor: pointer;
+}
+.key-save:disabled { opacity: 0.4; cursor: default; }
 .setup code {
   font-family: var(--mono);
   font-size: 12.5px;
@@ -465,7 +469,6 @@ button { cursor: pointer; }
   background: var(--surface-3);
   color: var(--text);
 }
-.demo-note { max-width: 760px; margin: 0 auto 10px; font-size: 12.5px; color: var(--text-3); }
 
 
 /* About dialog */

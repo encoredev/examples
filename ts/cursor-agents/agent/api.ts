@@ -1,17 +1,13 @@
-import { api, APIError } from "encore.dev/api";
+import { api, APIError, type Header } from "encore.dev/api";
 import { appMeta } from "encore.dev";
 import { db, json } from "./db";
-import { checkPrompt, createAgent, mode, reapStale, startTurn, type Mode, type TurnEventKind } from "./runtime";
-import { recordedPrompts, type Recording } from "./replay";
+import { createAgent, reapStale, startTurn, type TurnEventKind } from "./runtime";
 
-export type Trigger = "manual" | "incident" | "schedule";
 export type TurnStatus = "running" | "finished" | "error" | "cancelled";
 
 export interface Thread {
   id: string;
   title: string;
-  trigger: Trigger;
-  incidentId: number | null;
   status: TurnStatus | null;
   createdAt: Date;
   updatedAt: Date;
@@ -40,8 +36,6 @@ export interface Turn {
 interface ThreadRow {
   id: string;
   title: string;
-  trigger: Trigger;
-  incident_id: number | null;
   status: TurnStatus | null;
   created_at: Date;
   updated_at: Date;
@@ -50,8 +44,6 @@ interface ThreadRow {
 const toThread = (r: ThreadRow): Thread => ({
   id: r.id,
   title: r.title,
-  trigger: r.trigger,
-  incidentId: r.incident_id === null ? null : Number(r.incident_id),
   status: r.status,
   createdAt: r.created_at,
   updatedAt: r.updated_at,
@@ -61,29 +53,20 @@ const THREAD_SELECT = `
   SELECT t.*, (SELECT status FROM turns WHERE thread_id = t.id ORDER BY created_at DESC LIMIT 1) AS status
   FROM threads t`;
 
-// Opens a new thread (a new Cursor agent) and sends it its first message.
-export async function openThread(p: {
-  title: string;
-  prompt: string;
-  trigger: Trigger;
-  incidentId?: number;
-}): Promise<{ threadId: string; turnId: string }> {
-  // Checked first, so a prompt the desk can't answer leaves no empty thread.
-  checkPrompt(p.prompt);
-  const threadId = await createAgent();
-  await db.exec`
-    INSERT INTO threads (id, title, trigger, incident_id)
-    VALUES (${threadId}, ${p.title}, ${p.trigger}, ${p.incidentId ?? null})`;
-  const turnId = await startTurn(threadId, p.prompt);
-  return { threadId, turnId };
+// The sender's own Cursor API key, sent by the UI with every message. It is
+// used for that run and never stored.
+interface WithKey {
+  key?: Header<"X-Cursor-Key">;
 }
 
-// Starts a new conversation with the on-call agent.
+// Starts a new conversation: a new Cursor agent, and its first message.
 export const create = api(
   { expose: true, method: "POST", path: "/threads" },
-  async ({ prompt }: { prompt: string }): Promise<{ threadId: string; turnId: string }> => {
+  async ({ prompt, key }: WithKey & { prompt: string }): Promise<{ threadId: string; turnId: string }> => {
+    const threadId = await createAgent(key);
     const title = prompt.length > 64 ? `${prompt.slice(0, 61).trimEnd()}…` : prompt;
-    return openThread({ title, prompt, trigger: "manual" });
+    await db.exec`INSERT INTO threads (id, title) VALUES (${threadId}, ${title})`;
+    return { threadId, turnId: await startTurn(threadId, prompt, key) };
   },
 );
 
@@ -134,10 +117,10 @@ export const get = api(
 // Sends a follow-up message to an existing thread.
 export const send = api(
   { expose: true, method: "POST", path: "/threads/:id/messages" },
-  async ({ id, prompt }: { id: string; prompt: string }): Promise<{ turnId: string }> => {
+  async ({ id, prompt, key }: WithKey & { id: string; prompt: string }): Promise<{ turnId: string }> => {
     const exists = await db.queryRow`SELECT 1 AS ok FROM threads WHERE id = ${id}`;
     if (!exists) throw APIError.notFound("thread not found");
-    return { turnId: await startTurn(id, prompt) };
+    return { turnId: await startTurn(id, prompt, key) };
   },
 );
 
@@ -187,7 +170,7 @@ export const stream = api.streamOut<StreamHandshake, TurnEvent>(
   },
 );
 
-export interface DeskStats {
+export interface ChatStats {
   threads: number;
   turns: number;
   toolCalls: number;
@@ -195,11 +178,11 @@ export interface DeskStats {
   running: number;
 }
 
-// Desk-wide counters for the sidebar.
+// App-wide counters for the sidebar.
 export const stats = api(
   { expose: true, method: "GET", path: "/stats" },
-  async (): Promise<DeskStats> => {
-    const r = await db.queryRow<DeskStats>`
+  async (): Promise<ChatStats> => {
+    const r = await db.queryRow<ChatStats>`
       SELECT
         (SELECT count(*)::int FROM threads) AS threads,
         (SELECT count(*)::int FROM turns) AS turns,
@@ -210,39 +193,12 @@ export const stats = api(
   },
 );
 
-// Tells the UI which mode the desk is in, in replay mode which prompts have
-// recordings, and where it runs: the app's ID for dashboard links, and its
-// cloud ("local", "encore" for Encore Cloud hosting, "aws" or "gcp").
+// Tells the UI where the app runs: its ID for dashboard links, and its cloud
+// ("local", "encore" for Encore Cloud hosting, "aws" or "gcp").
 export const setup = api(
   { expose: true, method: "GET", path: "/setup" },
-  async (): Promise<{ mode: Mode; prompts: string[]; appId: string; cloud: string }> => ({
-    mode: mode(),
-    prompts: mode() === "replay" ? recordedPrompts() : [],
+  async (): Promise<{ appId: string; cloud: string }> => ({
     appId: appMeta().appId,
     cloud: appMeta().environment.cloud,
   }),
-);
-
-// Exports a thread as recordings, one per turn, for replay mode. Offsets are
-// measured from each turn's prompt.
-export const recording = api(
-  { expose: true, method: "GET", path: "/threads/:id/recording" },
-  async ({ id }: { id: string }): Promise<{ recordings: Recording[] }> => {
-    const rows = await db.rawQueryAll<{ turn_id: string; kind: TurnEventKind; data: any; at: Date }>(
-      `SELECT turn_id, kind, data, at FROM turn_events WHERE thread_id = $1 ORDER BY id`,
-      id,
-    );
-    const turns = new Map<string, Recording & { t0: number }>();
-    for (const row of rows) {
-      const r = { ...row, data: json(row.data) };
-      const at = new Date(r.at).getTime();
-      if (r.kind === "prompt") {
-        turns.set(r.turn_id, { prompt: r.data.text, events: [], t0: at });
-        continue;
-      }
-      const turn = turns.get(r.turn_id);
-      if (turn) turn.events.push({ kind: r.kind, data: r.data, ms: at - turn.t0 });
-    }
-    return { recordings: [...turns.values()].map(({ prompt, events }) => ({ prompt, events })) };
-  },
 );

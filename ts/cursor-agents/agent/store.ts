@@ -19,7 +19,7 @@ import { db, json } from "./db";
 //
 // Catalog lists load the matching rows and reuse the SDK's own pagination
 // helpers, so cursor semantics match the built-in stores exactly. That is fine
-// at desk scale; push the ordering into SQL if you expect thousands of agents.
+// at this scale; push the ordering into SQL if you expect thousands of agents.
 
 type Row<T> = { doc: T | string };
 

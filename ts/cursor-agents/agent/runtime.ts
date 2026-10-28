@@ -4,64 +4,53 @@ import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { Agent, type SDKAgent, type SDKCustomTool } from "@cursor/sdk";
 import { APIError } from "encore.dev/api";
-import { secret } from "encore.dev/config";
 import log from "encore.dev/log";
 import { db } from "./db";
 import { postgresAgentStore } from "./store";
-import { deskTools } from "./tools";
-import { findRecording, replayTurn } from "./replay";
-import { RECORDINGS } from "./recordings";
+import { agentTools } from "./tools";
 
 // Where the Cursor agent loop runs: right here, in this service's process.
 // Inference goes to Cursor's hosted models; everything else (tool calls,
 // conversation state, the data the tools touch) stays in your cloud account.
+//
+// There is no server-side key. Each message carries the sender's own Cursor API
+// key (the UI keeps it in the browser), and it is used for that run only and
+// never stored. Someone who finds a deployed app's URL can't spend your key.
 
-const cursorApiKey = secret("CursorApiKey");
-
-// The desk runs in one of three modes, all decided by the CursorApiKey secret:
-//   setup:  no key yet. The UI shows how to add one instead of failing.
-//   replay: the key is the literal string "replay". The desk replays recorded
-//           runs (see replay.ts) instead of calling the model, so it can be
-//           shown without spending tokens. With no recordings there is nothing
-//           to replay, so it counts as setup.
-//   live:   a real key. The agent runs for real.
-export type Mode = "setup" | "replay" | "live";
-export const mode = (): Mode => {
-  const key = cursorApiKey().trim();
-  if (key === "replay") return RECORDINGS.length > 0 ? "replay" : "setup";
-  return key === "" ? "setup" : "live";
-};
-
-const NO_KEY = "No Cursor API key yet. Add one as the CursorApiKey secret, then send this again.";
+const NO_KEY = "Add your Cursor API key to send messages.";
 
 const MODEL = { id: "composer-2.5" };
 
 // The agent never touches the filesystem (it only gets the MCP tool family),
 // but the SDK still wants a working directory to scope its sessions.
-const WORKSPACE = join(tmpdir(), "oncall-desk");
+const WORKSPACE = join(tmpdir(), "notes-agent");
 mkdirSync(WORKSPACE, { recursive: true });
 
 // Sent with the first turn of every thread. Kept in code rather than in the
 // replaceable system prompt, which is gated per account.
-const BRIEF = `You are the on-call engineer for an online store. You work through the
-tools you have been given and nothing else.
+const BRIEF = `You are a notes assistant. You keep the user's notes with the tools you
+have been given and nothing else.
 
 How you work:
-- Start from the incident itself, then look for a cause: recent deploys to the
-  affected service, and its metrics before and after each suspect deploy.
-- Say what the evidence shows, with numbers. If it is inconclusive, say so.
-- When you have looked at an open incident, set it to investigating and post a
-  short timeline update with your finding and a recommended next step.
-- Never resolve incidents and never suggest you ran anything you did not run.
+- When the user tells you something worth keeping, save it as a note with a
+  short, specific title. Update an existing note rather than adding a near copy.
+- When they ask about something, search the notes first and answer from them.
+  Say so if nothing matches; never make up a note.
 
 Reply in short paragraphs or a few bullets. No headings.`;
 
-const options = (tools: Record<string, SDKCustomTool>) => ({
-  apiKey: cursorApiKey(),
+const options = (apiKey: string, tools: Record<string, SDKCustomTool>) => ({
+  apiKey,
   model: MODEL,
   tools: ["mcp"],
   local: { cwd: WORKSPACE, store: postgresAgentStore, customTools: tools },
 });
+
+const requireKey = (apiKey: string | undefined) => {
+  const key = apiKey?.trim();
+  if (!key) throw APIError.failedPrecondition(NO_KEY);
+  return key;
+};
 
 // A turn's run lives in the process that started it, which bumps the turn's
 // heartbeat while it runs. If that process dies (a deploy, a crash), the
@@ -84,9 +73,10 @@ export const reapStale = () =>
   );
 void reapStale().catch((err) => log.error(err, "reaping stale turns failed"));
 
-// Live SDK handles, keyed by thread (= Cursor agent) id. Any instance can
-// rebuild one from Postgres with Agent.resume, so this is only a cache.
-const live = new Map<string, SDKAgent>();
+// Live SDK handles, keyed by thread (= Cursor agent) id, with the key each was
+// opened with. Any instance can rebuild one from Postgres with Agent.resume,
+// so this is only a cache; a message with a different key reopens it.
+const live = new Map<string, { key: string; agent: SDKAgent }>();
 
 export type TurnEventKind = "prompt" | "text" | "thinking" | "tool" | "done";
 
@@ -96,7 +86,7 @@ export async function record(threadId: string, turnId: string, kind: TurnEventKi
     VALUES (${threadId}, ${turnId}, ${kind}, ${JSON.stringify(data)}::text::jsonb)`;
 }
 
-// Wraps every desk tool so each call lands in the thread's event stream with
+// Wraps every agent tool so each call lands in the thread's event stream with
 // a clean name, its arguments and its result. The UI renders these, and the
 // sidebar's block field grows a stack for each one. `before` runs first so any
 // buffered text is written ahead of the tool event.
@@ -106,7 +96,7 @@ function instrument(
   before: () => Promise<void>,
 ): Record<string, SDKCustomTool> {
   return Object.fromEntries(
-    Object.entries(deskTools).map(([name, tool]) => [
+    Object.entries(agentTools).map(([name, tool]) => [
       name,
       {
         ...tool,
@@ -138,42 +128,34 @@ function instrument(
 }
 
 // Creates a new Cursor agent and returns its id, which doubles as the thread id.
-export async function createAgent(): Promise<string> {
-  const m = mode();
-  if (m === "setup") throw APIError.failedPrecondition(NO_KEY);
-  if (m === "replay") return `demo-${randomUUID()}`;
-  const agent = await Agent.create(options(deskTools));
-  live.set(agent.agentId, agent);
+export async function createAgent(apiKey: string | undefined): Promise<string> {
+  const key = requireKey(apiKey);
+  let agent: SDKAgent;
+  try {
+    agent = await Agent.create(options(key, agentTools));
+  } catch (err) {
+    // Almost always the key: wrong, revoked, or missing a scope.
+    const reason = err instanceof Error ? err.message : String(err);
+    throw APIError.permissionDenied(`Cursor didn't accept the API key: ${reason}`);
+  }
+  live.set(agent.agentId, { key, agent });
   return agent.agentId;
 }
 
-async function getAgent(threadId: string): Promise<SDKAgent> {
+async function getAgent(threadId: string, key: string): Promise<SDKAgent> {
   const cached = live.get(threadId);
-  if (cached) return cached;
-  const agent = await Agent.resume(threadId, options(deskTools));
-  live.set(threadId, agent);
+  if (cached?.key === key) return cached.agent;
+  const agent = await Agent.resume(threadId, options(key, agentTools));
+  live.set(threadId, { key, agent });
   return agent;
-}
-
-// Checks that the desk can answer this prompt, before anything is written:
-// it needs a key, and in replay mode a recording of the prompt.
-export function checkPrompt(prompt: string) {
-  const m = mode();
-  if (m === "setup") throw APIError.failedPrecondition(NO_KEY);
-  if (m === "replay" && !findRecording(prompt)) {
-    throw APIError.failedPrecondition(
-      "This desk replays recorded runs, so it only answers the suggested prompts. Add your Cursor API key to ask it anything.",
-    );
-  }
 }
 
 const BUSY = "the agent is still working on the last message";
 
 // Starts a turn and returns its id straight away. The run itself continues in
 // the background, writing events that the stream endpoint tails.
-export async function startTurn(threadId: string, prompt: string): Promise<string> {
-  checkPrompt(prompt);
-  const recording = mode() === "replay" ? findRecording(prompt) : null;
+export async function startTurn(threadId: string, prompt: string, apiKey: string | undefined): Promise<string> {
+  const key = requireKey(apiKey);
 
   await reapStale();
   const busy = await db.queryRow`
@@ -200,14 +182,13 @@ export async function startTurn(threadId: string, prompt: string): Promise<strin
   const beat = setInterval(() => {
     db.exec`UPDATE turns SET heartbeat_at = now() WHERE id = ${turnId}`.catch(() => {});
   }, HEARTBEAT_MS);
-  const run = recording ? replayTurn(threadId, turnId, recording) : runTurn(threadId, turnId, message);
-  void run
+  void runTurn(threadId, turnId, message, key)
     .catch((err) => log.error(err, "turn crashed", { threadId, turnId }))
     .finally(() => clearInterval(beat));
   return turnId;
 }
 
-async function runTurn(threadId: string, turnId: string, message: string) {
+async function runTurn(threadId: string, turnId: string, message: string, key: string) {
   // Text and thinking arrive token by token. Writing a row per token would be
   // wasteful, so deltas are buffered and flushed a few times a second, and
   // always before a tool event so the transcript stays in order.
@@ -225,7 +206,7 @@ async function runTurn(threadId: string, turnId: string, message: string) {
   const timer = setInterval(flush, 150);
 
   try {
-    const agent = await getAgent(threadId);
+    const agent = await getAgent(threadId, key);
     const run = await agent.send(message, {
       local: { customTools: instrument(threadId, turnId, flush) },
       onDelta: ({ update }) => {

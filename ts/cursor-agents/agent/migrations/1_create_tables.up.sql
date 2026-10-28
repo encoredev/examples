@@ -39,33 +39,37 @@ CREATE TABLE sdk_run_events (
 CREATE UNIQUE INDEX sdk_run_events_idem ON sdk_run_events (run_id, idempotency_key)
     WHERE idempotency_key IS NOT NULL;
 
--- ── The desk ──────────────────────────────────────────────────────────────
+-- ── The chat ──────────────────────────────────────────────────────────────
 -- What the UI shows. A thread is one Cursor agent (one conversation); a turn is
 -- one prompt sent to it; turn_events is the normalized, replayable stream the
 -- browser renders.
 
 CREATE TABLE threads (
-    id           TEXT PRIMARY KEY,
-    title        TEXT NOT NULL,
-    trigger      TEXT NOT NULL CHECK (trigger IN ('manual', 'incident', 'schedule')),
-    incident_id  BIGINT,
-    created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
+    id          TEXT PRIMARY KEY,
+    title       TEXT NOT NULL,
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TABLE turns (
-    id           TEXT PRIMARY KEY,
-    thread_id    TEXT NOT NULL REFERENCES threads(id) ON DELETE CASCADE,
-    prompt       TEXT NOT NULL,
-    status       TEXT NOT NULL DEFAULT 'running' CHECK (status IN ('running', 'finished', 'error', 'cancelled')),
-    result       TEXT,
-    error        TEXT,
-    model        TEXT,
-    usage        JSONB,
-    duration_ms  INT,
-    created_at   TIMESTAMPTZ NOT NULL DEFAULT now()
+    id            TEXT PRIMARY KEY,
+    thread_id     TEXT NOT NULL REFERENCES threads(id) ON DELETE CASCADE,
+    prompt        TEXT NOT NULL,
+    status        TEXT NOT NULL DEFAULT 'running' CHECK (status IN ('running', 'finished', 'error', 'cancelled')),
+    result        TEXT,
+    error         TEXT,
+    model         TEXT,
+    usage         JSONB,
+    duration_ms   INT,
+    -- Bumped every few seconds by the process running the turn. A turn is
+    -- only reaped once this goes stale, which means that process is gone.
+    heartbeat_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+    created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 CREATE INDEX turns_thread ON turns (thread_id, created_at);
+-- One running turn per thread, so two messages sent at once can't both start
+-- a run on the same agent.
+CREATE UNIQUE INDEX turns_one_running ON turns (thread_id) WHERE status = 'running';
 
 CREATE TABLE turn_events (
     id         BIGSERIAL PRIMARY KEY,

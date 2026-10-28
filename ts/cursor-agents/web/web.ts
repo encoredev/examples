@@ -1,6 +1,6 @@
 import { api } from "encore.dev/api";
 
-// Serves the desk UI (built from ../frontend into ./dist) from the same app, so one deploy
+// Serves the chat UI (built from ../frontend into ./dist) from the same app, so one deploy
 // ships the agent, its database and its interface together.
 export const assets = api.static({
   expose: true,
