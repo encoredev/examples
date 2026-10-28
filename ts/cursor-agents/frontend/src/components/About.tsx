@@ -72,9 +72,8 @@ export default function About(props: {
       <div className="about-body">
         <h2>Notes Agent</h2>
         <p className="about-lead">
-          This is your own copy of an example agent built with the Cursor SDK and Encore. It keeps notes for you: tell
-          it something worth remembering, or ask what you saved. The agent loop runs inside an Encore service, its
-          tools call a notes service, and both keep their data in Postgres.
+          Your own copy of a notes agent, built with the Cursor SDK and Encore. Tell it something to remember, or
+          ask what you've saved.
         </p>
 
         {/* No auth: deployed, every endpoint is public. The Cursor key stays in
