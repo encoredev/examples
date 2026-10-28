@@ -296,6 +296,7 @@ button { cursor: pointer; }
   background: rgba(240, 92, 72, 0.08);
   color: #f7a497;
   font-size: 13px;
+  overflow-wrap: anywhere;
 }
 
 /* ── Composer ──────────────────────────────────────────────────────────── */

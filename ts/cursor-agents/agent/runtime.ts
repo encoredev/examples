@@ -46,6 +46,18 @@ const options = (apiKey: string, tools: Record<string, SDKCustomTool>) => ({
   local: { cwd: WORKSPACE, store: postgresAgentStore, customTools: tools },
 });
 
+// Cursor's errors arrive as raw JSON from its API. The common key problems get
+// one plain sentence; anything else keeps the detail Cursor gave, if any.
+const keyError = (err: unknown) => {
+  const raw = err instanceof Error ? err.message : String(err);
+  if (raw.includes("cli:session")) {
+    return "This Cursor API key can't run agents in your own service: it's missing the cli:session scope. Create a user API key at cursor.com/dashboard/api and use that instead.";
+  }
+  if (/invalid user api key/i.test(raw)) return "Cursor didn't accept this API key. Check it, or create a new one at cursor.com/dashboard/api.";
+  const detail = raw.match(/"detail":"([^"]+)"/)?.[1];
+  return detail ? `Cursor refused the request: ${detail}` : raw;
+};
+
 const requireKey = (apiKey: string | undefined) => {
   const key = apiKey?.trim();
   if (!key) throw APIError.failedPrecondition(NO_KEY);
@@ -135,8 +147,7 @@ export async function createAgent(apiKey: string | undefined): Promise<string> {
     agent = await Agent.create(options(key, agentTools));
   } catch (err) {
     // Almost always the key: wrong, revoked, or missing a scope.
-    const reason = err instanceof Error ? err.message : String(err);
-    throw APIError.permissionDenied(`Cursor didn't accept the API key: ${reason}`);
+    throw APIError.permissionDenied(keyError(err));
   }
   live.set(agent.agentId, { key, agent });
   return agent.agentId;
@@ -220,19 +231,19 @@ async function runTurn(threadId: string, turnId: string, message: string, key: s
 
     await db.exec`
       UPDATE turns SET status = ${result.status}, result = ${result.result ?? null},
-        error = ${result.error?.message ?? null}, usage = ${JSON.stringify(result.usage ?? null)}::text::jsonb,
+        error = ${result.error ? keyError(result.error) : null}, usage = ${JSON.stringify(result.usage ?? null)}::text::jsonb,
         duration_ms = ${result.durationMs ?? null}
       WHERE id = ${turnId}`;
     await record(threadId, turnId, "done", {
       status: result.status,
-      error: result.error?.message,
+      error: result.error ? keyError(result.error) : undefined,
       usage: result.usage,
       durationMs: result.durationMs,
     });
   } catch (err) {
     clearInterval(timer);
     await flush();
-    const message = err instanceof Error ? err.message : String(err);
+    const message = keyError(err);
     await db.exec`UPDATE turns SET status = 'error', error = ${message} WHERE id = ${turnId}`;
     await record(threadId, turnId, "done", { status: "error", error: message });
     // A broken handle (bad key, network) shouldn't poison later turns.
