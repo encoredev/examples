@@ -1,0 +1,22 @@
+{
+  "name": "cursor-agents",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Cursor SDK agents running in your own cloud, on Encore",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "build:web": "npm --prefix frontend run build",
+    "gen:client": "npm --prefix frontend run gen"
+  },
+  "dependencies": {
+    "@cursor/sdk": "^1.1.0",
+    "encore.dev": "^1.58.6"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2"
+  }
+}

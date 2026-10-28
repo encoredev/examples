@@ -1,0 +1,9 @@
+node_modules
+encore.gen
+.encore
+.secrets.local.cue
+frontend/node_modules
+encore.gen.go
+encore.gen.cue
+/.encore
+/encore.gen
