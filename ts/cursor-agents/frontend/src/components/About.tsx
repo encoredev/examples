@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { AwsMark, GcpMark } from "./CloudMarks";
 
 const DASHBOARD = "https://app.encore.dev";
 
@@ -23,7 +24,7 @@ const Command = ({ text }: { text: string }) => {
   );
 };
 
-const Step = (props: { n: number; title: string; done?: string; children?: ReactNode }) => (
+const Step = (props: { n: number; title: ReactNode; done?: string; children?: ReactNode }) => (
   <li className={`about-step ${props.done ? "done" : ""}`}>
     <span className="about-num">{props.done ? "✓" : props.n}</span>
     <div className="about-step-body">
@@ -106,7 +107,11 @@ export default function About(props: {
 
           <Step
             n={2}
-            title="Run it in your own AWS or GCP"
+            title={
+              <span className="about-cloud-title" aria-label="Run it in your own AWS or GCP">
+                Run it in your own <AwsMark className="about-aws" /> or <GcpMark className="about-gcp" />
+              </span>
+            }
             done={
               cloud === "aws" || cloud === "gcp"
                 ? `It already runs in your ${cloud.toUpperCase()} account.`
