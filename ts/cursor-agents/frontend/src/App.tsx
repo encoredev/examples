@@ -159,8 +159,7 @@ export default function App() {
             <div className="welcome">
               <h1>A notes agent that runs in your own cloud.</h1>
               <p>
-                The agent loop runs inside an Encore service. Its tools are typed calls to a notes service, and its
-                conversations and your notes live in your Postgres.
+                It runs inside an Encore service and keeps your notes in your own database.
               </p>
               {!key || editingKey ? (
                 <KeyForm onSave={saveKey} onCancel={key ? () => setEditingKey(false) : undefined} />
