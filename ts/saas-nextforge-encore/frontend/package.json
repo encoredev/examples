@@ -1,0 +1,45 @@
+{
+  "name": "next-forge",
+  "version": "3.3.7",
+  "bin": {
+    "next-forge": "dist/index.js"
+  },
+  "files": [
+    "dist/index.js"
+  ],
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "ultracite lint",
+    "format": "ultracite format",
+    "test": "turbo test",
+    "analyze": "turbo analyze",
+    "translate": "turbo translate",
+    "boundaries": "turbo boundaries",
+    "bump-deps": "npx npm-check-updates --deep -u -x react-day-picker && pnpm install",
+    "bump-ui": "npx shadcn@latest add --all --overwrite -c packages/design-system",
+    "migrate": "cd packages/database && npx prisma format && npx prisma generate && npx prisma db push",
+    "clean": "git clean -xdf node_modules"
+  },
+  "devDependencies": {
+    "@auto-it/first-time-contributor": "^11.3.0",
+    "@biomejs/biome": "1.9.4",
+    "@repo/typescript-config": "workspace:*",
+    "@turbo/gen": "^2.4.4",
+    "@types/node": "^22.13.9",
+    "tsup": "^8.4.0",
+    "turbo": "^2.4.4",
+    "typescript": "^5.8.2",
+    "ultracite": "^4.1.20",
+    "vitest": "^3.0.7"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "pnpm@10.5.2",
+  "dependencies": {
+    "@clack/prompts": "^0.10.0",
+    "commander": "^13.1.0"
+  },
+  "type": "module"
+}
