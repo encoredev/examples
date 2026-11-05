@@ -108,6 +108,7 @@ E.g. `encore app create my-app --example=ts/hello-world`
 | [logto-react-sdk](logto-react-sdk)         | Logto React SDK Authentication + Encore Example                                                                                     | APIs, Auth, Frontend                                                                        |
 | [clerk-remix](clerk-remix)                 | Clerk + Remix Authentication Example                                                                                                | APIs, Auth, Frontend                                                                        |
 | [websocket-echo-server](websocket-echo-server) | WebSocket Echo Server Example                                                                                                  | APIs, Raw Endpoints                                                                         |
+| [adk-agent](adk-agent)                     | ADK agent: Google ADK Go agent with Postgres sessions, tools, Pub/Sub and cron                                                      | Microservices, APIs, SQL Database, Pub/Sub, Cron Jobs                                       |
 
 † = Cannot be installed using `encore app create --example`, create an empty app and clone the repo instead.
 
