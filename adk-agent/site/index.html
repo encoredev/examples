@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADK Go + Encore</title>
+<style>
+  :root { --bg:#111; --fg:#EEEEE1; --card:#000; --line:rgba(255,255,255,0.1); --line2:rgba(255,255,255,0.16); --muted:rgba(238,238,225,0.6); --dim:rgba(238,238,225,0.42); --accent:#E3FF00; --blue:#68ABFC; --chip:rgba(238,238,225,0.06); }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; }
+  body { font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; -webkit-font-smoothing:antialiased; }
+  .mono, code, .badge { font-family:ui-monospace,"JetBrains Mono",Menlo,monospace; }
+  header { height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; border-bottom:1px solid var(--line); }
+  h1 { font-size:18px; font-weight:500; color:#fff; letter-spacing:-0.02em; }
+  .badge { font-size:11px; padding:3px 10px; border:1px solid var(--line2); border-radius:999px; color:var(--muted); }
+  .badge.mock { color:var(--accent); border-color:rgba(227,255,0,0.4); }
+  .layout { display:grid; grid-template-columns:260px minmax(0,1fr) 300px; gap:24px; padding:24px; height:calc(100vh - 64px); }
+  .panel { background:var(--card); border:1px solid var(--line); border-radius:10px; min-height:0; display:flex; flex-direction:column; overflow:hidden; }
+  .panel h2 { font-size:13px; font-weight:500; padding:12px 16px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; }
+  .list { overflow-y:auto; flex:1; }
+  .list a, .list div { display:block; padding:10px 16px; border-bottom:1px solid var(--line); font-size:13px; color:var(--fg); text-decoration:none; cursor:pointer; }
+  .list a.on { color:var(--accent); }
+  .list span { display:block; font-size:11px; color:var(--dim); font-family:ui-monospace,Menlo,monospace; }
+  #log { flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; padding:24px; }
+  .msg { max-width:75%; padding:10px 14px; font-size:14px; white-space:pre-wrap; border:1px solid var(--line); border-radius:8px; }
+  .msg.user { align-self:flex-end; background:var(--fg); color:#111; }
+  .msg.agent { align-self:flex-start; background:var(--chip); }
+  .tool { align-self:flex-start; font-size:12px; padding:3px 10px; border:1px solid rgba(104,171,252,0.35); border-radius:999px; color:var(--blue); font-family:ui-monospace,Menlo,monospace; }
+  form { display:flex; gap:8px; padding:16px; border-top:1px solid var(--line); }
+  input { flex:1; padding:10px 12px; border:1px solid var(--line2); border-radius:6px; font-size:14px; background:#111; color:var(--fg); font-family:inherit; }
+  input:focus { outline:none; border-color:rgba(255,255,255,0.32); }
+  button { background:var(--accent); color:#111; border:none; border-radius:6px; padding:8px 16px; font-size:13px; cursor:pointer; font-weight:500; }
+  button.ghost { background:transparent; color:var(--muted); border:1px solid var(--line2); padding:3px 10px; font-size:12px; }
+  .links a { display:block; padding:11px 16px; border-bottom:1px solid var(--line); color:var(--fg); text-decoration:none; font-size:13px; }
+  .links a:hover { color:var(--accent); }
+  @media (max-width:1000px) { .layout { grid-template-columns:1fr; height:auto; } .panel { min-height:200px; } }
+</style>
+</head>
+<body>
+<header><h1>ADK Go + Encore</h1><span><button class="ghost" id="key">API key</button> <span id="mode" class="badge">...</span></span></header>
+<div class="layout">
+  <section class="panel">
+    <h2>Sessions <button class="ghost" id="new">New</button></h2>
+    <div class="list" id="sessions"></div>
+  </section>
+  <section class="panel">
+    <div id="log"></div>
+    <form id="f"><input id="q" autocomplete="off" placeholder="note: call the dentist"><button>Send</button></form>
+  </section>
+  <section class="panel">
+    <h2>Notes</h2>
+    <div class="list" id="notes"></div>
+    <div class="links">
+      <a href="https://google.github.io/adk-docs/" target="_blank">ADK docs ↗</a>
+      <a href="https://encore.dev/docs/go" target="_blank">Encore docs ↗</a>
+      <a href="https://encore.dev/docs/platform/deploy/own-cloud" target="_blank">Deploy to your own cloud ↗</a>
+    </div>
+  </section>
+</div>
+<script>
+let sid = "";
+const $ = (id) => document.getElementById(id);
+function el(tag, text, child) { const e = document.createElement(tag); e.textContent = text; if (child) e.appendChild(child); return e; }
+// The API key is kept in localStorage and sent as a bearer token.
+function key(reset) {
+  let k = reset ? "" : localStorage.getItem("apiKey");
+  if (!k) { k = (prompt("API key") || "").trim(); if (k) localStorage.setItem("apiKey", k); else localStorage.removeItem("apiKey"); }
+  return k;
+}
+async function api(path, opts = {}) {
+  const res = await fetch(path, { ...opts, headers: { Authorization: "Bearer " + key() } });
+  if (res.status === 401) localStorage.removeItem("apiKey");
+  return res;
+}
+function add(cls, text) { const d = document.createElement("div"); d.className = cls; d.textContent = text; $("log").appendChild(d); $("log").scrollTop = 1e9; return d; }
+function render(e, live) {
+  if (e.partial && e.tool_call) return;
+  if (e.tool_call && e.tool_response === undefined && e.tool_args !== undefined) add("tool", e.tool_call + "(" + JSON.stringify(e.tool_args) + ")");
+  else if (e.text && e.author === "user") add("msg user", e.text);
+  else if (e.text && !e.partial) { if (live && live.el) live.el.textContent = e.text, live.el = null; else add("msg agent", e.text); }
+  else if (e.text && e.partial && live) { live.el = live.el || add("msg agent", ""); live.el.textContent += e.text; }
+}
+async function sessions() {
+  const r = await (await api("/agent/sessions")).json();
+  if (!r.sessions) return;
+  $("sessions").replaceChildren(...r.sessions.sort((a, b) => b.updated_at.localeCompare(a.updated_at)).map((s) => {
+    const a = el("a", s.title || "Untitled", el("span", `${s.turns} turns · ${s.id.slice(0, 8)}`));
+    if (s.id === sid) a.className = "on";
+    a.onclick = () => open(s.id);
+    return a;
+  }));
+}
+async function notes() {
+  const r = await (await api("/notes")).json();
+  if (!r.notes) return;
+  $("notes").replaceChildren(...r.notes.map((n) => el("div", n.text, el("span", `#${n.id}`))));
+}
+async function open(id) {
+  sid = id; $("log").replaceChildren();
+  const r = await (await api("/agent/sessions/" + id)).json();
+  (r.events || []).forEach((e) => render(e)); sessions();
+}
+$("key").onclick = () => { key(true); sid = ""; $("log").replaceChildren(); sessions(); notes(); };
+$("new").onclick = () => { sid = ""; $("log").replaceChildren(); sessions(); };
+$("f").onsubmit = async (ev) => {
+  ev.preventDefault(); const message = $("q").value.trim(); if (!message) return; $("q").value = "";
+  add("msg user", message);
+  const res = await api("/agent/chat/stream", { method: "POST", body: JSON.stringify({ session_id: sid, message }) });
+  if (!res.ok) { add("msg agent", (await res.json()).message || res.statusText); return; }
+  const reader = res.body.getReader(); const dec = new TextDecoder(); let buf = ""; const live = {};
+  for (;;) {
+    const { value, done } = await reader.read(); if (done) break;
+    buf += dec.decode(value, { stream: true });
+    let i; while ((i = buf.indexOf("\n\n")) >= 0) {
+      const chunk = buf.slice(0, i); buf = buf.slice(i + 2);
+      const name = (chunk.match(/^event: (.*)$/m) || [])[1]; const data = JSON.parse((chunk.match(/^data: (.*)$/m) || [])[1] || "{}");
+      if (name === "event" && data.author !== "user") render(data, live);
+      if ((name === "done" || name === "error") && data.session_id) sid = data.session_id;
+      if (name === "error") add("msg agent", data.message);
+    }
+  }
+  setTimeout(() => { sessions(); notes(); }, 300);
+};
+fetch("/agent/status").then((r) => r.json()).then((s) => { $("mode").textContent = s.mode; $("mode").className = "badge" + (s.mode === "mock" ? " mock" : ""); });
+sessions(); notes();
+</script>
+</body>
+</html>
