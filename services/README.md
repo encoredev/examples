@@ -36,11 +36,11 @@ user's request (`encore service new` asks what the service should do) is matched
   `encore.service.json`.
 - Mount the API under `/{{name}}` rather than `/`, since the service is added next to
   others. The service receives the full path, prefix included.
-- Don't expose any route through a gateway, with `expose` or otherwise: the app decides what its
-  gateways serve, and an app need not have a default one. When a third party has to reach a
-  route, such as a webhook, say in the README how to expose it: a second `http` entry for just
-  that route, `{ "type": "http", "prefix": "/{{name}}/webhooks", "name": "{{ident}}_webhooks",
-  "methods": ["POST"], "expose": true }`.
+- Don't set `expose` anywhere: the app decides what its gateways serve, and an app need not
+  have a default one. When a third party has to reach a route, such as a webhook, give that
+  route an `http` entry of its own, `{ "type": "http", "prefix": "/{{name}}/webhooks", "name":
+  "{{ident}}_webhooks", "methods": ["POST"] }`, and say in the README to add `"expose": true`
+  to it.
 - Derive every resource name from the service name, so the same template can be added to
   an app twice: `{{ident}}` for databases, which are snake_case, and `{{kebab}}` for the
   kebab-case names of topics, subscriptions, buckets and cron jobs.

@@ -64,7 +64,8 @@ the [Stripe dashboard](https://dashboard.stripe.com/webhooks), listening to the
 same two events, and set its signing secret for that environment.
 
 The service is not exposed through your app's gateway. For Stripe to reach `POST /{{name}}/webhook`
-once deployed, expose that route: add this entry to the `api` list in `encore.service.json`.
+once deployed, expose that route: add `"expose": true` to its entry in `encore.service.json`,
+`{{ident}}_webhooks`.
 
 ```json
 { "type": "http", "prefix": "/{{name}}/webhook", "name": "{{ident}}_webhooks", "methods": ["POST"], "expose": true }
