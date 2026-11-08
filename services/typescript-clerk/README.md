@@ -49,6 +49,16 @@ In the Clerk Dashboard, add a webhook endpoint at `https://YOUR-API-URL/{{name}}
 subscribed to `user.created` and `user.deleted`, and copy its signing secret into
 `ClerkWebhookSecret`. Clerk can't reach `localhost`; deploy the app, or use a tunnel.
 
+The service is not exposed through your app's gateway. For Clerk to reach `POST /{{name}}/webhooks/clerk`
+once deployed, expose that route: add this entry to the `api` list in `encore.service.json`.
+
+```json
+{ "type": "http", "prefix": "/{{name}}/webhooks", "name": "{{ident}}_webhooks", "methods": ["POST"], "expose": true }
+```
+
+`"expose": true` puts the route on the gateway your app marks `"default": true`; write
+`"expose": ["<gateway>"]` to choose another.
+
 ## Restricting which frontends may call it
 
 A session token records the origin it was issued to. Add your frontends' origins to

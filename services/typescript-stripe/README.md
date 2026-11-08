@@ -63,6 +63,16 @@ Once deployed, add an endpoint at `https://<your app's URL>/{{name}}/webhook` in
 the [Stripe dashboard](https://dashboard.stripe.com/webhooks), listening to the
 same two events, and set its signing secret for that environment.
 
+The service is not exposed through your app's gateway. For Stripe to reach `POST /{{name}}/webhook`
+once deployed, expose that route: add this entry to the `api` list in `encore.service.json`.
+
+```json
+{ "type": "http", "prefix": "/{{name}}/webhook", "name": "{{ident}}_webhooks", "methods": ["POST"], "expose": true }
+```
+
+`"expose": true` puts the route on the gateway your app marks `"default": true`; write
+`"expose": ["<gateway>"]` to choose another.
+
 A payment is recorded on `checkout.session.completed` when the session is paid,
 and on `checkout.session.async_payment_succeeded` for payment methods that
 settle later. Stripe can deliver an event more than once; each session is
