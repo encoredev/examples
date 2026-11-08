@@ -31,7 +31,8 @@ is set, its webhooks are accepted without a check, and webhooks from any other s
 are, so set both before the webhook routes can be reached from the internet.
 
 The service is not exposed through your app's gateway. For Stripe and GitHub to reach `POST /{{name}}/webhooks/...`
-once deployed, expose that route: add this entry to the `api` list in `encore.service.json`.
+once deployed, expose that route: add `"expose": true` to its entry in `encore.service.json`,
+`{{ident}}_webhooks`.
 
 ```json
 { "type": "http", "prefix": "/{{name}}/webhooks", "name": "{{ident}}_webhooks", "methods": ["POST"], "expose": true }
