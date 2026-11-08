@@ -27,6 +27,18 @@ encore secret set --service {{name}} SlackSigningSecret
 Until it is set, `/{{name}}/cowsay` answers `500`. The service reads the value it started
 with, so a changed value takes effect when `encore run` restarts the service.
 
+## Expose the slash command
+
+The service is not exposed through your app's gateway. For Slack to reach `POST /{{name}}/cowsay`
+once deployed, expose that route: add this entry to the `api` list in `encore.service.json`.
+
+```json
+{ "type": "http", "prefix": "/{{name}}/cowsay", "name": "{{ident}}_webhooks", "methods": ["POST"], "expose": true }
+```
+
+`"expose": true` puts the route on the gateway your app marks `"default": true`; write
+`"expose": ["<gateway>"]` to choose another.
+
 ## Set up the Slack app
 
 1. Create an app at [api.slack.com/apps](https://api.slack.com/apps), **from an app manifest**,

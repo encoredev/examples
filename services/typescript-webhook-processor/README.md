@@ -28,7 +28,17 @@ encore secret set --service {{name}} WebhookSecretGitHub   # the secret entered 
 
 A webhook with a missing or wrong signature is rejected with `401`. Until a source's secret
 is set, its webhooks are accepted without a check, and webhooks from any other source always
-are, so set both before deploying: the webhook routes are exposed through the gateway.
+are, so set both before the webhook routes can be reached from the internet.
+
+The service is not exposed through your app's gateway. For Stripe and GitHub to reach `POST /{{name}}/webhooks/...`
+once deployed, expose that route: add this entry to the `api` list in `encore.service.json`.
+
+```json
+{ "type": "http", "prefix": "/{{name}}/webhooks", "name": "{{ident}}_webhooks", "methods": ["POST"], "expose": true }
+```
+
+`"expose": true` puts the route on the gateway your app marks `"default": true`; write
+`"expose": ["<gateway>"]` to choose another.
 
 ## Routes
 
