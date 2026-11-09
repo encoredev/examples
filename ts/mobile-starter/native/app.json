@@ -1,0 +1,13 @@
+{
+	"expo": {
+		"scheme": "mobile-starter",
+		"userInterfaceStyle": "automatic",
+		"orientation": "portrait",
+		"name": "Mobile Starter",
+		"slug": "mobile-starter",
+		"plugins": ["expo-router", "expo-secure-store"],
+		"experiments": {
+			"typedRoutes": true
+		}
+	}
+}
