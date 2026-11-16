@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 var secrets struct {
@@ -55,7 +56,8 @@ func Send(ctx context.Context, p *SendParams) (*SendResponse, error) {
 	req.Header.Set("Authorization", "Bearer "+secrets.MailtrapAPIToken)
 	req.Header.Set("Content-Type", "application/json")
 
-	resp, err := http.DefaultClient.Do(req)
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("failed to send email: %w", err)
 	}
