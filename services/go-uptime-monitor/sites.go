@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"sdk.encore.dev/storage/postgres"
-	"sdk.encore.dev/storage/postgres/sqlerr"
+	"sdk.encore.dev/v2/storage/postgres"
+	"sdk.encore.dev/v2/storage/postgres/sqlerr"
 )
 
 // db holds the monitored sites and the result of every check. Encore

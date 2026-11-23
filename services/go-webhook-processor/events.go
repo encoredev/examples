@@ -9,8 +9,8 @@ import (
 	"strconv"
 	"time"
 
-	"sdk.encore.dev/pubsub"
-	"sdk.encore.dev/storage/postgres"
+	"sdk.encore.dev/v2/pubsub"
+	"sdk.encore.dev/v2/storage/postgres"
 )
 
 // db holds the events and notifications. Encore provisions it and applies

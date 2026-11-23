@@ -17,9 +17,9 @@ import (
 	"net/url"
 	"os"
 
-	"sdk.encore.dev/env"
-	"sdk.encore.dev/shutdown"
-	"sdk.encore.dev/storage/postgres"
+	"sdk.encore.dev/v2/env"
+	"sdk.encore.dev/v2/shutdown"
+	"sdk.encore.dev/v2/storage/postgres"
 )
 
 const service = "{{name}}"

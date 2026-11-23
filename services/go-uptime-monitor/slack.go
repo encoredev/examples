@@ -11,8 +11,8 @@ import (
 	"net/http"
 	"net/url"
 
-	"sdk.encore.dev/pubsub"
-	"sdk.encore.dev/secrets"
+	"sdk.encore.dev/v2/pubsub"
+	"sdk.encore.dev/v2/secrets"
 )
 
 // slackWebhookURL is the Slack incoming webhook to post notifications to

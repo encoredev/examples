@@ -44,14 +44,14 @@ user's request (`encore service new` asks what the service should do) is matched
 - Derive every resource name from the service name, so the same template can be added to
   an app twice: `{{ident}}` for databases, which are snake_case, and `{{kebab}}` for the
   kebab-case names of topics, subscriptions, buckets and cron jobs.
-- Depend on the Encore SDK as published (`sdk.encore.dev`, `@encore.dev/sdk`, `encore-dev`),
+- Depend on the Encore SDK as published (`sdk.encore.dev/v2`, `@encore.dev/sdk`, `encore-dev`),
   with no lockfile, `go.sum` or local path overrides. Write `{{sdk_version}}` for its version,
   pinned exactly: `"@encore.dev/sdk": "{{sdk_version}}"` in `package.json`,
   `"encore-dev=={{sdk_version}}"` in `pyproject.toml`, `encore-dev = "={{sdk_version}}"` in
   `Cargo.toml`. The CLI fills in its own version, which every SDK package is released at, spelled
   for the file (`2.0.0a9` in Python manifests, `2.0.0-alpha.9` elsewhere); a CLI built from source
-  points the dependency at its checkout instead. Go needs no version: `require sdk.encore.dev
-  v0.1.0` is replaced with the installed SDK.
+  points the dependency at its checkout instead. Go needs no version: `require sdk.encore.dev/v2
+  v2.0.0` is replaced with the installed SDK.
 - Don't tell the user to install packages. `encore service new` runs the install for the
   service's package manager: `bun install` (or npm, pnpm, yarn: `package.json`'s
   `packageManager` field decides, then the program `encore.service.json` runs it with),

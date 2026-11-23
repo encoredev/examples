@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"sdk.encore.dev/secrets"
+	"sdk.encore.dev/v2/secrets"
 )
 
 // The signing secrets of the senders whose signatures are checked. A source
