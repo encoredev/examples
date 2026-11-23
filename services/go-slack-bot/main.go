@@ -25,9 +25,9 @@ import (
 	"strings"
 	"time"
 
-	"sdk.encore.dev/env"
-	"sdk.encore.dev/secrets"
-	"sdk.encore.dev/shutdown"
+	"sdk.encore.dev/v2/env"
+	"sdk.encore.dev/v2/secrets"
+	"sdk.encore.dev/v2/shutdown"
 )
 
 const service = "{{name}}"

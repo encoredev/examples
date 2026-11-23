@@ -9,9 +9,9 @@ import (
 	"sync"
 	"time"
 
-	"sdk.encore.dev/cron"
-	"sdk.encore.dev/pubsub"
-	"sdk.encore.dev/storage/postgres"
+	"sdk.encore.dev/v2/cron"
+	"sdk.encore.dev/v2/pubsub"
+	"sdk.encore.dev/v2/storage/postgres"
 )
 
 // The cron job checks every site once an hour. Encore sends a POST for its

@@ -19,9 +19,9 @@ import (
 	"net/http"
 	"os"
 
-	encore "sdk.encore.dev"
-	"sdk.encore.dev/env"
-	"sdk.encore.dev/shutdown"
+	encore "sdk.encore.dev/v2"
+	"sdk.encore.dev/v2/env"
+	"sdk.encore.dev/v2/shutdown"
 )
 
 const service = "{{name}}"
