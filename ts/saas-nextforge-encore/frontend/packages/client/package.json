@@ -1,0 +1,12 @@
+{
+  "name": "@repo/client",
+  "description": "Encore backend generated client",
+  "version": "0.0.0",
+  "scripts": {
+    "gen": "mkdir -p ./gen && encore gen client forge-next-encore-bnvi --output=./gen/client.ts --env=local",
+    "clean": "git clean -xdf .cache .turbo dist gen"
+  },
+  "dependencies": {
+    "next": "^14.2.3"
+  }
+}
