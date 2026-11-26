@@ -50,15 +50,18 @@ subscribed to `user.created` and `user.deleted`, and copy its signing secret int
 `ClerkWebhookSecret`. Clerk can't reach `localhost`; deploy the app, or use a tunnel.
 
 The service is not exposed through your app's gateway. For Clerk to reach `POST /{{name}}/webhooks/clerk`
-once deployed, expose that route: add `"expose": true` to its entry in `encore.service.json`,
-`{{ident}}_webhooks`.
+once deployed, expose that route: add an `expose` rule to `api` in `encore.service.json`, naming the
+gateway that serves it (`api` here):
 
 ```json
-{ "type": "http", "prefix": "/{{name}}/webhooks", "name": "{{ident}}_webhooks", "methods": ["POST"], "expose": true }
+"api": {
+  "specs": [{ "type": "http", "prefix": "/{{name}}", "name": "{{ident}}" }],
+  "expose": [{ "gateway": "api", "path": "/{{name}}/webhooks/clerk" }]
+}
 ```
 
-`"expose": true` puts the route on the gateway your app marks `"default": true`; write
-`"expose": ["<gateway>"]` to choose another.
+The gateway then takes requests for that path, and only that path, for the service; the rest
+of its routes stay unexposed.
 
 ## Restricting which frontends may call it
 

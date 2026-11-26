@@ -1,8 +1,10 @@
 {
   "name": "{{name}}",
   "lang": "typescript",
-  "run": { "type": "custom", "cmd": ["bun", "run", "start"] },
-  "api": [
-    { "type": "http", "prefix": "/{{name}}", "name": "{{ident}}" }
-  ]
+  "dev": { "cmd": ["bun", "run", "start"] },
+  "api": {
+    "specs": [
+      { "type": "http", "prefix": "/{{name}}", "name": "{{ident}}" }
+    ]
+  }
 }

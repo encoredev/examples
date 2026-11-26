@@ -31,16 +31,15 @@ user's request (`encore service new` asks what the service should do) is matched
 - Put an `encore.service.json` at the top of the directory. Its `lang` must match `lang` in
   `meta.json`.
 - Three placeholders are filled in, in every file's contents and path: `{{name}}` is the
-  service's name, which is snake_case (`user_events`); `{{ident}}` is the same name as an
-  identifier; `{{kebab}}` is it in kebab-case (`user-events`). Use `"name": "{{name}}"` in
-  `encore.service.json`.
+  service's name, which is kebab-case (`user-events`); `{{ident}}` is the same name as an
+  identifier, in snake_case (`user_events`); `{{kebab}}` is it in kebab-case, as `{{name}}`
+  is. Use `"name": "{{name}}"` in `encore.service.json`.
 - Mount the API under `/{{name}}` rather than `/`, since the service is added next to
   others. The service receives the full path, prefix included.
-- Don't set `expose` anywhere: the app decides what its gateways serve, and an app need not
-  have a default one. When a third party has to reach a route, such as a webhook, give that
-  route an `http` entry of its own, `{ "type": "http", "prefix": "/{{name}}/webhooks", "name":
-  "{{ident}}_webhooks", "methods": ["POST"] }`, and say in the README to add `"expose": true`
-  to it.
+- Declare the API in `"api": { "specs": [...] }` and don't give it an `"expose"`: the app
+  decides what its gateways serve, and every expose rule names a gateway the template can't
+  know. When a third party has to reach a route, such as a webhook, say in the README which
+  rule to add, e.g. `"expose": [{ "gateway": "api", "path": "/{{name}}/webhooks/{source}" }]`.
 - Derive every resource name from the service name, so the same template can be added to
   an app twice: `{{ident}}` for databases, which are snake_case, and `{{kebab}}` for the
   kebab-case names of topics, subscriptions, buckets and cron jobs.

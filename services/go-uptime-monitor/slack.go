@@ -16,8 +16,8 @@ import (
 )
 
 // slackWebhookURL is the Slack incoming webhook to post notifications to
-// (https://api.slack.com/messaging/webhooks). While it is not set,
-// notifications are logged and skipped.
+// (https://api.slack.com/messaging/webhooks). While it is not set locally,
+// where it reads as "", notifications are logged and skipped.
 var slackWebhookURL = secrets.New[string]("SlackWebhookURL")
 
 // Each transition is posted to Slack.
@@ -32,7 +32,7 @@ func notifySlack(ctx context.Context, msg pubsub.Message[*TransitionEvent]) erro
 		text = fmt.Sprintf("*%s is back up.*", event.Site.URL)
 	}
 
-	webhook := slackWebhookURL.StringValue()
+	webhook := slackWebhookURL.Value()
 	if webhook == "" {
 		slog.InfoContext(ctx, "SlackWebhookURL is not set, skipping the Slack notification", "text", text)
 		return nil

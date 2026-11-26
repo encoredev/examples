@@ -30,15 +30,18 @@ with, so a changed value takes effect when `encore run` restarts the service.
 ## Expose the slash command
 
 The service is not exposed through your app's gateway. For Slack to reach `POST /{{name}}/cowsay`
-once deployed, expose that route: add `"expose": true` to its entry in `encore.service.json`,
-`{{ident}}_webhooks`.
+once deployed, expose that route: add an `expose` rule to `api` in `encore.service.json`, naming the
+gateway that serves it (`api` here):
 
 ```json
-{ "type": "http", "prefix": "/{{name}}/cowsay", "name": "{{ident}}_webhooks", "methods": ["POST"], "expose": true }
+"api": {
+  "specs": [{ "type": "http", "prefix": "/{{name}}", "name": "{{ident}}" }],
+  "expose": [{ "gateway": "api", "path": "/{{name}}/cowsay" }]
+}
 ```
 
-`"expose": true` puts the route on the gateway your app marks `"default": true`; write
-`"expose": ["<gateway>"]` to choose another.
+The gateway then takes requests for that path, and only that path, for the service; the rest
+of its routes stay unexposed.
 
 ## Set up the Slack app
 

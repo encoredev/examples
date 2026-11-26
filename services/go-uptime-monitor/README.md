@@ -7,8 +7,8 @@ one is up, and posts to Slack when a site goes down or comes back up.
 - Each check is recorded. When a site's status differs from its previous
   check, an event is published to the `{{kebab}}-transition` Pub/Sub topic.
 - The `slack-notification` subscription posts the event to a Slack incoming
-  webhook. Without the webhook secret it logs the message instead, so the
-  service runs without Slack.
+  webhook. Locally, without the webhook secret it logs the message instead, so
+  the service runs without Slack.
 
 A site counts as up when a `GET` for it answers within 10 seconds with a
 status below 400. A URL without a scheme is checked over `https://`. At most

@@ -26,20 +26,23 @@ encore secret set --service {{name}} WebhookSecretGitHub   # the secret entered 
 - **GitHub**: the `X-Hub-Signature-256` header (`sha256=<signature>`) is the HMAC-SHA256 of
   the body.
 
-A webhook with a missing or wrong signature is rejected with `401`. Until a source's secret
-is set, its webhooks are accepted without a check, and webhooks from any other source always
-are, so set both before the webhook routes can be reached from the internet.
+A webhook with a missing or wrong signature is rejected with `401`. Locally, until a source's
+secret is set, its webhooks are accepted without a check; once deployed, they fail until it is.
+Webhooks from any other source are always accepted without a check.
 
 The service is not exposed through your app's gateway. For Stripe and GitHub to reach `POST /{{name}}/webhooks/...`
-once deployed, expose that route: add `"expose": true` to its entry in `encore.service.json`,
-`{{ident}}_webhooks`.
+once deployed, expose that route: add an `expose` rule to `api` in `encore.service.json`, naming the
+gateway that serves it (`api` here):
 
 ```json
-{ "type": "http", "prefix": "/{{name}}/webhooks", "name": "{{ident}}_webhooks", "methods": ["POST"], "expose": true }
+"api": {
+  "specs": [{ "type": "http", "prefix": "/{{name}}", "name": "{{ident}}" }],
+  "expose": [{ "gateway": "api", "path": "/{{name}}/webhooks/{source}" }]
+}
 ```
 
-`"expose": true` puts the route on the gateway your app marks `"default": true`; write
-`"expose": ["<gateway>"]` to choose another.
+The gateway then takes requests for that path, and only that path, for the service; the rest
+of its routes stay unexposed.
 
 ## Routes
 
