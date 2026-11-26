@@ -94,8 +94,8 @@ func cowsay(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	secret, err := signingSecret.Value()
-	if err != nil || secret == "" {
+	secret := signingSecret.Value()
+	if secret == "" {
 		slog.ErrorContext(r.Context(), "SlackSigningSecret is not set, so no request can be verified")
 		http.Error(w, "the bot is not configured", http.StatusInternalServerError)
 		return

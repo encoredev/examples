@@ -1,9 +1,10 @@
 {
   "name": "{{name}}",
   "lang": "typescript",
-  "run": { "type": "custom", "cmd": ["bun", "run", "start"] },
-  "api": [
-    { "type": "http", "prefix": "/{{name}}", "name": "{{ident}}" },
-    { "type": "http", "prefix": "/{{name}}/webhook", "name": "{{ident}}_webhooks", "methods": ["POST"] }
-  ]
+  "dev": { "cmd": ["bun", "run", "start"] },
+  "api": {
+    "specs": [
+      { "type": "http", "prefix": "/{{name}}", "name": "{{ident}}" }
+    ]
+  }
 }

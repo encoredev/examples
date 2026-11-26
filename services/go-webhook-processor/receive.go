@@ -16,8 +16,8 @@ import (
 	"sdk.encore.dev/v2/secrets"
 )
 
-// The signing secrets of the senders whose signatures are checked. A source
-// whose secret is not set has its webhooks accepted without a check.
+// The signing secrets of the senders whose signatures are checked. Locally, a
+// source whose secret is not set has its webhooks accepted without a check.
 var (
 	// stripeSecret is the Stripe webhook endpoint's signing secret
 	// (whsec_...), from the endpoint's page in the Stripe dashboard.
@@ -79,10 +79,10 @@ func receive(w http.ResponseWriter, r *http.Request) {
 func verify(source string, header http.Header, body []byte) bool {
 	switch source {
 	case "stripe":
-		secret := stripeSecret.StringValue()
+		secret := stripeSecret.Value()
 		return secret == "" || verifyStripe(header.Get("Stripe-Signature"), body, secret, time.Now())
 	case "github":
-		secret := githubSecret.StringValue()
+		secret := githubSecret.Value()
 		return secret == "" || verifyGitHub(header.Get("X-Hub-Signature-256"), body, secret)
 	default:
 		return true

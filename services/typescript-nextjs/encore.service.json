@@ -4,5 +4,5 @@
   "frontend": {
     "gateways": ["api"]
   },
-  "run": { "type": "custom", "cmd": ["bun", "run", "dev"] }
+  "dev": { "cmd": ["bun", "run", "dev"] }
 }
