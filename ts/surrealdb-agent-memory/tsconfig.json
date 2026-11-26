@@ -17,5 +17,6 @@
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
-  }
+  },
+  "exclude": ["node_modules", "frontend/src", "frontend/dist"]
 }
