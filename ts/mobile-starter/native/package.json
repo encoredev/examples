@@ -1,0 +1,36 @@
+{
+	"name": "native",
+	"version": "1.0.0",
+	"type": "module",
+	"main": "expo-router/entry",
+	"scripts": {
+		"start": "expo start",
+		"dev": "expo start --clear",
+		"android": "expo run:android",
+		"ios": "expo run:ios",
+		"prebuild": "expo prebuild",
+		"check-types": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@expo/vector-icons": "^15.0.0",
+		"expo": "^54.0.0",
+		"expo-linking": "~8.0.0",
+		"expo-router": "~6.0.0",
+		"expo-secure-store": "~15.0.0",
+		"expo-status-bar": "~3.0.0",
+		"expo-web-browser": "~15.0.0",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0",
+		"react-native": "^0.81.0",
+		"react-native-safe-area-context": "^5.0.0",
+		"react-native-screens": "~4.0.0",
+		"nativewind": "^4.1.0",
+		"tailwindcss": "~4.1.0",
+		"zod": "^3.23.0"
+	},
+	"devDependencies": {
+		"@types/react": "~19.0.0",
+		"typescript": "^5.6.0"
+	},
+	"private": true
+}

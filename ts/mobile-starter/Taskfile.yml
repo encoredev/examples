@@ -1,0 +1,43 @@
+version: "3"
+
+vars:
+  ENCORE_APP_ID: "{{ENCORE_APP_ID}}"
+
+tasks:
+  dev:
+    desc: Start Encore backend
+    cmd: encore run
+
+  web:
+    desc: Start web dev server
+    dir: web
+    cmd: bun run dev
+
+  native:
+    desc: Start Expo dev server
+    dir: native
+    cmd: bun run dev
+
+  install:
+    desc: Install all dependencies
+    cmd: bun install
+
+  gen:api:web:
+    desc: Generate Encore client for web
+    cmd: encore gen client {{.ENCORE_APP_ID}} --output=web/src/lib/api/client.gen.ts --env=local
+
+  gen:api:native:
+    desc: Generate Encore client for native
+    cmd: encore gen client {{.ENCORE_APP_ID}} --output=native/lib/api/client.gen.ts --env=local
+
+  gen:api:
+    desc: Generate Encore clients for both web and native
+    deps: [gen:api:web, gen:api:native]
+
+  lint:
+    desc: Run linting
+    cmd: bun run lint
+
+  lint:fix:
+    desc: Fix linting issues
+    cmd: bun run lint:fix
